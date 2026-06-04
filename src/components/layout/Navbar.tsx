@@ -227,7 +227,7 @@ export default function Navbar() {
                   background: heroAccent,
                   height: "38px",
                   padding: "0 18px",
-                  borderRadius: "10px",
+                  borderRadius: "9999px",
                   transition: "background 0.5s ease, box-shadow 0.5s ease",
                   boxShadow: `0 4px 18px ${heroAccent}50`,
                 }}

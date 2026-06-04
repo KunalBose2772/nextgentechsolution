@@ -295,17 +295,16 @@ export default function Hero() {
 
                 {/* CTAs */}
                 <motion.div
-                  className="flex flex-row flex-wrap items-center gap-3 mb-7"
+                  className="flex flex-row items-center gap-2 mb-7 w-full sm:w-auto"
                   initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
                   <Link
                     href={slide.ctaLink}
-                    className="group inline-flex items-center gap-2 text-[13px] font-semibold text-white rounded-xl transition-all duration-300"
+                    className="group inline-flex items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-[13px] font-semibold text-white rounded-full transition-all duration-300 flex-1 sm:flex-initial px-3 sm:px-[22px] py-2.5 sm:py-[12px] shrink-0 whitespace-nowrap"
                     style={{
                       background: slide.accent,
-                      padding: "12px 22px",
                       boxShadow: `0 6px 26px ${slide.accent}50`,
                     }}
                     onMouseEnter={(e) => {
@@ -320,15 +319,15 @@ export default function Hero() {
                     }}
                   >
                     {slide.ctaText}
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                   </Link>
                   <Link
                     href={slide.secondaryLink}
-                    className="inline-flex items-center gap-2 text-[13px] font-medium text-white/65 rounded-xl border transition-all duration-300 hover:text-white hover:bg-white/[0.07] hover:border-white/30"
-                    style={{ padding: "12px 22px", border: "1px solid rgba(255,255,255,0.13)" }}
+                    className="inline-flex items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-[13px] font-medium text-white/65 rounded-full border transition-all duration-300 hover:text-white hover:bg-white/[0.07] hover:border-white/30 flex-1 sm:flex-initial px-3 sm:px-[22px] py-2.5 sm:py-[12px] shrink-0 whitespace-nowrap"
+                    style={{ border: "1px solid rgba(255,255,255,0.13)" }}
                   >
                     {slide.secondaryText}
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </Link>
                 </motion.div>
 
@@ -466,7 +465,7 @@ export default function Hero() {
       <motion.div
         className="absolute bottom-0 hidden lg:flex items-end justify-center z-[8] pointer-events-none"
         style={{
-          left: "40%",
+          left: "20%",
           right: "0px",
           paddingBottom: "40px",
         }}
