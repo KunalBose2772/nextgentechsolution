@@ -466,7 +466,7 @@ export default function Hero() {
       <motion.div
         className="absolute bottom-0 hidden lg:flex items-end justify-center z-[8] pointer-events-none"
         style={{
-          left: "20%",
+          left: "40%",
           right: "0px",
           paddingBottom: "40px",
         }}
