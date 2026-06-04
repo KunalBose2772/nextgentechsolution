@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import {
-  Search, FileText, Palette, Code2, TestTube,
-  Rocket, Wrench, ArrowRight,
+  Search, FileText, Palette, Code2, TestTube, Rocket, Wrench,
 } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { useInView } from "@/hooks/useInView";
@@ -11,72 +10,44 @@ import { useInView } from "@/hooks/useInView";
 const steps = [
   {
     icon: Search, number: "01", title: "Discovery",
-    description: "Deep-dive into your business goals, technical requirements, and user needs. We map out the full scope and define success metrics.",
-    duration: "1-2 weeks",
-    color: "text-blue-400",
-    bg: "bg-blue-500/10",
-    border: "border-blue-500/20",
-    glow: "#3b82f6",
+    description: "Deep-dive into your business goals, requirements, and user needs. We map out scope and define success metrics.",
+    duration: "1–2 weeks",
     deliverables: ["Requirements doc", "Technical audit", "Project roadmap"],
   },
   {
     icon: FileText, number: "02", title: "Planning",
-    description: "Architecture design, technology selection, sprint planning, and resource allocation for a seamless execution.",
+    description: "Architecture design, technology selection, sprint planning, and resource allocation for seamless execution.",
     duration: "1 week",
-    color: "text-violet-400",
-    bg: "bg-violet-500/10",
-    border: "border-violet-500/20",
-    glow: "#7c3aed",
-    deliverables: ["System architecture", "Tech stack finalized", "Timeline & milestones"],
+    deliverables: ["System architecture", "Tech stack", "Timeline & milestones"],
   },
   {
     icon: Palette, number: "03", title: "Design",
-    description: "UI/UX design, wireframes, interactive prototypes, and design system creation — all reviewed and approved by you.",
-    duration: "2-3 weeks",
-    color: "text-pink-400",
-    bg: "bg-pink-500/10",
-    border: "border-pink-500/20",
-    glow: "#ec4899",
+    description: "UI/UX design, wireframes, interactive prototypes, and design system — all reviewed and approved by you.",
+    duration: "2–3 weeks",
     deliverables: ["Figma mockups", "Design system", "Interactive prototype"],
   },
   {
     icon: Code2, number: "04", title: "Development",
-    description: "Agile sprints with daily updates, code reviews, and continuous integration. Clean, tested, documented code every step.",
-    duration: "4-12 weeks",
-    color: "text-cyan-400",
-    bg: "bg-cyan-500/10",
-    border: "border-cyan-500/20",
-    glow: "#06b6d4",
-    deliverables: ["Working software", "API documentation", "Unit & integration tests"],
+    description: "Agile sprints with daily updates, code reviews, and CI. Clean, tested, documented code every step.",
+    duration: "4–12 weeks",
+    deliverables: ["Working software", "API documentation", "Tests"],
   },
   {
     icon: TestTube, number: "05", title: "Testing",
-    description: "Comprehensive QA — performance, security, accessibility, and cross-browser/device testing before any release.",
-    duration: "1-2 weeks",
-    color: "text-green-400",
-    bg: "bg-green-500/10",
-    border: "border-green-500/20",
-    glow: "#22c55e",
+    description: "Comprehensive QA — performance, security, accessibility, and cross-browser testing before any release.",
+    duration: "1–2 weeks",
     deliverables: ["Test reports", "Performance metrics", "Security audit"],
   },
   {
     icon: Rocket, number: "06", title: "Deployment",
     description: "Zero-downtime deployment with CI/CD pipelines, monitoring setup, and real-time alerting from day one.",
     duration: "1 week",
-    color: "text-orange-400",
-    bg: "bg-orange-500/10",
-    border: "border-orange-500/20",
-    glow: "#f97316",
-    deliverables: ["Live production", "CI/CD pipeline", "Monitoring dashboard"],
+    deliverables: ["Live production", "CI/CD pipeline", "Monitoring"],
   },
   {
     icon: Wrench, number: "07", title: "Maintenance",
-    description: "Ongoing support, performance monitoring, feature enhancements, and security patches — we stay with you long-term.",
+    description: "Ongoing support, performance monitoring, feature enhancements, and security patches — long-term.",
     duration: "Ongoing",
-    color: "text-teal-400",
-    bg: "bg-teal-500/10",
-    border: "border-teal-500/20",
-    glow: "#14b8a6",
     deliverables: ["Monthly reports", "Feature updates", "24/7 monitoring"],
   },
 ];
@@ -85,11 +56,13 @@ export default function Process() {
   const { ref, inView } = useInView(0.1, true);
 
   return (
-    <section className="section-padding relative overflow-hidden bg-[#060609]" id="process">
-      <div className="absolute inset-0 bg-grid opacity-25" />
-
-      <div className="container-xl relative">
-        <div className="mb-16">
+    <section
+      className="ng-section relative overflow-hidden"
+      id="process"
+      style={{ background: "#0A0F1C" }}
+    >
+      <div className="ng-container">
+        <div className="mb-14">
           <SectionHeader
             badge="Our Process"
             title="How We"
@@ -98,74 +71,80 @@ export default function Process() {
           />
         </div>
 
-        <div ref={ref as React.RefObject<HTMLDivElement>} className="relative">
-          {/* Vertical line (desktop) */}
-          <div className="hidden lg:block absolute left-8 top-0 bottom-0 w-[1px] timeline-line" />
-
-          <div className="space-y-6 lg:space-y-0">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.number}
-                className="relative"
-                initial={{ opacity: 0, x: -30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-              >
-                <div className="lg:pl-24 group">
-                  {/* Timeline dot */}
-                  <div className="hidden lg:flex absolute left-0 top-6 w-16 items-center justify-center">
-                    <motion.div
-                      className={`w-10 h-10 rounded-xl ${step.bg} border ${step.border} flex items-center justify-center z-10 bg-[#060609]`}
-                      whileHover={{ scale: 1.1 }}
-                      style={{
-                        boxShadow: inView ? `0 0 20px ${step.glow}30` : "none",
-                      }}
-                    >
-                      <step.icon className={`w-5 h-5 ${step.color}`} />
-                    </motion.div>
-                  </div>
-
-                  <div className={`glass-card rounded-2xl p-6 border border-white/5 group-hover:border-white/10 transition-all duration-300 mb-4 lg:mb-0`}>
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                      {/* Mobile icon */}
-                      <div className={`lg:hidden w-10 h-10 rounded-xl ${step.bg} border ${step.border} flex items-center justify-center flex-shrink-0`}>
-                        <step.icon className={`w-5 h-5 ${step.color}`} />
-                      </div>
-
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className={`text-xs font-bold ${step.color} opacity-60`}>{step.number}</span>
-                          <h3 className="text-white font-bold text-lg">{step.title}</h3>
-                          <span className="ml-auto text-white/25 text-xs glass px-2.5 py-1 rounded-full border border-white/5">
-                            {step.duration}
-                          </span>
-                        </div>
-                        <p className="text-white/50 text-sm leading-relaxed mb-4">{step.description}</p>
-
-                        {/* Deliverables */}
-                        <div className="flex flex-wrap gap-2">
-                          {step.deliverables.map((d) => (
-                            <span
-                              key={d}
-                              className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg"
-                              style={{
-                                color: step.glow,
-                                background: `${step.glow}10`,
-                                border: `1px solid ${step.glow}20`,
-                              }}
-                            >
-                              <ArrowRight className="w-3 h-3" />
-                              {d}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+        <div ref={ref as React.RefObject<HTMLDivElement>} className="space-y-3">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.number}
+              className="group rounded-[20px] p-6 transition-all duration-300"
+              style={{
+                background: "#121A2B",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: i * 0.07, duration: 0.4 }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+                {/* Step number + icon */}
+                <div className="flex items-center gap-4 sm:block sm:space-y-2">
+                  <span
+                    className="text-[11px] font-semibold block"
+                    style={{ color: "#2563EB", fontFamily: "Sora, sans-serif", letterSpacing: "0.06em" }}
+                  >
+                    {step.number}
+                  </span>
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{ background: "rgba(37,99,235,0.10)" }}
+                  >
+                    <step.icon className="w-5 h-5" style={{ color: "#2563EB" }} />
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                {/* Content */}
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3 mb-2">
+                    <h3
+                      className="text-[16px] font-semibold text-white"
+                      style={{ fontFamily: "Sora, sans-serif" }}
+                    >
+                      {step.title}
+                    </h3>
+                    <span
+                      className="text-[11px] px-2.5 py-1 rounded-full"
+                      style={{
+                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.06)",
+                        color: "#64748B",
+                      }}
+                    >
+                      {step.duration}
+                    </span>
+                  </div>
+                  <p className="text-[14px] leading-[1.65] mb-4" style={{ color: "#94A3B8" }}>
+                    {step.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {step.deliverables.map((d) => (
+                      <span
+                        key={d}
+                        className="text-[11px] px-2.5 py-1 rounded-lg"
+                        style={{
+                          background: "rgba(37,99,235,0.08)",
+                          border: "1px solid rgba(37,99,235,0.18)",
+                          color: "#2563EB",
+                        }}
+                      >
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

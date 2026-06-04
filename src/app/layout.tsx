@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Sora, Inter } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -9,22 +9,45 @@ import ScrollProgress from "@/components/animations/ScrollProgress";
 import ClientOnly from "@/components/animations/ClientOnly";
 import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space", display: "swap" });
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500"],
+  display: "swap",
+});
 
 const CRM_PATHS = ["/dashboard", "/admin", "/telecallers", "/superadmin"];
 
 export const metadata: Metadata = {
   title: {
-    default: "NextGen Tech Solution — Premium IT Company",
-    template: "%s | NextGen Tech Solution",
+    default: "NextGen Tech Solutions — Engineering Tomorrow's Digital Future",
+    template: "%s | NextGen Tech Solutions",
   },
-  description: "World-class web development, mobile apps, SaaS, AI & enterprise software.",
+  description:
+    "Premium technology company specializing in AI, SaaS, Enterprise Software, Automation, Cloud Infrastructure, and Digital Transformation. 150+ projects delivered globally.",
   metadataBase: new URL("https://nextgentechsolution.org"),
+  keywords: ["AI solutions", "SaaS development", "enterprise software", "digital transformation", "cloud infrastructure", "web development"],
+  openGraph: {
+    title: "NextGen Tech Solutions",
+    description: "Engineering Tomorrow's Digital Future",
+    type: "website",
+  },
+  icons: {
+    icon: "/images/favicon.png",
+    shortcut: "/images/favicon.png",
+    apple: "/images/favicon.png",
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#030303" }],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#0A0F1C" }],
   width: "device-width",
   initialScale: 1,
 };
@@ -37,14 +60,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable}`}
+      className={`${sora.variable} ${inter.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body
         className={isCRM ? "crm-shell antialiased overflow-x-hidden" : "antialiased overflow-x-hidden"}
-        style={isCRM
-          ? { background: "var(--crm-bg)", color: "var(--crm-text)" }
-          : { background: "#030303", color: "#f0f0f0" }
+        style={
+          isCRM
+            ? { background: "var(--crm-bg)", color: "var(--crm-text)" }
+            : { background: "#0A0F1C", color: "#94A3B8" }
         }
         suppressHydrationWarning
       >
@@ -61,8 +86,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   boxShadow: "0 8px 24px -8px rgba(16,24,40,0.12)",
                 }
               : {
-                  background: "#111120",
-                  color: "#f0f0f0",
+                  background: "#121A2B",
+                  color: "#ffffff",
                   border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "12px",
                   fontSize: "13px",

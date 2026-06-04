@@ -1,365 +1,612 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring, MotionValue } from "framer-motion";
-import { ArrowRight, Play, Star, TrendingUp, Users, Globe, Zap, Shield, Code2, Cpu, Database, Cloud } from "lucide-react";
-import GlowButton from "@/components/ui/GlowButton";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight, BarChart3, Globe, Users, Star,
+  Shield, Zap, Code2, Bot, LineChart, Cloud, Layers, Lock, CheckCircle2,
+} from "lucide-react";
+import Link from "next/link";
 
-function SpotlightLayer({ x, y }: { x: MotionValue<number>; y: MotionValue<number> }) {
-  const bg = useTransform(
-    [x, y],
-    (values: number[]) =>
-      `radial-gradient(600px circle at ${values[0]}% ${values[1]}%, rgba(59,130,246,0.06), transparent 50%)`
-  );
-  return (
-    <motion.div
-      className="absolute inset-0 pointer-events-none"
-      style={{ background: bg as MotionValue<string> }}
-    />
-  );
-}
-
-const floatingTags = [
-  { icon: Code2, label: "Next.js 15", color: "text-blue-400", bg: "bg-blue-500/10", delay: 0 },
-  { icon: Cpu, label: "AI / ML", color: "text-violet-400", bg: "bg-violet-500/10", delay: 0.5 },
-  { icon: Shield, label: "Enterprise", color: "text-green-400", bg: "bg-green-500/10", delay: 1 },
-  { icon: Database, label: "Supabase", color: "text-cyan-400", bg: "bg-cyan-500/10", delay: 1.5 },
-  { icon: Cloud, label: "AWS / Azure", color: "text-orange-400", bg: "bg-orange-500/10", delay: 0.8 },
-  { icon: Zap, label: "Performance", color: "text-yellow-400", bg: "bg-yellow-500/10", delay: 1.2 },
-];
-
+/* ── Stats ─────────────────────────────────────────────────────────── */
 const stats = [
-  { value: "150+", label: "Projects Delivered", icon: TrendingUp },
-  { value: "50+", label: "Global Clients", icon: Globe },
-  { value: "30+", label: "Expert Engineers", icon: Users },
-  { value: "4.9★", label: "Client Rating", icon: Star },
+  { value: "150+", label: "Projects Delivered", sub: "Across 12+ industries", icon: BarChart3 },
+  { value: "50+", label: "Global Clients", sub: "Startups to enterprises", icon: Globe },
+  { value: "30+", label: "Expert Engineers", sub: "Passionate builders", icon: Users },
+  { value: "4.9★", label: "Client Rating", sub: "Based on 60+ reviews", icon: Star },
 ];
 
-export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+/* ── Slides — all share the same video, only colors/text differ ─────── */
+const slides = [
+  {
+    accent: "#7C3AED", accentHover: "#6D28D9",
+    accentAlpha: "rgba(124,58,237,0.14)",
+    glowTop: "radial-gradient(ellipse 55% 55% at 75% 10%, rgba(124,58,237,0.22) 0%, transparent 70%)",
+    tagIcon: Code2, label: "Custom Software",
+    tagline: "Bespoke Development • Scalable Architecture",
+    title1: "Engineering Tailored", title2: "Software Solutions",
+    highlight: "Built For Growth",
+    description: "We craft pixel-perfect, performant custom software — from MVPs to enterprise platforms — designed to scale with your business goals.",
+    ctaText: "Start Your Project", ctaLink: "/contact",
+    secondaryText: "View Our Work", secondaryLink: "/case-studies",
+    features: ["Full-Stack Engineering", "Clean Architecture", "Rapid Delivery"],
+    featureIcons: [Code2, Shield, Zap],
+    cardStat: "98%", cardStatLabel: "On-time Delivery",
+    img: "/images/hero1.png",
+  },
+  {
+    accent: "#06B6D4", accentHover: "#0891B2",
+    accentAlpha: "rgba(6,182,212,0.14)",
+    glowTop: "radial-gradient(ellipse 55% 55% at 75% 10%, rgba(6,182,212,0.22) 0%, transparent 70%)",
+    tagIcon: Bot, label: "AI Automation",
+    tagline: "Intelligent Integration • Custom ML Models",
+    title1: "Empowering Innovation", title2: "Through Cutting-Edge",
+    highlight: "AI Automation",
+    description: "Unlock predictive insights, smart automation, and natural language interfaces built for enterprise-grade workflows and scale.",
+    ctaText: "Explore AI Solutions", ctaLink: "/contact",
+    secondaryText: "Read Case Studies", secondaryLink: "/case-studies",
+    features: ["GPT Integrations", "Custom ML Models", "Workflow Automation"],
+    featureIcons: [Bot, Shield, Zap],
+    cardStat: "10×", cardStatLabel: "Faster Operations",
+    img: "/images/hero2.png",
+  },
+  {
+    accent: "#10B981", accentHover: "#059669",
+    accentAlpha: "rgba(16,185,129,0.14)",
+    glowTop: "radial-gradient(ellipse 55% 55% at 75% 10%, rgba(16,185,129,0.22) 0%, transparent 70%)",
+    tagIcon: LineChart, label: "Data Analytics",
+    tagline: "Real-Time Insights • Predictive Analytics",
+    title1: "Transforming Raw Data", title2: "Into Actionable",
+    highlight: "Business Intelligence",
+    description: "Build powerful analytics pipelines, live dashboards, and BI tools that turn complex data into clear, revenue-driving decisions.",
+    ctaText: "Explore Analytics", ctaLink: "/contact",
+    secondaryText: "See Data Projects", secondaryLink: "/case-studies",
+    features: ["Live Dashboards", "Predictive Models", "Data Pipelines"],
+    featureIcons: [LineChart, Shield, Zap],
+    cardStat: "3×", cardStatLabel: "Revenue Insights",
+    img: "/images/hero3.png",
+  },
+  {
+    accent: "#F59E0B", accentHover: "#D97706",
+    accentAlpha: "rgba(245,158,11,0.14)",
+    glowTop: "radial-gradient(ellipse 55% 55% at 75% 10%, rgba(245,158,11,0.22) 0%, transparent 70%)",
+    tagIcon: Cloud, label: "Cloud & DevOps",
+    tagline: "99.99% Uptime • Docker & Kubernetes",
+    title1: "Scalable & Resilient", title2: "High-Availability",
+    highlight: "Cloud & DevOps",
+    description: "Optimize serverless architecture, CI/CD pipelines, container orchestration, and cloud costs across AWS, GCP, and Azure.",
+    ctaText: "Optimize Infrastructure", ctaLink: "/contact",
+    secondaryText: "Cloud Case Studies", secondaryLink: "/case-studies",
+    features: ["AWS / Azure / GCP", "CI/CD Pipelines", "Cost Optimization"],
+    featureIcons: [Cloud, Lock, Zap],
+    cardStat: "99.99%", cardStatLabel: "Uptime SLA",
+    img: "/images/hero4.png",
+  },
+  {
+    accent: "#EC4899", accentHover: "#DB2777",
+    accentAlpha: "rgba(236,72,153,0.14)",
+    glowTop: "radial-gradient(ellipse 55% 55% at 75% 10%, rgba(236,72,153,0.22) 0%, transparent 70%)",
+    tagIcon: Layers, label: "Digital Transformation",
+    tagline: "Modernization • End-to-End Integration",
+    title1: "Reimagining Business", title2: "Through Seamless",
+    highlight: "Digital Transformation",
+    description: "Modernize legacy systems, unify your tech ecosystem, and synchronize operations across platforms for next-generation business agility.",
+    ctaText: "Start Transformation", ctaLink: "/contact",
+    secondaryText: "View Portfolio", secondaryLink: "/case-studies",
+    features: ["Legacy Modernization", "System Integration", "Process Automation"],
+    featureIcons: [Layers, Shield, Zap],
+    cardStat: "60%", cardStatLabel: "Cost Reduction",
+    img: "/images/hero5.png",
+  },
+];
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const spotlightX = useSpring(mouseX, { stiffness: 100, damping: 30 });
-  const spotlightY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+/* ── Typewriter Hook ─────────────────────────────────────────────────── */
+function useTypewriter(text: string, speed = 52) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => {
-      const rect = containerRef.current?.getBoundingClientRect();
-      if (rect) {
-        mouseX.set(((e.clientX - rect.left) / rect.width) * 100);
-        mouseY.set(((e.clientY - rect.top) / rect.height) * 100);
+    setDisplayed("");
+    setDone(false);
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) {
+        setDone(true);
+        clearInterval(id);
       }
-    };
-    window.addEventListener("mousemove", handleMouse);
-    return () => window.removeEventListener("mousemove", handleMouse);
-  }, [mouseX, mouseY]);
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+
+  return { displayed, done };
+}
+
+/* ── Component ──────────────────────────────────────────────────────── */
+export default function Hero() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const slide = slides[currentIndex];
+  const { displayed, done } = useTypewriter(slide.highlight, 110);
+
+  // Push accent colour to CSS var so Navbar can read it
+  useEffect(() => {
+    document.documentElement.style.setProperty("--hero-accent", slide.accent);
+    document.documentElement.style.setProperty("--hero-accent-hover", slide.accentHover);
+  }, [slide.accent, slide.accentHover]);
+
+  // Auto-advance
+  useEffect(() => {
+    const t = setInterval(() => setCurrentIndex((p) => (p + 1) % slides.length), 7000);
+    return () => clearInterval(t);
+  }, []);
+
+  const TagIcon = slide.tagIcon;
 
   return (
     <section
-      ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#050505]"
+      className="relative overflow-visible"
+      style={{ minHeight: "100vh", background: "#07090F", paddingTop: "80px" }}
     >
-      {/* Background layers */}
-      <div className="absolute inset-0">
-        {/* Grid */}
-        <div className="absolute inset-0 bg-grid opacity-40" />
-        {/* Radial gradient mask */}
-        <div className="absolute inset-0"
-          style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.07) 0%, transparent 70%)",
-          }}
-        />
-
-        {/* Animated orbs */}
-        <div
-          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 animate-orb"
-          style={{
-            background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)",
-            top: "-100px",
-            left: "20%",
-          }}
-        />
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-[120px] opacity-15 animate-orb"
-          style={{
-            background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)",
-            top: "100px",
-            right: "15%",
-            animationDelay: "3s",
-          }}
-        />
-        <div
-          className="absolute w-[400px] h-[400px] rounded-full blur-[100px] opacity-10 animate-orb"
-          style={{
-            background: "radial-gradient(circle, #06b6d4 0%, transparent 70%)",
-            bottom: "100px",
-            left: "30%",
-            animationDelay: "5s",
-          }}
-        />
+      {/* ── Video Background ──────────────────────────────────────── */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 1 }}
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
       </div>
 
-      {/* Mouse spotlight */}
-      <SpotlightLayer x={spotlightX} y={spotlightY} />
-
-      {/* Content */}
-      <motion.div
-        className="relative z-10 container-xl text-center pt-32 pb-20"
-        style={{ y, opacity }}
-      >
-        {/* Badge */}
+      {/* ── Overlays ──────────────────────────────────────────────── */}
+      {/* Left-heavy dark so text stays legible */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(110deg, rgba(7,9,15,0.96) 0%, rgba(7,9,15,0.80) 45%, rgba(7,9,15,0.35) 100%)",
+        }}
+      />
+      {/* Bottom fade — soft so video doesn't bleed at the edge */}
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent 60%, rgba(7,9,15,0.70) 100%)" }}
+      />
+      {/* Per-slide accent glow — animated on change */}
+      <AnimatePresence mode="wait">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0, 0, 0.2, 1] }}
-          className="flex justify-center mb-8"
-        >
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass border border-blue-500/20 text-sm">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
-            </span>
-            <span className="text-white/60">Trusted by 50+ global enterprises</span>
-            <span className="flex items-center gap-1 text-blue-400 font-medium">
-              Learn more <ArrowRight className="w-3.5 h-3.5" />
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Headline */}
-        <div className="max-w-6xl mx-auto mb-8">
-          <motion.h1
-            className="hero-headline text-white"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0, 0, 0.2, 1] }}
-          >
-            <span className="block">Transforming Ideas Into</span>
-            <span className="block mt-2">
-              <span className="relative inline-block">
-                <span
-                  className="gradient-text animate-gradient"
-                  style={{
-                    background: "linear-gradient(135deg, #60a5fa, #a78bfa, #38bdf8, #60a5fa)",
-                    backgroundSize: "300% 300%",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  Intelligent Digital
-                </span>
-              </span>{" "}
-              Solutions
-            </span>
-          </motion.h1>
-        </div>
-
-        {/* Subheadline */}
-        <motion.p
-          className="text-white/50 text-xl max-w-2xl mx-auto leading-relaxed mb-10"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0, 0, 0.2, 1] }}
-        >
-          We build world-class software — from AI-powered SaaS platforms to enterprise apps — that drives real growth for ambitious companies.
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <GlowButton href="/contact" size="lg" icon={<ArrowRight className="w-5 h-5" />}>
-            Start Your Project
-          </GlowButton>
-
-          <GlowButton href="/portfolio" variant="secondary" size="lg" icon={<Play className="w-4 h-4" />} iconPosition="left">
-            View Our Work
-          </GlowButton>
-        </motion.div>
-
-        {/* Floating tech tags */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-3 mb-16"
+          key={`glow-${currentIndex}`}
+          className="absolute inset-0 z-[3] pointer-events-none"
+          style={{ background: slide.glowTop }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          {floatingTags.map((tag, i) => (
-            <motion.div
-              key={tag.label}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-full glass border border-white/5 ${tag.bg}`}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.08, duration: 0.5, ease: [0, 0, 0.2, 1] }}
-              whileHover={{ scale: 1.05, y: -3 }}
-            >
-              <tag.icon className={`w-3.5 h-3.5 ${tag.color}`} />
-              <span className="text-white/60 text-xs font-medium">{tag.label}</span>
-            </motion.div>
-          ))}
-        </motion.div>
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.0 }}
+        />
+      </AnimatePresence>
 
-        {/* Stats */}
-        <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 rounded-2xl overflow-hidden max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              className="bg-[#080808] p-6 flex flex-col items-center gap-1.5 hover:bg-white/3 transition-colors group"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + i * 0.1 }}
-            >
-              <stat.icon className="w-4 h-4 text-white/20 group-hover:text-blue-400 transition-colors mb-1" />
-              <span className="text-white font-bold text-2xl tracking-tight">{stat.value}</span>
-              <span className="text-white/40 text-xs font-medium">{stat.label}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Dashboard Mockup */}
-      <motion.div
-        className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-0"
-        initial={{ opacity: 0, y: 80 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9, duration: 1, ease: [0, 0, 0.2, 1] }}
+      {/* ── Main Content ──────────────────────────────────────────── */}
+      <div
+        className="ng-container relative z-10 w-full"
+        style={{
+          minHeight: "calc(100vh - 80px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          paddingTop: "28px",
+          paddingBottom: "136px",
+        }}
       >
-        <div className="relative">
-          {/* Glow under mockup */}
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-blue-500/20 blur-3xl rounded-full" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch w-full">
 
-          {/* Dashboard frame */}
-          <div className="glass-card rounded-2xl overflow-hidden border border-white/8 shadow-2xl">
-            {/* Window controls */}
-            <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/5 bg-white/2">
-              <div className="w-3 h-3 rounded-full bg-red-500/60" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-              <div className="w-3 h-3 rounded-full bg-green-500/60" />
-              <div className="flex-1 mx-4">
-                <div className="bg-white/5 rounded-lg px-4 py-1.5 text-white/30 text-xs text-center max-w-xs mx-auto">
-                  app.nextgentechsolution.org
-                </div>
-              </div>
-            </div>
-
-            {/* Dashboard content */}
-            <div className="p-6 grid grid-cols-12 gap-4 min-h-[280px]">
-              {/* Sidebar */}
-              <div className="col-span-2 space-y-2">
-                {["Dashboard", "Analytics", "Projects", "Team", "Settings"].map((item, i) => (
-                  <div
-                    key={item}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium ${i === 0 ? "bg-blue-500/20 text-blue-400" : "text-white/30 hover:bg-white/5"}`}
+          {/* ── LEFT ──────────────────────────────────────────────── */}
+          <div className="lg:col-span-7">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex flex-col"
+              >
+                {/* Badge + tagline row */}
+                <motion.div
+                  className="flex flex-wrap items-center gap-3 mb-5"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.05 }}
+                >
+                  <span
+                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest"
+                    style={{
+                      background: slide.accentAlpha,
+                      border: `1px solid ${slide.accent}55`,
+                      color: slide.accent,
+                    }}
                   >
-                    {item}
-                  </div>
-                ))}
-              </div>
+                    <TagIcon className="w-3.5 h-3.5" />
+                    {slide.label}
+                  </span>
+                  <span
+                    className="text-[11px] font-medium uppercase tracking-widest hidden sm:block"
+                    style={{ color: "rgba(255,255,255,0.30)", letterSpacing: "0.13em" }}
+                  >
+                    {slide.tagline}
+                  </span>
+                </motion.div>
 
-              {/* Main area */}
-              <div className="col-span-7 space-y-4">
-                {/* Chart area */}
-                <div className="bg-white/2 rounded-xl p-4 border border-white/5">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <div className="text-white/80 text-sm font-medium">Revenue Growth</div>
-                      <div className="text-white/30 text-xs">Last 12 months</div>
-                    </div>
-                    <div className="text-green-400 text-sm font-medium flex items-center gap-1">
-                      <TrendingUp className="w-3.5 h-3.5" /> +127%
-                    </div>
-                  </div>
-                  {/* Fake chart bars */}
-                  <div className="flex items-end gap-2 h-16">
-                    {[40, 55, 45, 70, 60, 85, 75, 90, 80, 95, 88, 100].map((h, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ scaleY: 0 }}
-                        animate={{ scaleY: 1 }}
-                        transition={{ delay: 1 + i * 0.04, duration: 0.4, ease: "easeOut" }}
+                {/* Headline */}
+                <motion.h1
+                  className="text-white font-extrabold leading-[1.10] mb-5"
+                  style={{
+                    fontFamily: "Sora, sans-serif",
+                    fontSize: "clamp(32px, 4.2vw, 54px)",
+                    letterSpacing: "-0.03em",
+                  }}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                >
+                  {slide.title1}
+                  <br />
+                  {slide.title2}
+                  <br />
+                  {/* Typewriter highlight */}
+                  <span
+                    style={{
+                      color: slide.accent,
+                      textShadow: `0 0 32px ${slide.accent}55`,
+                    }}
+                  >
+                    {displayed}
+                    {/* Blinking cursor while typing */}
+                    {!done && (
+                      <span
                         style={{
-                          originY: 1,
-                          height: `${h}%`,
-                          background: i === 11 ? "linear-gradient(to top, #3b82f6, #7c3aed)" : "rgba(255,255,255,0.08)",
+                          display: "inline-block",
+                          width: "3px",
+                          height: "0.85em",
+                          background: slide.accent,
+                          marginLeft: "3px",
+                          verticalAlign: "middle",
                           borderRadius: "2px",
-                          flex: 1,
+                          animation: "hero-cursor-blink 0.7s step-end infinite",
                         }}
                       />
-                    ))}
+                    )}
+                  </span>
+                </motion.h1>
+
+                {/* Description */}
+                <motion.p
+                  className="text-[14px] md:text-[15px] leading-[1.78] mb-7 max-w-[490px]"
+                  style={{ color: "rgba(255,255,255,0.48)" }}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                >
+                  {slide.description}
+                </motion.p>
+
+                {/* CTAs */}
+                <motion.div
+                  className="flex flex-row flex-wrap items-center gap-3 mb-7"
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
+                  <Link
+                    href={slide.ctaLink}
+                    className="group inline-flex items-center gap-2 text-[13px] font-semibold text-white rounded-xl transition-all duration-300"
+                    style={{
+                      background: slide.accent,
+                      padding: "12px 22px",
+                      boxShadow: `0 6px 26px ${slide.accent}50`,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = slide.accentHover;
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = `0 12px 34px ${slide.accent}60`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = slide.accent;
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = `0 6px 26px ${slide.accent}50`;
+                    }}
+                  >
+                    {slide.ctaText}
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </Link>
+                  <Link
+                    href={slide.secondaryLink}
+                    className="inline-flex items-center gap-2 text-[13px] font-medium text-white/65 rounded-xl border transition-all duration-300 hover:text-white hover:bg-white/[0.07] hover:border-white/30"
+                    style={{ padding: "12px 22px", border: "1px solid rgba(255,255,255,0.13)" }}
+                  >
+                    {slide.secondaryText}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </motion.div>
+
+                {/* Feature chips */}
+                <motion.div
+                  className="flex flex-wrap gap-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.25 }}
+                >
+                  {slide.features.map((f, i) => {
+                    const Icon = slide.featureIcons[i];
+                    return (
+                      <div
+                        key={i}
+                        className="inline-flex items-center gap-1.5 text-[11.5px] font-medium rounded-lg"
+                        style={{
+                          padding: "6px 13px",
+                          color: "rgba(255,255,255,0.50)",
+                          background: "rgba(255,255,255,0.04)",
+                          border: "1px solid rgba(255,255,255,0.07)",
+                        }}
+                      >
+                        <Icon className="w-3 h-3" style={{ color: slide.accent }} />
+                        {f}
+                      </div>
+                    );
+                  })}
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* ── RIGHT: Spotlight Card only (image is absolute at section level) ── */}
+          <div className="lg:col-span-5 hidden lg:flex flex-col justify-start items-end">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`card-${currentIndex}`}
+                className="relative w-full max-w-[310px]"
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 16 }}
+                transition={{ duration: 0.55, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="absolute -inset-6 rounded-3xl opacity-20 blur-3xl pointer-events-none" style={{ background: slide.accent }} />
+                <div
+                  className="relative rounded-3xl overflow-hidden"
+                  style={{
+                    background: "rgba(10, 10, 12, 0.60)",
+                    border: `1px solid rgba(255, 255, 255, 0.08)`,
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
+                    boxShadow: "0 24px 60px rgba(0, 0, 0, 0.50), inset 0 1px 1px rgba(255, 255, 255, 0.05)",
+                  }}
+                >
+                  <div className="relative p-5">
+                    {/* Header */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm"
+                        style={{ background: slide.accent }}
+                      >
+                        <TagIcon className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <p
+                          className="text-[9px] font-bold uppercase tracking-wider mb-0.5"
+                          style={{ color: slide.accent }}
+                        >
+                          Service Spotlight
+                        </p>
+                        <p className="text-[14px] font-bold leading-tight text-white">
+                          {slide.label}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Features List */}
+                    <div className="flex flex-col gap-2.5 mb-4">
+                      {slide.features.map((f, i) => (
+                        <div key={i} className="flex items-center gap-2.5">
+                          <div
+                            className="w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0"
+                            style={{ borderColor: slide.accent }}
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full" style={{ background: slide.accent }} />
+                          </div>
+                          <span className="text-[12.5px] font-semibold text-white/90">
+                            {f}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Subtle Divider */}
+                    <div className="h-px w-full mb-4" style={{ background: "rgba(255, 255, 255, 0.08)" }} />
+
+                    {/* Stat + CTA */}
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div
+                          className="font-bold leading-none mb-1 text-white"
+                          style={{
+                            fontFamily: "Sora, sans-serif",
+                            fontSize: "34px",
+                            letterSpacing: "-0.03em",
+                          }}
+                        >
+                          {slide.cardStat}
+                        </div>
+                        <div className="text-[10px] font-medium text-slate-400">
+                          {slide.cardStatLabel}
+                        </div>
+                      </div>
+                      <Link
+                        href={slide.ctaLink}
+                        className="inline-flex items-center gap-1.5 text-[11px] font-bold rounded-full px-4 py-2 transition-all duration-200 hover:opacity-90 shadow-sm"
+                        style={{
+                          background: slide.accent,
+                          color: "#ffffff",
+                        }}
+                      >
+                        Get Started <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
-
-                {/* Metric cards row */}
-                <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { label: "Active Users", value: "12.4K", change: "+18%" },
-                    { label: "Conversion", value: "3.8%", change: "+0.5%" },
-                    { label: "Revenue", value: "$84K", change: "+32%" },
-                  ].map((m) => (
-                    <div key={m.label} className="bg-white/2 rounded-xl p-3 border border-white/5">
-                      <div className="text-white/30 text-xs mb-1">{m.label}</div>
-                      <div className="text-white font-bold text-base">{m.value}</div>
-                      <div className="text-green-400 text-xs">{m.change}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right panel */}
-              <div className="col-span-3 space-y-3">
-                <div className="bg-white/2 rounded-xl p-3 border border-white/5">
-                  <div className="text-white/50 text-xs mb-2 font-medium">Recent Activity</div>
-                  {["Deploy completed", "New user signup", "API call spike", "Alert resolved"].map((a, i) => (
-                    <div key={a} className="flex items-center gap-2 py-1.5">
-                      <div className={`w-1.5 h-1.5 rounded-full ${i === 0 ? "bg-green-400" : i === 2 ? "bg-yellow-400" : "bg-blue-400"}`} />
-                      <span className="text-white/30 text-xs">{a}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="bg-gradient-to-br from-blue-500/10 to-violet-500/10 rounded-xl p-3 border border-blue-500/20">
-                  <div className="text-blue-400 text-xs font-medium mb-1">AI Insight</div>
-                  <div className="text-white/50 text-xs leading-relaxed">Traffic peak predicted at 3PM. Auto-scaling enabled.</div>
-                </div>
-              </div>
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
+      </div>
+
+      {/* ── Person Image — absolute, bottom-center of right half ─────── */}
+      <motion.div
+        className="absolute bottom-0 hidden lg:flex items-end justify-center z-[8] pointer-events-none"
+        style={{
+          left: "20%",
+          right: "0px",
+          paddingBottom: "40px",
+        }}
+        initial={{ opacity: 0, y: 90 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.95, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Accent glow at feet */}
+        <div
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 w-72 h-36 blur-3xl opacity-35 pointer-events-none transition-colors duration-700"
+          style={{ background: slide.accent }}
+        />
+        <img
+          src={slide.img}
+          alt="NextGen Tech Expert"
+          className="relative z-10 select-none w-auto"
+          style={{
+            height: "min(72vh, 580px)",
+            objectFit: "contain",
+            objectPosition: "bottom center",
+            filter: `drop-shadow(0 -16px 60px ${slide.accent}55) drop-shadow(0 24px 40px rgba(0,0,0,0.55))`,
+            transition: "filter 0.6s ease",
+          }}
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/images/hero1.png";
+          }}
+          draggable={false}
+        />
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+      {/* ── Slide Tabs ────────────────────────────────────────────── */}
+      <div
+        className="absolute z-30 bottom-[92px]"
+        style={{ left: "max(20px, calc((100vw - 1400px) / 2 + 32px))" }}
       >
-        <span className="text-white/20 text-xs tracking-widest uppercase">Scroll</span>
-        <motion.div
-          className="w-5 h-8 rounded-full border border-white/10 flex items-start justify-center p-1"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
+        <div className="flex items-center gap-2">
+          {slides.map((s, idx) => {
+            const active = idx === currentIndex;
+            const SIcon = s.tagIcon;
+            return (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className="group relative flex items-center gap-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none"
+                style={{
+                  padding: active ? "7px 13px 7px 10px" : "7px 10px",
+                  background: active ? s.accentAlpha : "rgba(255,255,255,0.05)",
+                  border: active ? `1px solid ${s.accent}55` : "1px solid rgba(255,255,255,0.09)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                }}
+                aria-label={s.label}
+              >
+                <SIcon
+                  className="w-3.5 h-3.5 shrink-0"
+                  style={{ color: active ? s.accent : "rgba(255,255,255,0.32)" }}
+                />
+                {active && (
+                  <motion.span
+                    className="text-[10.5px] font-semibold whitespace-nowrap"
+                    style={{ color: s.accent }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {s.label}
+                  </motion.span>
+                )}
+                {!active && (
+                  <span
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-[10px] font-semibold text-white px-2.5 py-1.5 rounded-lg"
+                    style={{
+                      background: "rgba(7,9,15,0.92)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    {s.label}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Stats Card — white, fully straddling hero/TrustedBy border ── */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 transform translate-y-1/2 px-4">
+        <div
+          className="max-w-6xl mx-auto bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.10)] border border-slate-100"
+          style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}
         >
-          <motion.div
-            className="w-1 h-2 rounded-full bg-white/40"
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
-      </motion.div>
+          {stats.map((stat, idx) => {
+            const SIcon = stat.icon;
+            return (
+              <div
+                key={idx}
+                className="flex items-center gap-4 p-5 md:p-6"
+                style={{
+                  borderRight: idx < stats.length - 1 ? "1px solid #E2E8F0" : "none",
+                }}
+              >
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-500"
+                  style={{ background: slide.accentAlpha }}
+                >
+                  <SIcon className="w-[18px] h-[18px]" style={{ color: slide.accent }} />
+                </div>
+                <div>
+                  <div
+                    className="font-bold text-slate-900 leading-none mb-1"
+                    style={{
+                      fontFamily: "Sora, sans-serif",
+                      fontSize: "22px",
+                      letterSpacing: "-0.03em",
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div className="text-[12px] font-semibold text-slate-700 leading-tight">
+                    {stat.label}
+                  </div>
+                  <div className="text-[10.5px] text-slate-400 mt-0.5 leading-tight">
+                    {stat.sub}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Cursor blink keyframe (injected once) ─────────────────── */}
+      <style>{`
+        @keyframes hero-cursor-blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+      `}</style>
     </section>
   );
 }

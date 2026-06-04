@@ -13,11 +13,14 @@ const services = [
   "ERP / CRM", "Digital Transformation",
 ];
 
+const Label = ({ children }: { children: React.ReactNode }) => (
+  <label className="block text-[12px] font-medium mb-1.5 ml-0.5" style={{ color: "#64748B" }}>
+    {children}
+  </label>
+);
+
 export default function Contact() {
-  const [form, setForm] = useState({
-    name: "", email: "", phone: "", service: "", budget: "", message: "",
-  });
-  // Honeypot — must stay empty (bots will fill it)
+  const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", budget: "", message: "" });
   const [website, setWebsite] = useState("");
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -35,15 +38,8 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, website }),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
-        setSending(false);
-        return;
-      }
-
+      if (!res.ok) { setError(data.error ?? "Something went wrong. Please try again."); setSending(false); return; }
       setLeadId(data.leadId ?? null);
       setSent(true);
       setForm({ name: "", email: "", phone: "", service: "", budget: "", message: "" });
@@ -55,12 +51,13 @@ export default function Contact() {
   };
 
   return (
-    <section className="section-padding relative overflow-hidden bg-[#060609]" id="contact">
-      <div className="absolute inset-0 bg-grid opacity-20" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-100 bg-blue-500/4 rounded-full blur-3xl" />
-
-      <div className="container-xl relative">
-        <div className="mb-16">
+    <section
+      className="ng-section relative overflow-hidden"
+      id="contact"
+      style={{ background: "#0A0F1C" }}
+    >
+      <div className="ng-container">
+        <div className="mb-14">
           <SectionHeader
             badge="Contact Us"
             title="Let's Build Something"
@@ -72,55 +69,67 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left: Form */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="glass-card rounded-3xl p-8 border border-white/8">
+            <div
+              className="rounded-[20px] p-8"
+              style={{
+                background: "#121A2B",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
               {sent ? (
                 <motion.div
                   className="text-center py-12"
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
-                    <Send className="w-7 h-7 text-green-400" />
+                  <div
+                    className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4"
+                    style={{ background: "rgba(37,99,235,0.12)", border: "1px solid rgba(37,99,235,0.25)" }}
+                  >
+                    <Send className="w-6 h-6" style={{ color: "#2563EB" }} />
                   </div>
-                  <h3 className="text-white font-bold text-xl mb-2">Message Sent!</h3>
-                  <p className="text-white/50 text-sm">
-                    Our team will reach out within 24 hours. We&apos;ve sent a confirmation to your inbox.
+                  <h3
+                    className="text-white font-semibold text-[20px] mb-2"
+                    style={{ fontFamily: "Sora, sans-serif" }}
+                  >
+                    Message Sent!
+                  </h3>
+                  <p className="text-[14px] mb-2" style={{ color: "#94A3B8" }}>
+                    Our team will reach out within 24 hours.
                   </p>
                   {leadId && (
-                    <p className="text-white/40 text-xs mt-2 font-mono">
-                      Reference: <span className="text-blue-400">{leadId}</span>
+                    <p className="text-[12px] font-mono" style={{ color: "#64748B" }}>
+                      Reference: <span style={{ color: "#2563EB" }}>{leadId}</span>
                     </p>
                   )}
                   <button
                     onClick={() => { setSent(false); setLeadId(null); }}
-                    className="mt-6 text-blue-400 text-sm hover:text-blue-300 transition-colors"
+                    className="mt-6 text-[13px] font-medium transition-colors"
+                    style={{ color: "#2563EB" }}
                   >
                     Send another message
                   </button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* Honeypot — hidden from real users, bots fill it */}
+                  {/* Honeypot */}
                   <input
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={website}
+                    type="text" tabIndex={-1} autoComplete="off" value={website}
                     onChange={(e) => setWebsite(e.target.value)}
-                    className="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden"
-                    aria-hidden="true"
+                    className="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" aria-hidden="true"
                   />
 
                   {error && (
                     <motion.div
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="flex items-start gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm"
+                      className="flex items-start gap-2 p-3 rounded-xl text-[13px]"
+                      style={{ background: "rgba(220,38,38,0.08)", border: "1px solid rgba(220,38,38,0.20)", color: "#F87171" }}
                     >
                       <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                       <span>{error}</span>
@@ -128,72 +137,56 @@ export default function Contact() {
                   )}
 
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="relative group">
-                      <label className="block text-white/50 text-xs font-medium mb-1.5 ml-1">Full Name *</label>
-                      <input
-                        type="text"
-                        required
-                        value={form.name}
+                    <div>
+                      <Label>Full Name *</Label>
+                      <input type="text" required value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder="John Doe"
-                        className="premium-input"
-                      />
+                        placeholder="John Doe" className="ng-input" />
                     </div>
-                    <div className="relative group">
-                      <label className="block text-white/50 text-xs font-medium mb-1.5 ml-1">Email Address *</label>
-                      <input
-                        type="email"
-                        required
-                        value={form.email}
+                    <div>
+                      <Label>Email Address *</Label>
+                      <input type="email" required value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        placeholder="john@company.com"
-                        className="premium-input"
-                      />
+                        placeholder="john@company.com" className="ng-input" />
                     </div>
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-white/50 text-xs font-medium mb-1.5 ml-1">Phone Number</label>
-                      <input
-                        type="tel"
-                        value={form.phone}
+                      <Label>Phone Number</Label>
+                      <input type="tel" value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                        placeholder="+91 9876543210"
-                        className="premium-input"
-                      />
+                        placeholder="+91 9876543210" className="ng-input" />
                     </div>
                     <div>
-                      <label className="block text-white/50 text-xs font-medium mb-1.5 ml-1">Budget Range</label>
-                      <select
-                        value={form.budget}
+                      <Label>Budget Range</Label>
+                      <select value={form.budget}
                         onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                        className="premium-input"
-                        style={{ appearance: "none" }}
+                        className="ng-input" style={{ appearance: "none", background: "#121A2B", color: form.budget ? "#ffffff" : "#64748B" }}
                       >
                         <option value="">Select budget</option>
-                        <option value="5k-15k">$5K - $15K</option>
-                        <option value="15k-50k">$15K - $50K</option>
-                        <option value="50k-100k">$50K - $100K</option>
+                        <option value="5k-15k">$5K – $15K</option>
+                        <option value="15k-50k">$15K – $50K</option>
+                        <option value="50k-100k">$50K – $100K</option>
                         <option value="100k+">$100K+</option>
                       </select>
                     </div>
                   </div>
 
-                  {/* Service selection */}
                   <div>
-                    <label className="block text-white/50 text-xs font-medium mb-2 ml-1">Service Needed</label>
+                    <Label>Service Needed</Label>
                     <div className="flex flex-wrap gap-2">
                       {services.map((s) => (
                         <button
                           key={s}
                           type="button"
                           onClick={() => setForm({ ...form, service: s })}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                            form.service === s
-                              ? "bg-blue-500/20 text-blue-300 border-blue-500/40"
-                              : "bg-white/3 text-white/40 border-white/8 hover:border-white/20 hover:text-white/70"
-                          }`}
+                          className="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all"
+                          style={{
+                            background: form.service === s ? "rgba(37,99,235,0.12)" : "rgba(255,255,255,0.04)",
+                            border: form.service === s ? "1px solid rgba(37,99,235,0.30)" : "1px solid rgba(255,255,255,0.06)",
+                            color: form.service === s ? "#2563EB" : "#94A3B8",
+                          }}
                         >
                           {s}
                         </button>
@@ -202,42 +195,36 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-white/50 text-xs font-medium mb-1.5 ml-1">Project Details *</label>
+                    <Label>Project Details *</Label>
                     <textarea
-                      required
-                      rows={4}
-                      value={form.message}
+                      required rows={4} value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       placeholder="Tell us about your project, goals, and timeline..."
-                      className="premium-input resize-none"
+                      className="ng-textarea"
                     />
                   </div>
 
-                  <motion.button
+                  <button
                     type="submit"
                     disabled={sending}
-                    className="w-full py-4 rounded-xl text-white font-semibold flex items-center justify-center gap-3 relative overflow-hidden"
-                    style={{ background: "linear-gradient(135deg, #3b82f6, #7c3aed)" }}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
+                    className="ng-btn-primary w-full justify-center"
+                    style={{ height: "52px" }}
                   >
                     {sending ? (
                       <>
-                        <div className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                        <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
-                        <Send className="w-5 h-5" />
+                        <Send className="w-4 h-4" />
                         Send Message
                         <ArrowRight className="w-4 h-4" />
                       </>
                     )}
-                    {/* Shimmer on hover */}
-                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700 pointer-events-none" />
-                  </motion.button>
+                  </button>
 
-                  <p className="text-white/25 text-xs text-center">
+                  <p className="text-[12px] text-center" style={{ color: "#64748B" }}>
                     We respond within 24 hours. No spam, ever.
                   </p>
                 </form>
@@ -245,80 +232,94 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Right: Contact info */}
+          {/* Right: Info */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
+            transition={{ duration: 0.5 }}
+            className="space-y-4"
           >
-            {/* Info cards */}
             {[
-              { icon: Mail, label: "Email Us", value: COMPANY.email, href: `mailto:${COMPANY.email}`, color: "#3b82f6" },
-              { icon: Phone, label: "Call Us", value: COMPANY.phone, href: `tel:${COMPANY.phone}`, color: "#7c3aed" },
-              { icon: MapPin, label: "Location", value: "India (Remote-First)", href: "#", color: "#06b6d4" },
-            ].map(({ icon: Icon, label, value, href, color }) => (
-              <motion.a
+              { icon: Mail,   label: "Email Us",  value: COMPANY.email,                href: `mailto:${COMPANY.email}` },
+              { icon: Phone,  label: "Call Us",   value: COMPANY.phone,                href: `tel:${COMPANY.phone}` },
+              { icon: MapPin, label: "Location",  value: "India (Remote-First)",        href: "#" },
+            ].map(({ icon: Icon, label, value, href }) => (
+              <a
                 key={label}
                 href={href}
-                className="flex items-center gap-4 p-5 glass-card rounded-2xl border border-white/5 hover:border-white/12 transition-all group"
-                whileHover={{ x: 4 }}
+                className="flex items-center gap-4 rounded-[20px] p-5 transition-all group"
+                style={{
+                  background: "#121A2B",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
               >
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: `${color}15`, border: `1px solid ${color}25` }}
+                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: "rgba(37,99,235,0.10)", border: "1px solid rgba(37,99,235,0.20)" }}
                 >
-                  <Icon className="w-5 h-5" style={{ color }} />
+                  <Icon className="w-5 h-5" style={{ color: "#2563EB" }} />
                 </div>
-                <div>
-                  <div className="text-white/40 text-xs font-medium mb-0.5">{label}</div>
-                  <div className="text-white/80 font-medium text-sm group-hover:text-white transition-colors">{value}</div>
+                <div className="flex-1">
+                  <div className="text-[11px] font-medium mb-0.5" style={{ color: "#64748B" }}>{label}</div>
+                  <div className="text-[14px] font-medium text-white">{value}</div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white/50 group-hover:translate-x-1 transition-all ml-auto" />
-              </motion.a>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" style={{ color: "#64748B" }} />
+              </a>
             ))}
 
             {/* Social */}
-            <div className="p-6 glass-card rounded-2xl border border-white/5">
-              <div className="text-white/40 text-xs font-medium uppercase tracking-wide mb-4">Connect With Us</div>
+            <div
+              className="rounded-[20px] p-5"
+              style={{ background: "#121A2B", border: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <p className="text-[11px] font-medium uppercase tracking-[0.10em] mb-4" style={{ color: "#64748B" }}>
+                Connect With Us
+              </p>
               <div className="flex gap-3">
                 {[
-                  { icon: FaLinkedinIn, href: COMPANY.social.linkedin, label: "LinkedIn", color: "#0A66C2" },
-                  { icon: FaTwitter, href: COMPANY.social.twitter, label: "Twitter", color: "#1DA1F2" },
-                  { icon: FaGithub, href: COMPANY.social.github, label: "GitHub", color: "#FFFFFF" },
+                  { icon: FaLinkedinIn, href: COMPANY.social.linkedin, label: "LinkedIn" },
+                  { icon: FaTwitter,   href: COMPANY.social.twitter,  label: "Twitter" },
+                  { icon: FaGithub,    href: COMPANY.social.github,   label: "GitHub" },
                 ].map(({ icon: Icon, href, label }) => (
-                  <motion.a
+                  <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass border border-white/8 text-white/50 hover:text-white text-sm font-medium transition-all hover:border-white/20 group"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all"
+                    style={{
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                      color: "#94A3B8",
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = "#94A3B8"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                   >
-                    <Icon className="w-4 h-4" style={{ color: "inherit" }} />
-                    <span>{label}</span>
-                  </motion.a>
+                    <Icon className="w-4 h-4" />
+                    {label}
+                  </a>
                 ))}
               </div>
             </div>
 
-            {/* Response time */}
+            {/* Availability */}
             <div
-              className="p-5 rounded-2xl border"
+              className="rounded-[20px] p-5"
               style={{
-                background: "linear-gradient(135deg, rgba(59,130,246,0.06), rgba(124,58,237,0.06))",
-                borderColor: "rgba(59,130,246,0.15)",
+                background: "#121A2B",
+                border: "1px solid rgba(37,99,235,0.15)",
               }}
             >
               <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-green-400 mt-1.5 shrink-0 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0 mt-1.5" />
                 <div>
-                  <div className="text-white/70 text-sm font-medium mb-1">Available right now</div>
-                  <p className="text-white/40 text-xs leading-relaxed">
-                    Our team typically responds within 2-4 hours during business hours (IST). Guaranteed response within 24 hours.
+                  <div className="text-white font-medium text-[14px] mb-1">Available right now</div>
+                  <p className="text-[13px] leading-[1.6]" style={{ color: "#94A3B8" }}>
+                    Our team typically responds within 2–4 hours during business hours (IST). Guaranteed response within 24 hours.
                   </p>
                 </div>
               </div>

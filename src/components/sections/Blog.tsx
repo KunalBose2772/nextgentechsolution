@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Clock, Tag } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
 
@@ -13,10 +13,8 @@ const posts = [
     category: "Engineering",
     author: "Arjun Mehta",
     date: "May 15, 2025",
-    readTime: "8 min read",
+    readTime: "8 min",
     tags: ["Next.js", "Supabase", "Architecture"],
-    gradient: "from-blue-500/15 to-transparent",
-    accent: "#3b82f6",
   },
   {
     id: "2",
@@ -25,10 +23,8 @@ const posts = [
     category: "AI & ML",
     author: "Priya Singh",
     date: "May 8, 2025",
-    readTime: "6 min read",
+    readTime: "6 min",
     tags: ["AI", "OpenAI", "Product"],
-    gradient: "from-violet-500/15 to-transparent",
-    accent: "#7c3aed",
   },
   {
     id: "3",
@@ -37,19 +33,19 @@ const posts = [
     category: "DevOps",
     author: "Rahul Dev",
     date: "April 28, 2025",
-    readTime: "10 min read",
+    readTime: "10 min",
     tags: ["Kubernetes", "AWS", "Cost Optimization"],
-    gradient: "from-green-500/15 to-transparent",
-    accent: "#22c55e",
   },
 ];
 
 export default function Blog() {
   return (
-    <section className="section-padding relative overflow-hidden bg-[#050505]" id="blog">
-      <div className="absolute inset-0 bg-dot opacity-20" />
-
-      <div className="container-xl relative">
+    <section
+      className="ng-section relative overflow-hidden"
+      id="blog"
+      style={{ background: "#0A0F1C" }}
+    >
+      <div className="ng-container">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
           <SectionHeader
             badge="Our Blog"
@@ -60,75 +56,77 @@ export default function Blog() {
           />
           <Link
             href="/blog"
-            className="flex items-center gap-2 text-white/50 hover:text-white text-sm font-medium transition-colors group flex-shrink-0"
+            className="flex items-center gap-2 text-[13px] font-medium transition-colors shrink-0"
+            style={{ color: "#94A3B8" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
+            onMouseLeave={e => (e.currentTarget.style.color = "#94A3B8")}
           >
             View all posts
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4">
           {posts.map((post, i) => (
             <motion.article
               key={post.id}
-              className="group glass-card rounded-2xl overflow-hidden border border-white/5 hover:border-white/12 transition-all duration-500 cursor-pointer"
-              initial={{ opacity: 0, y: 30 }}
+              className="group rounded-[20px] overflow-hidden transition-all duration-300 cursor-pointer"
+              style={{
+                background: "#121A2B",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
               whileHover={{ y: -4 }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
-              {/* Visual header */}
-              <div className={`relative h-44 bg-gradient-to-br ${post.gradient} bg-[#0a0a12] overflow-hidden`}>
-                <div className="absolute inset-0 bg-grid opacity-30" />
+              {/* Header */}
+              <div
+                className="relative h-36 flex items-center justify-center ng-grid-bg"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+              >
                 <div
-                  className="absolute inset-0 opacity-30"
-                  style={{ background: `radial-gradient(circle at 50% 50%, ${post.accent}20, transparent)` }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-bold"
-                    style={{
-                      background: `${post.accent}20`,
-                      border: `1px solid ${post.accent}30`,
-                      color: post.accent,
-                    }}
-                  >
-                    {post.category.charAt(0)}
-                  </div>
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-semibold text-xl"
+                  style={{
+                    background: "rgba(37,99,235,0.12)",
+                    border: "1px solid rgba(37,99,235,0.22)",
+                    fontFamily: "Sora, sans-serif",
+                  }}
+                >
+                  {post.category.charAt(0)}
                 </div>
-
-                {/* Category badge */}
-                <div className="absolute top-4 left-4">
-                  <span
-                    className="text-xs font-medium px-2.5 py-1 rounded-full"
-                    style={{
-                      color: post.accent,
-                      background: `${post.accent}20`,
-                      border: `1px solid ${post.accent}30`,
-                    }}
-                  >
-                    {post.category}
-                  </span>
+                <div
+                  className="absolute top-3 left-3 text-[11px] font-medium px-2.5 py-1 rounded-full"
+                  style={{
+                    background: "rgba(37,99,235,0.10)",
+                    border: "1px solid rgba(37,99,235,0.20)",
+                    color: "#2563EB",
+                  }}
+                >
+                  {post.category}
                 </div>
               </div>
 
-              <div className="p-6">
+              <div className="p-5">
                 {/* Meta */}
-                <div className="flex items-center gap-3 text-white/30 text-xs mb-3">
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" />
-                    {post.readTime}
-                  </div>
-                  <span>•</span>
-                  <span>{post.date}</span>
+                <div className="flex items-center gap-2 mb-3" style={{ color: "#64748B" }}>
+                  <Clock className="w-3 h-3" />
+                  <span className="text-[11px]">{post.readTime} read</span>
+                  <span className="text-[11px]">•</span>
+                  <span className="text-[11px]">{post.date}</span>
                 </div>
 
-                <h3 className="text-white font-bold text-base leading-snug mb-3 group-hover:text-white transition-colors line-clamp-2">
+                <h3
+                  className="text-[15px] font-semibold text-white mb-2 leading-[1.4] line-clamp-2"
+                  style={{ fontFamily: "Sora, sans-serif" }}
+                >
                   {post.title}
                 </h3>
 
-                <p className="text-white/45 text-sm leading-relaxed mb-4 line-clamp-2">
+                <p className="text-[13px] leading-[1.65] mb-4 line-clamp-2" style={{ color: "#94A3B8" }}>
                   {post.excerpt}
                 </p>
 
@@ -137,9 +135,13 @@ export default function Blog() {
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-md bg-white/4 text-white/35 border border-white/5"
+                      className="text-[11px] px-2 py-0.5 rounded-md"
+                      style={{
+                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.06)",
+                        color: "#64748B",
+                      }}
                     >
-                      <Tag className="w-2.5 h-2.5" />
                       {tag}
                     </span>
                   ))}
@@ -147,11 +149,10 @@ export default function Blog() {
 
                 <Link
                   href={`/blog/${post.id}`}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium transition-all group/link"
-                  style={{ color: post.accent }}
+                  className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
+                  style={{ color: "#2563EB" }}
                 >
-                  Read article
-                  <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
+                  Read article <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </motion.article>

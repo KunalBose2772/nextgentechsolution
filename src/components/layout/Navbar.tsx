@@ -7,49 +7,64 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import {
   Code2, Smartphone, Layers, Brain, Cloud, Server,
   BarChart3, Palette, Settings2, TrendingUp,
-  ChevronDown, Menu, X, ArrowRight, Zap,
+  ChevronDown, Menu, X, ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/* ── data ──────────────────────────────────────────────────────────── */
+/* ── Logo Mark ────────────────────────────────────────────────────── */
+function LogoMark({ size = 32 }: { size?: number }) {
+  return (
+    <img
+      src="/images/logo.png"
+      alt="NextGen Tech Solutions"
+      style={{
+        height: `${size}px`,
+        width: "auto",
+        display: "block",
+        objectFit: "contain",
+      }}
+    />
+  );
+}
+
+/* ── Data ─────────────────────────────────────────────────────────── */
 const services = [
-  { label: "Web Development",        href: "/services#web",     icon: Code2,     color: "text-blue-400",   desc: "Modern full-stack applications" },
-  { label: "Mobile App Development", href: "/services#mobile",  icon: Smartphone, color: "text-violet-400", desc: "iOS & Android native apps" },
-  { label: "SaaS Development",       href: "/services#saas",    icon: Layers,    color: "text-cyan-400",   desc: "Scalable SaaS platforms" },
-  { label: "AI Solutions",           href: "/services#ai",      icon: Brain,     color: "text-emerald-400", desc: "Intelligent AI integrations" },
-  { label: "Cloud Services",         href: "/services#cloud",   icon: Cloud,     color: "text-orange-400", desc: "AWS, Azure & GCP expertise" },
-  { label: "CRM Development",        href: "/services#crm",     icon: BarChart3, color: "text-pink-400",   desc: "Customer relationship systems" },
-  { label: "ERP Systems",            href: "/services#erp",     icon: Settings2, color: "text-yellow-400", desc: "Enterprise resource planning" },
-  { label: "UI/UX Design",           href: "/services#design",  icon: Palette,   color: "text-rose-400",   desc: "Premium digital experiences" },
-  { label: "DevOps",                 href: "/services#devops",  icon: Server,    color: "text-teal-400",   desc: "CI/CD & infrastructure" },
-  { label: "Digital Marketing",      href: "/services#marketing", icon: TrendingUp, color: "text-indigo-400", desc: "Growth & digital presence" },
+  { label: "Web Development",        href: "/services#web",       icon: Code2,     desc: "Modern full-stack applications" },
+  { label: "Mobile App Development", href: "/services#mobile",    icon: Smartphone, desc: "iOS & Android native apps" },
+  { label: "SaaS Platforms",         href: "/services#saas",      icon: Layers,    desc: "Scalable multi-tenant platforms" },
+  { label: "AI & ML Solutions",      href: "/services#ai",        icon: Brain,     desc: "Intelligent automation & analytics" },
+  { label: "Cloud Services",         href: "/services#cloud",     icon: Cloud,     desc: "AWS, Azure & GCP expertise" },
+  { label: "ERP & CRM Systems",      href: "/services#erp",       icon: BarChart3, desc: "Enterprise resource planning" },
+  { label: "DevOps & CI/CD",         href: "/services#devops",    icon: Server,    desc: "Infrastructure & deployment" },
+  { label: "UI/UX Design",           href: "/services#design",    icon: Palette,   desc: "Premium digital experiences" },
+  { label: "Digital Transformation", href: "/services#transform", icon: TrendingUp, desc: "Legacy modernization" },
+  { label: "Maintenance & Support",  href: "/services#support",   icon: Settings2, desc: "24/7 dedicated support" },
 ];
 
 const navLinks = [
   { label: "Home",         href: "/" },
   { label: "About",        href: "/about" },
   { label: "Services",     href: "/services", hasMenu: true },
-  { label: "Solutions",    href: "/solutions" },
-  { label: "Technologies", href: "/technologies" },
   { label: "Portfolio",    href: "/portfolio" },
   { label: "Case Studies", href: "/case-studies" },
-  { label: "Careers",      href: "/careers" },
   { label: "Blog",         href: "/blog" },
+  { label: "Careers",      href: "/careers" },
 ];
 
-/* ── component ─────────────────────────────────────────────────────── */
+/* ── Component ────────────────────────────────────────────────────── */
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
-  const [megaOpen,    setMegaOpen]    = useState(false);
+  const [scrolled,   setScrolled]   = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [megaOpen,   setMegaOpen]   = useState(false);
+  const [heroAccent, setHeroAccent] = useState("#2563EB");
+  const [heroAccentHover, setHeroAccentHover] = useState("#1D4ED8");
   const pathname = usePathname();
   const { scrollY } = useScroll();
-  const megaTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const megaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
+  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 32));
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMobileOpen(false);
     setMegaOpen(false);
   }, [pathname]);
@@ -59,53 +74,60 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const onMegaEnter = () => { if (megaTimer.current) clearTimeout(megaTimer.current); setMegaOpen(true); };
-  const onMegaLeave = () => { megaTimer.current = setTimeout(() => setMegaOpen(false), 120); };
+  // Sync with Hero slide accent color via CSS variable
+  useEffect(() => {
+    const sync = () => {
+      const accent = getComputedStyle(document.documentElement)
+        .getPropertyValue("--hero-accent").trim();
+      const accentHover = getComputedStyle(document.documentElement)
+        .getPropertyValue("--hero-accent-hover").trim();
+      if (accent) setHeroAccent(accent);
+      if (accentHover) setHeroAccentHover(accentHover);
+    };
+    sync();
+    // Poll every 300ms to catch changes set by Hero
+    const id = setInterval(sync, 300);
+    return () => clearInterval(id);
+  }, []);
+
+  const onMegaEnter = () => {
+    if (megaTimer.current) clearTimeout(megaTimer.current);
+    setMegaOpen(true);
+  };
+  const onMegaLeave = () => {
+    megaTimer.current = setTimeout(() => setMegaOpen(false), 140);
+  };
 
   return (
     <>
-      {/* ── bar ──────────────────────────────────────────────────── */}
+      {/* ── Bar ──────────────────────────────────────────────────── */}
       <motion.header
-        className={cn(
-          "fixed top-0 inset-x-0 z-50 transition-all duration-500",
-          scrolled ? "py-2" : "py-4"
-        )}
+        className="fixed top-0 inset-x-0 z-50"
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        style={{ paddingTop: scrolled ? "16px" : "24px", paddingBottom: scrolled ? "16px" : "24px", transition: "padding 0.4s ease" }}
       >
-        {/* backdrop */}
-        <motion.div
-          className="absolute inset-0 border-b border-white/6"
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 border-b transition-all duration-400"
           style={{
-            background: "linear-gradient(180deg,rgba(3,3,10,0.85) 0%,rgba(3,3,10,0.7) 100%)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+            background: scrolled ? "rgba(10,15,28,0.92)" : "transparent",
+            borderColor: scrolled ? "rgba(255,255,255,0.06)" : "transparent",
+            backdropFilter: scrolled ? "blur(20px)" : "none",
           }}
-          animate={{ opacity: scrolled ? 1 : 0 }}
-          transition={{ duration: 0.4 }}
         />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between gap-8">
-          {/* logo */}
-          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <motion.div
-              className="relative w-8 h-8 rounded-xl flex items-center justify-center overflow-hidden"
-              style={{ background: "linear-gradient(135deg,#3b82f6,#7c3aed)" }}
-              whileHover={{ scale: 1.08, rotate: 6 }}
-              transition={{ type: "spring", stiffness: 500, damping: 22 }}
-            >
-              <Zap className="w-4 h-4 text-white relative z-10" />
-              <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="ng-container relative flex items-center justify-between gap-8">
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0 group">
+            <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
+              <LogoMark size={44} />
             </motion.div>
-            <div className="leading-none">
-              <span className="block text-[13px] font-bold text-white tracking-tight">NextGen</span>
-              <span className="block text-[9px] text-white/35 tracking-[0.2em] uppercase font-medium">Tech Solution</span>
-            </div>
           </Link>
 
-          {/* desktop nav */}
-          <nav className="hidden lg:flex items-center gap-0.5">
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center">
             {navLinks.map((link) =>
               link.hasMenu ? (
                 <div
@@ -114,33 +136,33 @@ export default function Navbar() {
                   onMouseEnter={onMegaEnter}
                   onMouseLeave={onMegaLeave}
                 >
-                  <NavItem label={link.label} href={link.href} active={pathname.startsWith(link.href)}>
+                  <NavItem label={link.label} href={link.href} active={pathname.startsWith("/services")}>
                     <motion.span
                       animate={{ rotate: megaOpen ? 180 : 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="inline-flex"
+                      transition={{ duration: 0.2 }}
+                      className="inline-flex ml-0.5"
                     >
-                      <ChevronDown className="w-3.5 h-3.5 opacity-50" />
+                      <ChevronDown className="w-3.5 h-3.5" />
                     </motion.span>
                   </NavItem>
 
-                  {/* mega menu */}
                   <AnimatePresence>
                     {megaOpen && (
                       <motion.div
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-150"
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[560px]"
                         initial={{ opacity: 0, y: 8, scale: 0.97 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 6, scale: 0.97 }}
-                        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
                         onMouseEnter={onMegaEnter}
                         onMouseLeave={onMegaLeave}
                       >
                         <div
-                          className="rounded-2xl border border-white/8 overflow-hidden shadow-2xl shadow-black/60"
+                          className="rounded-[20px] overflow-hidden border"
                           style={{
-                            background: "linear-gradient(160deg,rgba(10,10,20,0.98),rgba(5,5,15,0.98))",
-                            backdropFilter: "blur(32px)",
+                            background: "#121A2B",
+                            borderColor: "rgba(255,255,255,0.08)",
+                            boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
                           }}
                         >
                           <div className="p-2 grid grid-cols-2 gap-0.5">
@@ -148,22 +170,31 @@ export default function Navbar() {
                               <Link
                                 key={s.label}
                                 href={s.href}
-                                className="group/item flex items-start gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors duration-150"
+                                className="group/item flex items-start gap-3 px-4 py-3 rounded-xl transition-colors duration-150"
+                                style={{ "--hover-bg": "rgba(37,99,235,0.06)" } as React.CSSProperties}
+                                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+                                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                               >
-                                <div className="mt-0.5 p-1.5 rounded-lg bg-white/4 group-hover/item:bg-white/8 transition-colors shrink-0">
-                                  <s.icon className={cn("w-3.5 h-3.5", s.color)} />
+                                <div
+                                  className="mt-0.5 p-1.5 rounded-lg shrink-0 transition-colors"
+                                  style={{ background: "rgba(37,99,235,0.10)" }}
+                                >
+                                  <s.icon className="w-3.5 h-3.5 text-[#2563EB]" />
                                 </div>
                                 <div>
-                                  <p className="text-[13px] font-medium text-white/80 group-hover/item:text-white transition-colors leading-tight">{s.label}</p>
-                                  <p className="text-[11px] text-white/35 mt-0.5 leading-tight">{s.desc}</p>
+                                  <p className="text-[13px] font-medium text-white leading-tight">{s.label}</p>
+                                  <p className="text-[11px] text-[#64748B] mt-0.5 leading-tight">{s.desc}</p>
                                 </div>
                               </Link>
                             ))}
                           </div>
-                          <div className="px-4 py-3 border-t border-white/6 flex items-center justify-between">
-                            <span className="text-[11px] text-white/30">View all services</span>
-                            <Link href="/services" className="flex items-center gap-1.5 text-[11px] text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                              Explore all <ArrowRight className="w-3 h-3" />
+                          <div className="px-4 py-3 border-t border-white/[0.06] flex items-center justify-between">
+                            <span className="text-[11px] text-[#64748B]">All services</span>
+                            <Link
+                              href="/services"
+                              className="flex items-center gap-1.5 text-[11px] text-[#2563EB] hover:text-[#60a5fa] font-medium transition-colors"
+                            >
+                              View all <ArrowRight className="w-3 h-3" />
                             </Link>
                           </div>
                         </div>
@@ -177,37 +208,57 @@ export default function Navbar() {
             )}
           </nav>
 
-          {/* right actions */}
-          <div className="flex items-center gap-3">
+          {/* Right Actions */}
+          <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/contact"
-              className="hidden sm:block text-[13px] font-medium text-white/50 hover:text-white/90 transition-colors px-3 py-1.5"
+              className="hidden sm:block text-[13px] font-medium transition-colors"
+              style={{ color: "#94A3B8" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#94A3B8")}
             >
               Contact
             </Link>
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+            <div>
               <Link
                 href="/contact"
-                className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-white transition-all"
+                className="hidden sm:inline-flex items-center gap-2 text-[13px] font-medium text-white"
                 style={{
-                  background: "linear-gradient(135deg,#3b82f6 0%,#7c3aed 100%)",
-                  boxShadow: "0 0 24px rgba(59,130,246,0.25)",
+                  background: heroAccent,
+                  height: "38px",
+                  padding: "0 18px",
+                  borderRadius: "10px",
+                  transition: "background 0.5s ease, box-shadow 0.5s ease",
+                  boxShadow: `0 4px 18px ${heroAccent}50`,
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = heroAccentHover;
+                  e.currentTarget.style.boxShadow = `0 6px 24px ${heroAccent}65`;
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = heroAccent;
+                  e.currentTarget.style.boxShadow = `0 4px 18px ${heroAccent}50`;
                 }}
               >
                 Get Started
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-            </motion.div>
+            </div>
 
-            {/* hamburger */}
+            {/* Hamburger */}
             <motion.button
-              className="lg:hidden relative w-9 h-9 rounded-xl flex items-center justify-center border border-white/8 bg-white/3 text-white/60 hover:text-white hover:bg-white/[0.07] transition-colors"
+              className="lg:hidden relative w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+              style={{
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.04)",
+                color: "rgba(255,255,255,0.6)",
+              }}
               onClick={() => setMobileOpen(!mobileOpen)}
               whileTap={{ scale: 0.93 }}
             >
               <AnimatePresence mode="wait">
                 {mobileOpen
-                  ? <motion.span key="x"  initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}><X    className="w-4 h-4" /></motion.span>
+                  ? <motion.span key="x"  initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}><X  className="w-4 h-4" /></motion.span>
                   : <motion.span key="hm" initial={{ rotate:  90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate:-90, opacity: 0 }} transition={{ duration: 0.15 }}><Menu className="w-4 h-4" /></motion.span>
                 }
               </AnimatePresence>
@@ -216,37 +267,42 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* ── mobile drawer ─────────────────────────────────────────── */}
+      {/* ── Mobile Drawer ─────────────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-40 lg:hidden"
+              style={{ background: "rgba(10,15,28,0.7)", backdropFilter: "blur(4px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
             <motion.aside
-              className="fixed top-0 right-0 bottom-0 z-50 w-75 lg:hidden overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 z-50 w-72 lg:hidden overflow-y-auto"
               style={{
-                background: "linear-gradient(160deg,#0a0a18,#050510)",
-                borderLeft: "1px solid rgba(255,255,255,0.07)",
+                background: "#121A2B",
+                borderLeft: "1px solid rgba(255,255,255,0.06)",
               }}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 340, damping: 34 }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
             >
               <div className="p-5 space-y-1">
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg,#3b82f6,#7c3aed)" }}>
-                      <Zap className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <span className="text-[13px] font-bold text-white">NextGen Tech</span>
+                <div className="flex items-center justify-between mb-6 pb-4 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <div className="flex items-center gap-2.5">
+                    <LogoMark size={26} />
+                    <span className="text-[13px] font-semibold text-white" style={{ fontFamily: "Sora, sans-serif" }}>
+                      NextGen Tech
+                    </span>
                   </div>
-                  <button onClick={() => setMobileOpen(false)} className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white transition-colors">
+                  <button
+                    onClick={() => setMobileOpen(false)}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors"
+                    style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+                  >
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -254,18 +310,17 @@ export default function Navbar() {
                 {[...navLinks, { label: "Contact", href: "/contact" }].map((link, i) => (
                   <motion.div
                     key={link.label}
-                    initial={{ opacity: 0, x: 16 }}
+                    initial={{ opacity: 0, x: 12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.04, duration: 0.28 }}
+                    transition={{ delay: i * 0.04, duration: 0.25 }}
                   >
                     <Link
                       href={link.href}
                       className={cn(
                         "flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors",
-                        pathname === link.href
-                          ? "bg-blue-500/10 text-blue-300"
-                          : "text-white/55 hover:text-white hover:bg-white/5"
+                        pathname === link.href ? "text-[#2563EB]" : "text-[#94A3B8] hover:text-white"
                       )}
+                      style={pathname === link.href ? { background: "rgba(37,99,235,0.10)" } : undefined}
                       onClick={() => setMobileOpen(false)}
                     >
                       {link.label}
@@ -275,18 +330,19 @@ export default function Navbar() {
                 ))}
 
                 <motion.div
-                  className="pt-4 mt-4 border-t border-white/6"
-                  initial={{ opacity: 0, y: 12 }}
+                  className="pt-4 mt-4 border-t"
+                  style={{ borderColor: "rgba(255,255,255,0.06)" }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.35 }}
                 >
                   <Link
                     href="/contact"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-[13px] font-semibold text-white"
-                    style={{ background: "linear-gradient(135deg,#3b82f6,#7c3aed)" }}
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-[13px] font-medium text-white"
+                    style={{ background: "#2563EB" }}
                   >
-                    Get Started Free
+                    Start a Project
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </motion.div>
@@ -299,8 +355,10 @@ export default function Navbar() {
   );
 }
 
-/* ── NavItem atom ───────────────────────────────────────────────────── */
-function NavItem({ label, href, active, children }: {
+/* ── NavItem ──────────────────────────────────────────────────────── */
+function NavItem({
+  label, href, active, children,
+}: {
   label: string; href: string; active?: boolean; children?: React.ReactNode;
 }) {
   return (
@@ -308,18 +366,19 @@ function NavItem({ label, href, active, children }: {
       href={href}
       className={cn(
         "relative inline-flex items-center gap-1 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-150",
-        active ? "text-white" : "text-white/50 hover:text-white/90"
+        active ? "text-white" : "text-[#94A3B8] hover:text-white"
       )}
     >
       {active && (
         <motion.span
-          className="absolute inset-0 rounded-lg bg-white/[0.07]"
+          className="absolute inset-0 rounded-lg"
+          style={{ background: "rgba(37,99,235,0.10)" }}
           layoutId="nav-active"
           transition={{ type: "spring", stiffness: 380, damping: 32 }}
         />
       )}
       <span className="relative">{label}</span>
-      {children && <span className="relative">{children}</span>}
+      {children && <span className="relative text-[#64748B]">{children}</span>}
     </Link>
   );
 }

@@ -1,17 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useInView } from "@/hooks/useInView";
-import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
   badge?: string;
   title: string;
   titleHighlight?: string;
   description?: string;
-  align?: "left" | "center" | "right";
+  align?: "left" | "center";
   className?: string;
-  titleClassName?: string;
 }
 
 export default function SectionHeader({
@@ -20,56 +17,45 @@ export default function SectionHeader({
   titleHighlight,
   description,
   align = "center",
-  className,
-  titleClassName,
+  className = "",
 }: SectionHeaderProps) {
-  const { ref, inView } = useInView(0.2, true);
-
-  const alignClass = {
-    left: "items-start text-left",
-    center: "items-center text-center",
-    right: "items-end text-right",
-  };
+  const isCenter = align === "center";
 
   return (
-    <div
-      ref={ref as React.RefObject<HTMLDivElement>}
-      className={cn("flex flex-col gap-4 max-w-3xl", alignClass[align], align === "center" && "mx-auto", className)}
-    >
+    <div className={`${isCenter ? "text-center mx-auto" : ""} max-w-[640px] ${isCenter ? "mx-auto" : ""} ${className}`}>
       {badge && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease: [0, 0, 0.2, 1] }}
+          className={`mb-4 ${isCenter ? "flex justify-center" : ""}`}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
         >
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium tracking-wide uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-            {badge}
-          </span>
+          <span className="ng-label">{badge}</span>
         </motion.div>
       )}
 
       <motion.h2
-        className={cn("section-headline text-white font-bold leading-[1.1] tracking-tight", titleClassName)}
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: 0.1, ease: [0, 0, 0.2, 1] }}
+        className="ng-h2 mb-4"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.45, delay: 0.06 }}
       >
-        {title}
+        {title}{" "}
         {titleHighlight && (
-          <>
-            {" "}
-            <span className="gradient-text">{titleHighlight}</span>
-          </>
+          <span style={{ color: "#2563EB" }}>{titleHighlight}</span>
         )}
       </motion.h2>
 
       {description && (
         <motion.p
-          className="text-white/50 text-lg leading-relaxed max-w-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0, 0, 0.2, 1] }}
+          className="text-[17px] leading-[1.75]"
+          style={{ color: "#94A3B8" }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.12 }}
         >
           {description}
         </motion.p>
