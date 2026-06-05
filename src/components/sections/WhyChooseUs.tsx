@@ -1,165 +1,257 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
-import {
-  Zap, Shield, TrendingUp, Users, Globe,
-  Headphones, Code2, Award, CheckCircle,
-} from "lucide-react";
 import Link from "next/link";
-import SectionHeader from "@/components/ui/SectionHeader";
 import SectionGlow from "@/components/ui/SectionGlow";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { Zap, Shield, Target, ArrowRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const features = [
   {
-    icon: Zap,
     title: "Lightning Fast Delivery",
-    description: "We ship production-ready software in weeks, not months. Agile sprints, daily standups, zero excuses.",
-    metric: "3× Faster",
+    image: "/images/portfolio/1.jpg"
   },
   {
-    icon: Shield,
     title: "Enterprise Security",
-    description: "Bank-grade security standards. SOC 2 Type II ready, GDPR compliant, and penetration tested.",
-    metric: "99.9% Secure",
+    image: "/images/portfolio/2.jpg"
   },
   {
-    icon: TrendingUp,
     title: "Proven ROI",
-    description: "Our clients see an average 3.5× return on technology investment within the first 18 months.",
-    metric: "3.5× ROI",
+    image: "/images/portfolio/3.jpg"
   },
   {
-    icon: Users,
     title: "Dedicated Teams",
-    description: "A dedicated team of engineers, designers, and project managers exclusively focused on your project.",
-    metric: "Full Team",
-  },
-  {
-    icon: Globe,
-    title: "Global Scale",
-    description: "Infrastructure and architecture designed to handle millions of users across any geography.",
-    metric: "∞ Scale",
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Support",
-    description: "Round-the-clock monitoring, incident response, and dedicated support with guaranteed SLAs.",
-    metric: "Always On",
-  },
-  {
-    icon: Code2,
-    title: "Clean Code",
-    description: "Thoroughly reviewed, documented, and tested code. Every pull request is production-quality.",
-    metric: "A+ Quality",
-  },
-  {
-    icon: Award,
-    title: "Proven Track Record",
-    description: "150+ projects delivered across 20+ industries. Five-star client satisfaction rating.",
-    metric: "5★ Rated",
-  },
+    image: "/images/portfolio/4.jpg"
+  }
 ];
 
 export default function WhyChooseUs() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
+  const innerContainerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current || !innerContainerRef.current) return;
+    
+    const cards = cardsRef.current.filter(Boolean);
+    if (cards.length === 0) return;
+
+    // Set initial position for the incoming cards (except the first one)
+    gsap.set(cards.slice(1), { yPercent: 100 });
+
+    // Build timeline linked to the scroll pinning
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top", // Pin when the section reaches the top of viewport
+        end: () => `+=${window.innerHeight * 2}`, // Lock for 2 viewports worth of scrolling
+        pin: true,
+        scrub: 1, // Smooth scrub matching scroll speed
+        anticipatePin: 1
+      }
+    });
+
+    // Morph the card to full-screen height (no corner radius) when locked, but keep side margins intact
+    tl.to(innerContainerRef.current, {
+      borderRadius: 0,
+      minHeight: "100vh",
+      duration: 0.3,
+      ease: "power2.out"
+    }, 0);
+
+    // Create stacking animation for each card
+    cards.forEach((card, i) => {
+      if (i === 0) return;
+
+      const label = `card-${i}`;
+
+      // Animate current card sliding up (no scale changes to maintain perfect alignment)
+      tl.to(card, {
+        yPercent: 0,
+        ease: "power2.out",
+        duration: 1
+      }, label);
+
+      // Dim the previous card slightly without any scale or position offset
+      const prevCard = cards[i - 1];
+      if (prevCard) {
+        tl.to(prevCard, {
+          opacity: 0.85,
+          filter: "brightness(0.65)",
+          ease: "power2.out",
+          duration: 1
+        }, label);
+      }
+
+      // Dim older cards even further, keeping their scale and position identical
+      const olderCard = cards[i - 2];
+      if (olderCard) {
+        tl.to(olderCard, {
+          opacity: 0.6,
+          filter: "brightness(0.45)",
+          ease: "power2.out",
+          duration: 1
+        }, label);
+      }
+    });
+
+  }, { scope: containerRef });
+
   return (
-    <section
-      className="ng-section relative"
-    >
+    <section ref={containerRef} className="relative min-h-screen flex items-center py-0 overflow-hidden" id="why-choose-us">
       <SectionGlow />
-      <div className="ng-container relative z-10">
-        <div className="mb-14">
-          <SectionHeader
-            badge="Why Choose Us"
-            title="The NextGen"
-            titleHighlight="Advantage"
-            description="What separates us — and why world-class brands trust us to build their most critical products."
-          />
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {features.map((feature, i) => (
+      {/* Large Scroll Background Text */}
+      <div className="absolute top-10 left-0 w-full overflow-hidden whitespace-nowrap opacity-5 pointer-events-none z-10 flex justify-center">
+        <h3 className="text-[120px] sm:text-[180px] lg:text-[250px] font-black leading-none tracking-widest text-slate-900 uppercase">
+          {"ADVANTAGES".split('').map((char, i) => (
             <motion.div
-              key={feature.title}
-              className="group rounded-[20px] p-6 transition-all duration-300"
-              style={{
-                background: "var(--bg-surface)",
-                border: "1px solid rgba(255,255,255,0.06)",
-              }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.05, duration: 0.4 }}
-              whileHover={{ y: -4 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+              key={i}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
+              style={{ position: "relative", display: "inline-block" }}
             >
-              {/* Metric */}
-              <div className="flex items-start justify-between mb-5">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(var(--accent-primary-rgb),0.10)" }}
-                >
-                  <motion.div>
-                    <feature.icon className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
-                  </motion.div>
-                </div>
-                <span
-                  className="text-[11px] font-semibold"
-                  style={{ color: "var(--accent-primary)", fontFamily: "Sora, sans-serif" }}
-                >
-                  {feature.metric}
-                </span>
-              </div>
-
-              <h3
-                className="text-[15px] font-semibold text-white mb-2"
-                style={{ fontFamily: "Sora, sans-serif" }}
-              >
-                {feature.title}
-              </h3>
-              <p className="text-[13px] leading-[1.65]" style={{ color: "#94A3B8" }}>
-                {feature.description}
-              </p>
+              {char}
             </motion.div>
           ))}
+        </h3>
+      </div>
+
+      {/* Light Container */}
+      <div 
+        ref={innerContainerRef}
+        className="relative w-[calc(100%-40px)] md:w-[calc(100%-60px)] mx-auto rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] border border-slate-200/50 shadow-2xl py-[60px] md:py-[80px] lg:py-[100px] z-30 overflow-hidden flex items-center min-h-[85vh] transition-[padding]"
+      >
+        
+        {/* Background Elements Wrapper (Isolated overflow-hidden so sticky/pin works!) */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" style={{ background: "linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%)" }}>
+          {/* Technical Dotted Grid Background */}
+          <div 
+            className="absolute inset-0 opacity-[0.25]" 
+            style={{
+              backgroundImage: "radial-gradient(circle at 1px 1px, rgba(6, 182, 212, 0.15) 1.5px, transparent 0)",
+              backgroundSize: "24px 24px"
+            }}
+          />
+          {/* Ambient Glows */}
+          <div className="absolute top-[10%] left-[10%] w-[450px] h-[450px] rounded-full opacity-[0.14] blur-[90px]" style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} />
+          <div className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.10] blur-[100px]" style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} />
         </div>
 
-        {/* Bottom CTA Strip */}
-        <motion.div
-          className="mt-12 rounded-[20px] p-8 flex flex-col lg:flex-row items-center justify-between gap-6"
-          style={{
-            background: "var(--bg-surface)",
-            border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
-          }}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.35 }}
-        >
-          <div>
-            <h3
-              className="text-white text-[20px] font-semibold mb-1"
-              style={{ fontFamily: "Sora, sans-serif" }}
-            >
-              Ready to build something extraordinary?
-            </h3>
-            <div className="flex flex-wrap gap-5 mt-3">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 w-full">
+          
+          {/* Left Text Block */}
+          <div className="w-full lg:w-5/12 flex flex-col items-start text-left pt-2">
+            {/* Tagline */}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+              <span className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "#64748b" }}>
+                WHY CHOOSE US
+              </span>
+            </div>
+            
+            <h2 className="text-[32px] sm:text-[40px] lg:text-[44px] font-bold leading-[1.15] mb-5" style={{ color: "#0f172a", fontFamily: "Sora, sans-serif" }}>
+              Explore NextGen <span className="text-[var(--accent-primary)] font-black">advantages</span>
+            </h2>
+            
+            <p className="text-[14px] sm:text-[15px] leading-relaxed mb-6" style={{ color: "#475569" }}>
+              We engineer custom, scalable technology platforms designed to secure your operations, accelerate deployment timelines, and drive clear returns on investment.
+            </p>
+
+            {/* Micro-features list */}
+            <div className="flex flex-col gap-4 mb-7 w-full">
               {[
-                "Free technical consultation",
-                "No commitment required",
-                "Response within 24 hours",
-              ].map((text) => (
-                <div key={text} className="flex items-center gap-2 text-[13px]" style={{ color: "#94A3B8" }}>
-                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--accent-primary)" }} />
-                  {text}
+                {
+                  icon: Zap,
+                  title: "Lightning Fast Delivery",
+                  desc: "Rapid agile development cycles designed to launch MVPs and key platform features quickly."
+                },
+                {
+                  icon: Shield,
+                  title: "Enterprise Grade Security",
+                  desc: "Robust encryption standards, secure access control systems, and protected database schemas."
+                },
+                {
+                  icon: Target,
+                  title: "Proven ROI-Driven Strategy",
+                  desc: "Custom feature engineering mapped to user needs to maximize conversions and platform adoption."
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="group flex items-start gap-4 p-3 rounded-2xl transition-all duration-300 hover:bg-white/60 hover:shadow-sm border border-transparent hover:border-slate-100">
+                  <div 
+                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 bg-cyan-50 border border-cyan-100/50 group-hover:bg-[var(--accent-primary)] group-hover:border-[var(--accent-primary)]"
+                  >
+                    <item.icon className="w-5 h-5 text-[var(--accent-primary)] group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <div>
+                    <h4 className="text-[14px] sm:text-[15px] font-bold leading-tight mb-1" style={{ color: "#0f172a", fontFamily: "Sora, sans-serif" }}>
+                      {item.title}
+                    </h4>
+                    <p className="text-[12px] sm:text-[13px] leading-relaxed" style={{ color: "#475569" }}>
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
+            
+            <div className="mt-1">
+              <Link href="#contact" className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 hover:bg-[var(--accent-primary)] text-white rounded-full font-bold text-[13px] tracking-wide transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-cyan-900/10 hover:shadow-2xl">
+                <span>Start a Project</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
-          <Link href="/contact" className="ng-btn-primary shrink-0">
-            Start a Project
-          </Link>
-        </motion.div>
+
+          {/* Right Cards Stack (Stacked absolutely, animated via GSAP) */}
+          <div className="w-full lg:w-[500px] xl:w-[540px] relative h-[260px] sm:h-[340px] lg:h-[400px] overflow-hidden rounded-[20px] sm:rounded-[28px]">
+            {features.map((feature, i) => (
+              <div
+                key={feature.title}
+                ref={(el) => { if (el) cardsRef.current[i] = el; }}
+                className="absolute inset-0 rounded-[20px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-white/20 group"
+                style={{ zIndex: i + 1 }}
+              >
+                {/* Background Image */}
+                <img 
+                  src={feature.image} 
+                  alt={feature.title} 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+                  loading="lazy"
+                />
+                
+                {/* Subtle Gradient Overlay for contrast */}
+                <div className="absolute inset-0 bg-black/15 transition-opacity duration-700 group-hover:bg-black/0" />
+                
+                {/* Floating White Box */}
+                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 max-w-[90%] sm:max-w-[85%] bg-white rounded-xl p-4 sm:p-5 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-transform duration-300 group-hover:-translate-y-1">
+                  
+                  <h3 className="text-lg sm:text-[20px] font-bold text-slate-900 leading-tight" style={{ fontFamily: "Sora, sans-serif" }}>
+                    <span className="hover:text-[var(--accent-primary)] transition-colors duration-300 cursor-pointer">
+                      {feature.title}
+                    </span>
+                  </h3>
+                  
+                  {/* Arrow Icon Button */}
+                  <a href="#contact" className="shrink-0 transition-transform duration-300 hover:translate-x-1 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="29" viewBox="0 0 38 37" fill="none">
+                      <path d="M37.6549 0H0V7.47475H24.8522L0.376549 31.3939L6.02478 37L30.1239 13.0808V37H37.6549V0Z" fill="#141515"></path>
+                    </svg>
+                  </a>
+
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
     </section>
   );
