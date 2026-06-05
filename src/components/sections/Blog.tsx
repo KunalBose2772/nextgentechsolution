@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 const posts = [
   {
@@ -41,11 +42,11 @@ const posts = [
 export default function Blog() {
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       id="blog"
-      style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
           <SectionHeader
             badge="Our Blog"

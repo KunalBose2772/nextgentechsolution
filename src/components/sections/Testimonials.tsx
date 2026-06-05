@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 const testimonials = [
   {
@@ -76,10 +77,11 @@ export default function Testimonials() {
 
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="mb-14">
           <SectionHeader
             badge="Testimonials"

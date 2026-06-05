@@ -11,6 +11,7 @@ import {
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
+import SectionGlow from "@/components/ui/SectionGlow";
 import SectionHeader from "@/components/ui/SectionHeader";
 
 const categories = ["All", "Frontend", "Backend", "Cloud", "Database", "DevOps", "Mobile", "AI/ML"];
@@ -51,11 +52,11 @@ export default function TechStack() {
 
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       id="technologies"
-      style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="mb-12">
           <SectionHeader
             badge="Technology Stack"

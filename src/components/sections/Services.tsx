@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 // Category definitions
 const categories = [
@@ -190,92 +191,11 @@ export default function Services() {
 
   return (
     <section className="bg-black py-6 sm:py-10 relative" id="services">
-      {/* Top-Right Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute top-0 right-0 w-[550px] h-[550px] rounded-full pointer-events-none z-0 translate-x-[25%] -translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.6, 1.0, 0.6],
-          scale: [0.95, 1.15, 0.95],
-          x: ["25%", "20%", "25%"],
-          y: ["-25%", "-20%", "-25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 6,
-          ease: "easeInOut"
-        }}
-      />
-
-      {/* Top-Left Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute top-0 left-0 w-[550px] h-[550px] rounded-full pointer-events-none z-0 -translate-x-[25%] -translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.4, 0.85, 0.4],
-          scale: [0.9, 1.1, 0.9],
-          x: ["-25%", "-20%", "-25%"],
-          y: ["-25%", "-20%", "-25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 7,
-          ease: "easeInOut",
-          delay: 1.5
-        }}
-      />
-
-      {/* Bottom-Right Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute bottom-0 right-0 w-[550px] h-[550px] rounded-full pointer-events-none z-0 translate-x-[25%] translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.5, 0.9, 0.5],
-          scale: [0.95, 1.15, 0.95],
-          x: ["25%", "20%", "25%"],
-          y: ["25%", "20%", "25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 6.5,
-          ease: "easeInOut",
-          delay: 0.5
-        }}
-      />
-
-      {/* Bottom-Left Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute bottom-0 left-0 w-[550px] h-[550px] rounded-full pointer-events-none z-0 -translate-x-[25%] translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.4, 0.85, 0.4],
-          scale: [0.9, 1.1, 0.9],
-          x: ["-25%", "-20%", "-25%"],
-          y: ["25%", "20%", "25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 7.5,
-          ease: "easeInOut",
-          delay: 2.0
-        }}
-      />
+      <SectionGlow />
 
       {/* Curved Visual Capsule Section Wrapper */}
       <div 
-        className="relative mx-4 sm:mx-6 lg:mx-8 rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] overflow-hidden border border-slate-200/50 shadow-2xl py-[20px] md:py-[30px] z-30"
+        className="relative mx-[20px] md:mx-[30px] rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] overflow-hidden border border-slate-200/50 shadow-2xl py-[20px] md:py-[30px] z-30"
         style={{
           background: "linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%)",
         }}
@@ -301,40 +221,55 @@ export default function Services() {
 
         <div className="ng-container relative z-10">
           
-          {/* Section Header with light-theme configs */}
-          <div className="mb-14">
-            <SectionHeader
-              theme="light"
-              badge="Our Services"
-              title="Everything You Need to"
-              titleHighlight="Build & Scale"
-              description="From concept to launch and beyond — end-to-end technology services for every stage of your digital journey."
-            />
-          </div>
+          {/* Section Header — text left, tabs right */}
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-14">
 
-          {/* Premium Filter Tabs Pill Bar */}
-          <div className="flex justify-center mb-16">
-            <div className="flex flex-wrap justify-center items-center gap-1.5 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-full border border-slate-200/30">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`relative px-5 py-2.5 rounded-full text-[13px] font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
-                    activeCategory === cat.id ? "text-white" : "text-slate-500 hover:text-slate-900"
-                  }`}
-                >
-                  <span className="relative z-10">{cat.label}</span>
-                  {activeCategory === cat.id && (
-                    <motion.div
-                      layoutId="active-service-tab"
-                      className="absolute inset-0 rounded-full shadow-sm z-0"
-                      style={{ backgroundColor: "var(--accent-blue)" }}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </button>
-              ))}
+            {/* Left: text */}
+            <div className="max-w-xl">
+              <SectionHeader
+                theme="light"
+                badge="Our Services"
+                title="Everything You Need to"
+                titleHighlight="Build & Scale"
+                description="From concept to launch and beyond — end-to-end technology services for every stage of your digital journey."
+                align="left"
+              />
             </div>
+
+            {/* Right: liquid glass filter tabs */}
+            <div className="flex justify-start lg:justify-end shrink-0">
+              <div
+                className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-full"
+                style={{
+                  background: "rgba(255, 255, 255, 0.30)",
+                  backdropFilter: "blur(20px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                  border: "1px solid rgba(255, 255, 255, 0.45)",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.7)",
+                }}
+              >
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`relative px-5 py-2.5 rounded-full text-[13px] font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
+                      activeCategory === cat.id ? "text-white" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    <span className="relative z-10">{cat.label}</span>
+                    {activeCategory === cat.id && (
+                      <motion.div
+                        layoutId="active-service-tab"
+                        className="absolute inset-0 rounded-full shadow-sm z-0"
+                        style={{ backgroundColor: "var(--accent-blue)" }}
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
           </div>
 
           {/* Cards Grid with Framer Motion AnimatePresence and layout springs */}

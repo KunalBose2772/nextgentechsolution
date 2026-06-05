@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 const faqs = [
   {
@@ -96,11 +97,11 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
 export default function FAQ() {
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       id="faq"
-      style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left */}
           <div className="lg:sticky lg:top-32">

@@ -4,96 +4,15 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award, Target, ArrowRight, Layers, Compass } from "lucide-react";
 import Link from "next/link";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 export default function About() {
   const [activeTab, setActiveTab] = useState<"mission" | "vision">("mission");
 
   return (
     <section className="ng-section relative bg-black" id="about">
-      {/* Top-Right Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute top-0 right-0 w-[550px] h-[550px] rounded-full pointer-events-none z-20 translate-x-[25%] -translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.6, 1.0, 0.6],
-          scale: [0.95, 1.15, 0.95],
-          x: ["25%", "20%", "25%"],
-          y: ["-25%", "-20%", "-25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 6,
-          ease: "easeInOut"
-        }}
-      />
-
-      {/* Top-Left Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute top-0 left-0 w-[550px] h-[550px] rounded-full pointer-events-none z-20 -translate-x-[25%] -translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.4, 0.85, 0.4],
-          scale: [0.9, 1.1, 0.9],
-          x: ["-25%", "-20%", "-25%"],
-          y: ["-25%", "-20%", "-25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 7,
-          ease: "easeInOut",
-          delay: 1.5
-        }}
-      />
-
-      {/* Bottom-Right Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute bottom-0 right-0 w-[550px] h-[550px] rounded-full pointer-events-none z-20 translate-x-[25%] translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.5, 0.9, 0.5],
-          scale: [0.95, 1.15, 0.95],
-          x: ["25%", "20%", "25%"],
-          y: ["25%", "20%", "25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 6.5,
-          ease: "easeInOut",
-          delay: 0.5
-        }}
-      />
-
-      {/* Bottom-Left Bright Animated Blue Shadow / Glow Overlay */}
-      <motion.div 
-        className="absolute bottom-0 left-0 w-[550px] h-[550px] rounded-full pointer-events-none z-20 -translate-x-[25%] translate-y-[25%]"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={{
-          opacity: [0.4, 0.85, 0.4],
-          scale: [0.9, 1.1, 0.9],
-          x: ["-25%", "-20%", "-25%"],
-          y: ["25%", "20%", "25%"],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 7.5,
-          ease: "easeInOut",
-          delay: 2.0
-        }}
-      />
-      
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           
           {/* Left Column: Overlapping Collage layout of Nionx */}

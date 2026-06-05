@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 const features = [
   {
@@ -62,10 +63,11 @@ const features = [
 export default function WhyChooseUs() {
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="mb-14">
           <SectionHeader
             badge="Why Choose Us"

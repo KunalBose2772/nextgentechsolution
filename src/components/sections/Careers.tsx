@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Clock, Briefcase, TrendingUp, Zap, Star, Heart, Users } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 const jobs = [
   { title: "Senior Full-Stack Engineer",   department: "Engineering",     location: "Remote / India", type: "Full-time", experience: "4+ years" },
@@ -24,11 +25,11 @@ const perks = [
 export default function Careers() {
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       id="careers"
-      style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="mb-14">
           <SectionHeader
             badge="Careers"

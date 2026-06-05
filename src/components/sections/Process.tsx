@@ -5,6 +5,7 @@ import {
   Search, FileText, Palette, Code2, TestTube, Rocket, Wrench,
 } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 import { useInView } from "@/hooks/useInView";
 
 const steps = [
@@ -57,11 +58,11 @@ export default function Process() {
 
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       id="process"
-      style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="mb-14">
           <SectionHeader
             badge="Our Process"

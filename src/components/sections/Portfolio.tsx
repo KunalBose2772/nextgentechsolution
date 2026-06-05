@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 const categories = ["All", "Web App", "Mobile", "SaaS", "AI/ML", "E-Commerce"];
 
@@ -150,11 +151,11 @@ export default function Portfolio() {
 
   return (
     <section
-      className="ng-section relative overflow-hidden"
+      className="ng-section relative"
       id="portfolio"
-      style={{ background: "#000000" }}
     >
-      <div className="ng-container">
+      <SectionGlow />
+      <div className="ng-container relative z-10">
         <div className="mb-12">
           <SectionHeader
             badge="Our Portfolio"
