@@ -78,7 +78,6 @@ export default function Testimonials() {
   return (
     <section
       className="ng-section relative"
-      style={{ background: "#000000" }}
     >
       <SectionGlow />
       <div className="ng-container relative z-10">

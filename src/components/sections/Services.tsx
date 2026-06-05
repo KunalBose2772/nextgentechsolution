@@ -190,7 +190,7 @@ export default function Services() {
   });
 
   return (
-    <section className="bg-black py-6 sm:py-10 relative" id="services">
+    <section className="py-6 sm:py-10 relative" id="services">
       <SectionGlow />
 
       {/* Curved Visual Capsule Section Wrapper */}

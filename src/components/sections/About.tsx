@@ -10,7 +10,7 @@ export default function About() {
   const [activeTab, setActiveTab] = useState<"mission" | "vision">("mission");
 
   return (
-    <section className="ng-section relative bg-black" id="about">
+    <section className="ng-section relative" id="about">
       <SectionGlow />
       <div className="ng-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
