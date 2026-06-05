@@ -64,7 +64,7 @@ export default function Footer() {
     <footer
       className="relative overflow-hidden"
       style={{
-        background: "#0A0F1C",
+        background: "#000000",
         borderTop: "1px solid rgba(255,255,255,0.05)",
       }}
     >
@@ -81,11 +81,11 @@ export default function Footer() {
                 <LogoMark size={40} />
               </motion.div>
             </Link>
-
+ 
             <p className="text-[14px] leading-[1.7] mb-5" style={{ color: "#94A3B8" }}>
               Engineering Tomorrow&apos;s Digital Future. We build world-class software for forward-thinking enterprises and startups.
             </p>
-
+ 
             {/* Contact */}
             <div className="space-y-2.5">
               {[
@@ -106,7 +106,7 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-
+ 
             {/* Socials */}
             <div className="flex items-center gap-2 mt-5">
               {socials.map(({ icon: Icon, href, label }) => (
@@ -124,7 +124,7 @@ export default function Footer() {
                   }}
                   whileHover={{ scale: 1.08, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(37,99,235,0.30)"; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.30)"; }}
                   onMouseLeave={e => { e.currentTarget.style.color = "#64748B"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -132,13 +132,13 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
+ 
           {/* Newsletter */}
           <div className="lg:max-w-md w-full">
             <div
               className="rounded-[20px] p-6"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >

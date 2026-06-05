@@ -63,7 +63,7 @@ export default function WhyChooseUs() {
   return (
     <section
       className="ng-section relative overflow-hidden"
-      style={{ background: "#0F1422" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-14">
@@ -81,7 +81,7 @@ export default function WhyChooseUs() {
               key={feature.title}
               className="group rounded-[20px] p-6 transition-all duration-300"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
               initial={{ opacity: 0, y: 20 }}
@@ -89,20 +89,22 @@ export default function WhyChooseUs() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
               whileHover={{ y: -4 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
               {/* Metric */}
               <div className="flex items-start justify-between mb-5">
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(37,99,235,0.10)" }}
+                  style={{ background: "rgba(var(--accent-primary-rgb),0.10)" }}
                 >
-                  <feature.icon className="w-5 h-5" style={{ color: "#2563EB" }} />
+                  <motion.div>
+                    <feature.icon className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
+                  </motion.div>
                 </div>
                 <span
                   className="text-[11px] font-semibold"
-                  style={{ color: "#2563EB", fontFamily: "Sora, sans-serif" }}
+                  style={{ color: "var(--accent-primary)", fontFamily: "Sora, sans-serif" }}
                 >
                   {feature.metric}
                 </span>
@@ -125,8 +127,8 @@ export default function WhyChooseUs() {
         <motion.div
           className="mt-12 rounded-[20px] p-8 flex flex-col lg:flex-row items-center justify-between gap-6"
           style={{
-            background: "#121A2B",
-            border: "1px solid rgba(37,99,235,0.15)",
+            background: "var(--bg-surface)",
+            border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
           }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -147,7 +149,7 @@ export default function WhyChooseUs() {
                 "Response within 24 hours",
               ].map((text) => (
                 <div key={text} className="flex items-center gap-2 text-[13px]" style={{ color: "#94A3B8" }}>
-                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#2563EB" }} />
+                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--accent-primary)" }} />
                   {text}
                 </div>
               ))}

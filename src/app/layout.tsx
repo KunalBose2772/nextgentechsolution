@@ -5,8 +5,6 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/animations/SmoothScroll";
-import ScrollProgress from "@/components/animations/ScrollProgress";
-import ClientOnly from "@/components/animations/ClientOnly";
 import { Toaster } from "react-hot-toast";
 
 const sora = Sora({
@@ -47,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#0A0F1C" }],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#000000" }],
   width: "device-width",
   initialScale: 1,
 };
@@ -69,7 +67,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         style={
           isCRM
             ? { background: "var(--crm-bg)", color: "var(--crm-text)" }
-            : { background: "#0A0F1C", color: "#94A3B8" }
+            : { background: "var(--bg-primary)", color: "var(--text-secondary)" }
         }
         suppressHydrationWarning
       >
@@ -86,7 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   boxShadow: "0 8px 24px -8px rgba(16,24,40,0.12)",
                 }
               : {
-                  background: "#121A2B",
+                  background: "var(--bg-surface)",
                   color: "#ffffff",
                   border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "12px",
@@ -99,8 +97,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           children
         ) : (
           <SmoothScroll>
-            <ScrollProgress />
-            <ClientOnly />
             <Navbar />
             <main className="relative">{children}</main>
             <Footer />

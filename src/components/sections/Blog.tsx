@@ -43,7 +43,7 @@ export default function Blog() {
     <section
       className="ng-section relative overflow-hidden"
       id="blog"
-      style={{ background: "#0A0F1C" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
@@ -72,7 +72,7 @@ export default function Blog() {
               key={post.id}
               className="group rounded-[20px] overflow-hidden transition-all duration-300 cursor-pointer"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
               initial={{ opacity: 0, y: 20 }}
@@ -80,7 +80,7 @@ export default function Blog() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
               whileHover={{ y: -4 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
               {/* Header */}
@@ -91,8 +91,8 @@ export default function Blog() {
                 <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-semibold text-xl"
                   style={{
-                    background: "rgba(37,99,235,0.12)",
-                    border: "1px solid rgba(37,99,235,0.22)",
+                    background: "rgba(var(--accent-primary-rgb),0.12)",
+                    border: "1px solid rgba(var(--accent-primary-rgb),0.22)",
                     fontFamily: "Sora, sans-serif",
                   }}
                 >
@@ -101,9 +101,9 @@ export default function Blog() {
                 <div
                   className="absolute top-3 left-3 text-[11px] font-medium px-2.5 py-1 rounded-full"
                   style={{
-                    background: "rgba(37,99,235,0.10)",
-                    border: "1px solid rgba(37,99,235,0.20)",
-                    color: "#2563EB",
+                    background: "rgba(var(--accent-primary-rgb),0.10)",
+                    border: "1px solid rgba(var(--accent-primary-rgb),0.20)",
+                    color: "var(--accent-primary)",
                   }}
                 >
                   {post.category}
@@ -150,7 +150,7 @@ export default function Blog() {
                 <Link
                   href={`/blog/${post.id}`}
                   className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
-                  style={{ color: "#2563EB" }}
+                  style={{ color: "var(--accent-primary)" }}
                 >
                   Read article <ArrowRight className="w-3.5 h-3.5" />
                 </Link>

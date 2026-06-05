@@ -60,7 +60,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         project.size === "large" ? "md:col-span-2" : ""
       }`}
       style={{
-        background: "#121A2B",
+        background: "var(--bg-surface)",
         border: "1px solid rgba(255,255,255,0.06)",
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -68,7 +68,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.06, duration: 0.4 }}
       whileHover={{ y: -4 }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
       onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
     >
       {/* Visual Placeholder */}
@@ -79,8 +79,8 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         <div
           className="w-14 h-14 rounded-[14px] flex items-center justify-center text-white text-xl font-semibold"
           style={{
-            background: "rgba(37,99,235,0.15)",
-            border: "1px solid rgba(37,99,235,0.25)",
+            background: "rgba(var(--accent-primary-rgb),0.15)",
+            border: "1px solid rgba(var(--accent-primary-rgb),0.25)",
             fontFamily: "Sora, sans-serif",
           }}
         >
@@ -90,9 +90,9 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         <div
           className="absolute top-3 left-3 text-[11px] font-medium px-2.5 py-1 rounded-full"
           style={{
-            background: "rgba(37,99,235,0.10)",
-            border: "1px solid rgba(37,99,235,0.20)",
-            color: "#2563EB",
+            background: "rgba(var(--accent-primary-rgb),0.10)",
+            border: "1px solid rgba(var(--accent-primary-rgb),0.20)",
+            color: "var(--accent-primary)",
           }}
         >
           {project.category}
@@ -131,7 +131,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         <div className="flex items-center gap-4 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
           {project.metrics.map((m) => (
             <div key={m.label} className="flex items-center gap-1.5">
-              <TrendingUp className="w-3 h-3" style={{ color: "#2563EB" }} />
+              <TrendingUp className="w-3 h-3" style={{ color: "var(--accent-primary)" }} />
               <span className="text-[12px]" style={{ color: "#94A3B8" }}>
                 <span className="font-medium text-white">{m.value}</span> {m.label}
               </span>
@@ -152,7 +152,7 @@ export default function Portfolio() {
     <section
       className="ng-section relative overflow-hidden"
       id="portfolio"
-      style={{ background: "#0F1422" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-12">
@@ -172,9 +172,9 @@ export default function Portfolio() {
               onClick={() => setActive(cat)}
               className="px-4 py-2 rounded-xl text-[13px] font-medium transition-all duration-200"
               style={{
-                background: active === cat ? "rgba(37,99,235,0.12)" : "rgba(255,255,255,0.04)",
-                border: active === cat ? "1px solid rgba(37,99,235,0.30)" : "1px solid rgba(255,255,255,0.06)",
-                color: active === cat ? "#2563EB" : "#94A3B8",
+                background: active === cat ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.04)",
+                border: active === cat ? "1px solid rgba(var(--accent-primary-rgb),0.30)" : "1px solid rgba(255,255,255,0.06)",
+                color: active === cat ? "var(--accent-primary)" : "#94A3B8",
               }}
             >
               {cat}

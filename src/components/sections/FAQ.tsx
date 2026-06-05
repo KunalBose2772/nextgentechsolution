@@ -66,8 +66,8 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
         <div
           className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all"
           style={{
-            background: open ? "rgba(37,99,235,0.12)" : "rgba(255,255,255,0.05)",
-            color: open ? "#2563EB" : "#64748B",
+            background: open ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.05)",
+            color: open ? "var(--accent-primary)" : "#64748B",
           }}
         >
           {open ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -98,7 +98,7 @@ export default function FAQ() {
     <section
       className="ng-section relative overflow-hidden"
       id="faq"
-      style={{ background: "#0F1422" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -115,8 +115,8 @@ export default function FAQ() {
             <motion.div
               className="mt-10 rounded-[20px] p-6"
               style={{
-                background: "#121A2B",
-                border: "1px solid rgba(37,99,235,0.15)",
+                background: "var(--bg-surface)",
+                border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -142,7 +142,7 @@ export default function FAQ() {
           <div
             className="rounded-[20px] p-2"
             style={{
-              background: "#121A2B",
+              background: "var(--bg-surface)",
               border: "1px solid rgba(255,255,255,0.06)",
             }}
           >

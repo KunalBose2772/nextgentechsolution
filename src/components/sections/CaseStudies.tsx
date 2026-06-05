@@ -52,7 +52,7 @@ export default function CaseStudies() {
     <section
       className="ng-section relative overflow-hidden"
       id="case-studies"
-      style={{ background: "#0F1422" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-14">
@@ -70,14 +70,14 @@ export default function CaseStudies() {
               key={c.id}
               className="group rounded-[20px] overflow-hidden transition-all duration-300"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: i * 0.08, duration: 0.45 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
               <div className="p-7 md:p-8">
@@ -88,9 +88,9 @@ export default function CaseStudies() {
                       <span
                         className="text-[11px] font-medium px-2.5 py-1 rounded-full"
                         style={{
-                          background: "rgba(37,99,235,0.10)",
-                          border: "1px solid rgba(37,99,235,0.20)",
-                          color: "#2563EB",
+                          background: "rgba(var(--accent-primary-rgb),0.10)",
+                          border: "1px solid rgba(var(--accent-primary-rgb),0.20)",
+                          color: "var(--accent-primary)",
                         }}
                       >
                         {c.industry}
@@ -141,7 +141,7 @@ export default function CaseStudies() {
                     <Link
                       href={`/case-studies/${c.id}`}
                       className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
-                      style={{ color: "#2563EB" }}
+                      style={{ color: "var(--accent-primary)" }}
                     >
                       Read full case study
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -159,14 +159,14 @@ export default function CaseStudies() {
                           key={result.metric}
                           className="p-4 rounded-[16px]"
                           style={{
-                            background: "rgba(37,99,235,0.06)",
-                            border: "1px solid rgba(37,99,235,0.14)",
+                            background: "rgba(var(--accent-primary-rgb),0.06)",
+                            border: "1px solid rgba(var(--accent-primary-rgb),0.14)",
                           }}
                         >
-                          <TrendingUp className="w-3.5 h-3.5 mb-2" style={{ color: "#2563EB" }} />
+                          <TrendingUp className="w-3.5 h-3.5 mb-2" style={{ color: "var(--accent-primary)" }} />
                           <div
                             className="text-[22px] font-semibold mb-0.5 leading-none"
-                            style={{ color: "#2563EB", fontFamily: "Sora, sans-serif", letterSpacing: "-0.02em" }}
+                            style={{ color: "var(--accent-primary)", fontFamily: "Sora, sans-serif", letterSpacing: "-0.02em" }}
                           >
                             {result.value}
                           </div>
@@ -198,7 +198,7 @@ export default function CaseStudies() {
                               <motion.div
                                 className="h-full rounded-full"
                                 style={{
-                                  background: bar.label === "After" ? "#2563EB" : "rgba(255,255,255,0.15)",
+                                  background: bar.label === "After" ? "var(--accent-primary)" : "rgba(255,255,255,0.15)",
                                 }}
                                 initial={{ width: 0 }}
                                 whileInView={{ width: `${bar.value}%` }}

@@ -15,7 +15,7 @@ export default function ScrollProgress() {
       className="fixed top-0 left-0 right-0 h-[2px] z-[9997] origin-left"
       style={{
         scaleX,
-        background: "#2563EB",
+        background: "var(--accent-primary)",
       }}
     />
   );

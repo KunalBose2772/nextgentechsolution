@@ -59,7 +59,7 @@ export default function Process() {
     <section
       className="ng-section relative overflow-hidden"
       id="process"
-      style={{ background: "#0A0F1C" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-14">
@@ -77,13 +77,13 @@ export default function Process() {
               key={step.number}
               className="group rounded-[20px] p-6 transition-all duration-300"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
               initial={{ opacity: 0, x: -20 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: i * 0.07, duration: 0.4 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
               <div className="flex flex-col sm:flex-row sm:items-start gap-5">
@@ -91,15 +91,15 @@ export default function Process() {
                 <div className="flex items-center gap-4 sm:block sm:space-y-2">
                   <span
                     className="text-[11px] font-semibold block"
-                    style={{ color: "#2563EB", fontFamily: "Sora, sans-serif", letterSpacing: "0.06em" }}
+                    style={{ color: "var(--accent-primary)", fontFamily: "Sora, sans-serif", letterSpacing: "0.06em" }}
                   >
                     {step.number}
                   </span>
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: "rgba(37,99,235,0.10)" }}
+                    style={{ background: "rgba(var(--accent-primary-rgb),0.10)" }}
                   >
-                    <step.icon className="w-5 h-5" style={{ color: "#2563EB" }} />
+                    <step.icon className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
                   </div>
                 </div>
 
@@ -132,9 +132,9 @@ export default function Process() {
                         key={d}
                         className="text-[11px] px-2.5 py-1 rounded-lg"
                         style={{
-                          background: "rgba(37,99,235,0.08)",
-                          border: "1px solid rgba(37,99,235,0.18)",
-                          color: "#2563EB",
+                          background: "rgba(var(--accent-primary-rgb),0.08)",
+                          border: "1px solid rgba(var(--accent-primary-rgb),0.18)",
+                          color: "var(--accent-primary)",
                         }}
                       >
                         {d}

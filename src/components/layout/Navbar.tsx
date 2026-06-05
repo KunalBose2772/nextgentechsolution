@@ -64,10 +64,12 @@ export default function Navbar() {
 
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 32));
 
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMobileOpen(false);
     setMegaOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";

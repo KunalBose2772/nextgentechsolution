@@ -54,7 +54,7 @@ export default function Contact() {
     <section
       className="ng-section relative overflow-hidden"
       id="contact"
-      style={{ background: "#0A0F1C" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-14">
@@ -77,7 +77,7 @@ export default function Contact() {
             <div
               className="rounded-[20px] p-8"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >
@@ -89,9 +89,9 @@ export default function Contact() {
                 >
                   <div
                     className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4"
-                    style={{ background: "rgba(37,99,235,0.12)", border: "1px solid rgba(37,99,235,0.25)" }}
+                    style={{ background: "rgba(var(--accent-primary-rgb),0.12)", border: "1px solid rgba(var(--accent-primary-rgb),0.25)" }}
                   >
-                    <Send className="w-6 h-6" style={{ color: "#2563EB" }} />
+                    <Send className="w-6 h-6" style={{ color: "var(--accent-primary)" }} />
                   </div>
                   <h3
                     className="text-white font-semibold text-[20px] mb-2"
@@ -104,13 +104,13 @@ export default function Contact() {
                   </p>
                   {leadId && (
                     <p className="text-[12px] font-mono" style={{ color: "#64748B" }}>
-                      Reference: <span style={{ color: "#2563EB" }}>{leadId}</span>
+                      Reference: <span style={{ color: "var(--accent-primary)" }}>{leadId}</span>
                     </p>
                   )}
                   <button
                     onClick={() => { setSent(false); setLeadId(null); }}
                     className="mt-6 text-[13px] font-medium transition-colors"
-                    style={{ color: "#2563EB" }}
+                    style={{ color: "var(--accent-primary)" }}
                   >
                     Send another message
                   </button>
@@ -162,7 +162,7 @@ export default function Contact() {
                       <Label>Budget Range</Label>
                       <select value={form.budget}
                         onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                        className="ng-input" style={{ appearance: "none", background: "#121A2B", color: form.budget ? "#ffffff" : "#64748B" }}
+                        className="ng-input" style={{ appearance: "none", background: "var(--bg-surface)", color: form.budget ? "#ffffff" : "#64748B" }}
                       >
                         <option value="">Select budget</option>
                         <option value="5k-15k">$5K – $15K</option>
@@ -183,9 +183,9 @@ export default function Contact() {
                           onClick={() => setForm({ ...form, service: s })}
                           className="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all"
                           style={{
-                            background: form.service === s ? "rgba(37,99,235,0.12)" : "rgba(255,255,255,0.04)",
-                            border: form.service === s ? "1px solid rgba(37,99,235,0.30)" : "1px solid rgba(255,255,255,0.06)",
-                            color: form.service === s ? "#2563EB" : "#94A3B8",
+                            background: form.service === s ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.04)",
+                            border: form.service === s ? "1px solid rgba(var(--accent-primary-rgb),0.30)" : "1px solid rgba(255,255,255,0.06)",
+                            color: form.service === s ? "var(--accent-primary)" : "#94A3B8",
                           }}
                         >
                           {s}
@@ -250,17 +250,17 @@ export default function Contact() {
                 href={href}
                 className="flex items-center gap-4 rounded-[20px] p-5 transition-all group"
                 style={{
-                  background: "#121A2B",
+                  background: "var(--bg-surface)",
                   border: "1px solid rgba(255,255,255,0.06)",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "rgba(37,99,235,0.10)", border: "1px solid rgba(37,99,235,0.20)" }}
+                  style={{ background: "rgba(var(--accent-primary-rgb),0.10)", border: "1px solid rgba(var(--accent-primary-rgb),0.20)" }}
                 >
-                  <Icon className="w-5 h-5" style={{ color: "#2563EB" }} />
+                  <Icon className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
                 </div>
                 <div className="flex-1">
                   <div className="text-[11px] font-medium mb-0.5" style={{ color: "#64748B" }}>{label}</div>
@@ -273,7 +273,7 @@ export default function Contact() {
             {/* Social */}
             <div
               className="rounded-[20px] p-5"
-              style={{ background: "#121A2B", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ background: "var(--bg-surface)", border: "1px solid rgba(255,255,255,0.06)" }}
             >
               <p className="text-[11px] font-medium uppercase tracking-[0.10em] mb-4" style={{ color: "#64748B" }}>
                 Connect With Us
@@ -310,8 +310,8 @@ export default function Contact() {
             <div
               className="rounded-[20px] p-5"
               style={{
-                background: "#121A2B",
-                border: "1px solid rgba(37,99,235,0.15)",
+                background: "var(--bg-surface)",
+                border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
               }}
             >
               <div className="flex items-start gap-3">

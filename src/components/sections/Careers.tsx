@@ -26,7 +26,7 @@ export default function Careers() {
     <section
       className="ng-section relative overflow-hidden"
       id="careers"
-      style={{ background: "#0F1422" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-14">
@@ -50,14 +50,14 @@ export default function Careers() {
                   key={job.title}
                   className="group rounded-[20px] p-5 transition-all duration-300 cursor-pointer"
                   style={{
-                    background: "#121A2B",
+                    background: "var(--bg-surface)",
                     border: "1px solid rgba(255,255,255,0.06)",
                   }}
                   initial={{ opacity: 0, x: -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.07 }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                 >
                   <div className="flex items-start justify-between gap-4">
@@ -66,9 +66,9 @@ export default function Careers() {
                         <span
                           className="text-[11px] font-medium px-2.5 py-1 rounded-full"
                           style={{
-                            background: "rgba(37,99,235,0.10)",
-                            border: "1px solid rgba(37,99,235,0.20)",
-                            color: "#2563EB",
+                            background: "rgba(var(--accent-primary-rgb),0.10)",
+                            border: "1px solid rgba(var(--accent-primary-rgb),0.20)",
+                            color: "var(--accent-primary)",
                           }}
                         >
                           {job.department}
@@ -120,7 +120,7 @@ export default function Careers() {
                   key={perk.title}
                   className="rounded-[20px] p-5 transition-all duration-300"
                   style={{
-                    background: "#121A2B",
+                    background: "var(--bg-surface)",
                     border: "1px solid rgba(255,255,255,0.06)",
                   }}
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -128,10 +128,10 @@ export default function Careers() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
                   whileHover={{ y: -3 }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                 >
-                  <perk.icon className="w-5 h-5 mb-3" style={{ color: "#2563EB" }} />
+                  <perk.icon className="w-5 h-5 mb-3" style={{ color: "var(--accent-primary)" }} />
                   <div className="text-white font-semibold text-[13px] mb-1" style={{ fontFamily: "Sora, sans-serif" }}>{perk.title}</div>
                   <div className="text-[12px] leading-[1.55]" style={{ color: "#94A3B8" }}>{perk.desc}</div>
                 </motion.div>
@@ -142,8 +142,8 @@ export default function Careers() {
             <motion.div
               className="mt-4 rounded-[20px] p-5"
               style={{
-                background: "#121A2B",
-                border: "1px solid rgba(37,99,235,0.15)",
+                background: "var(--bg-surface)",
+                border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
               }}
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -151,7 +151,7 @@ export default function Careers() {
               transition={{ delay: 0.4 }}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Star className="w-3.5 h-3.5" style={{ color: "#2563EB" }} />
+                <Star className="w-3.5 h-3.5" style={{ color: "var(--accent-primary)" }} />
                 <span className="text-[12px] font-medium" style={{ color: "#94A3B8" }}>Glassdoor Rating: 4.9/5</span>
               </div>
               <p className="text-[13px] leading-[1.65] italic" style={{ color: "#94A3B8" }}>

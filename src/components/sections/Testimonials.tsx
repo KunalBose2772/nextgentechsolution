@@ -43,8 +43,8 @@ function Avatar({ initials }: { initials: string }) {
     <div
       className="w-11 h-11 rounded-xl flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
       style={{
-        background: "#1E3A8A",
-        border: "1px solid rgba(37,99,235,0.30)",
+        background: "var(--bg-surface)",
+        border: "1px solid rgba(var(--accent-primary-rgb),0.30)",
         fontFamily: "Sora, sans-serif",
       }}
     >
@@ -77,7 +77,7 @@ export default function Testimonials() {
   return (
     <section
       className="ng-section relative overflow-hidden"
-      style={{ background: "#0A0F1C" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-14">
@@ -106,14 +106,14 @@ export default function Testimonials() {
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               className="rounded-[20px] p-8"
               style={{
-                background: "#121A2B",
+                background: "var(--bg-surface)",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >
               {/* Stars */}
               <div className="flex gap-1 mb-6">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4" style={{ fill: "#2563EB", color: "#2563EB" }} />
+                  <Star key={i} className="w-4 h-4" style={{ fill: "var(--accent-primary)", color: "var(--accent-primary)" }} />
                 ))}
               </div>
 
@@ -148,7 +148,7 @@ export default function Testimonials() {
             <button
               onClick={prev}
               className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-              style={{ background: "#121A2B", border: "1px solid rgba(255,255,255,0.08)", color: "#64748B" }}
+              style={{ background: "var(--bg-surface)", border: "1px solid rgba(255,255,255,0.08)", color: "#64748B" }}
               onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; }}
               onMouseLeave={e => { e.currentTarget.style.color = "#64748B"; }}
             >
@@ -164,7 +164,7 @@ export default function Testimonials() {
                   style={{
                     width: i === current ? "24px" : "6px",
                     height: "6px",
-                    background: i === current ? "#2563EB" : "rgba(255,255,255,0.15)",
+                    background: i === current ? "var(--accent-primary)" : "rgba(255,255,255,0.15)",
                   }}
                 />
               ))}
@@ -173,7 +173,7 @@ export default function Testimonials() {
             <button
               onClick={next}
               className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-              style={{ background: "#121A2B", border: "1px solid rgba(255,255,255,0.08)", color: "#64748B" }}
+              style={{ background: "var(--bg-surface)", border: "1px solid rgba(255,255,255,0.08)", color: "#64748B" }}
               onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; }}
               onMouseLeave={e => { e.currentTarget.style.color = "#64748B"; }}
             >

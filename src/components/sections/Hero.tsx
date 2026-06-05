@@ -102,12 +102,17 @@ const slides = [
 
 /* ── Typewriter Hook ─────────────────────────────────────────────────── */
 function useTypewriter(text: string, speed = 52) {
+  const [prevText, setPrevText] = useState(text);
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
 
-  useEffect(() => {
+  if (text !== prevText) {
+    setPrevText(text);
     setDisplayed("");
     setDone(false);
+  }
+
+  useEffect(() => {
     let i = 0;
     const id = setInterval(() => {
       i += 1;
@@ -146,7 +151,7 @@ export default function Hero() {
   return (
     <section
       className="relative overflow-visible"
-      style={{ minHeight: "100vh", background: "#07090F", paddingTop: "80px" }}
+      style={{ minHeight: "100vh", background: "#000000", paddingTop: "80px" }}
     >
       {/* ── Video Background ──────────────────────────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -168,13 +173,13 @@ export default function Hero() {
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background:
-            "linear-gradient(110deg, rgba(7,9,15,0.96) 0%, rgba(7,9,15,0.80) 45%, rgba(7,9,15,0.35) 100%)",
+            "linear-gradient(110deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.80) 45%, rgba(0,0,0,0.35) 100%)",
         }}
       />
       {/* Bottom fade — soft so video doesn't bleed at the edge */}
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, transparent 60%, rgba(7,9,15,0.70) 100%)" }}
+        style={{ background: "linear-gradient(to bottom, transparent 60%, rgba(0,0,0,1) 100%)" }}
       />
       {/* Per-slide accent glow — animated on change */}
       <AnimatePresence mode="wait">
@@ -462,40 +467,45 @@ export default function Hero() {
       </div>
 
       {/* ── Person Image — absolute, bottom-center of right half ─────── */}
-      <motion.div
+      <div
         className="absolute bottom-0 hidden lg:flex items-end justify-center z-[8] pointer-events-none"
         style={{
           left: "20%",
           right: "0px",
           paddingBottom: "40px",
+          height: "min(72vh, 580px)",
         }}
-        initial={{ opacity: 0, y: 90 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.95, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
       >
         {/* Accent glow at feet */}
         <div
           className="absolute bottom-16 left-1/2 -translate-x-1/2 w-72 h-36 blur-3xl opacity-35 pointer-events-none transition-colors duration-700"
           style={{ background: slide.accent }}
         />
-        <img
-          src={slide.img}
-          alt="NextGen Tech Expert"
-          className="relative z-10 select-none w-auto"
-          style={{
-            height: "min(72vh, 580px)",
-            objectFit: "contain",
-            objectPosition: "bottom center",
-            filter: `drop-shadow(0 -16px 60px ${slide.accent}55) drop-shadow(0 24px 40px rgba(0,0,0,0.55))`,
-            transition: "filter 0.6s ease",
-          }}
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = "/images/hero1.png";
-          }}
-          draggable={false}
-        />
-      </motion.div>
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentIndex}
+            src={slide.img}
+            alt="NextGen Tech Expert"
+            className="relative z-10 select-none w-auto"
+            style={{
+              height: "100%",
+              objectFit: "contain",
+              objectPosition: "bottom center",
+              filter: `drop-shadow(0 -16px 60px ${slide.accent}55) drop-shadow(0 24px 40px rgba(0,0,0,0.55))`,
+              transition: "filter 0.6s ease",
+            }}
+            initial={{ opacity: 0, y: 70, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.96 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/images/hero1.png";
+            }}
+            draggable={false}
+          />
+        </AnimatePresence>
+      </div>
 
       {/* ── Slide Tabs ────────────────────────────────────────────── */}
       <div
@@ -539,7 +549,7 @@ export default function Hero() {
                   <span
                     className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-[10px] font-semibold text-white px-2.5 py-1.5 rounded-lg"
                     style={{
-                      background: "rgba(7,9,15,0.92)",
+                      background: "rgba(0,0,0,0.92)",
                       border: "1px solid rgba(255,255,255,0.10)",
                       backdropFilter: "blur(8px)",
                     }}

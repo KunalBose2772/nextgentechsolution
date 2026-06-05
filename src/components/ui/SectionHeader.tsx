@@ -9,6 +9,7 @@ interface SectionHeaderProps {
   description?: string;
   align?: "left" | "center";
   className?: string;
+  theme?: "light" | "dark";
 }
 
 export default function SectionHeader({
@@ -18,8 +19,10 @@ export default function SectionHeader({
   description,
   align = "center",
   className = "",
+  theme = "dark",
 }: SectionHeaderProps) {
   const isCenter = align === "center";
+  const isLight = theme === "light";
 
   return (
     <div className={`${isCenter ? "text-center mx-auto" : ""} max-w-[640px] ${isCenter ? "mx-auto" : ""} ${className}`}>
@@ -31,12 +34,13 @@ export default function SectionHeader({
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
         >
-          <span className="ng-label">{badge}</span>
+          <span className="ng-badge">{badge}</span>
         </motion.div>
       )}
 
       <motion.h2
         className="ng-h2 mb-4"
+        style={{ color: isLight ? "#0F172A" : "#ffffff" }}
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -44,14 +48,14 @@ export default function SectionHeader({
       >
         {title}{" "}
         {titleHighlight && (
-          <span style={{ color: "#2563EB" }}>{titleHighlight}</span>
+          <span style={{ color: "var(--accent-primary)" }}>{titleHighlight}</span>
         )}
       </motion.h2>
 
       {description && (
         <motion.p
           className="text-[17px] leading-[1.75]"
-          style={{ color: "#94A3B8" }}
+          style={{ color: isLight ? "#475569" : "#94A3B8" }}
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

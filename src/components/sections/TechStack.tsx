@@ -53,7 +53,7 @@ export default function TechStack() {
     <section
       className="ng-section relative overflow-hidden"
       id="technologies"
-      style={{ background: "#0A0F1C" }}
+      style={{ background: "#000000" }}
     >
       <div className="ng-container">
         <div className="mb-12">
@@ -73,9 +73,9 @@ export default function TechStack() {
               onClick={() => setActive(cat)}
               className="px-4 py-2 rounded-xl text-[13px] font-medium transition-all duration-200"
               style={{
-                background: active === cat ? "rgba(37,99,235,0.12)" : "rgba(255,255,255,0.04)",
-                border: active === cat ? "1px solid rgba(37,99,235,0.30)" : "1px solid rgba(255,255,255,0.06)",
-                color: active === cat ? "#2563EB" : "#94A3B8",
+                background: active === cat ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.04)",
+                border: active === cat ? "1px solid rgba(var(--accent-primary-rgb),0.30)" : "1px solid rgba(255,255,255,0.06)",
+                color: active === cat ? "var(--accent-primary)" : "#94A3B8",
               }}
             >
               {cat}
@@ -98,14 +98,14 @@ export default function TechStack() {
                 key={tech.name}
                 className="group flex flex-col items-center gap-2 p-4 rounded-[16px] transition-all duration-300 cursor-default"
                 style={{
-                  background: "#121A2B",
+                  background: "var(--bg-surface)",
                   border: "1px solid rgba(255,255,255,0.06)",
                 }}
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.025, duration: 0.35 }}
                 whileHover={{ y: -4 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(37,99,235,0.22)"; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
               >
                 <tech.icon className="w-6 h-6" style={{ color: tech.color }} />
