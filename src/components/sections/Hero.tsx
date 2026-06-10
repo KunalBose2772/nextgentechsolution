@@ -566,8 +566,7 @@ export default function Hero() {
       {/* ── Stats Card — white, fully straddling hero/TrustedBy border ── */}
       <div className="absolute bottom-0 left-0 right-0 z-20 transform translate-y-1/2 px-4">
         <div
-          className="max-w-6xl mx-auto bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.10)] border border-slate-100"
-          style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}
+          className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-100 max-w-6xl mx-auto bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.10)] border border-slate-100"
         >
           {stats.map((stat, idx) => {
             const SIcon = stat.icon;
@@ -575,9 +574,6 @@ export default function Hero() {
               <div
                 key={idx}
                 className="flex items-center gap-4 p-5 md:p-6"
-                style={{
-                  borderRight: idx < stats.length - 1 ? "1px solid #E2E8F0" : "none",
-                }}
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-500"
