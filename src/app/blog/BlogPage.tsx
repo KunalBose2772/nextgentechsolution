@@ -31,7 +31,7 @@ export default function BlogPage() {
       />
 
       <section className="py-16 border-t border-white/5">
-        <div className="container-xl">
+        <div className="ng-container">
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
             <div className="relative flex-1 max-w-sm">

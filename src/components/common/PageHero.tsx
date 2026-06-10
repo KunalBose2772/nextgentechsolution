@@ -40,7 +40,7 @@ export default function PageHero({
         style={{ background: "radial-gradient(circle, #7c3aed, transparent)", top: "0px", right: "15%" }}
       />
 
-      <div className="container-xl relative text-center">
+      <div className="ng-container relative text-center">
         {badge && (
           <motion.div
             className="flex justify-center mb-6"

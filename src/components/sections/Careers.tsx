@@ -31,7 +31,7 @@ const perks = [
   { icon: Briefcase,  title: "Impactful Work",       desc: "Build products used by millions worldwide" },
 ];
 
-export default function Careers() {
+export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean }) {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", resume: "", coverLetter: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -162,17 +162,19 @@ export default function Careers() {
               ))}
             </div>
 
-            <motion.div
-              className="mt-6"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              <Link href="/careers" className="ng-btn-primary">
-                View All Openings
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
+            {!hideViewAll && (
+              <motion.div
+                className="mt-6"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                <Link href="/careers" className="ng-btn-primary">
+                  View All Openings
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
+            )}
           </div>
 
           {/* Right: Perks */}
