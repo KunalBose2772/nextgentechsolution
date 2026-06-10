@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Sora, Inter } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -7,20 +6,6 @@ import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { Toaster } from "react-hot-toast";
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sora",
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["400", "500"],
-  display: "swap",
-});
 
 const CRM_PATHS = ["/dashboard", "/admin", "/telecallers", "/superadmin"];
 
@@ -59,7 +44,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${inter.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

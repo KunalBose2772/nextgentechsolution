@@ -1,163 +1,331 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Calendar, User, Cpu, BarChart3 } from "lucide-react";
 import Link from "next/link";
-import SectionHeader from "@/components/ui/SectionHeader";
-import SectionGlow from "@/components/ui/SectionGlow";
-
-const posts = [
-  {
-    id: "1",
-    title: "Building Scalable SaaS Architecture with Next.js 15 and Supabase",
-    excerpt: "A deep dive into the architecture patterns we use to build SaaS platforms that scale from 100 to 1 million users without rewriting everything.",
-    category: "Engineering",
-    author: "Arjun Mehta",
-    date: "May 15, 2025",
-    readTime: "8 min",
-    tags: ["Next.js", "Supabase", "Architecture"],
-  },
-  {
-    id: "2",
-    title: "AI-Powered Features Every SaaS Product Needs in 2025",
-    excerpt: "From intelligent search and personalization to automated insights — the AI features that are now table stakes for competitive SaaS products.",
-    category: "AI & ML",
-    author: "Priya Singh",
-    date: "May 8, 2025",
-    readTime: "6 min",
-    tags: ["AI", "OpenAI", "Product"],
-  },
-  {
-    id: "3",
-    title: "How We Cut Infrastructure Costs by 60% Using Kubernetes and Spot Instances",
-    excerpt: "A practical guide to optimizing your cloud spend without sacrificing reliability — real numbers from a real production system.",
-    category: "DevOps",
-    author: "Rahul Dev",
-    date: "April 28, 2025",
-    readTime: "10 min",
-    tags: ["Kubernetes", "AWS", "Cost Optimization"],
-  },
-];
+import { posts } from "@/lib/blog-data";
 
 export default function Blog() {
+  // We use the first 3 posts for the homepage bento grid
+  const featuredPost = posts[0]; // Next.js & Supabase
+  const aiPost = posts[1];       // AI & ML
+  const devopsPost = posts[2];   // DevOps
+
   return (
-    <section
-      className="ng-section relative"
+    <section 
+      className="relative overflow-hidden py-20 md:py-28 z-30" 
       id="blog"
+      style={{
+        background: "linear-gradient(180deg, #0A0A0B 0%, #030303 100%)",
+      }}
     >
-      <SectionGlow />
+      {/* Explicit style overrides to guarantee white backgrounds and dark text regardless of global styles */}
+      <style>{`
+        #blog-cards-container .bento-card {
+          background-color: #ffffff !important;
+          background: #ffffff !important;
+          border: 1px solid #e2e8f0 !important;
+        }
+        #blog-cards-container .bento-card h3 {
+          color: #0f172a !important;
+        }
+        #blog-cards-container .bento-card p {
+          color: #475569 !important;
+        }
+        #blog-cards-container .bento-card .spec-label {
+          color: #64748b !important;
+        }
+        #blog-cards-container .bento-card .spec-value {
+          color: #1e293b !important;
+        }
+      `}</style>
+
+      {/* Background Grid Accent */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02] z-0 ng-grid-bg" />
+
+      {/* Background Radial Glows */}
+      <div 
+        className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.05] blur-[110px] z-0" 
+        style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
+      />
+      <div 
+        className="absolute bottom-[20%] left-[-10%] w-[550px] h-[550px] rounded-full pointer-events-none opacity-[0.05] blur-[120px] z-0" 
+        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
+      />
+
       <div className="ng-container relative z-10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
-          <SectionHeader
-            badge="Our Blog"
-            title="Insights &"
-            titleHighlight="Expertise"
-            description="Thoughts on engineering, design, and building products that matter."
-            align="left"
-          />
-          <Link
-            href="/blog"
-            className="flex items-center gap-2 text-[13px] font-medium transition-colors shrink-0"
-            style={{ color: "#94A3B8" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
-            onMouseLeave={e => (e.currentTarget.style.color = "#94A3B8")}
-          >
-            View all posts
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-4">
-          {posts.map((post, i) => (
-            <motion.article
-              key={post.id}
-              className="group rounded-[20px] overflow-hidden transition-all duration-300 cursor-pointer"
-              style={{
-                background: "var(--bg-surface)",
-                border: "1px solid rgba(255,255,255,0.06)",
-              }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
-              whileHover={{ y: -4 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
-            >
-              {/* Header */}
-              <div
-                className="relative h-36 flex items-center justify-center ng-grid-bg"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        
+        {/* Bento Grid Container */}
+        <div id="blog-cards-container" className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto items-stretch">
+          
+          {/* 1. Left Column of Top Row: Section Header & CTA (lg:col-span-4) */}
+          <div className="lg:col-span-4 flex flex-col justify-between py-2">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-950/10 text-cyan-400 text-[10px] font-bold uppercase tracking-wider mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                Insights & Expertise
+              </div>
+              <h2 
+                className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl leading-[1.15] mb-5 tracking-tight"
+                style={{ fontFamily: "Sora, sans-serif" }}
               >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-semibold text-xl"
-                  style={{
-                    background: "rgba(var(--accent-primary-rgb),0.12)",
-                    border: "1px solid rgba(var(--accent-primary-rgb),0.22)",
-                    fontFamily: "Sora, sans-serif",
-                  }}
-                >
-                  {post.category.charAt(0)}
+                Thoughts &<br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+                  Engineering
+                </span>
+              </h2>
+              <p className="text-[13.5px] leading-[1.65] text-slate-400 max-w-sm">
+                Behind every successful product is a solid engineering strategy. We share our technical learnings, architectural decisions, and design systems.
+              </p>
+            </div>
+
+            <div className="mt-8 lg:mt-0">
+              <Link 
+                href="/blog" 
+                className="inline-flex items-center gap-2 text-xs font-bold text-white bg-white/5 border border-white/5 hover:border-cyan-500/20 hover:bg-cyan-950/10 px-5 py-3.5 rounded-2xl shadow-lg transition-all group"
+              >
+                View All Articles
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 text-cyan-400" />
+              </Link>
+            </div>
+          </div>
+
+          {/* 2. Right Column of Top Row: Featured Post Card - White card with image on right (lg:col-span-8) */}
+          <motion.div
+            className="lg:col-span-8 bento-card group rounded-3xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5 }}
+            whileHover={{
+              y: -5,
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(59, 130, 246, 0.15)"
+            }}
+          >
+            <div className="grid md:grid-cols-12 items-stretch h-full">
+              {/* Left Content Column */}
+              <div className="p-6 sm:p-8 md:col-span-7 flex flex-col justify-between">
+                <div>
+                  <span 
+                    className="inline-flex text-[9px] font-bold uppercase tracking-wider rounded-full px-2.5 py-0.5 mb-4"
+                    style={{
+                      color: "#2563eb",
+                      backgroundColor: "#eff6ff",
+                      border: "1px solid #dbeafe"
+                    }}
+                  >
+                    Featured Story
+                  </span>
+                  <h3 
+                    className="font-extrabold text-lg sm:text-xl md:text-2xl leading-snug mb-3 font-sora"
+                  >
+                    {featuredPost.title}
+                  </h3>
+                  <p 
+                    className="text-[13px] leading-[1.6] line-clamp-3 mb-6"
+                  >
+                    {featuredPost.excerpt}
+                  </p>
                 </div>
-                <div
-                  className="absolute top-3 left-3 text-[11px] font-medium px-2.5 py-1 rounded-full"
-                  style={{
-                    background: "rgba(var(--accent-primary-rgb),0.10)",
-                    border: "1px solid rgba(var(--accent-primary-rgb),0.20)",
-                    color: "var(--accent-primary)",
-                  }}
-                >
-                  {post.category}
+
+                <div>
+                  {/* Inline Specs */}
+                  <div 
+                    className="grid grid-cols-3 gap-2 py-4 border-t mb-5 text-[11.5px]"
+                    style={{
+                      borderColor: "#f1f5f9"
+                    }}
+                  >
+                    <div className="flex flex-col">
+                      <span className="spec-label text-[9px] mb-0.5 flex items-center gap-1">
+                        <User className="w-3 h-3 text-slate-400" /> Author
+                      </span>
+                      <span className="spec-value font-semibold truncate">{featuredPost.author}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="spec-label text-[9px] mb-0.5 flex items-center gap-1">
+                        <Calendar className="w-3 h-3 text-slate-400" /> Published
+                      </span>
+                      <span className="spec-value font-semibold truncate">{featuredPost.date}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="spec-label text-[9px] mb-0.5 flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-slate-400" /> Read Time
+                      </span>
+                      <span className="spec-value font-semibold truncate">{featuredPost.readTime}</span>
+                    </div>
+                  </div>
+
+                  <Link 
+                    href={`/blog/${featuredPost.id}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors group/link"
+                    style={{ color: "#2563eb" }}
+                  >
+                    Read their journey
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
+                  </Link>
                 </div>
               </div>
 
-              <div className="p-5">
-                {/* Meta */}
-                <div className="flex items-center gap-2 mb-3" style={{ color: "#64748B" }}>
-                  <Clock className="w-3 h-3" />
-                  <span className="text-[11px]">{post.readTime} read</span>
-                  <span className="text-[11px]">•</span>
-                  <span className="text-[11px]">{post.date}</span>
-                </div>
-
-                <h3
-                  className="text-[15px] font-semibold text-white mb-2 leading-[1.4] line-clamp-2"
-                  style={{ fontFamily: "Sora, sans-serif" }}
-                >
-                  {post.title}
-                </h3>
-
-                <p className="text-[13px] leading-[1.65] mb-4 line-clamp-2" style={{ color: "#94A3B8" }}>
-                  {post.excerpt}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[11px] px-2 py-0.5 rounded-md"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
-                        color: "#64748B",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  href={`/blog/${post.id}`}
-                  className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
-                  style={{ color: "var(--accent-primary)" }}
-                >
-                  Read article <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+              {/* Right Image Column (md:col-span-5) */}
+              <div className="md:col-span-5 relative min-h-[220px] overflow-hidden md:border-l" style={{ borderColor: "#e2e8f0" }}>
+                <img 
+                  src="/images/saas_architecture.png" 
+                  alt="SaaS Architecture" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* Subtle dark gradient overlay on image */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
               </div>
-            </motion.article>
-          ))}
+            </div>
+          </motion.div>
+
+          {/* 3. Bottom Left Card: AI & ML Post - White card (lg:col-span-6) */}
+          <motion.div
+            className="lg:col-span-6 bento-card group rounded-3xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            whileHover={{
+              y: -5,
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(124, 58, 237, 0.15)"
+            }}
+          >
+            <div className="grid md:grid-cols-12 items-stretch h-full">
+              {/* Left Content Column */}
+              <div className="p-6 md:col-span-7 flex flex-col justify-between h-full">
+                <div>
+                  <span 
+                    className="inline-flex text-[9px] font-bold uppercase tracking-wider rounded-full px-2.5 py-0.5 mb-3"
+                    style={{
+                      color: "#7c3aed",
+                      backgroundColor: "#faf5ff",
+                      border: "1px solid #f3e8ff"
+                    }}
+                  >
+                    {aiPost.category}
+                  </span>
+                  <h3 
+                    className="font-extrabold text-[16px] sm:text-[17px] leading-snug mb-2 font-sora line-clamp-2"
+                  >
+                    {aiPost.title}
+                  </h3>
+                  <p 
+                    className="text-[12.5px] leading-[1.65] line-clamp-3 mb-5"
+                  >
+                    {aiPost.excerpt}
+                  </p>
+                </div>
+
+                <div>
+                  <Link 
+                    href={`/blog/${aiPost.id}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors group/link"
+                    style={{ color: "#7c3aed" }}
+                  >
+                    Read their story
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right Column: Image with Overlay Badge */}
+              <div className="md:col-span-5 relative min-h-[160px] overflow-hidden md:border-l" style={{ borderColor: "#e2e8f0" }}>
+                <img 
+                  src="/images/ai_agent.png" 
+                  alt="AI & ML Integration" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+
+                {/* Symmetrical Bottom Right Badge Overlay */}
+                <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur border border-slate-100 rounded-xl px-3 py-1.5 shadow-lg flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-purple-50 flex items-center justify-center">
+                    <Cpu className="w-3.5 h-3.5" style={{ color: "#7c3aed" }} />
+                  </div>
+                  <div className="text-[10px] leading-tight">
+                    <span className="font-bold text-slate-800 block">Smarter Tech</span>
+                    <span className="spec-label text-[9px] block">AI Integration</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 4. Bottom Right Card: DevOps Post - White card (lg:col-span-6) */}
+          <motion.div
+            className="lg:col-span-6 bento-card group rounded-3xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            whileHover={{
+              y: -5,
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(34, 197, 94, 0.15)"
+            }}
+          >
+            <div className="grid md:grid-cols-12 items-stretch h-full">
+              {/* Left Content Column */}
+              <div className="p-6 md:col-span-7 flex flex-col justify-between h-full">
+                <div>
+                  <span 
+                    className="inline-flex text-[9px] font-bold uppercase tracking-wider rounded-full px-2.5 py-0.5 mb-3"
+                    style={{
+                      color: "#059669",
+                      backgroundColor: "#ecfdf5",
+                      border: "1px solid #d1fae5"
+                    }}
+                  >
+                    {devopsPost.category}
+                  </span>
+                  <h3 
+                    className="font-extrabold text-[16px] sm:text-[17px] leading-snug mb-2 font-sora line-clamp-2"
+                  >
+                    {devopsPost.title}
+                  </h3>
+                  <p 
+                    className="text-[12.5px] leading-[1.65] line-clamp-3 mb-5"
+                  >
+                    {devopsPost.excerpt}
+                  </p>
+                </div>
+
+                <div>
+                  <Link 
+                    href={`/blog/${devopsPost.id}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors group/link"
+                    style={{ color: "#059669" }}
+                  >
+                    Read their story
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right Column: Image with Overlay Badge */}
+              <div className="md:col-span-5 relative min-h-[160px] overflow-hidden md:border-l" style={{ borderColor: "#e2e8f0" }}>
+                <img 
+                  src="/images/cloud_devops.png" 
+                  alt="DevOps & Cost Optimization" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+
+                {/* Symmetrical Bottom Right Badge Overlay */}
+                <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur border border-slate-100 rounded-xl px-3 py-1.5 shadow-lg flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center">
+                    <BarChart3 className="w-3.5 h-3.5" style={{ color: "#059669" }} />
+                  </div>
+                  <div className="text-[10px] leading-tight">
+                    <span className="font-bold text-slate-800 block">Smarter Cloud</span>
+                    <span className="spec-label text-[9px] block">Better Savings</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>

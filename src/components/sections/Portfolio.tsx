@@ -1,216 +1,415 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { useRef, useState, useLayoutEffect } from "react";
 import Link from "next/link";
-import SectionHeader from "@/components/ui/SectionHeader";
-import SectionGlow from "@/components/ui/SectionGlow";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const categories = ["All", "Web App", "Mobile", "SaaS", "AI/ML", "E-Commerce"];
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── Google Fonts for Syne + Playfair ─────────────────────────────── */
+const FONT_IMPORT = `
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Playfair+Display:ital,wght@1,700&display=swap');
+`;
 
 const projects = [
   {
-    id: "1", title: "FinanceIQ Dashboard", category: "SaaS",
-    description: "Real-time financial analytics platform with AI-powered insights, serving 10K+ daily active users.",
-    tags: ["Next.js", "Python", "PostgreSQL", "Stripe"],
-    metrics: [{ label: "Users", value: "10K+" }, { label: "Revenue", value: "$2M+" }],
-    size: "large",
+    id: "1",
+    title: "SEO is a Cost-Effective Advertising.",
+    tags: ["seo agency", "digital", "marketing"],
+    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80",
   },
   {
-    id: "2", title: "MediConnect App", category: "Mobile",
-    description: "Healthcare platform connecting 500+ doctors with patients for telemedicine consultations.",
-    tags: ["React Native", "Node.js", "MongoDB"],
-    metrics: [{ label: "Doctors", value: "500+" }, { label: "Consultations", value: "50K+" }],
-    size: "small",
+    id: "2",
+    title: "Brand Awareness via Influencer Collaboration.",
+    tags: ["seo agency", "digital", "marketing"],
+    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=700&q=80",
   },
   {
-    id: "3", title: "ShopSmart AI", category: "E-Commerce",
-    description: "AI-powered e-commerce platform with personalized recommendations and dynamic pricing.",
-    tags: ["Next.js", "OpenAI", "Stripe", "Redis"],
-    metrics: [{ label: "GMV", value: "$5M+" }, { label: "Conversion", value: "+45%" }],
-    size: "small",
+    id: "3",
+    title: "Lead Generation Campaign for Real Estate Agency.",
+    tags: ["seo agency", "digital", "marketing"],
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=80",
   },
   {
-    id: "4", title: "LogiTrack Enterprise", category: "Web App",
-    description: "Supply chain management handling 2M+ daily shipment trackings for a global logistics firm.",
-    tags: ["React", "Java Spring", "PostgreSQL", "Docker"],
-    metrics: [{ label: "Shipments/day", value: "2M+" }, { label: "Cost Save", value: "30%" }],
-    size: "small",
+    id: "4",
+    title: "Google Ads Optimization for Online Retailer.",
+    tags: ["seo agency", "digital", "marketing"],
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700&q=80",
   },
   {
-    id: "5", title: "SentimentAI Platform", category: "AI/ML",
-    description: "Real-time social media sentiment analysis processing 1M+ posts per day for brand monitoring.",
-    tags: ["Python", "TensorFlow", "AWS", "React"],
-    metrics: [{ label: "Posts/day", value: "1M+" }, { label: "Accuracy", value: "97%" }],
-    size: "large",
+    id: "5",
+    title: "Market Expansion Mastery: A Case Study in Global Growth.",
+    tags: ["seo agency", "digital", "marketing"],
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80",
   },
   {
-    id: "6", title: "EduLearn Pro", category: "SaaS",
-    description: "Online learning management system with live classes, AI tutoring, and certification tracking.",
-    tags: ["Next.js", "WebRTC", "Node.js", "MongoDB"],
-    metrics: [{ label: "Students", value: "25K+" }, { label: "Courses", value: "500+" }],
-    size: "small",
+    id: "6",
+    title: "Brand Awareness Campaign for Tech Company.",
+    tags: ["seo agency", "digital", "marketing"],
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&q=80",
   },
 ];
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+/* ── Gradient Arrow SVG (exact from Reliable theme) ─────────────────── */
+function ArrowIcon({ size = 40 }: { size?: number }) {
   return (
-    <motion.div
-      className={`group rounded-[20px] overflow-hidden transition-all duration-300 cursor-pointer ${
-        project.size === "large" ? "md:col-span-2" : ""
-      }`}
+    <svg width={size} height={size} viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="arr1" x1="0.546204" y1="30.5091" x2="60.4725" y2="30.5091" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FF4A68" /><stop offset="1" stopColor="#FC9C44" />
+        </linearGradient>
+        <linearGradient id="arr2" x1="36.2991" y1="12.6318" x2="60.4709" y2="12.6318" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FF4A68" /><stop offset="1" stopColor="#FC9C44" />
+        </linearGradient>
+        <clipPath id="arrclip">
+          <rect width="59.9264" height="59.9264" fill="white" transform="translate(0.546021 0.545898)" />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#arrclip)">
+        <path d="M1.8336 60.4724C1.50412 60.4724 1.17464 60.3467 0.923231 60.0953C0.420528 59.5925 0.420528 58.7773 0.923231 58.2744L58.2746 0.923013C58.7775 0.420194 59.5927 0.420194 60.0955 0.923013C60.5982 1.42583 60.5982 2.24104 60.0955 2.74386L2.74408 60.0953C2.49255 60.3468 2.16307 60.4724 1.8336 60.4724Z" fill="url(#arr1)" />
+        <path d="M59.1834 24.7176C58.4724 24.7176 57.8959 24.1412 57.8959 23.4302V3.12086H37.5866C36.8756 3.12086 36.2991 2.54442 36.2991 1.83338C36.2991 1.12234 36.8756 0.545898 37.5866 0.545898H59.1834C59.8944 0.545898 60.4709 1.12234 60.4709 1.83338V23.4302C60.4709 24.1412 59.8944 24.7176 59.1834 24.7176Z" fill="url(#arr2)" />
+      </g>
+    </svg>
+  );
+}
+
+/* ── Project Card ────────────────────────────────────────────────────── */
+function ProjectCard({ project, cardRef }: {
+  project: typeof projects[0];
+  cardRef?: (el: HTMLDivElement | null) => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      ref={cardRef}
+      className="ra-project3-item"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        background: "var(--bg-surface)",
-        border: "1px solid rgba(255,255,255,0.06)",
+        flexShrink: 0,
+        width: 520,
+        height: 576,
+        background: "#ffffff",
+        borderRadius: 32,
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        cursor: "pointer",
+        boxShadow: hovered
+          ? "0 32px 80px rgba(0,0,0,0.30)"
+          : "0 8px 32px rgba(0,0,0,0.14)",
+        transform: hovered ? "translateY(-6px)" : "translateY(0)",
+        transition: "box-shadow 0.4s ease, transform 0.4s ease",
+        willChange: "transform",
       }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.06, duration: 0.4 }}
-      whileHover={{ y: -4 }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
     >
-      {/* Visual Placeholder */}
-      <div
-        className="relative h-36 flex items-center justify-center ng-grid-bg"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-      >
-        <div
-          className="w-14 h-14 rounded-[14px] flex items-center justify-center text-white text-xl font-semibold"
-          style={{
-            background: "rgba(var(--accent-primary-rgb),0.15)",
-            border: "1px solid rgba(var(--accent-primary-rgb),0.25)",
-            fontFamily: "Sora, sans-serif",
-          }}
-        >
-          {project.title.charAt(0)}
+      {/* ── Text block ── */}
+      <div style={{ padding: "40px 32px 24px 32px" }}>
+        {/* Title + Arrow row */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 20 }}>
+          <h3
+            className="href-underline"
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontSize: 24,
+              fontWeight: 700,
+              color: "#1c1c2d",
+              lineHeight: 1.35,
+              letterSpacing: "-0.01em",
+              textDecoration: hovered ? "underline" : "none",
+              textUnderlineOffset: 4,
+              textDecorationColor: "rgba(28,28,45,0.3)",
+              flex: 1,
+            }}
+          >
+            {project.title}
+          </h3>
+          <div
+            style={{
+              flexShrink: 0,
+              marginTop: 2,
+              transform: hovered ? "translate(3px,-3px)" : "translate(0,0)",
+              transition: "transform 0.3s ease",
+            }}
+          >
+            <ArrowIcon size={36} />
+          </div>
         </div>
-        {/* Category badge */}
-        <div
-          className="absolute top-3 left-3 text-[11px] font-medium px-2.5 py-1 rounded-full"
-          style={{
-            background: "rgba(var(--accent-primary-rgb),0.10)",
-            border: "1px solid rgba(var(--accent-primary-rgb),0.20)",
-            color: "var(--accent-primary)",
-          }}
-        >
-          {project.category}
-        </div>
-      </div>
 
-      <div className="p-5">
-        <h3
-          className="text-[15px] font-semibold text-white mb-2"
-          style={{ fontFamily: "Sora, sans-serif" }}
-        >
-          {project.title}
-        </h3>
-        <p className="text-[13px] leading-[1.65] mb-4" style={{ color: "#94A3B8" }}>
-          {project.description}
-        </p>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
+        {/* Tags — exact style: bg #e9ebed, Inter 14px, #46505b */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[11px] px-2 py-0.5 rounded-md"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                color: "#64748B",
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 14,
+                fontWeight: 400,
+                color: "#46505b",
+                background: "#e9ebed",
+                padding: "6px 14px",
+                borderRadius: 6,
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
               }}
             >
               {tag}
             </span>
           ))}
         </div>
-
-        {/* Metrics */}
-        <div className="flex items-center gap-4 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-          {project.metrics.map((m) => (
-            <div key={m.label} className="flex items-center gap-1.5">
-              <TrendingUp className="w-3 h-3" style={{ color: "var(--accent-primary)" }} />
-              <span className="text-[12px]" style={{ color: "#94A3B8" }}>
-                <span className="font-medium text-white">{m.value}</span> {m.label}
-              </span>
-            </div>
-          ))}
-        </div>
       </div>
-    </motion.div>
+
+      {/* ── Image block (fills remaining space) ── */}
+      <div
+        style={{
+          flex: 1,
+          margin: "0 18px 18px 18px",
+          borderRadius: 20,
+          overflow: "hidden",
+          minHeight: 0,
+        }}
+      >
+        <img
+          src={project.image}
+          alt={project.title}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transform: hovered ? "scale(1.06)" : "scale(1)",
+            transition: "transform 1.2s ease",
+            display: "block",
+          }}
+          loading="lazy"
+        />
+      </div>
+    </div>
   );
 }
 
-export default function Portfolio() {
-  const [active, setActive] = useState("All");
+/* ── Circular "View All Services" button (last item, exact from theme) ── */
+function CircleBtn() {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <Link
+      href="/portfolio"
+      style={{
+        flexShrink: 0,
+        width: 208,
+        height: 208,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Gradient circle */}
+      <svg
+        width="208" height="208" viewBox="0 0 208 208" fill="none"
+        style={{
+          position: "absolute",
+          inset: 0,
+          transform: hovered ? "rotate(15deg)" : "rotate(0deg)",
+          transition: "transform 0.5s ease",
+        }}
+      >
+        <defs>
+          <linearGradient id="circleg" x1="0.981598" y1="103.509" x2="208" y2="103.509" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#FF4A68" /><stop offset="1" stopColor="#FC9C44" />
+          </linearGradient>
+        </defs>
+        <circle cx="104.491" cy="103.509" r="102.509" stroke="url(#circleg)" strokeWidth="2" />
+      </svg>
+      {/* Inner arrow */}
+      <div style={{
+        transform: hovered ? "translate(5px,-5px)" : "translate(0,0)",
+        transition: "transform 0.3s ease",
+        position: "relative",
+        zIndex: 1,
+      }}>
+        <ArrowIcon size={61} />
+      </div>
+    </Link>
+  );
+}
 
-  const filtered = active === "All" ? projects : projects.filter((p) => p.category === active);
+/* ── Section Title Component ─────────────────────────────────────────── */
+function SectionTitle({ align = "left" }: { align?: "left" | "right" }) {
+  return (
+    <h2 style={{ lineHeight: 1.1, textAlign: align }}>
+      <span style={{
+        display: "block",
+        fontFamily: "'Syne', sans-serif",
+        fontSize: 55,
+        fontWeight: 700,
+        color: "#ffffff",
+        letterSpacing: "-0.02em",
+      }}>
+        Recent
+      </span>
+      <span style={{
+        display: "block",
+        fontFamily: "'Playfair Display', serif",
+        fontSize: 55,
+        fontWeight: 700,
+        fontStyle: "italic",
+        color: "#ffffff",
+        letterSpacing: "-0.01em",
+      }}>
+        Our Projects
+      </span>
+    </h2>
+  );
+}
+
+/* ── Main Section ────────────────────────────────────────────────────── */
+export default function Portfolio() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const wrap = wrapRef.current;
+    if (!section || !wrap) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(wrap, {
+        x: () => -(wrap.scrollWidth - section.clientWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${wrap.scrollWidth - section.clientWidth}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          pinSpacing: true,
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section
-      className="ng-section relative"
-      id="portfolio"
-    >
-      <SectionGlow />
-      <div className="ng-container relative z-10">
-        <div className="mb-12">
-          <SectionHeader
-            badge="Our Portfolio"
-            title="Work That"
-            titleHighlight="Speaks for Itself"
-            description="A curated selection of projects demonstrating our technical excellence and business impact."
+    <>
+      {/* Inject Syne + Playfair fonts */}
+      <style>{FONT_IMPORT}</style>
+
+      {/* Portfolio section styles */}
+      <style>{`
+        #portfolio-section {
+          position: relative;
+          overflow: hidden;
+          height: 100vh;
+        }
+        .ra-project3-wrap {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          height: 100%;
+          width: max-content;
+          padding-top: 0;
+          padding-bottom: 0;
+          position: relative;
+        }
+        .ra-pro-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          pointer-events: none;
+          z-index: 0;
+        }
+        /* Left title panel */
+        .ra-project3-title-2 {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          padding: 0 60px 0 80px;
+          min-width: 340px;
+          position: relative;
+          z-index: 2;
+        }
+        /* Cards row */
+        .ra-project3-content {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 36px;
+          flex-shrink: 0;
+          position: relative;
+          z-index: 2;
+          padding: 0 36px;
+        }
+        /* Right title panel */
+        .ra-project3-title {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          padding: 0 80px 0 60px;
+          min-width: 340px;
+          position: relative;
+          z-index: 2;
+        }
+        @media (max-width: 1024px) {
+          .ra-project3-title-2 { min-width: 260px; padding: 0 32px 0 40px; }
+          .ra-project3-title { min-width: 260px; padding: 0 40px 0 32px; }
+          .ra-project3-content { gap: 20px; padding: 0 20px; }
+        }
+      `}</style>
+
+      <section
+        ref={sectionRef}
+        id="portfolio-section"
+        className="relative"
+        style={{ background: "#0d0d1a" }}
+      >
+        {/* ── Wide horizontal scroll container ── */}
+        <div ref={wrapRef} className="ra-project3-wrap">
+
+          {/* Background image layer */}
+          <img
+            className="ra-pro-bg"
+            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=2000&q=40"
+            alt="background"
+            style={{ opacity: 0.12, objectFit: "cover" }}
           />
-        </div>
+          {/* Dark overlay */}
+          <div style={{
+            position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+            background: "linear-gradient(135deg, #0d0d1a 0%, #13111f 50%, #0f0d1a 100%)",
+            opacity: 0.92,
+          }} />
 
-        {/* Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className="px-4 py-2 rounded-xl text-[13px] font-medium transition-all duration-200"
-              style={{
-                background: active === cat ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.04)",
-                border: active === cat ? "1px solid rgba(var(--accent-primary-rgb),0.30)" : "1px solid rgba(255,255,255,0.06)",
-                color: active === cat ? "var(--accent-primary)" : "#94A3B8",
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+          {/* ── LEFT TITLE (ra-project3-title-2) ── */}
+          <div className="ra-project3-title-2">
+            <SectionTitle align="left" />
+          </div>
 
-        {/* Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-4"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {filtered.map((project, i) => (
-              <ProjectCard key={project.id} project={project} index={i} />
+          {/* ── CARDS ROW (ra-project3-content) ── */}
+          <div className="ra-project3-content">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
-          </motion.div>
-        </AnimatePresence>
 
-        <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <Link href="/portfolio" className="ng-btn-ghost">
-            View Full Portfolio
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
-      </div>
-    </section>
+            {/* Last item: circular button */}
+            <CircleBtn />
+          </div>
+
+          {/* ── RIGHT TITLE (ra-project3-title) ── */}
+          <div className="ra-project3-title">
+            <SectionTitle align="right" />
+          </div>
+
+        </div>
+      </section>
+    </>
   );
 }

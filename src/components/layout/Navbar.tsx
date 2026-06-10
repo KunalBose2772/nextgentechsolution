@@ -46,7 +46,6 @@ const navLinks = [
   { label: "About",        href: "/about" },
   { label: "Services",     href: "/services", hasMenu: true },
   { label: "Portfolio",    href: "/portfolio" },
-  { label: "Case Studies", href: "/case-studies" },
   { label: "Blog",         href: "/blog" },
   { label: "Careers",      href: "/careers" },
 ];

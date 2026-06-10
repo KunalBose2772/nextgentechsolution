@@ -47,28 +47,43 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
 
   return (
     <motion.div
-      className="border-b"
-      style={{ borderColor: "rgba(255,255,255,0.06)" }}
+      className="border-b transition-all duration-300 relative group px-4 py-1"
+      style={{ 
+        borderColor: "rgba(255,255,255,0.06)",
+        background: open ? "rgba(255, 255, 255, 0.01)" : "transparent"
+      }}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
       transition={{ delay: index * 0.05, duration: 0.35 }}
     >
+      {/* Active neon left strip indicator */}
+      {open && (
+        <motion.div 
+          className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#06B6D4] to-[#3B82F6]"
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          exit={{ scaleY: 0 }}
+          transition={{ duration: 0.2 }}
+        />
+      )}
+
       <button
-        className="w-full flex items-center justify-between gap-4 py-5 text-left"
+        className="w-full flex items-center justify-between gap-4 py-5 text-left cursor-pointer"
         onClick={() => setOpen(!open)}
       >
         <span
-          className="text-[15px] font-medium leading-[1.5] transition-colors"
-          style={{ color: open ? "#ffffff" : "#94A3B8", fontFamily: "Inter, sans-serif" }}
+          className="text-[14.5px] font-bold leading-[1.5] transition-colors"
+          style={{ color: open ? "#ffffff" : "#94A3B8", fontFamily: "Sora, sans-serif" }}
         >
           {item.q}
         </span>
         <div
-          className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all"
+          className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
           style={{
             background: open ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.05)",
             color: open ? "var(--accent-primary)" : "#64748B",
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
           }}
         >
           {open ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -84,7 +99,7 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
             transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
             className="overflow-hidden"
           >
-            <p className="text-[14px] leading-[1.75] pb-5 pr-12" style={{ color: "#94A3B8" }}>
+            <p className="text-[13.5px] leading-[1.75] pb-5 pr-12 text-[#94A3B8]">
               {item.a}
             </p>
           </motion.div>
@@ -96,11 +111,30 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
 
 export default function FAQ() {
   return (
-    <section
-      className="ng-section relative"
+    <section 
+      className="relative overflow-hidden py-16 md:py-24 z-30" 
       id="faq"
+      style={{
+        background: "linear-gradient(180deg, #0A0A0B 0%, #030303 100%)",
+      }}
     >
       <SectionGlow />
+
+      {/* Technical Dotted Grid Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.03] z-0 ng-grid-bg" 
+      />
+      
+      {/* Ambient Glows */}
+      <div 
+        className="absolute top-[20%] left-[-15%] w-[450px] h-[450px] rounded-full pointer-events-none opacity-[0.10] blur-[90px] z-0" 
+        style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
+      />
+      <div 
+        className="absolute bottom-[20%] right-[-15%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08] blur-[100px] z-0" 
+        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
+      />
+
       <div className="ng-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left */}
@@ -114,23 +148,31 @@ export default function FAQ() {
             />
 
             <motion.div
-              className="mt-10 rounded-[20px] p-6"
+              className="mt-10 rounded-2xl p-6"
               style={{
-                background: "var(--bg-surface)",
+                background: "rgba(255,255,255,0.02)",
                 border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
+              whileHover={{
+                y: -4,
+                borderColor: "rgba(var(--accent-primary-rgb), 0.30)",
+                background: "rgba(255, 255, 255, 0.04)",
+                boxShadow: "0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(var(--accent-primary-rgb), 0.04)"
+              }}
             >
               <h4
-                className="text-white font-semibold text-[16px] mb-2"
+                className="text-white font-bold text-[16px] mb-2"
                 style={{ fontFamily: "Sora, sans-serif" }}
               >
                 Still have questions?
               </h4>
-              <p className="text-[14px] leading-[1.65] mb-5" style={{ color: "#94A3B8" }}>
+              <p className="text-[13.5px] leading-[1.65] mb-5 text-[#94A3B8]">
                 Book a free 30-minute consultation. We&apos;ll answer everything and help figure out the best path forward.
               </p>
               <Link href="/contact" className="ng-btn-primary text-[14px]" style={{ height: "44px" }}>
@@ -141,13 +183,15 @@ export default function FAQ() {
 
           {/* Right: FAQ items */}
           <div
-            className="rounded-[20px] p-2"
+            className="rounded-2xl p-2"
             style={{
-              background: "var(--bg-surface)",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: "rgba(255,255,255,0.01)",
+              border: "1px solid rgba(255,255,255,0.05)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
             }}
           >
-            <div className="px-4">
+            <div>
               {faqs.map((item, i) => (
                 <FAQItem key={i} item={item} index={i} />
               ))}

@@ -13,20 +13,20 @@ gsap.registerPlugin(ScrollTrigger);
 
 const features = [
   {
-    title: "Lightning Fast Delivery",
-    image: "/images/portfolio/1.jpg"
+    title: "Custom SaaS Platforms",
+    image: "/images/portfolio/saas.png"
   },
   {
-    title: "Enterprise Security",
-    image: "/images/portfolio/2.jpg"
+    title: "Mobile App Engineering",
+    image: "/images/portfolio/mobile.png"
   },
   {
-    title: "Proven ROI",
-    image: "/images/portfolio/3.jpg"
+    title: "AI & Machine Learning",
+    image: "/images/portfolio/ai.png"
   },
   {
-    title: "Dedicated Teams",
-    image: "/images/portfolio/4.jpg"
+    title: "Cloud & DevOps Security",
+    image: "/images/portfolio/security.png"
   }
 ];
 
@@ -100,10 +100,19 @@ export default function WhyChooseUs() {
       }
     });
 
+    // Morph the container back to its rounded shape and original height at the end of the pinning sequence
+    const targetRadius = window.innerWidth >= 1024 ? 48 : (window.innerWidth >= 640 ? 40 : 32);
+    tl.to(innerContainerRef.current, {
+      borderRadius: targetRadius,
+      minHeight: "",
+      duration: 0.3,
+      ease: "power2.out"
+    });
+
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center py-0 overflow-hidden" id="why-choose-us">
+    <section ref={containerRef} className="relative min-h-screen flex items-center py-0" id="why-choose-us">
       <SectionGlow />
 
       {/* Large Scroll Background Text */}
@@ -127,7 +136,7 @@ export default function WhyChooseUs() {
       {/* Light Container */}
       <div 
         ref={innerContainerRef}
-        className="relative w-[calc(100%-40px)] md:w-[calc(100%-60px)] mx-auto rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] border border-slate-200/50 shadow-2xl py-[60px] md:py-[80px] lg:py-[100px] z-30 overflow-hidden flex items-center min-h-[85vh] transition-[padding]"
+        className="relative w-[calc(100%-40px)] md:w-[calc(100%-60px)] mx-auto rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] border border-slate-200/50 shadow-2xl py-16 md:py-24 lg:py-[80px] z-30 overflow-hidden flex items-center transition-[padding]"
       >
         
         {/* Background Elements Wrapper (Isolated overflow-hidden so sticky/pin works!) */}
@@ -145,7 +154,7 @@ export default function WhyChooseUs() {
           <div className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.10] blur-[100px]" style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} />
         </div>
 
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 w-full">
+        <div className="ng-container relative z-20 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 w-full">
           
           {/* Left Text Block */}
           <div className="w-full lg:w-5/12 flex flex-col items-start text-left pt-2">
@@ -233,11 +242,11 @@ export default function WhyChooseUs() {
                 {/* Floating White Box */}
                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 max-w-[90%] sm:max-w-[85%] bg-white rounded-xl p-4 sm:p-5 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-transform duration-300 group-hover:-translate-y-1">
                   
-                  <h3 className="text-lg sm:text-[20px] font-bold text-slate-900 leading-tight" style={{ fontFamily: "Sora, sans-serif" }}>
+                  <div className="text-lg sm:text-[20px] font-bold leading-tight" style={{ fontFamily: "Sora, sans-serif", color: "#0f172a" }}>
                     <span className="hover:text-[var(--accent-primary)] transition-colors duration-300 cursor-pointer">
                       {feature.title}
                     </span>
-                  </h3>
+                  </div>
                   
                   {/* Arrow Icon Button */}
                   <a href="#contact" className="shrink-0 transition-transform duration-300 hover:translate-x-1 cursor-pointer">

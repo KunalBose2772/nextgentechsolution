@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { FaTwitter, FaLinkedinIn, FaGithub, FaInstagram } from "react-icons/fa";
 import { COMPANY } from "@/lib/utils";
 
@@ -34,18 +34,14 @@ const footerLinks = {
     { label: "SaaS Platforms",   href: "/services#saas" },
     { label: "AI Solutions",     href: "/services#ai" },
     { label: "Cloud Computing",  href: "/services#cloud" },
-    { label: "UI/UX Design",     href: "/services#design" },
   ],
   Solutions: [
     { label: "Digital Transformation", href: "/solutions#digital" },
     { label: "Enterprise Software",    href: "/solutions#enterprise" },
     { label: "E-Commerce",             href: "/solutions#ecommerce" },
     { label: "FinTech",                href: "/solutions#fintech" },
-    { label: "HealthTech",             href: "/solutions#health" },
-    { label: "EdTech",                 href: "/solutions#education" },
   ],
   Resources: [
-    { label: "Case Studies",    href: "/case-studies" },
     { label: "Portfolio",       href: "/portfolio" },
     { label: "Privacy Policy",  href: "/privacy" },
     { label: "Terms of Service", href: "/terms" },
@@ -65,29 +61,101 @@ export default function Footer() {
       className="relative overflow-hidden"
       style={{
         background: "#000000",
-        borderTop: "1px solid rgba(255,255,255,0.05)",
+        borderTop: "1px solid rgba(255, 255, 255, 0.05)",
       }}
     >
-      <div className="ng-container py-16">
-        {/* Top: Brand + Newsletter */}
-        <div
-          className="flex flex-col lg:flex-row items-start justify-between gap-12 mb-12 pb-12"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
-        >
-          {/* Brand */}
-          <div className="lg:max-w-xs">
-            <Link href="/" className="flex items-center mb-5 group">
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
-                <LogoMark size={40} />
+      {/* 1. Pre-Footer High-Impact CTA Section (LET'S MAKE IT LEGENDARY) */}
+      <div 
+        className="border-b border-white/5"
+        style={{
+          background: "linear-gradient(180deg, rgba(10, 10, 11, 0.6) 0%, rgba(0, 0, 0, 0) 100%)",
+        }}
+      >
+        <div className="ng-container py-20 md:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-between">
+            {/* Left Big Text with Scroll-triggered Reveal & Loop Gradient Animation */}
+            <div className="lg:col-span-8 overflow-hidden">
+              <motion.h2 
+                className="text-white font-extrabold text-[46px] sm:text-[76px] lg:text-[90px] xl:text-[104px] leading-[0.92] tracking-tighter uppercase font-sora"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Let&apos;s Make It<br />
+                <motion.span 
+                  className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-650"
+                  style={{
+                    backgroundImage: "linear-gradient(90deg, #06B6D4, #3B82F6, #7c3aed, #06B6D4)",
+                    backgroundSize: "300% auto",
+                  }}
+                  animate={{
+                    backgroundPosition: ["0% center", "300% center"],
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  Legendary.
+                </motion.span>
+              </motion.h2>
+            </div>
+
+            {/* Right Subtitle & Pill Button */}
+            <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center lg:text-right gap-6">
+              <motion.p 
+                className="text-[14px] sm:text-[15px] leading-[1.65] text-slate-450 max-w-sm"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                style={{ color: "#94a3b8" }}
+              >
+                Stop being just another website. Be the benchmark of digital engineering and design in your industry.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <Link 
+                  href="/contact"
+                  className="inline-flex items-center gap-2.5 bg-white text-black hover:bg-slate-100 px-8 py-4.5 rounded-full font-bold text-xs sm:text-sm tracking-wider transition-all duration-300 shadow-xl cursor-pointer hover:scale-[1.03] active:scale-[0.98]"
+                  style={{ fontFamily: "Sora, sans-serif" }}
+                >
+                  GET IN TOUCH
+                  <ArrowUpRight className="w-4.5 h-4.5 text-black stroke-[2.5px] rotate-90" />
+                </Link>
               </motion.div>
-            </Link>
- 
-            <p className="text-[14px] leading-[1.7] mb-5" style={{ color: "#94A3B8" }}>
-              Engineering Tomorrow&apos;s Digital Future. We build world-class software for forward-thinking enterprises and startups.
-            </p>
- 
-            {/* Contact */}
-            <div className="space-y-2.5">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Main Footer Content */}
+      <div className="ng-container py-20 relative z-10">
+        
+        {/* Top Section: Brand + Links Grid + Newsletter */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
+          
+          {/* Brand Info (4 cols) */}
+          <div className="lg:col-span-4 flex flex-col justify-between min-h-[280px]">
+            <div>
+              <Link href="/" className="flex items-center mb-6 group w-max">
+                <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
+                  <LogoMark size={54} />
+                </motion.div>
+              </Link>
+              <p className="text-[13.5px] leading-[1.7] text-slate-400 mb-6 max-w-xs">
+                Engineering Tomorrow&apos;s Digital Future. We design and build high-performance software for startups and forward-thinking enterprises.
+              </p>
+            </div>
+
+            <div className="space-y-3">
               {[
                 { icon: Mail,   text: COMPANY.email,               href: `mailto:${COMPANY.email}` },
                 { icon: Phone,  text: COMPANY.phone,               href: `tel:${COMPANY.phone}` },
@@ -96,19 +164,16 @@ export default function Footer() {
                 <a
                   key={text}
                   href={href}
-                  className="flex items-center gap-2.5 text-[13px] transition-colors"
-                  style={{ color: "#64748B" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = "#94A3B8")}
-                  onMouseLeave={e => (e.currentTarget.style.color = "#64748B")}
+                  className="flex items-center gap-2.5 text-[13px] text-slate-500 hover:text-cyan-400 transition-colors duration-200"
                 >
-                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <Icon className="w-3.5 h-3.5 shrink-0 text-slate-450" />
                   {text}
                 </a>
               ))}
             </div>
- 
+
             {/* Socials */}
-            <div className="flex items-center gap-2 mt-5">
+            <div className="flex items-center gap-2.5 mt-6">
               {socials.map(({ icon: Icon, href, label }) => (
                 <motion.a
                   key={label}
@@ -116,119 +181,91 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-all"
-                  style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    color: "#64748B",
-                  }}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center border border-white/[0.05] bg-white/[0.02] text-slate-500 hover:text-cyan-400 hover:border-cyan-500/20 hover:bg-cyan-950/10 transition-all duration-300"
                   whileHover={{ scale: 1.08, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.30)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "#64748B"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                 >
                   <Icon className="w-3.5 h-3.5" />
                 </motion.a>
               ))}
             </div>
           </div>
- 
-          {/* Newsletter */}
-          <div className="lg:max-w-md w-full">
-            <div
-              className="rounded-[20px] p-6"
-              style={{
-                background: "var(--bg-surface)",
-                border: "1px solid rgba(255,255,255,0.06)",
-              }}
-            >
-              <span className="ng-label mb-3 block">Newsletter</span>
-              <h3
-                className="text-white font-semibold text-[18px] mb-2"
-                style={{ fontFamily: "Sora, sans-serif" }}
-              >
-                Stay ahead of the curve
-              </h3>
-              <p className="text-[13px] leading-[1.65] mb-5" style={{ color: "#94A3B8" }}>
-                Get the latest insights on technology, innovation, and digital transformation delivered to your inbox.
-              </p>
-              <form className="flex gap-3" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="ng-input flex-1"
-                  style={{ height: "44px" }}
-                />
-                <button
-                  type="submit"
-                  className="ng-btn-primary shrink-0"
-                  style={{ height: "44px", padding: "0 18px" }}
-                >
-                  Subscribe
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </form>
-              <p className="text-[11px] mt-3" style={{ color: "#64748B" }}>
-                No spam. Unsubscribe at any time.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* Links Grid */}
-        <div
-          className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12"
-        >
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4
-                className="text-white font-semibold text-[13px] mb-4"
-                style={{ fontFamily: "Sora, sans-serif" }}
+          {/* Links Grid (5 cols) */}
+          <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-4 gap-8">
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category} className="col-span-1">
+                <h4 
+                  className="text-white font-bold text-[12px] uppercase tracking-wider mb-4 font-sora"
+                >
+                  {category}
+                </h4>
+                <ul className="space-y-3">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-[13px] text-slate-400 hover:text-cyan-400 transition-colors duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Newsletter (3 cols) */}
+          <div className="lg:col-span-3">
+            <h4 className="text-white font-bold text-[12px] uppercase tracking-wider mb-4 font-sora">
+              Subscribe
+            </h4>
+            <p className="text-[13px] leading-[1.65] text-slate-400 mb-4">
+              Get the latest tech updates and engineering insights delivered straight to your inbox.
+            </p>
+            <form onSubmit={(e) => e.preventDefault()} className="space-y-2.5">
+              <input
+                type="email"
+                placeholder="email@address.com"
+                className="w-full h-11 px-4 rounded-xl border border-white/[0.06] bg-white/[0.02] text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/30 focus:bg-cyan-950/5 transition-all duration-300"
+                required
+              />
+              <button
+                type="submit"
+                className="w-full h-11 rounded-xl bg-white text-black hover:bg-slate-100 font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                {category}
-              </h4>
-              <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-[13px] transition-colors"
-                      style={{ color: "#64748B" }}
-                      onMouseEnter={e => (e.currentTarget.style.color = "#94A3B8")}
-                      onMouseLeave={e => (e.currentTarget.style.color = "#64748B")}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                SUBSCRIBE
+              </button>
+            </form>
+          </div>
+
         </div>
 
         {/* Bottom Bar */}
         <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+          className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-white/5"
         >
-          <p className="text-[13px]" style={{ color: "#64748B" }}>
-            © {new Date().getFullYear()} NextGen Tech Solutions. All rights reserved.
-          </p>
-          <div className="flex items-center gap-5">
-            <Link href="/privacy" className="text-[13px] transition-colors" style={{ color: "#64748B" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#94A3B8")}
-              onMouseLeave={e => (e.currentTarget.style.color = "#64748B")}
-            >
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-[13px] text-slate-500">
+            <p>© {new Date().getFullYear()} NextGen Tech Solutions. All rights reserved.</p>
+            <span className="hidden sm:inline text-slate-700">•</span>
+            {/* System Status Vibe */}
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" style={{ backgroundColor: "#10b981" }} />
+              <span>All systems operational</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-5 text-[13px]">
+            <Link href="/privacy" className="text-slate-500 hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-[13px] transition-colors" style={{ color: "#64748B" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#94A3B8")}
-              onMouseLeave={e => (e.currentTarget.style.color = "#64748B")}
-            >
+            <Link href="/terms" className="text-slate-500 hover:text-white transition-colors">
               Terms of Service
             </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

@@ -14,6 +14,7 @@ import {
 import { FaAws } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionGlow from "@/components/ui/SectionGlow";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,9 +109,10 @@ export default function TechStack() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-24 sm:py-32 overflow-hidden"
+      className="relative w-full py-24 sm:py-32"
       id="technologies"
     >
+      <SectionGlow />
       <style>{`
         @media (min-width: 1024px) {
           .lg-grid-place {
@@ -125,9 +127,9 @@ export default function TechStack() {
       `}</style>
 
       {/* --- BACKGROUND DESIGN --- */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#000000] via-[#05050A] to-[#000000]" />
-      <div className="absolute inset-0 z-0 opacity-[0.15]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none z-0" />
+      <div className="absolute inset-0 z-[-2] bg-gradient-to-b from-[#000000] via-[#05050A] to-[#000000]" />
+      <div className="absolute inset-0 z-[-2] opacity-[0.15]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none z-[-2]" />
       
       {/* Floating Particles */}
       {Array.from({ length: 12 }).map((_, i) => (

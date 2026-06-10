@@ -18,12 +18,12 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
         const Lenis = LenisModule.default;
 
         lenis = new Lenis({
-          duration: 1.2,
+          duration: 0.7,
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: "vertical",
           gestureOrientation: "vertical",
           smoothWheel: true,
-          wheelMultiplier: 1,
+          wheelMultiplier: 1.1,
           touchMultiplier: 2,
         }) as { destroy: () => void; raf: (time: number) => void };
 

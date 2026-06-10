@@ -52,11 +52,30 @@ export default function Contact() {
   };
 
   return (
-    <section
-      className="ng-section relative"
+    <section 
+      className="relative overflow-hidden py-16 md:py-24 z-30" 
       id="contact"
+      style={{
+        background: "linear-gradient(180deg, #0A0A0B 0%, #030303 100%)",
+      }}
     >
       <SectionGlow />
+
+      {/* Technical Dotted Grid Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.03] z-0 ng-grid-bg" 
+      />
+      
+      {/* Ambient Glows */}
+      <div 
+        className="absolute top-[10%] right-[-15%] w-[450px] h-[450px] rounded-full pointer-events-none opacity-[0.10] blur-[90px] z-0" 
+        style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
+      />
+      <div 
+        className="absolute bottom-[10%] left-[-15%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08] blur-[100px] z-0" 
+        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
+      />
+
       <div className="ng-container relative z-10">
         <div className="mb-14">
           <SectionHeader
@@ -76,10 +95,12 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
           >
             <div
-              className="rounded-[20px] p-8"
+              className="rounded-2xl p-8"
               style={{
-                background: "var(--bg-surface)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "rgba(255, 255, 255, 0.02)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
               }}
             >
               {sent ? (
@@ -95,7 +116,7 @@ export default function Contact() {
                     <Send className="w-6 h-6" style={{ color: "var(--accent-primary)" }} />
                   </div>
                   <h3
-                    className="text-white font-semibold text-[20px] mb-2"
+                    className="text-white font-bold text-[20px] mb-2"
                     style={{ fontFamily: "Sora, sans-serif" }}
                   >
                     Message Sent!
@@ -110,7 +131,7 @@ export default function Contact() {
                   )}
                   <button
                     onClick={() => { setSent(false); setLeadId(null); }}
-                    className="mt-6 text-[13px] font-medium transition-colors"
+                    className="mt-6 text-[13px] font-semibold transition-colors cursor-pointer"
                     style={{ color: "var(--accent-primary)" }}
                   >
                     Send another message
@@ -142,28 +163,28 @@ export default function Contact() {
                       <Label>Full Name *</Label>
                       <input type="text" required value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder="John Doe" className="ng-input" />
+                        placeholder="John Doe" className="ng-input bg-black/40 border-white/5 focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all" />
                     </div>
                     <div>
                       <Label>Email Address *</Label>
                       <input type="email" required value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        placeholder="john@company.com" className="ng-input" />
+                        placeholder="john@company.com" className="ng-input bg-black/40 border-white/5 focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all" />
                     </div>
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <Label>Phone Number</Label>
-                      <input type="tel" value={form.phone}
+                      <Label>Phone Number *</Label>
+                      <input type="tel" required value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                        placeholder="+91 9876543210" className="ng-input" />
+                        placeholder="+91 9876543210" className="ng-input bg-black/40 border-white/5 focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all" />
                     </div>
                     <div>
                       <Label>Budget Range</Label>
                       <select value={form.budget}
                         onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                        className="ng-input" style={{ appearance: "none", background: "var(--bg-surface)", color: form.budget ? "#ffffff" : "#64748B" }}
+                        className="ng-input bg-black/40 border-white/5 focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all" style={{ appearance: "none", color: form.budget ? "#ffffff" : "#64748B" }}
                       >
                         <option value="">Select budget</option>
                         <option value="5k-15k">$5K – $15K</option>
@@ -182,7 +203,7 @@ export default function Contact() {
                           key={s}
                           type="button"
                           onClick={() => setForm({ ...form, service: s })}
-                          className="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all"
+                          className="px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all cursor-pointer"
                           style={{
                             background: form.service === s ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.04)",
                             border: form.service === s ? "1px solid rgba(var(--accent-primary-rgb),0.30)" : "1px solid rgba(255,255,255,0.06)",
@@ -201,27 +222,27 @@ export default function Contact() {
                       required rows={4} value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       placeholder="Tell us about your project, goals, and timeline..."
-                      className="ng-textarea"
+                      className="ng-textarea bg-black/40 border-white/5 focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={sending}
-                    className="ng-btn-primary w-full justify-center"
+                    className="ng-btn-primary w-full justify-center cursor-pointer"
                     style={{ height: "52px" }}
                   >
                     {sending ? (
                       <>
-                        <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                        Sending...
-                      </>
+                      <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                      Sending...
+                    </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" />
-                        Send Message
-                        <ArrowRight className="w-4 h-4" />
-                      </>
+                      <Send className="w-4 h-4" />
+                      Send Message
+                      <ArrowRight className="w-4 h-4" />
+                    </>
                     )}
                   </button>
 
@@ -246,16 +267,22 @@ export default function Contact() {
               { icon: Phone,  label: "Call Us",   value: COMPANY.phone,                href: `tel:${COMPANY.phone}` },
               { icon: MapPin, label: "Location",  value: "India (Remote-First)",        href: "#" },
             ].map(({ icon: Icon, label, value, href }) => (
-              <a
+              <motion.a
                 key={label}
                 href={href}
-                className="flex items-center gap-4 rounded-[20px] p-5 transition-all group"
+                className="flex items-center gap-4 rounded-2xl p-5 transition-all group border"
                 style={{
-                  background: "var(--bg-surface)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: "rgba(255, 255, 255, 0.02)",
+                  borderColor: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb),0.22)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+                whileHover={{
+                  y: -4,
+                  borderColor: "rgba(var(--accent-primary-rgb), 0.25)",
+                  background: "rgba(255, 255, 255, 0.04)",
+                  boxShadow: "0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(var(--accent-primary-rgb), 0.04)"
+                }}
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -264,19 +291,24 @@ export default function Contact() {
                   <Icon className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
                 </div>
                 <div className="flex-1">
-                  <div className="text-[11px] font-medium mb-0.5" style={{ color: "#64748B" }}>{label}</div>
-                  <div className="text-[14px] font-medium text-white">{value}</div>
+                  <div className="text-[11px] font-bold mb-0.5" style={{ color: "#64748B" }}>{label}</div>
+                  <div className="text-[14px] font-bold text-white" style={{ fontFamily: "Sora, sans-serif" }}>{value}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" style={{ color: "#64748B" }} />
-              </a>
+              </motion.a>
             ))}
 
             {/* Social */}
             <div
-              className="rounded-[20px] p-5"
-              style={{ background: "var(--bg-surface)", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="rounded-2xl p-5"
+              style={{
+                background: "rgba(255, 255, 255, 0.02)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+              }}
             >
-              <p className="text-[11px] font-medium uppercase tracking-[0.10em] mb-4" style={{ color: "#64748B" }}>
+              <p className="text-[11px] font-bold uppercase tracking-[0.10em] mb-4" style={{ color: "#64748B" }}>
                 Connect With Us
               </p>
               <div className="flex gap-3">
@@ -285,40 +317,46 @@ export default function Contact() {
                   { icon: FaTwitter,   href: COMPANY.social.twitter,  label: "Twitter" },
                   { icon: FaGithub,    href: COMPANY.social.github,   label: "GitHub" },
                 ].map(({ icon: Icon, href, label }) => (
-                  <a
+                  <motion.a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-all border"
                     style={{
                       background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.06)",
+                      borderColor: "rgba(255,255,255,0.06)",
                       color: "#94A3B8",
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = "#94A3B8"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+                    whileHover={{
+                      scale: 1.02,
+                      color: "#ffffff",
+                      borderColor: "rgba(var(--accent-primary-rgb),0.35)",
+                      background: "rgba(var(--accent-primary-rgb),0.06)"
+                    }}
                   >
                     <Icon className="w-4 h-4" />
                     {label}
-                  </a>
+                  </motion.a>
                 ))}
               </div>
             </div>
 
             {/* Availability */}
             <div
-              className="rounded-[20px] p-5"
+              className="rounded-2xl p-5"
               style={{
-                background: "var(--bg-surface)",
+                background: "rgba(255, 255, 255, 0.02)",
                 border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
               }}
             >
               <div className="flex items-start gap-3">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0 mt-1.5" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shrink-0 mt-1.5" />
                 <div>
-                  <div className="text-white font-medium text-[14px] mb-1">Available right now</div>
+                  <div className="text-white font-bold text-[14px] mb-1" style={{ fontFamily: "Sora, sans-serif" }}>Available right now</div>
                   <p className="text-[13px] leading-[1.6]" style={{ color: "#94A3B8" }}>
                     Our team typically responds within 2–4 hours during business hours (IST). Guaranteed response within 24 hours.
                   </p>

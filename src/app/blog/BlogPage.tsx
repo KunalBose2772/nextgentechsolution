@@ -6,44 +6,7 @@ import PageHero from "@/components/common/PageHero";
 import { Clock, Tag, ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
 
-const posts = [
-  {
-    id: "1", title: "Building Scalable SaaS Architecture with Next.js 15 and Supabase",
-    excerpt: "A deep dive into the architecture patterns we use to build SaaS platforms that scale from 100 to 1 million users without rewriting everything.",
-    category: "Engineering", author: "Arjun Mehta", date: "May 15, 2025", readTime: "8 min",
-    tags: ["Next.js", "Supabase", "Architecture"], accent: "#3b82f6",
-  },
-  {
-    id: "2", title: "AI-Powered Features Every SaaS Product Needs in 2025",
-    excerpt: "From intelligent search and personalization to automated insights — the AI features that are now table stakes for competitive SaaS products.",
-    category: "AI & ML", author: "Priya Singh", date: "May 8, 2025", readTime: "6 min",
-    tags: ["AI", "OpenAI", "Product"], accent: "#7c3aed",
-  },
-  {
-    id: "3", title: "How We Cut Infrastructure Costs by 60% Using Kubernetes and Spot Instances",
-    excerpt: "A practical guide to optimizing your cloud spend without sacrificing reliability — real numbers from a real production system.",
-    category: "DevOps", author: "Rahul Dev", date: "April 28, 2025", readTime: "10 min",
-    tags: ["Kubernetes", "AWS", "Cost"], accent: "#22c55e",
-  },
-  {
-    id: "4", title: "The Complete Guide to React Native Performance Optimization",
-    excerpt: "Everything you need to know about making React Native apps feel as smooth as native — with code examples and benchmarks.",
-    category: "Mobile", author: "Vikram Shah", date: "April 20, 2025", readTime: "12 min",
-    tags: ["React Native", "Performance", "Mobile"], accent: "#f97316",
-  },
-  {
-    id: "5", title: "Designing Enterprise UI Systems: Lessons from 150+ Projects",
-    excerpt: "What we've learned building design systems for enterprise products — the patterns that work, the anti-patterns to avoid.",
-    category: "Design", author: "Ananya Mehta", date: "April 12, 2025", readTime: "7 min",
-    tags: ["Design System", "UI/UX", "Figma"], accent: "#ec4899",
-  },
-  {
-    id: "6", title: "PostgreSQL vs. Supabase vs. PlanetScale: Choosing for Scale",
-    excerpt: "An honest comparison of the top managed database platforms in 2025 — performance benchmarks, pricing, and developer experience.",
-    category: "Engineering", author: "Arjun Mehta", date: "April 5, 2025", readTime: "9 min",
-    tags: ["PostgreSQL", "Database", "Supabase"], accent: "#06b6d4",
-  },
-];
+import { posts } from "@/lib/blog-data";
 
 const categories = ["All", "Engineering", "AI & ML", "DevOps", "Mobile", "Design"];
 
