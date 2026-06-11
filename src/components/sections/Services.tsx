@@ -155,7 +155,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         {/* CTA Link */}
         <div className="pt-4 border-t border-slate-100 mt-2 flex">
           <Link
-            href={`/services#${service.id}`}
+            href={`/services/${service.id}`}
             className="inline-flex self-start items-center gap-1.5 text-[13px] font-semibold px-5 py-2 rounded-full text-white transition-all duration-200 cursor-pointer"
             style={{ 
               backgroundColor: "var(--accent-blue)",

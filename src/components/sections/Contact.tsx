@@ -265,7 +265,7 @@ export default function Contact() {
             {[
               { icon: Mail,   label: "Email Us",  value: COMPANY.email,                href: `mailto:${COMPANY.email}` },
               { icon: Phone,  label: "Call Us",   value: COMPANY.phone,                href: `tel:${COMPANY.phone}` },
-              { icon: MapPin, label: "Location",  value: "India (Remote-First)",        href: "#" },
+              { icon: MapPin, label: "Location",  value: COMPANY.location,        href: "#" },
             ].map(({ icon: Icon, label, value, href }) => (
               <motion.a
                 key={label}

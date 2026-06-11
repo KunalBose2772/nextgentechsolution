@@ -90,8 +90,8 @@ export const COMPANY = {
   name: "NextGen Tech Solution",
   tagline: "Transforming Ideas Into Intelligent Digital Solutions",
   email: "info@nextgentechsolution.org",
-  phone: "+91 9876543210",
-  location: "India",
+  phone: "+91 9031806381",
+  location: "509, RR Tower, Ratu Road, Ranchi",
   website: "https://nextgentechsolution.org",
   social: {
     twitter: "https://twitter.com/nextgentechsol",

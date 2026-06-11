@@ -176,8 +176,9 @@ export default function ServicesPage() {
     <div className="bg-[#050505] min-h-screen">
       <PageHero
         badge="Our Services"
-        title="End-to-End Technology"
-        titleHighlight="Services"
+        title="End-to-End"
+        titleHighlight="Technology"
+        titleOutline="Services"
         description="From MVP to enterprise scale — we offer the full spectrum of technology services that modern businesses need to win."
         gradient="rgba(6, 182, 212, 0.08)"
       >
@@ -237,11 +238,11 @@ export default function ServicesPage() {
                 </div>
                 
                 <Link
-                  href="/contact"
+                  href={`/services/${service.id}`}
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold text-xs tracking-wider transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                   style={{ background: `linear-gradient(135deg, ${service.accent}cc, ${service.accent}88)` }}
                 >
-                  Start This Project
+                  Explore Details & Pricing
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

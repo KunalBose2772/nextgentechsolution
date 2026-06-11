@@ -159,7 +159,7 @@ export default function Footer() {
               {[
                 { icon: Mail,   text: COMPANY.email,               href: `mailto:${COMPANY.email}` },
                 { icon: Phone,  text: COMPANY.phone,               href: `tel:${COMPANY.phone}` },
-                { icon: MapPin, text: "India (Remote-First)",      href: "#" },
+                { icon: MapPin, text: COMPANY.location,            href: "#" },
               ].map(({ icon: Icon, text, href }) => (
                 <a
                   key={text}

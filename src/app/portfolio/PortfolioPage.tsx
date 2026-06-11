@@ -11,7 +11,8 @@ export default function PortfolioPage() {
       <PageHero
         badge="Our Portfolio"
         title="150+ Projects,"
-        titleHighlight="Proven Results"
+        titleHighlight="Proven"
+        titleOutline="Results"
         description="A showcase of our best work — from early-stage startups to Fortune 500 enterprises across 10+ industries."
         gradient="rgba(6,182,212,0.07)"
       />

@@ -36,8 +36,9 @@ export default function AboutPage() {
     <div className="bg-[#050505] min-h-screen text-slate-300">
       <PageHero
         badge="About NextGen Tech"
-        title="We Build Software That"
-        titleHighlight="Changes Industries"
+        title="We Build Software"
+        titleHighlight="That Changes"
+        titleOutline="Industries"
         description="Founded in 2019, NextGen Tech Solution is a premium software development company on a mission to empower businesses with world-class digital solutions."
         gradient="rgba(6, 182, 212, 0.08)"
       />
