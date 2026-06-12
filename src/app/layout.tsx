@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import SmoothScroll from "@/components/animations/SmoothScroll";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { Toaster } from "react-hot-toast";
 
@@ -81,12 +80,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {isCRM ? (
           children
         ) : (
-          <SmoothScroll>
+          <>
             <Navbar />
             <main className="relative">{children}</main>
             <Footer />
             <ThemeToggle />
-          </SmoothScroll>
+          </>
         )}
       </body>
     </html>

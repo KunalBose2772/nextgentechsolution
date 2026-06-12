@@ -1,11 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import Link from "next/link";
-import SectionHeader from "@/components/ui/SectionHeader";
-import SectionGlow from "@/components/ui/SectionGlow";
 
 const faqs = [
   {
@@ -42,161 +39,68 @@ const faqs = [
   },
 ];
 
-function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <motion.div
-      className="border-b transition-all duration-300 relative group px-4 py-1"
-      style={{ 
-        borderColor: "rgba(255,255,255,0.06)",
-        background: open ? "rgba(255, 255, 255, 0.01)" : "transparent"
-      }}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ delay: index * 0.05, duration: 0.35 }}
-    >
-      {/* Active neon left strip indicator */}
-      {open && (
-        <motion.div 
-          className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#06B6D4] to-[#3B82F6]"
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          exit={{ scaleY: 0 }}
-          transition={{ duration: 0.2 }}
-        />
-      )}
-
-      <button
-        className="w-full flex items-center justify-between gap-4 py-5 text-left cursor-pointer"
-        onClick={() => setOpen(!open)}
-      >
-        <span
-          className="text-[14.5px] font-bold leading-[1.5] transition-colors"
-          style={{ color: open ? "#ffffff" : "#94A3B8", fontFamily: "Sora, sans-serif" }}
-        >
-          {item.q}
-        </span>
-        <div
-          className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
-          style={{
-            background: open ? "rgba(var(--accent-primary-rgb),0.12)" : "rgba(255,255,255,0.05)",
-            color: open ? "var(--accent-primary)" : "#64748B",
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-          }}
-        >
-          {open ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-        </div>
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
-            className="overflow-hidden"
-          >
-            <p className="text-[13.5px] leading-[1.75] pb-5 pr-12 text-[#94A3B8]">
-              {item.a}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
 export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (idx: number) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
+
   return (
-    <section 
-      className="relative overflow-hidden py-16 md:py-24 z-30" 
-      id="faq"
-      style={{
-        background: "linear-gradient(180deg, #0A0A0B 0%, #030303 100%)",
-      }}
-    >
-      <SectionGlow />
+    <section className="py-16 bg-slate-950 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-slate-950 to-slate-950 text-white border-t border-slate-900/50" id="faq">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Block */}
+          <div className="lg:col-span-5">
+            <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">
+              FAQ
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+              Answers to Your Questions
+            </h2>
+            <p className="text-slate-400 mb-8 max-w-lg leading-relaxed text-sm">
+              Everything you need to know before starting your project with us.
+            </p>
 
-      {/* Technical Dotted Grid Background */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.03] z-0 ng-grid-bg" 
-      />
-      
-      {/* Ambient Glows */}
-      <div 
-        className="absolute top-[20%] left-[-15%] w-[450px] h-[450px] rounded-full pointer-events-none opacity-[0.10] blur-[90px] z-0" 
-        style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
-      />
-      <div 
-        className="absolute bottom-[20%] right-[-15%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08] blur-[100px] z-0" 
-        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
-      />
-
-      <div className="ng-container relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left */}
-          <div className="lg:sticky lg:top-32">
-            <SectionHeader
-              badge="FAQ"
-              title="Answers to Your"
-              titleHighlight="Questions"
-              description="Everything you need to know before starting your project with us."
-              align="left"
-            />
-
-            <motion.div
-              className="mt-10 rounded-2xl p-6"
-              style={{
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(var(--accent-primary-rgb),0.15)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              whileHover={{
-                y: -4,
-                borderColor: "rgba(var(--accent-primary-rgb), 0.30)",
-                background: "rgba(255, 255, 255, 0.04)",
-                boxShadow: "0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(var(--accent-primary-rgb), 0.04)"
-              }}
-            >
-              <h4
-                className="text-white font-bold text-[16px] mb-2"
-                style={{ fontFamily: "Sora, sans-serif" }}
-              >
-                Still have questions?
-              </h4>
-              <p className="text-[13.5px] leading-[1.65] mb-5 text-[#94A3B8]">
-                Book a free 30-minute consultation. We&apos;ll answer everything and help figure out the best path forward.
+            <div className="p-6 bg-slate-900/40 border border-slate-800/60 rounded-2xl backdrop-blur-md">
+              <h4 className="text-base font-bold text-white mb-2">Still have questions?</h4>
+              <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+                Book a free 30-minute consultation. We'll answer everything and help figure out the best path forward.
               </p>
-              <Link href="/contact" className="ng-btn-primary text-[14px]" style={{ height: "44px" }}>
+              <Link href="/contact" className="inline-flex items-center justify-center bg-cyan-400 hover:bg-cyan-500 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-full transition-all">
                 Book Free Consultation
               </Link>
-            </motion.div>
-          </div>
-
-          {/* Right: FAQ items */}
-          <div
-            className="rounded-2xl p-2"
-            style={{
-              background: "rgba(255,255,255,0.01)",
-              border: "1px solid rgba(255,255,255,0.05)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-          >
-            <div>
-              {faqs.map((item, i) => (
-                <FAQItem key={i} item={item} index={i} />
-              ))}
             </div>
           </div>
+
+          {/* Right Block */}
+          <div className="lg:col-span-7 border border-slate-800/60 rounded-2xl bg-slate-900/40 p-6 backdrop-blur-md">
+            <div className="divide-y divide-slate-800/60">
+              {faqs.map((item, i) => {
+                const isOpen = openIndex === i;
+                return (
+                  <div key={i} className="py-4 first:pt-0 last:pb-0">
+                    <button
+                      className="w-full flex items-center justify-between gap-4 text-left font-bold text-sm text-slate-200 hover:text-white transition-colors duration-200"
+                      onClick={() => toggle(i)}
+                    >
+                      <span>{item.q}</span>
+                      <span className="text-cyan-400 shrink-0">
+                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <p className="mt-3 text-xs text-slate-400 leading-relaxed pl-1">
+                        {item.a}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

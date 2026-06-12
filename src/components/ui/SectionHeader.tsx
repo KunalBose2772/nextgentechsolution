@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 interface SectionHeaderProps {
   badge?: string;
   title: string;
@@ -27,42 +25,28 @@ export default function SectionHeader({
   return (
     <div className={`${isCenter ? "text-center mx-auto" : ""} max-w-[640px] ${isCenter ? "mx-auto" : ""} ${className}`}>
       {badge && (
-        <motion.div
-          className={`mb-4 ${isCenter ? "flex justify-center" : ""}`}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-        >
+        <div className={`mb-4 ${isCenter ? "flex justify-center" : ""}`}>
           <span className="ng-badge">{badge}</span>
-        </motion.div>
+        </div>
       )}
 
-      <motion.h2
+      <h2
         className="ng-h2 mb-4"
         style={{ color: isLight ? "#0F172A" : "#ffffff" }}
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.45, delay: 0.06 }}
       >
         {title}{" "}
         {titleHighlight && (
           <span style={{ color: "var(--accent-primary)" }}>{titleHighlight}</span>
         )}
-      </motion.h2>
+      </h2>
 
       {description && (
-        <motion.p
+        <p
           className="text-[17px] leading-[1.75]"
           style={{ color: isLight ? "#475569" : "#94A3B8" }}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.12 }}
         >
           {description}
-        </motion.p>
+        </p>
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import FAQ from "@/components/sections/FAQ";
 
 export default function ContactPage() {
   return (
-    <div className="bg-[#050505]">
+    <div className="bg-white">
       <PageHero
         badge="Contact Us"
         title="Let's Start a"

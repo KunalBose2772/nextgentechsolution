@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -40,45 +39,23 @@ export default function GlowButton({
   };
 
   const variants = {
-    primary: "relative overflow-hidden text-white font-semibold rounded-xl",
+    primary: "relative overflow-hidden text-white font-semibold rounded-xl bg-cyan-500 hover:bg-cyan-600 transition-colors text-slate-950",
     secondary: "bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/10 hover:border-white/20 font-medium rounded-xl transition-all duration-300",
     outline: "border border-blue-500/40 hover:border-blue-500/70 text-blue-400 hover:text-blue-300 font-medium rounded-xl transition-all duration-300 hover:bg-blue-500/5",
     ghost: "text-white/60 hover:text-white font-medium rounded-xl transition-all duration-300 hover:bg-white/5",
   };
 
   const content = (
-    <motion.div
+    <div
       className={cn(
-        "inline-flex items-center justify-center cursor-pointer",
+        "inline-flex items-center justify-center cursor-pointer transition-transform duration-150 active:scale-95",
         sizes[size],
         variants[variant],
         disabled && "opacity-50 pointer-events-none",
         className
       )}
-      whileHover={{ scale: disabled ? 1 : 1.02 }}
-      whileTap={{ scale: disabled ? 1 : 0.98 }}
-      transition={{ type: "spring", stiffness: 400, damping: 20 }}
       onClick={onClick}
     >
-      {variant === "primary" && (
-        <>
-          <div
-            className="absolute inset-0 rounded-xl"
-            style={{ background: "linear-gradient(135deg, #3b82f6, #7c3aed)" }}
-          />
-          <div className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
-            style={{ background: "linear-gradient(135deg, #60a5fa, #a78bfa)" }}
-          />
-          <div className="absolute inset-[-1px] rounded-xl opacity-0 hover:opacity-60 blur-sm transition-opacity duration-300"
-            style={{ background: "linear-gradient(135deg, #3b82f6, #7c3aed)" }}
-          />
-          {/* Shimmer */}
-          <div className="absolute inset-0 rounded-xl overflow-hidden">
-            <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 hover:left-full transition-all duration-700" />
-          </div>
-        </>
-      )}
-
       {icon && iconPosition === "left" && (
         <span className="relative z-10 flex items-center">{icon}</span>
       )}
@@ -86,7 +63,7 @@ export default function GlowButton({
       {icon && iconPosition === "right" && (
         <span className="relative z-10 flex items-center">{icon}</span>
       )}
-    </motion.div>
+    </div>
   );
 
   if (href) {
@@ -102,7 +79,7 @@ export default function GlowButton({
   }
 
   return (
-    <button type={type} disabled={disabled}>
+    <button type={type} disabled={disabled} onClick={onClick}>
       {content}
     </button>
   );

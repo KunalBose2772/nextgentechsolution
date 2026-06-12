@@ -7,7 +7,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function TechnologiesPage() {
   return (
-    <div className="bg-[#050505]">
+    <div className="bg-white">
       <PageHero
         badge="Technology Stack"
         title="Built with the Best"

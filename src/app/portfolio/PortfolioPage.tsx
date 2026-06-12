@@ -7,7 +7,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function PortfolioPage() {
   return (
-    <div className="bg-[#050505]">
+    <div className="bg-white">
       <PageHero
         badge="Our Portfolio"
         title="150+ Projects,"
@@ -17,7 +17,7 @@ export default function PortfolioPage() {
         gradient="rgba(6,182,212,0.07)"
       />
       <Portfolio />
-      <CaseStudies />
+      <CaseStudies theme="dark" />
       <Contact />
     </div>
   );

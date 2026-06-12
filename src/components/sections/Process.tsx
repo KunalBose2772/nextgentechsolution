@@ -1,13 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { 
   Search, FileText, Palette, Code2, TestTube, Rocket, Wrench, 
-  CheckCircle, ArrowRight, Sparkles 
+  CheckCircle, ArrowRight, Sparkles, Sliders, Layers, Zap, Cpu
 } from "lucide-react";
 import Link from "next/link";
-import SectionHeader from "@/components/ui/SectionHeader";
-import SectionGlow from "@/components/ui/SectionGlow";
 
 const steps = [
   {
@@ -17,8 +15,9 @@ const steps = [
     description: "Deep-dive into your business goals, requirements, and user needs. We map out scope, conduct competitive research, and define concrete success metrics.",
     duration: "1–2 weeks",
     deliverables: ["Product Requirements Document", "Technical Feasibility Audit", "Roadmap & Estimate"],
-    color: "#06B6D4",
-    glow: "rgba(6, 182, 212, 0.15)",
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50",
+    borderColor: "border-cyan-200/60"
   },
   {
     icon: FileText,
@@ -27,8 +26,9 @@ const steps = [
     description: "Designing the blueprint. We select the technology stack, structure system architecture, define database schemas, and map out milestones for execution.",
     duration: "1 week",
     deliverables: ["Database & Schema Design", "Tech Stack Selection", "Timeline & Sprint Planning"],
-    color: "#7C3AED",
-    glow: "rgba(124, 58, 237, 0.15)",
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    borderColor: "border-violet-200/60"
   },
   {
     icon: Palette,
@@ -37,8 +37,9 @@ const steps = [
     description: "Crafting pixel-perfect interface designs. We build user flows, wireframes, interactive prototypes, and a comprehensive design system.",
     duration: "2–3 weeks",
     deliverables: ["High-Fidelity Figma Mockups", "Interactive Prototypes", "Design System & Tokens"],
-    color: "#EC4899",
-    glow: "rgba(236, 72, 153, 0.15)",
+    color: "text-pink-600",
+    bgColor: "bg-pink-50",
+    borderColor: "border-pink-200/60"
   },
   {
     icon: Code2,
@@ -47,8 +48,9 @@ const steps = [
     description: "Code implementation. We build in fast-paced sprints with daily updates, automated code testing, clean architectures, and clear documentation.",
     duration: "4–12 weeks",
     deliverables: ["Production-Ready Build", "Documented APIs & Schema", "Clean Unit & Integration Tests"],
-    color: "#10B981",
-    glow: "rgba(16, 185, 129, 0.15)",
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-50",
+    borderColor: "border-emerald-200/60"
   },
   {
     icon: TestTube,
@@ -57,8 +59,9 @@ const steps = [
     description: "Quality assurance. We perform rigid security scans, speed performance tuning, accessibility testing, and end-to-end user flows validation.",
     duration: "1–2 weeks",
     deliverables: ["Security & Penetration Audit", "Performance & Speed Audit", "Automated QA Test Reports"],
-    color: "#F59E0B",
-    glow: "rgba(245, 158, 11, 0.15)",
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    borderColor: "border-amber-200/60"
   },
   {
     icon: Rocket,
@@ -67,8 +70,9 @@ const steps = [
     description: "Going live securely. We configure automated CI/CD pipelines, set up autoscaling infrastructure, monitor telemetry metrics, and deploy without downtime.",
     duration: "1 week",
     deliverables: ["Zero-Downtime Live Release", "CI/CD Pipeline Integration", "Monitoring & Alerts Setup"],
-    color: "#3B82F6",
-    glow: "rgba(59, 130, 246, 0.15)",
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    borderColor: "border-blue-200/60"
   },
   {
     icon: Wrench,
@@ -77,199 +81,408 @@ const steps = [
     description: "Long-term partnership. We keep servers updated, monitor application health, apply security updates, and implement ongoing performance optimizations.",
     duration: "Ongoing",
     deliverables: ["24/7 Monitoring Reports", "Server Security Patches", "Feature Updates & Tweaks"],
-    color: "#8B5CF6",
-    glow: "rgba(139, 92, 246, 0.15)",
+    color: "text-purple-600",
+    bgColor: "bg-purple-50",
+    borderColor: "border-purple-200/60"
   }
 ];
 
+const servicesList = [
+  "Web Development",
+  "Mobile App",
+  "SaaS Platform",
+  "AI Solutions",
+  "Cloud / DevOps",
+  "UI/UX Design"
+];
+
+const projectScales = [
+  {
+    name: "MVP Prototype",
+    desc: "Proof of concept or initial version to validate product-market fit quickly.",
+    multiplier: 1.0
+  },
+  {
+    name: "Startup Disruptor",
+    desc: "Custom production application with integrations, ready to scale for users.",
+    multiplier: 2.2
+  },
+  {
+    name: "Enterprise Scale",
+    desc: "Mission-critical system with high availability, security audits, and multi-tenant setup.",
+    multiplier: 4.5
+  }
+];
+
+const velocities = [
+  { name: "Standard Delivery", desc: "Optimal engineering velocity", durationMult: 1.0, costMult: 1.0 },
+  { name: "Express Velocity", desc: "40% faster delivery speed", durationMult: 0.6, costMult: 1.25 },
+  { name: "Ultra Speed Run", desc: "60% faster with dedicated devs", durationMult: 0.4, costMult: 1.5 }
+];
+
 export default function Process() {
+  const [selectedService, setSelectedService] = useState("Web Development");
+  const [selectedScale, setSelectedScale] = useState("Startup Disruptor");
+  const [selectedVelocity, setSelectedVelocity] = useState("Standard Delivery");
+  const [blueprintId, setBlueprintId] = useState("");
+
+  useEffect(() => {
+    const serviceCode = selectedService.slice(0, 3).toUpperCase().replace(" ", "");
+    const scaleCode = selectedScale.slice(0, 3).toUpperCase().replace(" ", "");
+    const randNum = Math.floor(1000 + Math.random() * 9000);
+    setBlueprintId(`NG-${serviceCode}-${scaleCode}-${randNum}`);
+  }, [selectedService, selectedScale]);
+
+  // Calculate telemetry values
+  const baseHoursMap: Record<string, number> = {
+    "Web Development": 120,
+    "Mobile App": 160,
+    "SaaS Platform": 240,
+    "AI Solutions": 200,
+    "Cloud / DevOps": 80,
+    "UI/UX Design": 60,
+  };
+
+  const currentScale = projectScales.find(s => s.name === selectedScale) || projectScales[1];
+  const currentVelocity = velocities.find(v => v.name === selectedVelocity) || velocities[0];
+
+  const baseHours = baseHoursMap[selectedService] || 120;
+  const calculatedHours = Math.round(baseHours * currentScale.multiplier);
+  const calculatedWeeks = Math.max(2, Math.round((calculatedHours / 35) * currentVelocity.durationMult));
+
+  const minCost = calculatedHours * 55 * currentVelocity.costMult;
+  const maxCost = calculatedHours * 80 * currentVelocity.costMult;
+
+  const formatCostValue = (val: number) => {
+    return `$${(val / 1000).toFixed(1)}k`;
+  };
+
+  const costRangeStr = `${formatCostValue(minCost)} – ${formatCostValue(maxCost)}`;
+
+  // Determine budget option to prefill in Contact form
+  let mappedBudget = "5k-15k";
+  const averageCost = (minCost + maxCost) / 2;
+  if (averageCost < 15000) mappedBudget = "5k-15k";
+  else if (averageCost >= 15000 && averageCost < 50000) mappedBudget = "15k-50k";
+  else if (averageCost >= 50000 && averageCost < 100000) mappedBudget = "50k-100k";
+  else mappedBudget = "100k+";
+
+  const handleLockScope = () => {
+    const scopeData = {
+      service: selectedService,
+      scale: selectedScale,
+      velocity: selectedVelocity,
+      hours: calculatedHours,
+      costRange: costRangeStr,
+      blueprintId,
+      budget: mappedBudget
+    };
+    localStorage.setItem("nextgen_planned_scope", JSON.stringify(scopeData));
+    window.dispatchEvent(new Event("nextgen_scope_locked"));
+
+    const el = document.getElementById("contact");
+    if (el) {
+      const offset = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: offset, behavior: "auto" });
+    }
+  };
+
   return (
-    <section 
-      className="relative overflow-hidden py-20 md:py-28 z-30" 
-      id="process"
-      style={{
-        background: "linear-gradient(180deg, #0A0A0B 0%, #030303 100%)",
-      }}
-    >
-      <SectionGlow />
-
-      {/* Grid background overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.02] z-0 ng-grid-bg" />
-
-      {/* Dynamic Background Radial Glows */}
-      <div 
-        className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08] blur-[100px] z-0" 
-        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
-      />
-      <div 
-        className="absolute bottom-[10%] right-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08] blur-[100px] z-0" 
-        style={{ background: "radial-gradient(circle, #7C3AED 0%, transparent 70%)" }} 
-      />
-
-      <div className="ng-container relative z-10">
+    <section className="py-16 bg-slate-50 text-slate-850 border-t border-slate-200/50" id="process">
+      <div className="max-w-7xl mx-auto px-4">
         
-        {/* Section Header */}
-        <div className="mb-16 text-center">
-          <SectionHeader
-            badge="Our Process"
-            title="How We"
-            titleHighlight="Build Excellence"
-            description="Our proven 7-step engineering framework designed to take products from abstract concept to market leader."
-            align="center"
-          />
+        {/* Process Section Header */}
+        <div className="text-center mb-12">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
+            OUR PROCESS
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            How We Build Excellence
+          </h2>
+          <p className="text-slate-550 mt-2 text-sm max-w-xl mx-auto leading-relaxed">
+            Our proven 7-step engineering framework designed to take products from abstract concept to market leader.
+          </p>
         </div>
 
-        {/* Process Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          
-          {steps.map((step, idx) => {
+        {/* Steps Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+          {steps.map((step) => {
             const Icon = step.icon;
             return (
-              <motion.div
+              <div
                 key={step.number}
-                className="group rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
-                style={{
-                  background: "rgba(255, 255, 255, 0.02)",
-                  border: "1px solid rgba(255, 255, 255, 0.05)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: idx * 0.06 }}
-                whileHover={{
-                  y: -6,
-                  borderColor: `${step.color}35`,
-                  background: "rgba(255, 255, 255, 0.04)",
-                  boxShadow: `0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px ${step.glow}`
-                }}
+                className="p-6 bg-white border border-slate-200/60 rounded-2xl flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-sm"
               >
-                {/* Dynamic Corner Highlight */}
-                <div 
-                  className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
-                  style={{ background: `radial-gradient(circle, ${step.color}30, transparent 70%)` }}
-                />
-
                 <div>
-                  {/* Top line with Icon and Number */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div 
-                      className="w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-300"
-                      style={{
-                        background: `${step.color}10`,
-                        borderColor: `${step.color}25`,
-                        color: step.color,
-                      }}
-                    >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${step.bgColor} ${step.borderColor} ${step.color}`}>
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span 
-                      className="text-4xl font-extrabold select-none opacity-10 group-hover:opacity-20 transition-opacity duration-300 font-sora"
-                      style={{ color: step.color }}
-                    >
+                    <span className="text-2xl font-extrabold text-slate-150">
                       {step.number}
                     </span>
                   </div>
 
-                  {/* Title & Duration */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
-                      <h4 
-                        className="text-white font-bold text-[16px] group-hover:text-white transition-colors font-sora"
-                      >
-                        {step.title}
-                      </h4>
-                    </div>
-                    <span 
-                      className="text-[10px] font-semibold px-2 py-0.5 rounded-md"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.04)",
-                        border: "1px solid rgba(255, 255, 255, 0.06)",
-                        color: "#94A3B8"
-                      }}
-                    >
-                      {step.duration}
-                    </span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-[13px] leading-[1.6] text-slate-400 mb-6 group-hover:text-slate-300 transition-colors">
+                  <h4 className="text-sm font-bold text-slate-900 mb-2">
+                    {step.title}
+                  </h4>
+                  <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-slate-50 border border-slate-100 text-slate-500 mb-4">
+                    {step.duration}
+                  </span>
+                  <p className="text-xs text-slate-550 leading-relaxed mb-6">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Deliverables List */}
-                <div className="pt-4 border-t border-white/5 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748B] block mb-1">
+                <div className="pt-4 border-t border-slate-100 space-y-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
                     Key Deliverables:
                   </span>
                   {step.deliverables.map((del, dIdx) => (
-                    <div key={dIdx} className="flex items-start gap-2 text-[11.5px] text-slate-400">
-                      <CheckCircle 
-                        className="w-3.5 h-3.5 shrink-0 mt-0.5" 
-                        style={{ color: step.color }} 
-                      />
+                    <div key={dIdx} className="flex items-start gap-2 text-xs text-slate-600">
+                      <CheckCircle className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${step.color}`} />
                       <span>{del}</span>
                     </div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
 
-          {/* Symmetrical CTA Card */}
-          <motion.div
-            className="group rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%)",
-              border: "1px solid rgba(6, 182, 212, 0.15)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.5, delay: 7 * 0.06 }}
-            whileHover={{
-              y: -6,
-              borderColor: "rgba(6, 182, 212, 0.35)",
-              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(6, 182, 212, 0.20)"
-            }}
-          >
-            {/* Background Glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-50 pointer-events-none" />
-
+          {/* Start Project Box */}
+          <div className="p-6 bg-blue-50/50 border border-blue-100/50 rounded-2xl flex flex-col justify-between transition-all duration-200 hover:-translate-y-1">
             <div>
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
-                  <Sparkles className="w-5 h-5 animate-pulse" />
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-150 flex items-center justify-center text-blue-600">
+                  <Sparkles className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 font-sora">
-                  Start Now
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
+                  Interactive
                 </span>
               </div>
 
-              <h4 className="text-white font-extrabold text-[17px] mb-2 font-sora leading-snug">
-                Have a project idea in mind?
+              <h4 className="text-sm font-bold text-slate-900 mb-2">
+                Configure your own scope?
               </h4>
-              <p className="text-[13px] leading-[1.6] text-slate-400 mb-6">
-                Let&apos;s build a custom solution engineered specifically for your business goals, performance targets, and scalability needs.
+              <p className="text-xs text-slate-550 leading-relaxed mb-6">
+                Scroll down to use our dynamic Project Configurator tool to build a custom blueprint and request a tailored quote.
               </p>
             </div>
 
-            <div className="pt-4">
-              <Link 
-                href="/contact"
-                className="w-full h-11 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/10 transition-all cursor-pointer"
+            <div className="pt-4 border-t border-blue-100/40">
+              <button 
+                onClick={() => {
+                  const el = document.getElementById("scope-planner");
+                  if (el) {
+                    const offset = el.getBoundingClientRect().top + window.scrollY - 100;
+                    window.scrollTo({ top: offset, behavior: "auto" });
+                  }
+                }}
+                className="w-full h-11 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2 rounded-lg transition-all"
               >
-                Get a Free Proposal
+                Go to Planner
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </button>
             </div>
-          </motion.div>
-
+          </div>
         </div>
+
+        {/* Scope Planner Section */}
+        <div className="border-t border-slate-200/60 pt-16" id="scope-planner">
+          <div className="text-center mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
+              INTERACTIVE PLANNER
+            </span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Interactive Scope & Cost Planner
+            </h3>
+            <p className="text-slate-550 mt-2 text-xs max-w-xl mx-auto leading-relaxed">
+              Define your custom solution parameters to generate immediate technical estimates and blueprint calculations.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
+            
+            {/* Left Controls */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Service Selection */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
+                  1. Select Service Type
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {servicesList.map((service) => (
+                    <button
+                      key={service}
+                      type="button"
+                      onClick={() => setSelectedService(service)}
+                      className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-all text-center ${
+                        selectedService === service
+                          ? "bg-blue-50 border-blue-600 text-blue-600"
+                          : "bg-white border-slate-200 text-slate-600 hover:border-slate-350"
+                      }`}
+                    >
+                      {service}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Project Scale */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
+                  2. Choose Project Scale
+                </label>
+                <div className="space-y-2">
+                  {projectScales.map((scale) => (
+                    <button
+                      key={scale.name}
+                      type="button"
+                      onClick={() => setSelectedScale(scale.name)}
+                      className={`w-full text-left p-4 rounded-xl border transition-all flex items-start gap-3.5 ${
+                        selectedScale === scale.name
+                          ? "bg-blue-50/40 border-blue-600"
+                          : "bg-white border-slate-200 hover:border-slate-350"
+                      }`}
+                    >
+                      <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
+                        selectedScale === scale.name
+                          ? "border-blue-600 bg-blue-600 text-white"
+                          : "border-slate-300 bg-white text-transparent"
+                      }`}>
+                        <CheckCircle className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-900 mb-1">{scale.name}</div>
+                        <div className="text-[11px] text-slate-500 leading-normal">{scale.desc}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Delivery Velocity */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
+                  3. Select Delivery Velocity
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {velocities.map((v) => (
+                    <button
+                      key={v.name}
+                      type="button"
+                      onClick={() => setSelectedVelocity(v.name)}
+                      className={`p-3.5 rounded-xl border transition-all text-left flex flex-col justify-between ${
+                        selectedVelocity === v.name
+                          ? "bg-blue-50 border-blue-600 text-blue-600"
+                          : "bg-white border-slate-200 text-slate-600 hover:border-slate-350"
+                      }`}
+                    >
+                      <div className="text-xs font-bold mb-1 flex items-center gap-1.5">
+                        {v.name === "Ultra Speed Run" ? (
+                          <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                        ) : (
+                          <Sliders className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        )}
+                        {v.name}
+                      </div>
+                      <div className="text-[10px] text-slate-450 leading-normal">{v.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Telemetry Dashboard (Corporate Sleek Dark Theme) */}
+            <div className="lg:col-span-5 bg-slate-950 border border-slate-800 text-slate-300 rounded-3xl p-6 relative overflow-hidden font-mono shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              {/* Neon Grid Backdrop */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+              
+              <div className="relative z-10 space-y-6">
+                
+                {/* HUD Header */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                  <div className="flex items-center gap-2">
+                    <Cpu className="w-4 h-4 text-blue-500 animate-pulse" />
+                    <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">
+                      Telemetry HUD v2.6
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                    ONLINE
+                  </span>
+                </div>
+
+                {/* Console Log Lines */}
+                <div className="space-y-3.5 text-[11px] leading-relaxed">
+                  <div className="text-slate-500">
+                    &gt; [SYSTEMSTATUS]: COMPILING REAL-TIME BLUEPRINT ENGINE...
+                  </div>
+                  
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">BLUEPRINT ID:</span>
+                    <span className="text-blue-400 font-bold">{blueprintId}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">PRIMARY MODULE:</span>
+                    <span className="text-white font-bold">{selectedService}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">PROJECT SCALE:</span>
+                    <span className="text-white font-bold">{selectedScale}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">VELOCITY MODE:</span>
+                    <span className="text-white font-bold">{selectedVelocity}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">ARCH COMPATIBILITY:</span>
+                    <span className="text-emerald-400 font-bold">99.8% READY</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 pt-4">
+                    <div className="bg-slate-900/50 border border-slate-850 p-3 rounded-xl">
+                      <div className="text-[9px] text-slate-500 mb-1">DEVELOPER HOURS</div>
+                      <div className="text-lg font-bold text-white tracking-tight">{calculatedHours} hrs</div>
+                    </div>
+                    <div className="bg-slate-900/50 border border-slate-850 p-3 rounded-xl">
+                      <div className="text-[9px] text-slate-500 mb-1">EST. DELIVERY</div>
+                      <div className="text-lg font-bold text-white tracking-tight">~{calculatedWeeks} weeks</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-950/20 border border-blue-900/30 p-4 rounded-xl mt-4">
+                    <div className="text-[9px] text-blue-400 mb-1">ESTIMATED BUDGET RANGE</div>
+                    <div className="text-2xl font-bold text-blue-400 tracking-tight">{costRangeStr}</div>
+                  </div>
+                </div>
+
+                {/* Submit Action */}
+                <button
+                  type="button"
+                  onClick={handleLockScope}
+                  className="w-full h-12 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 rounded-xl transition-all shadow-[0_4px_16px_rgba(59,130,246,0.3)] mt-6 cursor-pointer"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Lock Scope & Pre-fill Form
+                </button>
+
+                <p className="text-[9px] text-slate-500 text-center leading-normal mt-2">
+                  * All calculations are preliminary estimates based on standard developers output metrics and baseline requirements.
+                </p>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </section>
   );

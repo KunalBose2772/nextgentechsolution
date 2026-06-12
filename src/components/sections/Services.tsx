@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Code2, Smartphone, Layers, Brain, Cloud, Server,
   BarChart3, Palette, Zap, Settings2, ArrowRight, ChevronRight, CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
-import SectionHeader from "@/components/ui/SectionHeader";
-import SectionGlow from "@/components/ui/SectionGlow";
 
-// Category definitions
 const categories = [
   { id: "all", label: "All Services" },
   { id: "software", label: "Software & SaaS" },
@@ -71,116 +67,6 @@ const services = [
   },
 ];
 
-// Single Service Card Component
-function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }
-
-  return (
-    <motion.div
-      layout
-      className="group relative rounded-2xl p-6 bg-white border border-slate-200/80 overflow-hidden cursor-pointer flex flex-col justify-between"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.45, delay: index * 0.03 }}
-      whileHover={{ 
-        y: -6,
-        borderColor: "rgba(var(--accent-primary-rgb), 0.35)",
-        boxShadow: "0 20px 40px -10px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(var(--accent-primary-rgb), 0.1)"
-      }}
-      style={{
-        boxShadow: "0 4px 20px -4px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02)",
-        transition: "border-color 0.25s ease, box-shadow 0.25s ease"
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Background Spotlight Tracking Layer */}
-      {isHovered && (
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-0"
-          style={{
-            background: `radial-gradient(220px circle at ${coords.x}px ${coords.y}px, rgba(var(--accent-primary-rgb), 0.06), transparent 85%)`,
-          }}
-        />
-      )}
-
-      <div className="relative z-10 flex flex-col h-full">
-        {/* Header: Icon & Category Indicator */}
-        <div className="flex items-center justify-between mb-5">
-          <div
-            className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-            style={{ backgroundColor: "var(--accent-primary-dim)" }}
-          >
-            <service.icon className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
-          </div>
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-50/50 px-2.5 py-1 rounded-full border border-slate-200/60">
-            {service.category}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h3
-          className="text-[17px] font-bold mb-2 mt-1"
-          style={{ fontFamily: "Sora, sans-serif", color: "#0F172A" }}
-        >
-          {service.title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-[13.5px] leading-[1.65] mb-5 flex-grow" style={{ color: "#334155" }}>
-          {service.description}
-        </p>
-
-        {/* Features Checklist */}
-        <div className="space-y-2 mb-6 border-t border-slate-100 pt-4">
-          {service.features.map((feature) => (
-            <div key={feature} className="flex items-center gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
-              <span className="text-[12.5px] font-medium" style={{ color: "#334155" }}>{feature}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA Link */}
-        <div className="pt-4 border-t border-slate-100 mt-2 flex">
-          <Link
-            href={`/services/${service.id}`}
-            className="inline-flex self-start items-center gap-1.5 text-[13px] font-semibold px-5 py-2 rounded-full text-white transition-all duration-200 cursor-pointer"
-            style={{ 
-              backgroundColor: "var(--accent-blue)",
-              boxShadow: "0 4px 12px 0 rgba(37, 99, 235, 0.22)",
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = "var(--accent-primary-hover)";
-              e.currentTarget.style.boxShadow = "0 6px 18px 0 rgba(37, 99, 235, 0.32)";
-              e.currentTarget.style.transform = "translateY(-1.5px)";
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = "var(--accent-blue)";
-              e.currentTarget.style.boxShadow = "0 4px 12px 0 rgba(37, 99, 235, 0.22)";
-              e.currentTarget.style.transform = "none";
-            }}
-          >
-            Explore service 
-            <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </Link>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 export default function Services() {
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -190,142 +76,81 @@ export default function Services() {
   });
 
   return (
-    <section className="py-6 sm:py-10 relative" id="services">
-      <SectionGlow />
-
-      {/* Curved Visual Capsule Section Wrapper */}
-      <div 
-        className="relative mx-[20px] md:mx-[30px] rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] overflow-hidden border border-slate-200/50 shadow-2xl py-[20px] md:py-[30px] z-30"
-        style={{
-          background: "linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%)",
-        }}
-      >
-        {/* Technical Dotted Grid Background */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-[0.25] z-0" 
-          style={{
-            backgroundImage: "radial-gradient(circle at 1px 1px, rgba(6, 182, 212, 0.15) 1.5px, transparent 0)",
-            backgroundSize: "24px 24px"
-          }}
-        />
-
-        {/* Large Blurry Colored Ambient Glows */}
-        <div 
-          className="absolute top-[-10%] left-[-15%] w-[450px] h-[450px] rounded-full pointer-events-none opacity-[0.14] blur-[90px] z-0" 
-          style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
-        />
-        <div 
-          className="absolute bottom-[-10%] right-[-15%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.10] blur-[100px] z-0" 
-          style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
-        />
-
-        <div className="ng-container relative z-10">
-          
-          {/* Section Header — text left, tabs right */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-14">
-
-            {/* Left: text */}
-            <div className="max-w-xl">
-              <SectionHeader
-                theme="light"
-                badge="Our Services"
-                title="Everything You Need to"
-                titleHighlight="Build & Scale"
-                description="From concept to launch and beyond — end-to-end technology services for every stage of your digital journey."
-                align="left"
-              />
-            </div>
-
-            {/* Right: liquid glass filter tabs */}
-            <div className="flex justify-start lg:justify-end shrink-0">
-              <div
-                className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-full"
-                style={{
-                  background: "rgba(255, 255, 255, 0.30)",
-                  backdropFilter: "blur(20px) saturate(180%)",
-                  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                  border: "1px solid rgba(255, 255, 255, 0.45)",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.7)",
-                }}
-              >
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={`relative px-5 py-2.5 rounded-full text-[13px] font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
-                      activeCategory === cat.id ? "text-white" : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <span className="relative z-10">{cat.label}</span>
-                    {activeCategory === cat.id && (
-                      <motion.div
-                        layoutId="active-service-tab"
-                        className="absolute inset-0 rounded-full shadow-sm z-0"
-                        style={{ backgroundColor: "var(--accent-blue)" }}
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
+    <section className="py-16 bg-slate-950 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-slate-950 to-slate-950 text-white border-t border-slate-900/50" id="services">
+      <div className="max-w-7xl mx-auto px-4">
+        
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">
+              OUR SERVICES
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+              Everything You Need to Build & Scale
+            </h2>
+            <p className="text-slate-400 mt-2 max-w-xl text-sm leading-relaxed">
+              From concept to launch and beyond — end-to-end technology services for every stage of your digital journey.
+            </p>
           </div>
 
-          {/* Cards Grid with Framer Motion AnimatePresence and layout springs */}
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredServices.map((service, index) => (
-                <motion.div
-                  key={service.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                  transition={{ duration: 0.45 }}
-                  className="flex h-full"
-                >
-                  <ServiceCard service={service} index={index} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {/* Bottom Call To Action */}
-          <motion.div
-            className="text-center mt-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 text-[13px] font-semibold px-6 py-2.5 rounded-full text-white transition-all duration-200 cursor-pointer group"
-              style={{
-                backgroundColor: "var(--accent-blue)",
-                boxShadow: "0 4px 12px 0 rgba(37, 99, 235, 0.22)",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = "var(--accent-primary-hover)";
-                e.currentTarget.style.boxShadow = "0 6px 18px 0 rgba(37, 99, 235, 0.32)";
-                e.currentTarget.style.transform = "translateY(-1.5px)";
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = "var(--accent-blue)";
-                e.currentTarget.style.boxShadow = "0 4px 12px 0 rgba(37, 99, 235, 0.22)";
-                e.currentTarget.style.transform = "none";
-              }}
-            >
-              View All Services
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-            </Link>
-          </motion.div>
-
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+                  activeCategory === cat.id
+                    ? "bg-cyan-400 text-slate-950 border-cyan-400"
+                    : "bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredServices.map((service) => (
+            <div
+              key={service.id}
+              className="p-6 bg-slate-900/40 border border-slate-800/60 rounded-2xl flex flex-col justify-between backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-cyan-950/50"
+            >
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-cyan-950/30 text-cyan-400 border border-cyan-900/30 flex items-center justify-center mb-4">
+                  <service.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-white mb-2">{service.title}</h3>
+                <p className="text-xs text-slate-400 mb-4 leading-relaxed">{service.description}</p>
+                <div className="space-y-1.5 border-t border-slate-800/60 pt-4 mb-6">
+                  {service.features.map((feat) => (
+                    <div key={feat} className="flex items-center gap-2 text-xs text-slate-400">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <Link
+                  href={`/services/${service.id}`}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
+                >
+                  Explore service <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 bg-cyan-400 hover:bg-cyan-500 text-slate-950 font-bold text-xs px-6 py-3 rounded-full shadow-lg shadow-cyan-950/20 transition-all"
+          >
+            View All Services <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
       </div>
     </section>
   );

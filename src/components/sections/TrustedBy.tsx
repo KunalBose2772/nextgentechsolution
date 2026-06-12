@@ -1,86 +1,54 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 const companies = [
-  "Medtronic", "unicef", "CIRCLE", "Razorpay", "lenskart", "agoda", "Leafly",
+  "Medtronic",
+  "UNICEF",
+  "CIRCLE",
+  "Razorpay",
+  "Lenskart",
+  "Agoda",
+  "Leafly",
+  "Stripe",
+  "Figma",
+  "Notion",
 ];
 
-function LogoItem({ name }: { name: string }) {
-  // Map specific style or typography to make them look like professional logotypes
-  const isCircle = name === "CIRCLE";
-  const isLenskart = name === "lenskart";
-  const isAgoda = name === "agoda";
-
-  return (
-    <div className="flex items-center justify-center px-8 py-4 mx-4 flex-shrink-0 transition-colors duration-300">
-      <span
-        className="font-bold text-[18px] md:text-[22px] tracking-tight opacity-40 hover:opacity-85 transition-opacity"
-        style={{
-          color: "rgba(15, 23, 42, 0.65)",
-          fontFamily: isCircle ? "Inter, sans-serif" : "Sora, sans-serif",
-          textTransform: isCircle ? "uppercase" : "none",
-          letterSpacing: isCircle ? "0.08em" : "-0.02em",
-        }}
-      >
-        {name === "unicef" ? (
-          <span className="flex items-center gap-1">
-            <span className="text-[12px] font-normal leading-none">🇺🇳</span> unicef
-          </span>
-        ) : isLenskart ? (
-          <span className="flex items-center gap-1.5">
-            <span>👓</span> lenskart
-          </span>
-        ) : isAgoda ? (
-          <span className="flex items-center gap-1">
-            agoda<span className="text-[26px] leading-none" style={{ color: "var(--accent-primary)" }}>.</span>
-          </span>
-        ) : (
-          name
-        )}
-      </span>
-    </div>
-  );
-}
+// Duplicate for seamless infinite scroll
+const track = [...companies, ...companies];
 
 export default function TrustedBy() {
   return (
-    <section
-      className="relative overflow-hidden pb-14"
-      style={{
-        background: "#ffffff",
-        paddingTop: "90px", // space for the white stats card overlapping from Hero
-        borderBottom: "1px solid #F1F5F9",
-      }}
-    >
-      <div className="ng-container relative mb-4">
-        <motion.p
-          className="text-center text-[11px] font-bold tracking-[0.15em] uppercase"
-          style={{ color: "#64748B" }}
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          Trusted by Innovative Companies
-        </motion.p>
-      </div>
+    <section className="py-10 bg-white border-b border-slate-100 overflow-hidden">
+      {/* Label */}
+      <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-7 select-none">
+        Trusted by innovative companies worldwide
+      </p>
 
-      {/* Single continuous scrolling marquee */}
-      <div className="relative overflow-hidden flex items-center h-20">
+      {/* Marquee track */}
+      <div
+        className="relative"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+        }}
+      >
         <div
-          className="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none"
-          style={{ background: "linear-gradient(to right, #ffffff, transparent)" }}
-        />
-        <div
-          className="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none"
-          style={{ background: "linear-gradient(to left, #ffffff, transparent)" }}
-        />
-        <div
-          className="flex w-max"
-          style={{ animation: "ng-marquee 24s linear infinite" }}
+          className="flex items-center gap-16 w-max"
+          style={{
+            animation: "ng-marquee 28s linear infinite",
+            willChange: "transform",
+          }}
         >
-          {[...companies, ...companies, ...companies].map((name, i) => (
-            <LogoItem key={`${name}-${i}`} name={name} />
+          {track.map((name, i) => (
+            <span
+              key={`${name}-${i}`}
+              className="text-base font-bold tracking-tight text-slate-300 hover:text-slate-600 transition-colors duration-200 cursor-default select-none whitespace-nowrap"
+              style={{ fontFamily: "'Sora', sans-serif" }}
+            >
+              {name}
+            </span>
           ))}
         </div>
       </div>

@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Hero from "@/components/sections/Hero";
-import TrustedBy from "@/components/sections/TrustedBy";
-import About from "@/components/sections/About";
-import Services from "@/components/sections/Services";
-import TechStack from "@/components/sections/TechStack";
-import WhyChooseUs from "@/components/sections/WhyChooseUs";
-import Portfolio from "@/components/sections/Portfolio";
-import Testimonials from "@/components/sections/Testimonials";
-import Blog from "@/components/sections/Blog";
-import FAQ from "@/components/sections/FAQ";
-import Contact from "@/components/sections/Contact";
+
+// Dynamic imports to code-split and lazy-load all sections below the fold.
+// This significantly reduces the initial JS bundle size and improves the page load performance.
+const TrustedBy = dynamic(() => import("@/components/sections/TrustedBy"));
+const About = dynamic(() => import("@/components/sections/About"));
+const Services = dynamic(() => import("@/components/sections/Services"));
+const Process = dynamic(() => import("@/components/sections/Process"));
+const TechStack = dynamic(() => import("@/components/sections/TechStack"));
+const WhyChooseUs = dynamic(() => import("@/components/sections/WhyChooseUs"));
+const Portfolio = dynamic(() => import("@/components/sections/Portfolio"));
+const Testimonials = dynamic(() => import("@/components/sections/Testimonials"));
+const Blog = dynamic(() => import("@/components/sections/Blog"));
+const FAQ = dynamic(() => import("@/components/sections/FAQ"));
+const Contact = dynamic(() => import("@/components/sections/Contact"));
 
 export const metadata: Metadata = {
   title: "NextGen Tech Solution — Premium IT Company | Web, Mobile, AI & SaaS",
@@ -24,6 +29,7 @@ export default function HomePage() {
       <TrustedBy />
       <About />
       <Services />
+      <Process />
       <TechStack />
       <WhyChooseUs />
       <Portfolio />

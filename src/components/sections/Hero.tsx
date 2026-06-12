@@ -131,11 +131,13 @@ function useTypewriter(text: string, speed = 52) {
 /* ── Component ──────────────────────────────────────────────────────── */
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const slide = slides[currentIndex];
   const { displayed, done } = useTypewriter(slide.highlight, 110);
 
   // Push accent colour to CSS var so Navbar can read it
   useEffect(() => {
+    setMounted(true);
     document.documentElement.style.setProperty("--hero-accent", slide.accent);
     document.documentElement.style.setProperty("--hero-accent-hover", slide.accentHover);
   }, [slide.accent, slide.accentHover]);
@@ -154,17 +156,20 @@ export default function Hero() {
       style={{ minHeight: "100vh", background: "#000000", paddingTop: "80px" }}
     >
       {/* ── Video Background ──────────────────────────────────────── */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ opacity: 1 }}
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
+      <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+        {mounted && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ opacity: 0.6 }}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
+        )}
       </div>
 
       {/* ── Overlays ──────────────────────────────────────────────── */}
