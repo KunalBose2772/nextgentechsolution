@@ -12,7 +12,7 @@ export default function ContactPage() {
         title="Let's Start a"
         titleHighlight="Conversation"
         description="Whether you have a project in mind, a question, or just want to say hello — we'd love to hear from you."
-        gradient="rgba(59,130,246,0.07)"
+        breadcrumbs={[{ label: "Contact" }]}
       />
       <Contact />
       <FAQ />

@@ -10,6 +10,7 @@ export interface BlogPost {
   tags: string[];
   accent: string;
   content: string;
+  image: string;
 }
 
 export const posts: BlogPost[] = [
@@ -24,6 +25,7 @@ export const posts: BlogPost[] = [
     readTime: "8 min",
     tags: ["Next.js", "Supabase", "Architecture"],
     accent: "#3b82f6",
+    image: "/images/saas_architecture.png",
     content: `
       <p>Building a Software-as-a-Service (SaaS) product is more than just coding a few features and pushing them to a server. To survive growth, your product's architecture must support rapid development while scaling seamlessly as user traffic surges. Over the past five years, we've helped scale dozens of SaaS platforms. In this deep dive, we outline the exact architecture patterns we use using <strong>Next.js 15</strong> and <strong>Supabase</strong>.</p>
       
@@ -67,6 +69,7 @@ CREATE POLICY tenant_isolation_policy ON projects
     readTime: "6 min",
     tags: ["AI", "OpenAI", "Product"],
     accent: "#7c3aed",
+    image: "/images/ai_agent.png",
     content: `
       <p>In 2025, just having a dashboard and simple CRUD tables isn't enough. Users expect software to adapt, predict, and automate. Integrating Artificial Intelligence (AI) into your SaaS is no longer a luxury—it is table stakes. Here are the core AI features we integrate for our SaaS partners to give them a competitive edge.</p>
       
@@ -99,6 +102,7 @@ const { data, error } = await supabase.rpc('match_documents', {
     readTime: "10 min",
     tags: ["Kubernetes", "AWS", "Cost"],
     accent: "#22c55e",
+    image: "/images/cloud_devops.png",
     content: `
       <p>Infrastructure costs are often the largest operational expense for growing software companies. Unused servers, over-provisioned databases, and inefficient load balancers drain capital. Recently, we undertook a project to optimize infrastructure for an enterprise client and cut their monthly cloud bill by 60%. Here's the playbook we used.</p>
       
@@ -124,6 +128,7 @@ const { data, error } = await supabase.rpc('match_documents', {
     readTime: "12 min",
     tags: ["React Native", "Performance", "Mobile"],
     accent: "#f97316",
+    image: "/images/slide_custom.png",
     content: `
       <p>React Native is fantastic for cross-platform velocity, but it's easy to build laggy apps if you're not careful. High CPU loads, bridge congestion, and slow list rendering will cause users to delete your app. This guide covers how to achieve 60 FPS performance on both iOS and Android.</p>
       
@@ -145,6 +150,7 @@ const { data, error } = await supabase.rpc('match_documents', {
     readTime: "7 min",
     tags: ["Design System", "UI/UX", "Figma"],
     accent: "#ec4899",
+    image: "/images/slide_analytics.png",
     content: `
       <p>Enterprise applications are complex. They contain hundreds of inputs, tables, forms, and custom workflows. Without a strict design system, visual debt accumulates rapidly. After delivering 150+ successful projects, here is our framework for building bulletproof enterprise design systems.</p>
       
@@ -166,6 +172,7 @@ const { data, error } = await supabase.rpc('match_documents', {
     readTime: "9 min",
     tags: ["PostgreSQL", "Database", "Supabase"],
     accent: "#06b6d4",
+    image: "/images/slide_cloud.png",
     content: `
       <p>Choosing your database platform is a decision that will affect your development speed, infrastructure costs, and peace of mind for years. Today, Postgres is the clear winner, but which ecosystem should you use? We compare standard PostgreSQL, Supabase, and PlanetScale (MySQL serverless).</p>
       

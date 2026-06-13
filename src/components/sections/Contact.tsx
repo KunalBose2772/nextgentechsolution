@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Send, ArrowRight, AlertCircle } from "lucide-react";
 import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 import { COMPANY } from "@/lib/utils";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 const services = [
   "Web Development", "Mobile App", "SaaS Platform",
@@ -75,17 +76,15 @@ export default function Contact() {
     <section className="py-16 bg-white text-slate-850 border-t border-slate-200/50" id="contact">
       <div className="max-w-7xl mx-auto px-4">
         
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            CONTACT US
-          </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Let's Build Something Great Together
-          </h2>
-          <p className="text-slate-500 mt-2 max-w-xl mx-auto text-sm leading-relaxed">
-            Ready to transform your vision into reality? Reach out and let's discuss your project.
-          </p>
-        </div>
+        <SectionHeader
+          badge="CONTACT US"
+          title="Let's Build Something Great"
+          titleHighlight="Together"
+          description="Ready to transform your vision into reality? Reach out and let's discuss your project."
+          align="center"
+          theme="light"
+          className="mb-12"
+        />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           

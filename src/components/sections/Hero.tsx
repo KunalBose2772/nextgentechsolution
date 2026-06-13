@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, BarChart3, Globe, Users, Star,
-  Shield, Zap, Code2, Bot, LineChart, Cloud, Layers, Lock, CheckCircle2,
+  Shield, Zap, Code2, Bot, LineChart, Cloud, Layers, Lock,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -137,9 +137,12 @@ export default function Hero() {
 
   // Push accent colour to CSS var so Navbar can read it
   useEffect(() => {
-    setMounted(true);
-    document.documentElement.style.setProperty("--hero-accent", slide.accent);
-    document.documentElement.style.setProperty("--hero-accent-hover", slide.accentHover);
+    const raf = requestAnimationFrame(() => {
+      setMounted(true);
+      document.documentElement.style.setProperty("--hero-accent", slide.accent);
+      document.documentElement.style.setProperty("--hero-accent-hover", slide.accentHover);
+    });
+    return () => cancelAnimationFrame(raf);
   }, [slide.accent, slide.accentHover]);
 
   // Auto-advance
@@ -201,15 +204,7 @@ export default function Hero() {
 
       {/* ── Main Content ──────────────────────────────────────────── */}
       <div
-        className="ng-container relative z-10 w-full"
-        style={{
-          minHeight: "calc(100vh - 80px)",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          paddingTop: "28px",
-          paddingBottom: "136px",
-        }}
+        className="ng-container relative z-10 w-full min-h-[calc(100vh-80px)] flex flex-col justify-center pt-7 pb-48 lg:pb-36"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch w-full">
 
@@ -490,7 +485,7 @@ export default function Hero() {
           <motion.img
             key={currentIndex}
             src={slide.img}
-            alt="NextGen Tech Expert"
+            alt={`NextGen Tech Solutions expert — ${slide.label}`}
             className="relative z-10 select-none w-auto"
             style={{
               height: "100%",
@@ -514,7 +509,7 @@ export default function Hero() {
 
       {/* ── Slide Tabs ────────────────────────────────────────────── */}
       <div
-        className="absolute z-30 bottom-[92px]"
+        className="absolute z-30 bottom-[92px] hidden md:block"
         style={{ left: "max(20px, calc((100vw - 1400px) / 2 + 32px))" }}
       >
         <div className="flex items-center gap-2">
@@ -568,8 +563,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ── Stats Card — white, fully straddling hero/TrustedBy border ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 transform translate-y-1/2 px-4">
+      {/* ── Stats Card — white, partially straddling hero/TrustedBy border on desktop ── */}
+      <div className="relative z-20 px-4 mt-8 md:absolute md:bottom-0 md:left-0 md:right-0 md:transform md:translate-y-1/2">
         <div
           className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-100 max-w-6xl mx-auto bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.10)] border border-slate-100"
         >

@@ -13,7 +13,7 @@ export default function CaseStudiesPage() {
         title="Real Problems,"
         titleHighlight="Real Solutions"
         description="In-depth stories of how we've transformed businesses through technology — with the numbers to prove it."
-        gradient="rgba(249,115,22,0.07)"
+        breadcrumbs={[{ label: "Case Studies" }]}
       />
       <CaseStudies />
       <Testimonials />

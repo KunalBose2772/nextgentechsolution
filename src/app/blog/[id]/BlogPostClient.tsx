@@ -2,6 +2,7 @@
 
 import { ArrowLeft, Clock, Calendar, Tag, BookOpen, Send, Share2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { BlogPost } from "@/lib/blog-data";
 import { useState } from "react";
 
@@ -43,48 +44,64 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
         </div>
 
         {/* Hero Header Card */}
-        <div className="rounded-3xl p-8 bg-slate-900 border border-slate-800 mb-12 relative overflow-hidden">
-          <div className="flex flex-wrap gap-2.5 mb-6">
-            <span
-              className="text-xs font-bold px-3 py-1 rounded uppercase tracking-wider"
-              style={{
-                color: post.accent,
-                background: `${post.accent}20`,
-              }}
-            >
-              {post.category}
-            </span>
+        <div className="rounded-3xl bg-slate-900 border border-slate-800 mb-12 relative overflow-hidden flex flex-col md:flex-row items-stretch gap-6 p-6 md:p-8">
+          {/* Cover image block */}
+          <div className="relative w-full md:w-[320px] aspect-[16/10] sm:aspect-[2/1] md:aspect-auto shrink-0 rounded-2xl overflow-hidden border border-slate-800 min-h-[160px]">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
 
-          <h1 className="text-white font-extrabold text-2xl sm:text-4xl leading-tight mb-6">
-            {post.title}
-          </h1>
+          {/* Title & Metadata block */}
+          <div className="flex-1 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap gap-2.5 mb-4">
+                <span
+                  className="text-xs font-bold px-3 py-1 rounded uppercase tracking-wider"
+                  style={{
+                    color: post.accent,
+                    background: `${post.accent}20`,
+                  }}
+                >
+                  {post.category}
+                </span>
+              </div>
 
-          {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs text-slate-400 pt-6 border-t border-slate-800">
-            <div className="flex items-center gap-2">
-              <div 
-                className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-slate-950 text-xs"
-                style={{ backgroundColor: post.accent }}
-              >
-                {post.author.charAt(0)}
-              </div>
-              <div>
-                <span className="font-bold text-white block">{post.author}</span>
-                <span className="text-[10px] text-slate-500">{post.authorRole}</span>
-              </div>
+              <h1 className="text-white font-extrabold text-xl sm:text-2xl md:text-3xl leading-snug mb-6">
+                {post.title}
+              </h1>
             </div>
 
-            <div className="h-6 w-px bg-slate-800 hidden sm:block" />
+            {/* Meta Info */}
+            <div className="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs text-slate-400 pt-6 border-t border-slate-800">
+              <div className="flex items-center gap-2">
+                <div 
+                  className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-slate-950 text-xs animate-pulse"
+                  style={{ backgroundColor: post.accent }}
+                >
+                  {post.author.charAt(0)}
+                </div>
+                <div>
+                  <span className="font-bold text-white block">{post.author}</span>
+                  <span className="text-[10px] text-slate-500">{post.authorRole}</span>
+                </div>
+              </div>
 
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-slate-500" />
-              <span>{post.date}</span>
-            </div>
+              <div className="h-6 w-px bg-slate-800 hidden sm:block" />
 
-            <div className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-slate-500" />
-              <span>{post.readTime} read time</span>
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                <span>{post.date}</span>
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-slate-500" />
+                <span>{post.readTime} read time</span>
+              </div>
             </div>
           </div>
         </div>
@@ -136,7 +153,7 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
                 href="/contact" 
                 className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-500 transition-all text-center"
               >
-                Let's talk project
+                Let&apos;s talk project
                 <Send className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -174,23 +191,35 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
               <Link 
                 key={related.id}
                 href={`/blog/${related.id}`}
-                className="group rounded-2xl p-5 border border-slate-850 bg-slate-900 hover:border-cyan-400 transition-all flex flex-col justify-between"
+                className="group rounded-2xl border border-slate-850 bg-slate-900 hover:border-cyan-400 transition-all flex flex-col overflow-hidden justify-between"
               >
                 <div>
-                  <span 
-                    className="text-[10px] font-bold uppercase tracking-wider block mb-3"
-                    style={{ color: related.accent }}
-                  >
-                    {related.category}
-                  </span>
-                  <h4 className="text-white font-bold text-sm leading-snug line-clamp-2 mb-2">
-                    {related.title}
-                  </h4>
-                  <p className="text-xs text-slate-400 line-clamp-2 mb-4 leading-relaxed">
-                    {related.excerpt}
-                  </p>
+                  <div className="h-[120px] w-full relative overflow-hidden">
+                    <Image
+                      src={related.image}
+                      alt={related.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 250px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                  <div className="p-5">
+                    <span 
+                      className="text-[10px] font-bold uppercase tracking-wider block mb-2"
+                      style={{ color: related.accent }}
+                    >
+                      {related.category}
+                    </span>
+                    <h4 className="text-white font-bold text-sm leading-snug line-clamp-2 mb-2 group-hover:text-cyan-400 transition-colors">
+                      {related.title}
+                    </h4>
+                    <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                      {related.excerpt}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-[10px] text-slate-500 pt-3 border-t border-slate-800 flex justify-between items-center">
+                <div className="text-[10px] text-slate-500 px-5 pb-5 pt-3 border-t border-slate-800 flex justify-between items-center">
                   <span>{related.author}</span>
                   <span>{related.readTime} read</span>
                 </div>

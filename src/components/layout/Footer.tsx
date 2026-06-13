@@ -1,38 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { FaTwitter, FaLinkedinIn, FaGithub, FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import { COMPANY } from "@/lib/utils";
 
 function LogoMark({ size = 32 }: { size?: number }) {
   return (
-    <div className="flex items-center gap-2.5">
-      <img
-        src="/images/logo.png"
-        alt="NextGen Tech Solutions"
-        style={{
-          height: `${size}px`,
-          width: "auto",
-          display: "block",
-          objectFit: "contain",
-          filter: "brightness(0) invert(1)",
-        }}
-        onError={(e) => {
-          e.currentTarget.style.display = "none";
-        }}
-      />
-      <span 
-        className="font-extrabold text-white tracking-tight uppercase"
-        style={{
-          fontSize: `${Math.max(12, size * 0.42)}px`,
-          lineHeight: "1.1",
-        }}
-      >
-        NextGen <span className="text-blue-500 font-medium">Tech</span>
-      </span>
-    </div>
+    <img
+      src="/images/logo.png"
+      alt="NextGen Tech Solutions"
+      style={{
+        height: `${size}px`,
+        width: "auto",
+        display: "block",
+        objectFit: "contain",
+      }}
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+      }}
+    />
   );
 }
 
@@ -75,41 +63,96 @@ const socials = [
   { icon: FaFacebookF,  href: COMPANY.social.facebook,  label: "Facebook" },
   { icon: FaYoutube,    href: COMPANY.social.youtube,   label: "YouTube" },
 ];
-
 export default function Footer() {
+  const [emailSent, setEmailSent] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    // Optimistic UI — wire to API in production
+    setEmailSent(true);
+    setEmail("");
+  };
   return (
     <footer
       className="relative overflow-hidden bg-slate-950 border-t border-slate-900"
     >
+      <style>{`
+        .footer-hover-link:hover {
+          color: var(--accent-primary) !important;
+        }
+        .footer-social-icon:hover {
+          color: var(--accent-primary) !important;
+          border-color: var(--accent-primary) !important;
+        }
+        .footer-input:focus {
+          border-color: var(--accent-primary) !important;
+        }
+        @keyframes footer-marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .footer-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: footer-marquee 25s linear infinite;
+        }
+        .footer-marquee-container:hover .footer-marquee-track {
+          animation-play-state: paused;
+        }
+      `}</style>
+
       {/* 1. Pre-Footer High-Impact CTA Section */}
       <div 
-        className="border-b border-slate-900 bg-slate-900/50"
+        className="relative overflow-hidden py-16 bg-slate-950 border-b border-slate-900"
       >
-        <div className="max-w-7xl mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-between">
-            <div className="lg:col-span-8 overflow-hidden">
-              <h2 className="text-white font-extrabold text-[40px] sm:text-[64px] leading-tight tracking-tighter uppercase">
-                Let's Make It<br />
-                <span className="text-cyan-405">
-                  Legendary.
-                </span>
-              </h2>
-            </div>
+        {/* Decorative background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
-            {/* Right Subtitle & Button */}
-            <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center lg:text-right gap-6">
-              <p className="text-xs sm:text-sm leading-relaxed text-slate-400 max-w-sm">
-                Stop being just another website. Be the benchmark of digital engineering and design in your industry.
-              </p>
-              
-              <Link 
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-white text-slate-950 hover:bg-slate-100 px-6 py-3 rounded-full font-bold text-xs tracking-wider transition-all"
-              >
-                GET IN TOUCH
-                <ArrowUpRight className="w-4 h-4 text-slate-950 stroke-[2.5px]" />
-              </Link>
+        {/* Marquee Track */}
+        <div 
+          className="footer-marquee-container relative z-10 w-full overflow-hidden mb-12"
+          style={{
+            maskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+          }}
+        >
+          <Link href="/contact" className="block">
+            <div className="footer-marquee-track text-[50px] sm:text-[90px] md:text-[115px] font-black tracking-tighter uppercase select-none">
+              {/* Set 1 */}
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <span key={`s1-${idx}`} className="inline-flex items-center gap-8 px-6">
+                  <span className="text-white">LET&apos;S MAKE IT</span>
+                  <span style={{ color: "var(--accent-primary)" }}>LEGENDARY</span>
+                  <span className="text-slate-800">·</span>
+                </span>
+              ))}
+              {/* Set 2 */}
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <span key={`s2-${idx}`} className="inline-flex items-center gap-8 px-6">
+                  <span className="text-white">LET&apos;S MAKE IT</span>
+                  <span style={{ color: "var(--accent-primary)" }}>LEGENDARY</span>
+                  <span className="text-slate-800">·</span>
+                </span>
+              ))}
             </div>
+          </Link>
+        </div>
+
+        {/* Subtitle & CTA button */}
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-400 max-w-xl text-center md:text-left">
+              Stop being just another website. Be the benchmark of digital engineering and design in your industry.
+            </p>
+            <Link 
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-white text-slate-950 hover:bg-slate-100 px-6 py-3.5 rounded-full font-bold text-xs tracking-wider transition-all shadow-lg active:scale-95 shrink-0"
+            >
+              GET IN TOUCH
+              <ArrowUpRight className="w-4 h-4 text-slate-950 stroke-[2.5px]" />
+            </Link>
           </div>
         </div>
       </div>
@@ -118,10 +161,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-16 relative z-10">
         
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-12">
           
           {/* Brand Info */}
-          <div className="lg:col-span-4 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-3 flex flex-col justify-between space-y-6">
             <div>
               <Link href="/" className="flex items-center mb-6 group w-max">
                 <LogoMark size={48} />
@@ -143,7 +186,7 @@ export default function Footer() {
                 <a
                   key={text}
                   href={href}
-                  className="flex items-center gap-2.5 text-xs text-slate-500 hover:text-cyan-400 transition-colors"
+                  className="flex items-center gap-2.5 text-xs text-slate-500 transition-colors footer-hover-link"
                 >
                   <Icon className="w-3.5 h-3.5 shrink-0" />
                   {text}
@@ -160,7 +203,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center border border-slate-800 bg-slate-900 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-all"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center border border-slate-800 bg-slate-900 text-slate-400 transition-all footer-social-icon"
                 >
                   <Icon className="w-3.5 h-3.5" />
                 </a>
@@ -169,7 +212,7 @@ export default function Footer() {
           </div>
 
           {/* Links Grid */}
-          <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category} className="col-span-1">
                 <h4 className="text-white font-bold text-[11px] uppercase tracking-wider mb-4">
@@ -180,7 +223,7 @@ export default function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-xs text-slate-400 hover:text-cyan-400 transition-colors"
+                        className="text-xs text-slate-400 transition-colors footer-hover-link"
                       >
                         {link.label}
                       </Link>
@@ -192,27 +235,38 @@ export default function Footer() {
           </div>
 
           {/* Newsletter */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             <h4 className="text-white font-bold text-[11px] uppercase tracking-wider mb-4">
               Subscribe
             </h4>
             <p className="text-xs leading-relaxed text-slate-400 mb-4">
               Get the latest tech updates and engineering insights delivered straight to your inbox.
             </p>
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
-              <input
-                type="email"
-                placeholder="email@address.com"
-                className="w-full h-10 px-3 rounded-lg border border-slate-800 bg-slate-900 text-xs text-white placeholder-slate-650 focus:outline-none focus:border-cyan-400 transition-colors"
-                required
-              />
-              <button
-                type="submit"
-                className="w-full h-10 rounded-lg bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center transition-colors hover:bg-cyan-500 cursor-pointer"
-              >
-                SUBSCRIBE
-              </button>
-            </form>
+            {emailSent ? (
+              <div className="flex items-center gap-2 py-3 px-3 rounded-lg border border-emerald-800 bg-emerald-950/30 text-emerald-400 text-xs font-semibold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Thanks! You&apos;re subscribed.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="space-y-2">
+                <input
+                  type="email"
+                  placeholder="email@address.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-10 px-3 rounded-lg border border-slate-800 bg-slate-900 text-xs text-white placeholder-slate-600 focus:outline-none footer-input transition-colors"
+                  required
+                  aria-label="Email address for newsletter"
+                />
+                <button
+                  type="submit"
+                  className="w-full h-10 rounded-lg text-slate-950 font-bold text-xs flex items-center justify-center transition-colors hover:brightness-110 cursor-pointer"
+                  style={{ backgroundColor: "var(--accent-primary)" }}
+                >
+                  SUBSCRIBE
+                </button>
+              </form>
+            )}
           </div>
 
         </div>
@@ -220,7 +274,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-slate-900">
           <div className="flex flex-col sm:flex-row items-center gap-4 text-xs text-slate-500">
-            <p>© {COMPANY.founded}–{new Date().getFullYear()} {COMPANY.name}. All rights reserved.</p>
+            <p>© {COMPANY.founded === new Date().getFullYear() ? COMPANY.founded : `${COMPANY.founded}–${new Date().getFullYear()}`} {COMPANY.name}. All rights reserved.</p>
             <span className="hidden sm:inline">•</span>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />

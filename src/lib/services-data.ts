@@ -330,5 +330,378 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
       { tier: "Pro Support", price: "₹1,20,000 / mo", desc: "For active applications needing quick updates.", features: ["25 Hours Monthly Support", "Error Logging Integration", "Weekly Backups", "12h Response SLA"] },
       { tier: "Enterprise SLA", price: "Custom Quote", desc: "For high-scale enterprise tools.", features: ["Dedicated Developers", "24/7 Pager Alerts", "SLA Response Guarantee", "Sentry tracking setup"] }
     ]
+  },
+  "whatsapp-marketing": {
+    id: "whatsapp-marketing",
+    title: "WhatsApp Marketing",
+    metaTitle: "Enterprise WhatsApp Marketing & Chatbot Automation | NextGen Tech",
+    metaDesc: "Scale customer engagement with WhatsApp Business API integration, broadcast scheduling, and AI-powered automated chatbot workflows.",
+    headline: "Connect Instantly with 98% Open Rate WhatsApp Solutions",
+    category: "marketing",
+    description: "We deploy scalable WhatsApp Business API configurations, custom broadcast campaign schedulers, and intelligent conversational chatbots to engage and convert your audience directly in their chat client.",
+    iconName: "whatsapp",
+    accent: "#25d366",
+    gradient: "rgba(37, 211, 102, 0.15)",
+    features: [
+      "Official WhatsApp Business API verification and setup",
+      "Conversational AI chatbots with intent classification",
+      "Automated broadcast scheduling and analytics tracking",
+      "CRM and ERP database synchronization integrations",
+      "Rich media template approvals and messaging rules",
+      "Multi-agent chat inbox systems for support teams"
+    ],
+    techStack: ["WhatsApp API", "Node.js", "OpenAI API", "PostgreSQL", "Redis", "React"],
+    process: [
+      { step: "01", title: "API Verification", desc: "Verify Meta Business Manager and register phone number endpoints." },
+      { step: "02", title: "Flow & Agent Design", desc: "Draft interactive chatbot flows and intent parameters in AI nodes." },
+      { step: "03", title: "Integration & Launch", desc: "Synchronize messaging gateways with your internal CRM databases." }
+    ],
+    pricing: [
+      { tier: "Starter", price: "₹80,000+", desc: "Standard templates and custom contact list uploads.", features: ["Official API Setup", "1 Automated Bot Flow", "Up to 10k contacts/mo", "1 Month Support"] },
+      { tier: "Growth", price: "₹1,80,000+", desc: "Multi-agent support console and active database integration.", features: ["Interactive AI Chatbot", "Multi-agent dashboard", "Up to 50k contacts/mo", "3 Months Support"] },
+      { tier: "Enterprise", price: "Custom Quote", desc: "Custom automation flows and CRM syncing.", features: ["Custom ML Bot Agent", "CRM real-time database sync", "SLA API uptime guarantee", "Dedicated support team"] }
+    ]
+  },
+  "content-marketing": {
+    id: "content-marketing",
+    title: "Content Marketing",
+    metaTitle: "Premium Content Marketing & Copywriting Services | NextGen Tech",
+    metaDesc: "Scale search visibility and build brand authority with high-converting copy, technical blogs, press releases, and landing page assets.",
+    headline: "High-Converting Content That Commands Authority",
+    category: "marketing",
+    description: "We research, write, and distribute authoritative content that attracts, informs, and converts target audiences. Combining SEO insights with human-written copy, we drive organic lead loops.",
+    iconName: "content",
+    accent: "#f97316",
+    gradient: "rgba(249, 115, 22, 0.15)",
+    features: [
+      "Keyword-targeted search intent content plans",
+      "In-depth research reports and whitepapers",
+      "High-converting landing page copywriting",
+      "SEO-optimized blogs and content hubs",
+      "Email marketing newsletter sequence structures",
+      "Social media micro-copywriting layouts"
+    ],
+    techStack: ["Ahrefs", "Google Analytics", "WordPress", "Markdown", "Semrush", "Grammarly"],
+    process: [
+      { step: "01", title: "Audience Research", desc: "Analyze competitor content gaps and map key search terms." },
+      { step: "02", title: "Content Development", desc: "Write deep-dive technical copy focused on user conversions." },
+      { step: "03", title: "Distribution & Optimization", desc: "Publish across search networks and track conversion metrics." }
+    ],
+    pricing: [
+      { tier: "Standard", price: "₹60,000 / mo", desc: "Regular articles for search visibility and organic growth.", features: ["4 Technical Articles", "Keyword optimization", "1 Newsletter email template", "Monthly reports"] },
+      { tier: "Pro Scale", price: "₹1,40,000 / mo", desc: "Full authority builder for SaaS and technical systems.", features: ["8 Deep-dive articles", "Custom landing page copy", "Email sequence setup", "Quarterly strategy"] },
+      { tier: "Enterprise", price: "Custom Quote", desc: "Omnichannel authority campaigns for large corporate systems.", features: ["Full content inventory audit", "Dedicated copy team", "Whitepapers and reports", "PR outreach options"] }
+    ]
+  },
+  "seo": {
+    id: "seo",
+    title: "Search Engine Optimization",
+    metaTitle: "Technical SEO & Organic Growth Optimization | NextGen Tech",
+    metaDesc: "Rank page 1 on Google. Technical site speed optimization, schema markup integration, backlink building, and local SEO services.",
+    headline: "Dominating Search Rankings for High-Value Intent",
+    category: "marketing",
+    description: "Our technical SEO experts optimize page performance, schemas, and link architectures to drive search engines to crawl and index your site on Page 1 for high-converting query terms.",
+    iconName: "seo",
+    accent: "#8b5cf6",
+    gradient: "rgba(139, 92, 246, 0.15)",
+    features: [
+      "Comprehensive technical SEO site audits",
+      "Core Web Vitals speed optimization updates",
+      "Advanced structured schema markups (JSON-LD)",
+      "Strategic competitor backlink audits",
+      "Keyword cluster mapping and planning",
+      "Local search optimization and Google Profile setups"
+    ],
+    techStack: ["Google Search Console", "Screaming Frog", "Ahrefs", "Lighthouse", "Schema.org", "Next.js"],
+    process: [
+      { step: "01", title: "Technical Audit", desc: "Scan website crawl blocks, duplicate tags, and load speeds." },
+      { step: "02", title: "On-Page & Schema Updates", desc: "Inject structured data markup and optimize search hierarchy." },
+      { step: "03", title: "Authority Building", desc: "Deploy target outreach assets to acquire premium links." }
+    ],
+    pricing: [
+      { tier: "Starter SEO", price: "₹75,000 / mo", desc: "For local businesses and emerging startup frameworks.", features: ["Technical SEO audit", "On-page tag optimization", "5 target keywords", "Monthly progress reports"] },
+      { tier: "Professional", price: "₹1,50,000 / mo", desc: "For competitive SaaS and ecommerce portal targets.", features: ["Competitor gap analysis", "Core Web Vitals fixes", "20 target keywords", "10 premium backlinks/mo"] },
+      { tier: "Enterprise", price: "Custom Quote", desc: "Global multilingual campaigns with dedicated engineer support.", features: ["Multilingual international SEO", "Dedicated developer integration", "Audit logs tracking", "Custom API rank tracker"] }
+    ]
+  },
+  "social-media-marketing": {
+    id: "social-media-marketing",
+    title: "Social Media Marketing",
+    metaTitle: "Organic Social Media Growth & Brand Marketing | NextGen Tech",
+    metaDesc: "Grow your audience on LinkedIn, X, Instagram, and YouTube. Creative asset production, community management, and growth strategies.",
+    headline: "Engage Audiences Where They Spend Their Time",
+    category: "marketing",
+    description: "We construct and execute high-impact organic social media strategies. By producing premium graphics, video reels, and technical copy, we grow active communities around your brand.",
+    iconName: "social-media",
+    accent: "#3b82f6",
+    gradient: "rgba(59, 130, 246, 0.15)",
+    features: [
+      "LinkedIn leadership branding and copywriting",
+      "Video Reels & Shorts creative storyboard design",
+      "Interactive asset creation and design styling",
+      "Multi-channel calendar scheduling and execution",
+      "Active community monitoring and brand responses",
+      "Monthly viral reach and interaction analytics reports"
+    ],
+    techStack: ["Figma", "Premiere Pro", "Buffer", "Hootsuite", "Loom", "Notion"],
+    process: [
+      { step: "01", title: "Brand Tone Definition", desc: "Establish design rules, content pillars, and writing guidelines." },
+      { step: "02", title: "Creative Production", desc: "Produce reels, high-end infographics, and weekly copy." },
+      { step: "03", title: "Scheduler & Engagement", desc: "Publish across active networks and engage with community comments." }
+    ],
+    pricing: [
+      { tier: "Starter", price: "₹65,000 / mo", desc: "Essential social media scheduling for consistent presence.", features: ["3 posts per week", "1 custom video reel/mo", "Community monitoring", "Monthly growth report"] },
+      { tier: "Growth", price: "₹1,30,000 / mo", desc: "Authority builder for scaling companies on key networks.", features: ["5 posts per week", "4 custom video reels/mo", "LinkedIn leadership support", "Weekly analytics tracking"] },
+      { tier: "Enterprise", price: "Custom Quote", desc: "Custom brand campaign pipelines and creative direction.", features: ["Unlimited weekly posts", "Dedicated video editors", "Influencer cross-promotion support", "Interactive campaign pages"] }
+    ]
+  },
+  "ppc": {
+    id: "ppc",
+    title: "Paid Ads (PPC)",
+    metaTitle: "Google Ads & Meta Advertising (PPC) Experts | NextGen Tech",
+    metaDesc: "Maximize ROI with highly-targeted pay-per-click ad campaigns on Google, Meta, LinkedIn, and programmatic ad networks.",
+    headline: "Direct Conversions with High-Yield Ad Campaigns",
+    category: "marketing",
+    description: "We deploy data-driven paid advertising campaigns designed to maximize return on ad spend (ROAS). From ad copywriting and creative A/B testing to pixel setup, we verify your budget converts.",
+    iconName: "ppc",
+    accent: "#ef4444",
+    gradient: "rgba(239, 68, 68, 0.15)",
+    features: [
+      "High-intent Google Search Ad setup and optimization",
+      "Meta (Facebook & Instagram) visual ad sets",
+      "LinkedIn B2B demographic funnel routing",
+      "Advanced conversion pixel and API configurations",
+      "Dynamic retargeting campaign loops",
+      "Ad copywriting and visual asset A/B testing"
+    ],
+    techStack: ["Google Ads", "Meta Ads Manager", "LinkedIn Campaign Manager", "Tag Manager", "Google Analytics", "Hotjar"],
+    process: [
+      { step: "01", title: "Funnel Mapping & Setup", desc: "Configure tracking pixels, landing pages, and campaign settings." },
+      { step: "02", title: "Asset Creation & Launch", desc: "Write ad copies, design visuals, and launch targeted test sets." },
+      { step: "03", title: "A/B Testing & Optimization", desc: "Scale winning ad sets, lower CPC, and maximize ROI." }
+    ],
+    pricing: [
+      { tier: "Test Campaign", price: "₹80,000+", desc: "For launching initial product validation ad groups.", features: ["Google & Meta setup", "Audience research", "3 ad creative designs", "Weekly reports"] },
+      { tier: "Growth Funnel", price: "₹1,80,000+", desc: "B2B or e-commerce scaling campaign management.", features: ["Google, Meta & LinkedIn", "Pixel setup & tracking APIs", "Continuous A/B testing", "Retargeting campaigns"] },
+      { tier: "Enterprise", price: "Custom Quote", desc: "High-scale monthly spend campaign optimization.", features: ["Multi-funnel scaling", "Dedicated media buyer", "Creative director validation", "Custom reporting dashboard"] }
+    ]
+  },
+  "influencer-marketing": {
+    id: "influencer-marketing",
+    title: "Influencer Marketing",
+    metaTitle: "Creator Partnerships & Influencer Campaigns | NextGen Tech",
+    metaDesc: "Partner with top creators on YouTube, Instagram, and LinkedIn. End-to-end influencer outreach, negotiation, and ROI tracking.",
+    headline: "Drive Brand Trust via Creator Endorsements",
+    category: "marketing",
+    description: "We match your brand with hand-picked micro and macro creators. By drafting campaign guidelines, managing negotiations, and tracking conversion links, we turn views into sales.",
+    iconName: "influencer",
+    accent: "#ec4899",
+    gradient: "rgba(236, 72, 153, 0.15)",
+    features: [
+      "Influencer match discovery and outreach",
+      "Contract negotiation and usage rights management",
+      "Creative campaign briefs and asset reviews",
+      "Unique affiliate tracking link configurations",
+      "Multi-creator content compilation reels",
+      "Campaign reach, engagement, and conversion analysis"
+    ],
+    techStack: ["Modash", "Upfluence", "Google Sheets", "Linktree", "Figma", "Google Analytics"],
+    process: [
+      { step: "01", title: "Creator Research", desc: "Identify creators matching your demographic bounds." },
+      { step: "02", title: "Outreach & Negotiation", desc: "Contact creators, agree on assets, and secure contracts." },
+      { step: "03", title: "Launch & Link Tracking", desc: "Monitor video publishes and track conversions using affiliate metrics." }
+    ],
+    pricing: [
+      { tier: "Starter", price: "₹1,20,000+", desc: "Micro-influencer campaign builder for local reach.", features: ["Up to 5 Micro-Creators", "Outreach & Briefs", "Asset validation reviews", "Campaign report"] },
+      { tier: "Growth Suite", price: "₹3,00,000+", desc: "Dual platform creator partnerships with authority figures.", features: ["Up to 15 Micro & Mid-Creators", "Affiliate tracking setup", "Usage rights management", "Video asset edits"] },
+      { tier: "Enterprise Scale", price: "Custom Quote", desc: "Macro partnerships and brand ambassador programs.", features: ["Macro-influencer partnerships", "Ambassador contracts", "Dedicated campaign manager", "Integrated PR campaigns"] }
+    ]
+  },
+  "digital-marketing": {
+    id: "digital-marketing",
+    title: "Digital Marketing Services",
+    metaTitle: "Full-Scale Growth & Digital Marketing Solutions | NextGen Tech",
+    metaDesc: "Comprehensive digital growth strategies combining SEO, Paid Ads, Email Funnels, CRO, and Content Marketing into one unified growth engine.",
+    headline: "Omnichannel Growth Engine to Scale B2B and SaaS",
+    category: "marketing",
+    description: "We build and execute complete digital growth machines. By integrating organic search, paid funnels, conversion rate optimization (CRO), and email flows, we align all channels to scale your MRR.",
+    iconName: "digital-marketing",
+    accent: "#06b6d4",
+    gradient: "rgba(6, 182, 212, 0.15)",
+    features: [
+      "Omnichannel growth strategy mapping and KPIs",
+      "Conversion Rate Optimization (CRO) heatmaps",
+      "Automated email onboarding and nurture funnels",
+      "SaaS product-led growth (PLG) loops",
+      "Unified customer analytics dashboard integrations",
+      "B2B account-based marketing (ABM) outreach"
+    ],
+    techStack: ["Klaviyo", "Hotjar", "Google Analytics 4", "Semrush", "Apollo.io", "ActiveCampaign"],
+    process: [
+      { step: "01", title: "Funnel Diagnostics", desc: "Audit current digital touchpoints, bounce rates, and copy." },
+      { step: "02", title: "Campaign Implementation", desc: "Build email flows, optimize landing pages, and align ad copy." },
+      { step: "03", title: "Scale & Optimize", desc: "Run continuous A/B test iterations to maximize sales value." }
+    ],
+    pricing: [
+      { tier: "Growth Plan", price: "₹1,50,000 / mo", desc: "Integrated digital marketing plan for scaling startups.", features: ["SEO & Blog updates", "Email newsletter setup", "Ad campaign tracking support", "Weekly metrics report"] },
+      { tier: "Pro Scale", price: "₹3,00,000 / mo", desc: "Full-scale growth optimization with CRO and onboarding funnels.", features: ["Full CRO audit & fixes", "Klaviyo/Hubspot flow setup", "Multichannel ad management", "Monthly strategy review"] },
+      { tier: "Enterprise", price: "Custom Quote", desc: "Custom consulting and dedicated growth squads.", features: ["Dedicated growth team", "Bespoke marketing software setups", "Custom dashboard integrations", "SLA conversion assurance"] }
+    ]
+  },
+  "orm": {
+    id: "orm",
+    title: "Online Reputation Management",
+    metaTitle: "Online Reputation Management (ORM) & PR Services | NextGen Tech",
+    metaDesc: "Protect your brand. Remove negative search results, manage online reviews, monitor brand mentions, and build positive PR campaigns.",
+    headline: "Protect and Control Your Digital Footprint",
+    category: "branding",
+    description: "We help brands establish and protect their digital public image. By building positive PR assets, monitoring brand mentions, and suppressing negative search queries, we ensure your brand commands trust.",
+    iconName: "orm",
+    accent: "#10b981",
+    gradient: "rgba(16, 185, 129, 0.15)",
+    features: [
+      "Negative search engine result suppression",
+      "Real-time brand mentions monitoring & alerts",
+      "Review generation campaign management",
+      "Crisis PR planning and press release pipelines",
+      "Executive profile authority building",
+      "Wikipedia and official profile verification support"
+    ],
+    techStack: ["Brand24", "Google Alerts", "Press Release Networks", "SERP Tracker", "SEO", "LinkedIn"],
+    process: [
+      { step: "01", title: "Reputation Analysis", desc: "Scan reviews, search engines, and mention sentiment metrics." },
+      { step: "02", title: "PR & SEO Injection", desc: "Draft positive press releases and launch high-authority pages." },
+      { step: "03", title: "Suppression & Review Loops", desc: "Promote positive pages to push down negative search results." }
+    ],
+    pricing: [
+      { tier: "Basic Protection", price: "₹1,00,000+", desc: "Monitor brand mentions and request positive review flows.", features: ["Mentions monitoring", "Review link generation setup", "Monthly search check", "1 Month Support"] },
+      { tier: "Active Suppression", price: "₹2,50,000+", desc: "For brands facing negative search listings or review spikes.", features: ["Search engine suppression", "5 Positive press releases", "Review campaign management", "3 Months Support"] },
+      { tier: "Enterprise SLA", price: "Custom Quote", desc: "Continuous brand protection and executive PR.", features: ["24/7 crisis monitoring", "Executive profile building", "Wikipedia page creation support", "Dedicated PR strategist"] }
+    ]
+  },
+  "3d-video-editing": {
+    id: "3d-video-editing",
+    title: "3D Video Editing",
+    metaTitle: "Premium 3D Animation & Video Editing Services | NextGen Tech",
+    metaDesc: "Cinematic video editing, 3D product renders, dynamic motion graphics, and corporate promo edits. Perfect for SaaS and ad creatives.",
+    headline: "Cinematic 3D Visuals and Premium Motion Graphics",
+    category: "branding",
+    description: "We edit cinematic video assets and render photorealistic 3D product animations. Perfect for SaaS explainer videos, paid ads, and brand showcases.",
+    iconName: "video",
+    accent: "#ec4899",
+    gradient: "rgba(236, 72, 153, 0.15)",
+    features: [
+      "High-end 3D product modeling and rendering",
+      "Dynamic motion graphics and typography animation",
+      "SaaS product walkthrough and explainer videos",
+      "Professional color grading and audio mixing",
+      "Social media short-form video optimization",
+      "Cinematic brand promos and commercials"
+    ],
+    techStack: ["Blender", "After Effects", "Premiere Pro", "DaVinci Resolve", "Cinema 4D", "Audition"],
+    process: [
+      { step: "01", title: "Storyboarding & Mockups", desc: "Draft video scripts, reference styles, and 3D wireframes." },
+      { step: "02", title: "Rendering & Assembly", desc: "Animate 3D layers, compile clips, and color grade files." },
+      { step: "03", title: "Audio & Delivery", desc: "Add voiceovers, mix sound effects, and output high-res files." }
+    ],
+    pricing: [
+      { tier: "Social Pack", price: "₹90,000+", desc: "Short-form video edits for social media channels.", features: ["3 Short-form reels", "Dynamic captions & SFX", "Color correction", "1 Round revision"] },
+      { tier: "Product Showcase", price: "₹2,20,000+", desc: "Photorealistic 3D render and explainer video compilation.", features: ["1 Explainer video (up to 90s)", "3D model modeling & render", "Professional voiceover sync", "3 Rounds revisions"] },
+      { tier: "Brand Commercial", price: "Custom Quote", desc: "Enterprise level commercial video production.", features: ["Cinematic brand promo", "Custom 3D environments", "SLA delivery timeline", "Unlimited revisions"] }
+    ]
+  },
+  "still-branding": {
+    id: "still-branding",
+    title: "Still Branding",
+    metaTitle: "Brand Identity, Logo Design & Style Systems | NextGen Tech",
+    metaDesc: "Develop a premium brand identity. Custom logo designs, comprehensive design systems, typography rules, and stationery mockups.",
+    headline: "Visual Identity That Commands Market Presence",
+    category: "branding",
+    description: "We design premium brand identity systems. From custom logos to color palettes, typography systems, and stationery mockups, we create a unified brand footprint.",
+    iconName: "branding-still",
+    accent: "#8b5cf6",
+    gradient: "rgba(139, 92, 246, 0.15)",
+    features: [
+      "Custom logo systems (primary, secondary, logomark)",
+      "Premium typography scales and hierarchy rules",
+      "Harmonious brand color systems (digital & print)",
+      "Comprehensive digital brand style manuals",
+      "Business cards, stationery, and slide deck mockups",
+      "Physical packaging and product layout design options"
+    ],
+    techStack: ["Figma", "Illustrator", "Photoshop", "Indesign", "Google Fonts", "Keynote"],
+    process: [
+      { step: "01", title: "Moodboarding", desc: "Explore competitor brand identities and establish tone rules." },
+      { step: "02", title: "Identity Design", desc: "Develop logos, typography scales, and color systems." },
+      { step: "03", title: "Handoff Manual", desc: "Compile logo files, document design guides, and export layouts." }
+    ],
+    pricing: [
+      { tier: "Startup Identity", price: "₹80,000+", desc: "Essential branding assets for launching companies.", features: ["Primary Logo Design", "Color palette setup", "Typography guide", "Handoff files"] },
+      { tier: "Full Brand System", price: "₹2,00,000+", desc: "Complete visual design system for digital businesses.", features: ["Full logo kit", "Slide deck template", "Business stationery", "Detailed brand style manual"] },
+      { tier: "Enterprise Corporate", price: "Custom Quote", desc: "High-scale rebranding campaigns and packaging specs.", features: ["Rebranding strategy workshop", "Global typography licenses", "Custom packaging formats", "Dedicated support manager"] }
+    ]
+  },
+  "performance-marketing": {
+    id: "performance-marketing",
+    title: "Performance Marketing",
+    metaTitle: "Data-Driven Performance Marketing & ROI Scaling | NextGen Tech",
+    metaDesc: "Scale revenue with performance-focused ad management, conversion tracking setup, budget optimization, and creative iterations.",
+    headline: "Vetted Creative Testing for Guaranteed ROI Scale",
+    category: "branding",
+    description: "We run data-driven, ROI-focused ad campaigns. By analyzing conversion rates, split-testing landing pages, and launching ad sets, we verify your marketing spend yields results.",
+    iconName: "performance",
+    accent: "#f59e0b",
+    gradient: "rgba(245, 158, 11, 0.15)",
+    features: [
+      "ROI-driven campaign architecture setups",
+      "Landing page split testing (A/B testing)",
+      "Advanced customer attribution configurations",
+      "Continuous budget tracking and bid management",
+      "Creative concept scaling and ad reviews",
+      "LTV and CAC metrics analysis dashboards"
+    ],
+    techStack: ["Triple Whale", "Meta Pixel", "Google Analytics", "Unbounce", "Optimizely", "Figma"],
+    process: [
+      { step: "01", title: "Attribution Setup", desc: "Verify tracking codes, conversion triggers, and pixels." },
+      { step: "02", title: "Creative A/B Testing", desc: "Deploy ad variants, test copy, and identify winners." },
+      { step: "03", title: "Scale Phase", desc: "Scale winning ad sets and optimize cost-per-acquisition metrics." }
+    ],
+    pricing: [
+      { tier: "Growth Funnel", price: "₹1,20,000 / mo", desc: "Scale initial customer acquisition channels.", features: ["Meta & Google ads", "A/B landing page updates", "Attribution tracking setup", "Weekly KPI sync calls"] },
+      { tier: "Pro Scale", price: "₹2,50,000 / mo", desc: "For scaling brands targeting multichannel acquisition.", features: ["Omnichannel ad management", "Triple Whale integrations", "Creative asset generation", "Monthly attribution report"] },
+      { tier: "Enterprise Squad", price: "Custom Quote", desc: "Dedicated media buying and CRO team integration.", features: ["Dedicated media buyer", "Dedicated CRO engineer", "Custom database reporting", "SLA-backed target ROAS"] }
+    ]
+  },
+  "graphic-designing": {
+    id: "graphic-designing",
+    title: "Graphic Designing",
+    metaTitle: "Premium Graphic Design & Collateral Production | NextGen Tech",
+    metaDesc: "Professional graphic design services. Marketing collaterals, social media assets, ebooks, corporate brochures, and digital illustrations.",
+    headline: "Stunning Graphic Collaterals That Match Your Brand",
+    category: "branding",
+    description: "We design eye-catching graphic assets. From social media templates to ebook layouts, banner ads, and corporate brochures, we build graphics that convert.",
+    iconName: "graphics",
+    accent: "#3b82f6",
+    gradient: "rgba(59, 130, 246, 0.15)",
+    features: [
+      "Custom social media template packs (Figma/Canva)",
+      "High-end corporate brochures and PDF layouts",
+      "Ebook and whitepaper layout styling",
+      "Paid advertising visual banner designs",
+      "Custom digital drawings and vector icons",
+      "Print-ready banners and event backdrop layouts"
+    ],
+    techStack: ["Photoshop", "Illustrator", "InDesign", "Figma", "Canva", "Lightroom"],
+    process: [
+      { step: "01", title: "Design Concept Brief", desc: "Align on graphic dimensions, brand guidelines, and visual goals." },
+      { step: "02", title: "Draft Development", desc: "Produce initial graphic directions and color layouts." },
+      { step: "03", title: "Handoff & File Prep", desc: "Export high-resolution PNG, SVG, and print-ready PDF files." }
+    ],
+    pricing: [
+      { tier: "Basic Pack", price: "₹50,000+", desc: "Essential marketing graphic assets for startups.", features: ["10 Custom social assets", "3 Ad banner variants", "Figma source files", "1 Round revision"] },
+      { tier: "Brand Collateral", price: "₹1,20,000+", desc: "Premium brochure and multi-channel asset pack.", features: ["20 Social assets", "Full brochure PDF layout", "Banner ads suite", "3 Rounds revisions"] },
+      { tier: "Monthly Studio", price: "Custom Quote", desc: "Ongoing graphic support for active marketing teams.", features: ["Dedicated designer availability", "Unlimited monthly requests", "Same-day turnaround times", "Source file handoffs"] }
+    ]
   }
 };
+

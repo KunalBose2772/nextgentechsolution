@@ -64,23 +64,18 @@ const solutions = [
 
 export default function SolutionsPage() {
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            SOLUTIONS
-          </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Industry-Specific Digital Solutions
-          </h1>
-          <p className="text-slate-550 mt-2 text-xs max-w-xl mx-auto leading-relaxed">
-            We don't build generic software. We build solutions deeply tailored to your industry's unique challenges, compliance requirements, and growth objectives.
-          </p>
-        </div>
+    <div className="bg-white min-h-screen text-slate-800">
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 border-t border-slate-200/60 pt-12">
+      <PageHero
+        badge="Solutions"
+        title="Industry-Specific"
+        titleHighlight="Digital Solutions"
+        description="We don't build generic software. We build solutions deeply tailored to your industry's unique challenges, compliance requirements, and growth objectives."
+        breadcrumbs={[{ label: "Solutions" }]}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {solutions.map((sol) => (
             <div
               key={sol.id}
@@ -128,7 +123,6 @@ export default function SolutionsPage() {
             </div>
           ))}
         </div>
-
       </div>
 
       <Contact />

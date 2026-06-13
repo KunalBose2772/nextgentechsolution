@@ -125,7 +125,7 @@ function GoogleTestimonialCard({ item }: { item: typeof track1[0] }) {
 
   return (
     <motion.div
-      className="flex-shrink-0 w-[360px] p-6 rounded-2xl border transition-all duration-300 relative group bg-white border-[#E2E8F0] shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+      className="flex-shrink-0 w-[360px] p-6 rounded-2xl border relative group bg-white border-[#E2E8F0] shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
       whileHover={{
         y: -6,
         borderColor: "#06B6D4",
@@ -250,10 +250,10 @@ export default function Testimonials() {
         {/* Section Header */}
         <div className="mb-14 px-6">
           <SectionHeader
-            badge="Testimonials"
+            badge="TESTIMONIALS"
             title="What Clients Say"
             titleHighlight="On Google"
-            description="Don't take our word for it — here's our live stream of 5-star customer reviews from Google."
+            description="Don't take our word for it — here's a live feed of 5-star reviews from our verified Google Business profile."
             align="center"
           />
         </div>
@@ -288,7 +288,7 @@ export default function Testimonials() {
           <div className="grid grid-cols-3 gap-6 text-center">
             {[
               { value: "4.9 / 5", label: "Google Rating" },
-              { value: "120+", label: "Verified Reviews" },
+              { value: "60+", label: "Verified Reviews" },
               { value: "100%", label: "Satisfaction" },
             ].map((item) => (
               <div key={item.label}>

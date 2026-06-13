@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, MapPin, Clock, Briefcase, TrendingUp, Zap, Star, Heart, Users, X, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowRight, MapPin, Clock, Briefcase, TrendingUp, Zap, Star, Heart, Users, X, CheckCircle2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 interface Job {
@@ -138,7 +138,7 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
                 <span className="text-xs font-semibold text-slate-600">Glassdoor Rating: 4.9/5</span>
               </div>
               <p className="text-xs text-slate-600 italic leading-relaxed">
-                &ldquo;The most collaborative and technically challenging place I've ever worked. Real ownership, real impact.&rdquo;
+                &ldquo;The most collaborative and technically challenging place I&apos;ve ever worked. Real ownership, real impact.&rdquo;
               </p>
               <div className="text-[10px] text-slate-400 mt-2">— Senior Engineer, 3 years at NextGen</div>
             </div>

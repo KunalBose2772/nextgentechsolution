@@ -400,7 +400,7 @@ export default function CaseStudies({ theme = "light" }: CaseStudiesProps) {
           <p className={`mt-2 text-xs leading-relaxed ${
             isDark ? "text-slate-400" : "text-slate-550"
           }`}>
-            Explore how we've helped businesses overcome challenges, accelerate growth, and achieve measurable results with innovative technology.
+            Explore how we&apos;ve helped businesses overcome challenges, accelerate growth, and achieve measurable results with innovative technology.
           </p>
         </div>
 
@@ -563,7 +563,7 @@ export default function CaseStudies({ theme = "light" }: CaseStudiesProps) {
             <MessageSquare className="w-6 h-6 text-cyan-400 mt-1" />
             <div>
               <h4 className="text-base font-bold text-white">Ready to create your success story?</h4>
-              <p className="text-xs text-slate-400 mt-1">Let's build something impactful together.</p>
+              <p className="text-xs text-slate-400 mt-1">Let&apos;s build something impactful together.</p>
             </div>
           </div>
           <a href="/contact" className="px-5 py-2.5 bg-white text-slate-950 hover:bg-slate-100 rounded-full font-bold text-xs transition-all shrink-0 shadow-sm">

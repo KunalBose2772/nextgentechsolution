@@ -49,23 +49,18 @@ export default function TermsPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            LEGAL & COMPLIANCE
-          </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Terms of Service & Agreements
-          </h1>
-          <p className="text-slate-550 mt-2 text-xs max-w-xl mx-auto leading-relaxed">
-            Last Updated: June 11, 2026. Review our software development, billing policies, and client specifications.
-          </p>
-        </div>
+    <div className="bg-white min-h-screen text-slate-800">
+      <PageHero
+        badge="Legal & Compliance"
+        title="Terms of Service"
+        titleHighlight="& Agreements"
+        description="Last Updated: June 11, 2026. Review our software development, billing policies, and client specifications."
+        breadcrumbs={[{ label: "Terms of Service" }]}
+      />
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start mt-12 border-t border-slate-200/60 pt-12">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        
+        <div className="grid lg:grid-cols-12 gap-12 items-start border-t border-slate-200/60 pt-12">
           
           {/* Left Sidebar Table of Contents */}
           <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
@@ -141,7 +136,7 @@ export default function TermsPage() {
             <div id="user-obligations" className="scroll-mt-24 border-t border-slate-100 pt-8">
               <h2 className="text-slate-900 font-bold text-lg mb-3">4. User & Client Obligations</h2>
               <p className="text-xs leading-relaxed text-slate-600">
-                Clients must provide required API access keys, asset files, and text details promptly. Any delays caused by third-party vendor configurations outside our team's reach are not the responsibility of NextGen Tech Solution.
+                Clients must provide required API access keys, asset files, and text details promptly. Any delays caused by third-party vendor configurations outside our team&apos;s reach are not the responsibility of NextGen Tech Solution.
               </p>
             </div>
 

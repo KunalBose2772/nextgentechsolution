@@ -13,7 +13,7 @@ export default function CareersPage() {
         title="Join a Team That"
         titleHighlight="Builds the Future"
         description="NextGen Tech Solution is growing fast. We're looking for exceptional engineers, designers, and builders who want to do the best work of their careers."
-        gradient="rgba(34,197,94,0.07)"
+        breadcrumbs={[{ label: "Careers" }]}
       />
       <Careers hideViewAll={true} />
       <FAQ />

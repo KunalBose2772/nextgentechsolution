@@ -2,7 +2,8 @@
 
 import PageHero from "@/components/common/PageHero";
 import Services from "@/components/sections/Services";
-import Process from "@/components/sections/Process";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import Portfolio from "@/components/sections/Portfolio";
 import Contact from "@/components/sections/Contact";
 import { ArrowRight, CheckCircle2, Code, Smartphone, Layout, Cpu } from "lucide-react";
 import Link from "next/link";
@@ -36,7 +37,7 @@ const serviceHighlights = [
         <div className="pl-4"><span className="text-purple-400">const</span> [scale] = <span className="text-blue-400">useEdgeRouting</span>();</div>
         <div className="pl-4"><span className="text-purple-400">return</span> (</div>
         <div className="pl-8 text-cyan-400">&lt;<span className="text-blue-400">Platform</span> edge=&#123;true&#125; optimization=&#123;<span className="text-amber-405">&quot;maximum&quot;</span>&#125;&gt;</div>
-        <div className="pl-12 text-slate-500">// Render static pages at 0ms latency</div>
+        <div className="pl-12 text-slate-500">{"// Render static pages at 0ms latency"}</div>
         <div className="pl-8 text-cyan-400">&lt;/<span className="text-blue-400">Platform</span>&gt;</div>
         <div className="pl-4">);</div>
         <div>&#125;;</div>
@@ -171,30 +172,13 @@ export default function ServicesPage() {
   return (
     <div className="bg-white min-h-screen text-slate-800">
       
-      {/* Header */}
-      <div className="py-20 bg-slate-50 border-b border-slate-200/50">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            OUR SERVICES
-          </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            End-to-End Technology Services
-          </h1>
-          <p className="text-slate-500 mt-4 max-w-2xl mx-auto leading-relaxed text-sm">
-            From MVP to enterprise scale — we offer the full spectrum of technology services that modern businesses need to win.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mt-8">
-            {["Web Dev", "Mobile", "SaaS", "AI/ML", "Cloud", "DevOps", "Design", "ERP"].map((s) => (
-              <span
-                key={s}
-                className="px-3.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 font-bold text-xs shadow-sm"
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+      <PageHero
+        badge="Our Services"
+        title="End-to-End"
+        titleHighlight="Technology Services"
+        description="From MVP to enterprise scale — we offer the full spectrum of technology services that modern businesses need to win."
+        breadcrumbs={[{ label: "Services" }]}
+      />
 
       {/* Detailed Service Blocks */}
       <div className="divide-y divide-slate-100">
@@ -266,7 +250,8 @@ export default function ServicesPage() {
       <div className="border-t border-slate-100">
         <Services />
       </div>
-      <Process />
+      <WhyChooseUs />
+      <Portfolio />
       <Contact />
     </div>
   );

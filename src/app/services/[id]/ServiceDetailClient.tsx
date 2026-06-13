@@ -1,31 +1,14 @@
 "use client";
 
 import { 
-  CheckCircle2, ArrowRight, Mail, Phone, MapPin, Send, AlertCircle, ArrowLeft,
-  Code2, Smartphone, Layers, Brain, Cloud, Server, 
-  BarChart3, Palette, Zap, Settings2, LucideIcon 
+  CheckCircle2, ArrowRight, Mail, Phone, MapPin, Send, AlertCircle
 } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import PageHero from "@/components/common/PageHero";
 import { ServiceDetail } from "@/lib/services-data";
 import { COMPANY } from "@/lib/utils";
 
-const ICON_MAP: Record<string, LucideIcon> = {
-  web: Code2,
-  mobile: Smartphone,
-  saas: Layers,
-  ai: Brain,
-  cloud: Cloud,
-  erp: BarChart3,
-  devops: Server,
-  design: Palette,
-  transform: Zap,
-  support: Settings2,
-};
-
 export default function ServiceDetailClient({ service }: { service: ServiceDetail }) {
-  const Icon = ICON_MAP[service.iconName] || Code2;
   const [form, setForm] = useState({ name: "", email: "", phone: "", budget: "", message: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -60,45 +43,21 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Back navigation */}
-        <div className="mb-6 flex flex-wrap gap-4 items-center">
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-2 text-slate-650 hover:text-slate-900 transition-colors text-xs font-bold px-4 py-2 rounded-full border border-slate-200 bg-white shadow-sm"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Back to Services
-          </Link>
-          <a
-            href="#estimate-calculator"
-            className="inline-flex items-center gap-2 text-xs font-bold text-white px-5 py-2 rounded-full shadow-md hover:opacity-95 transition-all"
-            style={{
-              backgroundColor: service.accent,
-            }}
-          >
-            View Pricing Tiers
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
-        </div>
+    <div className="bg-white min-h-screen text-slate-800">
 
-        {/* Header/Hero area */}
-        <div className="mb-16 rounded-3xl p-8 bg-white border border-slate-200/60 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <Icon className="w-6 h-6" style={{ color: service.accent }} />
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-600">
-              {service.title}
-            </span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight tracking-tight">
-            {service.headline}
-          </h1>
-          <p className="text-slate-550 mt-4 max-w-3xl leading-relaxed text-xs sm:text-sm">
-            {service.description}
-          </p>
-        </div>
+      <PageHero
+        badge={service.title}
+        title={service.headline.split(" ").slice(0, 4).join(" ")}
+        titleHighlight={service.headline.split(" ").slice(4).join(" ")}
+        description={service.description}
+        breadcrumbs={[
+          { label: "Services", href: "/services" },
+          { label: service.title },
+        ]}
+        accentColor={service.accent}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* 1. Key Features Grid */}
         <section className="py-12 border-t border-slate-200/60">
@@ -244,7 +203,7 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                 START PROJECT
               </span>
               <h2 className="text-slate-900 font-extrabold text-2xl md:text-3xl leading-tight tracking-tight">
-                Let's Build Your Custom {service.title} Solution
+                Let&apos;s Build Your Custom {service.title} Solution
               </h2>
               <p className="text-slate-550 text-xs leading-relaxed">
                 Provide some initial details regarding your requirements and budget range, and our technical architects will get back to you with a comprehensive scope report in 24 hours.

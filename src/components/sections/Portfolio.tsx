@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,37 +19,37 @@ const projects = [
     id: "1",
     title: "Decentralized Finance Payment Architecture",
     tags: ["Fintech", "Blockchain", "Web3"],
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=700&q=80",
+    image: "/images/portfolio/1.jpg",
   },
   {
     id: "2",
     title: "AI-Driven Logistics Optimization Platform",
     tags: ["Machine Learning", "Cloud", "SaaS"],
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=80",
+    image: "/images/portfolio/ai.png",
   },
   {
     id: "3",
     title: "HIPAA-Compliant Patient Telehealth Portal",
     tags: ["Healthcare", "React Native", "API Dev"],
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&q=80",
+    image: "/images/portfolio/2.jpg",
   },
   {
     id: "4",
     title: "High-Throughput E-Commerce Core Engine",
     tags: ["Next.js", "Serverless", "Stripe"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80",
+    image: "/images/portfolio/saas.png",
   },
   {
     id: "5",
     title: "Autoscaling Kubernetes Cloud Infrastructure",
     tags: ["DevOps", "Kubernetes", "AWS"],
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&q=80",
+    image: "/images/portfolio/security.png",
   },
   {
     id: "6",
     title: "Real-Time Collaborative Canvas Platform",
     tags: ["WebSockets", "SaaS", "UI/UX"],
-    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=700&q=80",
+    image: "/images/portfolio/mobile.png",
   },
 ];
 
@@ -98,8 +100,8 @@ function ProjectCard({ project, cardRef }: {
         overflow: "hidden",
         cursor: "pointer",
         boxShadow: hovered
-          ? "0 32px 80px rgba(0,0,0,0.30)"
-          : "0 8px 32px rgba(0,0,0,0.14)",
+          ? "0 32px 80px rgba(15,23,42,0.12)"
+          : "0 8px 32px rgba(15,23,42,0.05)",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
         transition: "box-shadow 0.4s ease, transform 0.4s ease",
         willChange: "transform",
@@ -237,64 +239,33 @@ function CircleBtn() {
   );
 }
 
-/* ── Section Title Component ─────────────────────────────────────────── */
-function SectionTitle({ align = "left" }: { align?: "left" | "right" }) {
-  return (
-    <h2 style={{ lineHeight: 1.1, textAlign: align }}>
-      <span style={{
-        display: "block",
-        fontFamily: "'Syne', sans-serif",
-        fontSize: 55,
-        fontWeight: 700,
-        color: "#ffffff",
-        letterSpacing: "-0.02em",
-      }}>
-        Recent
-      </span>
-      <span style={{
-        display: "block",
-        fontFamily: "'Playfair Display', serif",
-        fontSize: 55,
-        fontWeight: 700,
-        fontStyle: "italic",
-        color: "#ffffff",
-        letterSpacing: "-0.01em",
-      }}>
-        Our Projects
-      </span>
-    </h2>
-  );
-}
+
 
 /* ── Main Section ────────────────────────────────────────────────────── */
 export default function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     const wrap = wrapRef.current;
     if (!section || !wrap) return;
 
-    const ctx = gsap.context(() => {
-      gsap.to(wrap, {
-        x: () => -(wrap.scrollWidth - section.clientWidth),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${wrap.scrollWidth - section.clientWidth}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          pinSpacing: true,
-        },
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+    gsap.to(wrap, {
+      x: () => -(wrap.scrollWidth - section.clientWidth),
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: () => `+=${wrap.scrollWidth - section.clientWidth}`,
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        pinSpacing: true,
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
     <>
@@ -369,28 +340,28 @@ export default function Portfolio() {
         ref={sectionRef}
         id="portfolio-section"
         className="relative"
-        style={{ background: "#0d0d1a" }}
+        style={{ background: "#f8fafc" }}
       >
         {/* ── Wide horizontal scroll container ── */}
         <div ref={wrapRef} className="ra-project3-wrap">
 
-          {/* Background image layer */}
-          <img
-            className="ra-pro-bg"
-            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=2000&q=40"
-            alt="background"
-            style={{ opacity: 0.12, objectFit: "cover" }}
-          />
-          {/* Dark overlay */}
+          {/* Light gradient backdrop — replaces dark backdrop */}
           <div style={{
             position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
-            background: "linear-gradient(135deg, #0d0d1a 0%, #13111f 50%, #0f0d1a 100%)",
-            opacity: 0.92,
+            background: "linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%)",
           }} />
 
           {/* ── LEFT TITLE (ra-project3-title-2) ── */}
-          <div className="ra-project3-title-2">
-            <SectionTitle align="left" />
+          <div className="ra-project3-title-2 flex flex-col justify-center">
+            <SectionHeader
+              badge="PORTFOLIO"
+              title="Recent"
+              titleHighlight="Our Projects"
+              description="A curated showcase of our latest enterprise solutions, mobile apps, and SaaS platforms."
+              align="left"
+              theme="light"
+              className="w-[320px]"
+            />
           </div>
 
           {/* ── CARDS ROW (ra-project3-content) ── */}
@@ -404,8 +375,16 @@ export default function Portfolio() {
           </div>
 
           {/* ── RIGHT TITLE (ra-project3-title) ── */}
-          <div className="ra-project3-title">
-            <SectionTitle align="right" />
+          <div className="ra-project3-title flex flex-col justify-center">
+            <SectionHeader
+              badge="BUILD WITH US"
+              title="Start Your"
+              titleHighlight="Success Story"
+              description="Partner with NextGen to transform your product ideas into digital realities."
+              align="left"
+              theme="light"
+              className="w-[320px]"
+            />
           </div>
 
         </div>

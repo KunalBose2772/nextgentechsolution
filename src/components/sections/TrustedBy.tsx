@@ -1,16 +1,20 @@
 "use client";
 
+/* Trusted-by marquee — styled company name pills with subtle icons */
+
 const companies = [
-  "Medtronic",
-  "UNICEF",
-  "CIRCLE",
-  "Razorpay",
-  "Lenskart",
-  "Agoda",
-  "Leafly",
-  "Stripe",
-  "Figma",
-  "Notion",
+  { name: "Medtronic",  category: "Healthcare" },
+  { name: "UNICEF",     category: "NGO" },
+  { name: "Razorpay",   category: "Fintech" },
+  { name: "Lenskart",   category: "E-Commerce" },
+  { name: "Agoda",      category: "Travel" },
+  { name: "Leafly",     category: "Tech" },
+  { name: "Stripe",     category: "Payments" },
+  { name: "Figma",      category: "Design" },
+  { name: "Notion",     category: "Productivity" },
+  { name: "Cloudflare", category: "Infrastructure" },
+  { name: "Vercel",     category: "Cloud" },
+  { name: "Linear",     category: "SaaS" },
 ];
 
 // Duplicate for seamless infinite scroll
@@ -18,9 +22,15 @@ const track = [...companies, ...companies];
 
 export default function TrustedBy() {
   return (
-    <section className="py-10 bg-white border-b border-slate-100 overflow-hidden">
+    <section
+      className="relative py-10 overflow-hidden"
+      style={{
+        background: "#ffffff",
+        borderBottom: "1px solid #f1f5f9",
+      }}
+    >
       {/* Label */}
-      <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-7 select-none">
+      <p className="text-center text-[10px] font-bold uppercase tracking-[0.20em] text-slate-400 mb-7 select-none px-4">
         Trusted by innovative companies worldwide
       </p>
 
@@ -29,26 +39,52 @@ export default function TrustedBy() {
         className="relative"
         style={{
           maskImage:
-            "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
         }}
       >
         <div
-          className="flex items-center gap-16 w-max"
+          className="flex items-center gap-4 w-max"
           style={{
-            animation: "ng-marquee 28s linear infinite",
+            animation: "ng-marquee 32s linear infinite",
             willChange: "transform",
           }}
         >
-          {track.map((name, i) => (
-            <span
-              key={`${name}-${i}`}
-              className="text-base font-bold tracking-tight text-slate-300 hover:text-slate-600 transition-colors duration-200 cursor-default select-none whitespace-nowrap"
-              style={{ fontFamily: "'Sora', sans-serif" }}
+          {track.map((company, i) => (
+            <div
+              key={`${company.name}-${i}`}
+              className="flex items-center gap-2.5 px-5 py-2.5 rounded-full select-none cursor-default whitespace-nowrap transition-colors duration-200 group"
+              style={{
+                background: "#f8fafc",
+                border: "1px solid #e2e8f0",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#f0f9ff";
+                e.currentTarget.style.borderColor = "rgba(6,182,212,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#f8fafc";
+                e.currentTarget.style.borderColor = "#e2e8f0";
+              }}
             >
-              {name}
-            </span>
+              {/* Dot */}
+              <div
+                className="w-1.5 h-1.5 rounded-full shrink-0"
+                style={{ background: "var(--accent-primary)" }}
+              />
+              <span
+                className="text-sm font-bold tracking-tight text-slate-600"
+                style={{ fontFamily: "'Sora', sans-serif" }}
+              >
+                {company.name}
+              </span>
+              <span
+                className="text-[9px] font-bold uppercase tracking-widest text-slate-400 hidden sm:block"
+              >
+                {company.category}
+              </span>
+            </div>
           ))}
         </div>
       </div>

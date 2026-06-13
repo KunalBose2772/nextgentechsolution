@@ -3,6 +3,7 @@
 import { ArrowRight, Clock, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { posts } from "@/lib/blog-data";
 
 export default function Blog() {
@@ -15,15 +16,14 @@ export default function Blog() {
         
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-              RESOURCE HUB
-            </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Latest Insights & News
-            </h2>
-            <p className="text-slate-500 mt-2 max-w-xl text-sm leading-relaxed">
-              Stay ahead with engineering advice, design standards, and system architecture deep-dives.
-            </p>
+            <SectionHeader
+              badge="RESOURCE HUB"
+              title="Latest Insights"
+              titleHighlight="& News"
+              description="Stay ahead with engineering advice, design standards, and system architecture deep-dives."
+              align="left"
+              theme="light"
+            />
           </div>
           <div>
             <Link
@@ -41,13 +41,26 @@ export default function Blog() {
               key={post.id}
               className="group bg-white border border-slate-200/60 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-sm"
             >
-              <div 
-                className="h-[140px] w-full relative overflow-hidden flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${post.accent}20, transparent)` }}
-              >
-                <span className="text-[10px] font-bold px-3 py-1 rounded bg-slate-900/10 text-slate-850 border border-slate-900/5">
+              <div className="h-[180px] w-full relative overflow-hidden border-b border-slate-100">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 380px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent pointer-events-none" />
+                {/* Category badge on card */}
+                <div
+                  className="absolute top-4 left-4 text-[10px] font-bold px-3 py-1 rounded-full border backdrop-blur-md"
+                  style={{
+                    background: `${post.accent}20`,
+                    borderColor: `${post.accent}40`,
+                    color: post.accent,
+                  }}
+                >
                   {post.category}
-                </span>
+                </div>
               </div>
               <div className="p-6 flex flex-col justify-between flex-grow">
                 <div>
@@ -59,7 +72,7 @@ export default function Blog() {
                       <Clock className="w-3.5 h-3.5" /> {post.readTime}
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-base font-bold text-slate-900 mb-3 transition-colors group-hover:text-[var(--accent-primary)]">
                     {post.title}
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed mb-6 line-clamp-2">

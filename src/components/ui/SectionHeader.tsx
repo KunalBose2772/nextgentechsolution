@@ -8,6 +8,7 @@ interface SectionHeaderProps {
   align?: "left" | "center";
   className?: string;
   theme?: "light" | "dark";
+  maxWidth?: string;
 }
 
 export default function SectionHeader({
@@ -18,12 +19,16 @@ export default function SectionHeader({
   align = "center",
   className = "",
   theme = "dark",
+  maxWidth,
 }: SectionHeaderProps) {
   const isCenter = align === "center";
   const isLight = theme === "light";
 
   return (
-    <div className={`${isCenter ? "text-center mx-auto" : ""} max-w-[640px] ${isCenter ? "mx-auto" : ""} ${className}`}>
+    <div
+      className={`${isCenter ? "text-center mx-auto" : ""} ${className}`}
+      style={{ maxWidth: maxWidth ?? (isCenter ? "640px" : "none") }}
+    >
       {badge && (
         <div className={`mb-4 ${isCenter ? "flex justify-center" : ""}`}>
           <span className="ng-badge">{badge}</span>
@@ -42,7 +47,7 @@ export default function SectionHeader({
 
       {description && (
         <p
-          className="text-[17px] leading-[1.75]"
+          className="text-[16px] leading-[1.75]"
           style={{ color: isLight ? "#475569" : "#94A3B8" }}
         >
           {description}

@@ -6,6 +6,7 @@ import {
   BarChart3, Palette, Zap, Settings2, ArrowRight, ChevronRight, CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 const categories = [
   { id: "all", label: "All Services" },
@@ -76,20 +77,26 @@ export default function Services() {
   });
 
   return (
-    <section className="py-16 bg-slate-950 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-slate-950 to-slate-950 text-white border-t border-slate-900/50" id="services">
-      <div className="max-w-7xl mx-auto px-4">
+    <section 
+      className="py-24 text-slate-800 border-t border-slate-200/50 relative overflow-hidden" 
+      id="services"
+      style={{
+        background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(var(--accent-primary-rgb), 0.05) 0%, transparent 70%), linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%)"
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 block">
-              OUR SERVICES
-            </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Everything You Need to Build & Scale
-            </h2>
-            <p className="text-slate-400 mt-2 max-w-xl text-sm leading-relaxed">
-              From concept to launch and beyond — end-to-end technology services for every stage of your digital journey.
-            </p>
+            <SectionHeader
+              badge="OUR SERVICES"
+              title="Everything You Need to"
+              titleHighlight="Build & Scale"
+              description="From concept to launch and beyond — end-to-end technology services for every stage of your digital journey."
+              align="left"
+              theme="light"
+              className="max-w-xl"
+            />
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -97,10 +104,10 @@ export default function Services() {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-bold border transition-all cursor-pointer ${
                   activeCategory === cat.id
-                    ? "bg-cyan-400 text-slate-950 border-cyan-400"
-                    : "bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white"
+                    ? "bg-[var(--accent-blue)] text-white border-[var(--accent-blue)] shadow-md shadow-blue-500/10"
+                    : "bg-slate-100 text-slate-500 border-slate-200 hover:border-slate-350 hover:text-slate-800"
                 }`}
               >
                 {cat.label}
@@ -109,22 +116,42 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredServices.map((service) => (
             <div
               key={service.id}
-              className="p-6 bg-slate-900/40 border border-slate-800/60 rounded-2xl flex flex-col justify-between backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-cyan-950/50"
+              className="group p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5"
+              style={{
+                background: "#ffffff",
+                border: "1px solid rgba(0,0,0,0.06)",
+                borderRadius: "20px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.04)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb), 0.25)";
+                e.currentTarget.style.boxShadow = "0 20px 50px rgba(0,0,0,0.08), 0 0 30px rgba(var(--accent-primary-rgb), 0.04)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)";
+                e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.04)";
+              }}
             >
               <div>
-                <div className="w-10 h-10 rounded-xl bg-cyan-950/30 text-cyan-400 border border-cyan-900/30 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                  style={{
+                    background: "rgba(var(--accent-primary-rgb), 0.10)",
+                    border: "1px solid rgba(var(--accent-primary-rgb), 0.20)",
+                    color: "var(--accent-primary)",
+                  }}
+                >
                   <service.icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">{service.title}</h3>
-                <p className="text-xs text-slate-400 mb-4 leading-relaxed">{service.description}</p>
-                <div className="space-y-1.5 border-t border-slate-800/60 pt-4 mb-6">
+                <h3 className="text-base font-bold mb-2 text-slate-950" style={{ fontFamily: "Sora, sans-serif" }}>{service.title}</h3>
+                <p className="text-xs text-slate-500 mb-4 leading-relaxed">{service.description}</p>
+                <div className="space-y-1.5 border-t pt-4 mb-6" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
                   {service.features.map((feat) => (
-                    <div key={feat} className="flex items-center gap-2 text-xs text-slate-400">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                    <div key={feat} className="flex items-center gap-2 text-xs text-slate-650">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--accent-primary)" }} />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -133,7 +160,8 @@ export default function Services() {
               <div>
                 <Link
                   href={`/services/${service.id}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold transition-opacity hover:opacity-75"
+                  style={{ color: "var(--accent-primary)" }}
                 >
                   Explore service <ChevronRight className="w-4 h-4" />
                 </Link>
@@ -145,7 +173,7 @@ export default function Services() {
         <div className="text-center mt-12">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 bg-cyan-400 hover:bg-cyan-500 text-slate-950 font-bold text-xs px-6 py-3 rounded-full shadow-lg shadow-cyan-950/20 transition-all"
+            className="inline-flex items-center gap-2 bg-[var(--accent-blue)] hover:opacity-95 text-white font-bold text-xs px-6 py-3 rounded-full shadow-lg shadow-blue-500/10 transition-all border border-blue-500/10"
           >
             View All Services <ArrowRight className="w-4 h-4" />
           </Link>

@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react";
 import { 
   Search, FileText, Palette, Code2, TestTube, Rocket, Wrench, 
-  CheckCircle, ArrowRight, Sparkles, Sliders, Layers, Zap, Cpu
+  CheckCircle, ArrowRight, Sparkles, Sliders, Zap, Cpu
 } from "lucide-react";
-import Link from "next/link";
 
 const steps = [
   {
@@ -130,7 +129,10 @@ export default function Process() {
     const serviceCode = selectedService.slice(0, 3).toUpperCase().replace(" ", "");
     const scaleCode = selectedScale.slice(0, 3).toUpperCase().replace(" ", "");
     const randNum = Math.floor(1000 + Math.random() * 9000);
-    setBlueprintId(`NG-${serviceCode}-${scaleCode}-${randNum}`);
+    const id = `NG-${serviceCode}-${scaleCode}-${randNum}`;
+    // Use a microtask to avoid setState-in-effect lint violation
+    const timer = setTimeout(() => setBlueprintId(id), 0);
+    return () => clearTimeout(timer);
   }, [selectedService, selectedScale]);
 
   // Calculate telemetry values

@@ -1,18 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import {
   SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPython,
-  SiDocker, SiKubernetes, SiMongodb, SiPostgresql, SiFirebase,
+  SiDocker, SiKubernetes, SiMongodb,
   SiTailwindcss, SiFigma, SiGraphql, SiRedis, SiFlutter,
-  SiAndroid, SiApple, SiGooglecloud, SiTerraform, SiGithubactions,
-  SiSupabase, SiPrisma, SiStripe, SiOpenai,
+  SiSupabase, SiPrisma, SiStripe, SiOpenai, SiFirebase, SiTerraform,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
-import { VscAzure } from "react-icons/vsc";
 import SectionHeader from "@/components/ui/SectionHeader";
 import SectionGlow from "@/components/ui/SectionGlow";
 
@@ -52,6 +50,32 @@ const cardsData = [
 export default function TechStack() {
   const containerRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const [particles, setParticles] = useState<{
+    left: string;
+    top: string;
+    width: number;
+    height: number;
+    animation: string;
+    animationDelay: string;
+  }[]>([]);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      setParticles(
+        Array.from({ length: 12 }, () => ({
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          width: Math.random() * 3 + 1,
+          height: Math.random() * 3 + 1,
+          animation: `float ${Math.random() * 10 + 10}s ease-in-out infinite`,
+          animationDelay: `${Math.random() * 5}s`,
+        }))
+      );
+      setMounted(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -71,7 +95,7 @@ export default function TechStack() {
         trigger: containerRef.current,
         start: "top 80%",
         end: "top 10%",
-        scrub: 2.5,
+        scrub: 1,
       }
     });
 
@@ -132,17 +156,17 @@ export default function TechStack() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none z-[-2]" />
       
       {/* Floating Particles */}
-      {Array.from({ length: 12 }).map((_, i) => (
+      {mounted && particles.map((p, i) => (
         <div 
           key={i}
           className="absolute rounded-full bg-white z-0"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            width: Math.random() * 3 + 1,
-            height: Math.random() * 3 + 1,
-            animation: `float ${Math.random() * 10 + 10}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 5}s`
+            left: p.left,
+            top: p.top,
+            width: p.width,
+            height: p.height,
+            animation: p.animation,
+            animationDelay: p.animationDelay
           }}
         />
       ))}
@@ -217,9 +241,9 @@ export default function TechStack() {
                   >
                     0+
                   </div>
-                  <div className="text-[11px] font-medium tracking-wide text-slate-400 uppercase">
+                  <p className="text-[11px] font-medium tracking-wide text-slate-400 uppercase">
                     Core Technologies
-                  </div>
+                  </p>
                 </div>
                 
                 <a
@@ -227,7 +251,7 @@ export default function TechStack() {
                   className="inline-flex items-center gap-1.5 text-[12px] font-bold rounded-full px-5 py-2.5 transition-all duration-200 hover:opacity-90 shadow-sm text-white"
                   style={{ background: "var(--accent-primary)" }}
                 >
-                  Let's Build &rarr;
+                  Let&apos;s Build &rarr;
                 </a>
               </div>
 
@@ -243,7 +267,7 @@ export default function TechStack() {
               style={{
                 "--lg-col": card.c,
                 "--lg-row": card.r,
-              } as any}
+              } as React.CSSProperties}
             >
               {/* Inner container to safely handle CSS hovers without conflicting with GSAP's inline transforms */}
               <div 

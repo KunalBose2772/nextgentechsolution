@@ -13,7 +13,7 @@ export default function TechnologiesPage() {
         title="Built with the Best"
         titleHighlight="Modern Technologies"
         description="We use the world's most powerful, battle-tested, and future-proof technology stack to build solutions that last."
-        gradient="rgba(124,58,237,0.08)"
+        breadcrumbs={[{ label: "Technologies" }]}
       />
       <TechStack />
       <WhyChooseUs />

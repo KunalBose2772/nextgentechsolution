@@ -4,6 +4,7 @@ import { useState } from "react";
 import PageHero from "@/components/common/PageHero";
 import { Clock, Tag, ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { posts } from "@/lib/blog-data";
 
 const categories = ["All", "Engineering", "AI & ML", "DevOps", "Mobile", "Design"];
@@ -19,21 +20,16 @@ export default function BlogPage() {
   });
 
   return (
-    <div className="bg-slate-55 min-h-screen text-slate-800 py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            OUR BLOG
-          </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Engineering Insights
-          </h1>
-          <p className="text-slate-550 mt-2 text-xs max-w-xl mx-auto leading-relaxed">
-            Thought leadership on software engineering, AI, cloud architecture, and building products that scale.
-          </p>
-        </div>
+    <div className="bg-white min-h-screen text-slate-800">
+      <PageHero
+        badge="Our Blog"
+        title="Engineering"
+        titleHighlight="Insights"
+        description="Thought leadership on software engineering, AI, cloud architecture, and building products that scale."
+        breadcrumbs={[{ label: "Blog" }]}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 py-16">
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-4 mb-10 items-center justify-between">
@@ -71,15 +67,20 @@ export default function BlogPage() {
               key={post.id}
               className="group bg-white rounded-2xl overflow-hidden border border-slate-200/60 hover:-translate-y-1 hover:shadow-sm transition-all duration-200 flex flex-col justify-between"
             >
-              {/* Header block with solid bg color / grid illustration representation */}
-              <div
-                className="h-28 relative overflow-hidden flex items-center justify-center border-b border-slate-100"
-                style={{ background: `linear-gradient(135deg, ${post.accent}12, transparent)` }}
-              >
+              {/* Header block with actual cover image */}
+              <div className="h-[180px] w-full relative overflow-hidden border-b border-slate-100">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 380px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute top-4 left-4">
                   <span
-                    className="text-[9px] font-bold px-2.5 py-1 rounded"
-                    style={{ color: post.accent, background: `${post.accent}12` }}
+                    className="text-[9px] font-bold px-2.5 py-1 rounded backdrop-blur-md border border-white/[0.08]"
+                    style={{ color: post.accent, background: `${post.accent}20` }}
                   >
                     {post.category}
                   </span>

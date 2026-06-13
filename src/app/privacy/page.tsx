@@ -49,23 +49,18 @@ export default function PrivacyPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            LEGAL & COMPLIANCE
-          </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Privacy Policy & Data Protection
-          </h1>
-          <p className="text-slate-550 mt-2 text-xs max-w-xl mx-auto leading-relaxed">
-            Last Updated: June 11, 2026. We are committed to protecting your privacy and security under global regulations.
-          </p>
-        </div>
+    <div className="bg-white min-h-screen text-slate-800">
+      <PageHero
+        badge="Legal & Compliance"
+        title="Privacy Policy"
+        titleHighlight="& Data Protection"
+        description="Last Updated: June 11, 2026. We are committed to protecting your privacy and security under global regulations."
+        breadcrumbs={[{ label: "Privacy Policy" }]}
+      />
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start mt-12 border-t border-slate-200/60 pt-12">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        
+        <div className="grid lg:grid-cols-12 gap-12 items-start border-t border-slate-200/60 pt-12">
           
           {/* Left Sidebar Table of Contents */}
           <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
