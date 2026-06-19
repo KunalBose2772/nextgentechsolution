@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════════════════
-   NEXTGEN TECH SOLUTIONS — Design System v2.0
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NEXTGEN TECH SOLUTIONS â€” Design System v2.0
    Brand: Clean + Technical + Premium
    Inspired by: Linear, Vercel, Stripe, OpenAI
-   ═══════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 :root {
-  /* ── Brand Colors ─────────────────────────────────────────────── */
+  /* â”€â”€ Brand Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   --bg-primary:       #000000;
   --bg-surface:       #0A0A0B;
   --bg-elevated:      #111113;
@@ -34,16 +34,16 @@
   --border-default:   rgba(255,255,255,0.08);
   --border-emphasis:  rgba(var(--accent-primary-rgb), 0.30);
 
-  /* ── Shadows ──────────────────────────────────────────────────── */
+  /* â”€â”€ Shadows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   --shadow-card:      0 10px 40px rgba(0,0,0,0.25);
   --shadow-hover:     0 20px 60px rgba(0,0,0,0.35);
   --shadow-blue:      0 0 40px rgba(var(--accent-primary-rgb), 0.12);
 
-  /* ── Spacing Tokens ───────────────────────────────────────────── */
+  /* â”€â”€ Spacing Tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   --section-pad-y:    clamp(64px, 8vw, 96px);
   --section-pad-y-sm: clamp(40px, 5vw, 64px);
 
-  /* ── CRM light theme (preserved) ─────────────────────────────── */
+  /* â”€â”€ CRM light theme (preserved) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   --crm-bg:           #f7f8fb;
   --crm-bg-elevated:  #ffffff;
   --crm-surface:      #ffffff;
@@ -69,7 +69,7 @@
   --crm-shadow-xl:  0 20px 50px -16px rgb(16 24 40 / 0.18), 0 12px 24px -6px rgb(16 24 40 / 0.06);
 }
 
-/* ─── Base ────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Base â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 html {
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -86,7 +86,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ─── Accessibility ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Accessibility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :focus-visible {
   outline: 2px solid var(--accent-primary);
   outline-offset: 3px;
@@ -97,7 +97,7 @@ body {
   outline: none;
 }
 
-/* ─── Typography ──────────────────────────────────────────────────── */
+/* â”€â”€â”€ Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Sora", sans-serif;
   letter-spacing: -0.02em;
@@ -107,7 +107,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Sora", sans-serif;
 }
 
-/* Dark section context — white headings */
+/* Dark section context â€” white headings */
 .dark-section h1,
 .dark-section h2,
 .dark-section h3,
@@ -117,7 +117,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
 }
 
-/* Light section context — slate headings */
+/* Light section context â€” slate headings */
 .light-section h1,
 .light-section h2,
 .light-section h3,
@@ -170,7 +170,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--accent-blue);
 }
 
-/* ─── Layout ──────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* STANDARD: Always use .ng-container for consistent layout */
 .ng-container {
   max-width: 1400px;
@@ -184,7 +184,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
 }
 
-/* Section padding — always use these tokens for vertical rhythm */
+/* Section padding â€” always use these tokens for vertical rhythm */
 .ng-section {
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ─── Cards ───────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
@@ -240,7 +240,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-hover), var(--shadow-blue);
 }
 
-/* ─── Buttons — Unified radius: 12px ─────────────────────────────── */
+/* â”€â”€â”€ Buttons â€” Unified radius: 12px â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -316,7 +316,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--accent-blue-dim);
 }
 
-/* ─── Inputs ──────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-input {
   width: 100%;
   height: 48px;
@@ -366,7 +366,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.12);
 }
 
-/* ─── Badge / Pill ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Badge / Pill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-badge {
   display: inline-flex;
   align-items: center;
@@ -391,7 +391,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: ng-pulse 2s infinite;
 }
 
-/* ─── Section Header Utility ──────────────────────────────────────── */
+/* â”€â”€â”€ Section Header Utility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-section-label {
   font-family: "Inter", sans-serif;
   font-size: 11px;
@@ -402,7 +402,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 16px;
 }
 
-/* ─── Divider ─────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-divider {
   width: 48px;
   height: 1px;
@@ -410,7 +410,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 20px 0;
 }
 
-/* ─── Grid patterns (very subtle) ────────────────────────────────── */
+/* â”€â”€â”€ Grid patterns (very subtle) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ng-grid-bg {
   background-image:
     linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
@@ -418,13 +418,13 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 64px 64px;
 }
 
-/* ─── Section transition overlays ───────────────────────────────── */
-/* Creates smooth dark→light transitions between sections */
+/* â”€â”€â”€ Section transition overlays â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Creates smooth darkâ†’light transitions between sections */
 .ng-fade-down {
   background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3));
 }
 
-/* ─── Keyframes ───────────────────────────────────────────────────── */
+/* â”€â”€â”€ Keyframes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes ng-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(0.9); }
@@ -452,16 +452,16 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes blink         { 0%,100%{opacity:1} 50%{opacity:0} }
 
 
-/* ─── Text selection ──────────────────────────────────────────────── */
+/* â”€â”€â”€ Text selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::selection { background: rgba(var(--accent-primary-rgb), 0.2); color: #ffffff; }
 
-/* ─── Scrollbar ────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Scrollbar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-surface); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
 
-/* ─── Reduced motion ──────────────────────────────────────────────── */
+/* â”€â”€â”€ Reduced motion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -470,7 +470,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ─── CRM shell scoping (preserved for CRM routes) ─────────────────── */
+/* â”€â”€â”€ CRM shell scoping (preserved for CRM routes) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .crm-shell {
   background: var(--crm-bg);
   color: var(--crm-text);
@@ -484,3 +484,6 @@ h1, h2, h3, h4, h5, h6 {
 .crm-shell textarea::placeholder {
   color: var(--crm-text-faint);
 }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

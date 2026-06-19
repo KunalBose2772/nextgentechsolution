@@ -80,6 +80,7 @@ const navLinks = [
   { label: "Home",      href: "/" },
   { label: "About",     href: "/about" },
   { label: "Services",  href: "/services", hasMenu: true },
+  { label: "Solutions", href: "/solutions" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Blog",      href: "/blog" },
   { label: "Careers",   href: "/careers" },
@@ -163,7 +164,7 @@ export default function Navbar() {
                     href={link.href}
                     className={cn(
                       "font-sora relative inline-flex items-center gap-1 rounded-lg text-[13.5px] font-semibold transition-all px-3 py-1.5 duration-200 group/nav",
-                      isActive ? "text-cyan-400" : "text-slate-400 hover:text-white"
+                      isActive ? "text-[var(--accent-primary)]" : "text-slate-400 hover:text-white"
                     )}
                     aria-expanded={megaOpen}
                     aria-haspopup="true"
@@ -172,11 +173,11 @@ export default function Navbar() {
                     <ChevronDown
                       className={cn(
                         "w-3 h-3 text-slate-500 group-hover/nav:text-white transition-all duration-200 ml-0.5 mt-0.5",
-                        megaOpen && "rotate-180 text-cyan-400"
+                        megaOpen && "rotate-180 text-[var(--accent-primary)]"
                       )}
                     />
                     {isActive && (
-                      <span className="absolute bottom-[-10px] left-3 right-3 h-[2px] bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                      <span className="absolute bottom-[-10px] left-3 right-3 h-[2px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-primary-hover)] rounded-full shadow-[0_0_8px_var(--accent-primary)]" />
                     )}
                   </Link>
 
@@ -218,12 +219,12 @@ export default function Navbar() {
                             )}
                           >
                             {isActiveTab && (
-                              <span className="absolute left-0 top-3.5 bottom-3.5 w-[3px] bg-cyan-400 rounded-r" />
+                              <span className="absolute left-0 top-3.5 bottom-3.5 w-[3px] bg-[var(--accent-primary)] rounded-r" />
                             )}
                             <div
                               className="w-8.5 h-8.5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-300"
                               style={{
-                                background: isActiveTab ? "rgba(6, 182, 212, 0.08)" : "rgba(255, 255, 255, 0.02)",
+                                background: isActiveTab ? "var(--accent-primary-dim)" : "rgba(255, 255, 255, 0.02)",
                                 borderColor: isActiveTab ? "rgba(6, 182, 212, 0.2)" : "rgba(255, 255, 255, 0.06)",
                                 color: isActiveTab ? "#06B6D4" : "#64748b",
                               }}
@@ -234,7 +235,7 @@ export default function Navbar() {
                               <p className="text-[12.5px] font-bold leading-tight font-sora truncate">{tab.label}</p>
                               <span className={cn(
                                 "text-[10px] block mt-0.5 leading-none transition-colors",
-                                isActiveTab ? "text-cyan-400/80 font-medium" : "text-slate-555"
+                                isActiveTab ? "text-[var(--accent-primary)]/80 font-medium" : "text-slate-555"
                               )}>
                                 {tab.items.length} services
                               </span>
@@ -274,13 +275,13 @@ export default function Navbar() {
                                 className="group/card flex items-center justify-between p-3.5 rounded-xl bg-slate-950/30 border border-slate-800/50 hover:bg-slate-950/80 hover:border-slate-700/80 transition-all duration-300 hover:shadow-lg hover:shadow-black/20"
                               >
                                 <div className="flex items-center gap-3.5 min-w-0">
-                                  <div className="p-2 rounded-lg shrink-0 bg-slate-900 border border-slate-850 text-slate-400 group-hover/card:bg-cyan-950/30 group-hover/card:border-cyan-500/30 group-hover/card:text-cyan-400 transition-all duration-300">
+                                  <div className="p-2 rounded-lg shrink-0 bg-slate-900 border border-slate-850 text-slate-400 group-hover/card:bg-cyan-950/30 group-hover/card:border-[var(--accent-primary)]/30 group-hover/card:text-[var(--accent-primary)] transition-all duration-300">
                                     <ItemIcon className="w-4 h-4" />
                                   </div>
                                   <div className="min-w-0">
                                     <h4 className="text-[12.5px] font-bold text-white leading-tight font-sora flex items-center gap-1.5 truncate">
                                       {s.label}
-                                      <span className="text-[10px] text-cyan-400 select-none opacity-40 group-hover/card:opacity-100 transition-opacity">★</span>
+                                      <span className="text-[10px] text-[var(--accent-primary)] select-none opacity-40 group-hover/card:opacity-100 transition-opacity">★</span>
                                     </h4>
                                     <p className="text-[10px] text-slate-500 mt-1 leading-normal group-hover/card:text-slate-400 transition-colors truncate max-w-[200px]">
                                       {s.desc}
@@ -288,7 +289,7 @@ export default function Navbar() {
                                   </div>
                                 </div>
                                 <div className="shrink-0 pl-2 opacity-30 group-hover/card:opacity-100 group-hover/card:translate-x-0.5 transition-all duration-300">
-                                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover/card:text-cyan-400" />
+                                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover/card:text-[var(--accent-primary)]" />
                                 </div>
                               </Link>
                             );
@@ -303,7 +304,7 @@ export default function Navbar() {
                         </span>
                         <Link
                           href="/services"
-                          className="group/all flex items-center gap-1 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors font-sora"
+                          className="group/all flex items-center gap-1 text-xs font-bold text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] transition-colors font-sora"
                         >
                           View All Services
                           <ArrowRight className="w-3.5 h-3.5 group-hover/all:translate-x-0.5 transition-transform" />
@@ -318,12 +319,12 @@ export default function Navbar() {
                   href={link.href}
                   className={cn(
                     "font-sora relative inline-flex items-center gap-1.5 rounded-lg text-[13.5px] font-semibold transition-all px-3 py-2 duration-200",
-                    isActive ? "text-cyan-400" : "text-slate-400 hover:text-white"
+                    isActive ? "text-[var(--accent-primary)]" : "text-slate-400 hover:text-white"
                   )}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-primary-hover)] rounded-full shadow-[0_0_8px_var(--accent-primary)]" />
                   )}
                 </Link>
               );
@@ -334,7 +335,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/contact"
-              className="hidden sm:inline-flex items-center gap-1.5 bg-cyan-400 hover:bg-cyan-500 text-slate-950 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg transition-all hover:-translate-y-0.5"
+              className="hidden sm:inline-flex items-center gap-1.5 bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] text-slate-950 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg transition-all hover:-translate-y-0.5"
             >
               Get Started
               <ArrowRight className="w-4 h-4" />
@@ -386,7 +387,7 @@ export default function Navbar() {
                     href={link.href}
                     className={cn(
                       "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition-all",
-                      pathname === link.href ? "text-cyan-400 bg-cyan-950/20" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                      pathname === link.href ? "text-[var(--accent-primary)] bg-[var(--accent-primary-dim)]" : "text-slate-400 hover:text-white hover:bg-slate-800"
                     )}
                     onClick={() => setMobileOpen(false)}
                   >
@@ -400,7 +401,7 @@ export default function Navbar() {
                 <Link
                   href="/contact"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg text-sm font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-500 transition-colors"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg text-sm font-bold text-slate-950 bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] transition-colors"
                 >
                   Start a Project
                   <ArrowRight className="w-4 h-4" />

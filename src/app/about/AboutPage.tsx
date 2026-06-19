@@ -24,12 +24,12 @@ import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
 /* ─── Data ─────────────────────────────────────────────────────────── */
 
 const team = [
-  { name: "Aryan Kapoor",  role: "CEO & Co-Founder",    expertise: "Engineering & Strategy",       avatar: "AK", color: "#3b82f6", linkedin: "#", twitter: "#" },
-  { name: "Priya Singh",   role: "CTO",                  expertise: "Cloud Architecture & AI",      avatar: "PS", color: "#7c3aed", linkedin: "#", twitter: "#" },
-  { name: "Rahul Dev",     role: "Head of Engineering",  expertise: "Full-Stack & DevOps",          avatar: "RD", color: "#06b6d4", linkedin: "#", twitter: "#" },
-  { name: "Ananya Mehta",  role: "Head of Design",       expertise: "UI/UX & Design Systems",       avatar: "AM", color: "#ec4899", linkedin: "#", twitter: "#" },
-  { name: "Vikram Shah",   role: "Head of AI/ML",        expertise: "Machine Learning & NLP",       avatar: "VS", color: "#22c55e", linkedin: "#", twitter: "#" },
-  { name: "Sneha Gupta",   role: "Head of Delivery",     expertise: "Project Management",           avatar: "SG", color: "#f97316", linkedin: "#", twitter: "#" },
+  { name: "Aryan Kapoor",  role: "CEO & Co-Founder",    expertise: "Engineering & Strategy",       avatar: "/images/team/aryan.png", color: "#3b82f6", linkedin: "#", twitter: "#" },
+  { name: "Priya Singh",   role: "CTO",                  expertise: "Cloud Architecture & AI",      avatar: "/images/team/priya.png", color: "#7c3aed", linkedin: "#", twitter: "#" },
+  { name: "Rahul Dev",     role: "Head of Engineering",  expertise: "Full-Stack & DevOps",          avatar: "/images/team/rahul.png", color: "#06b6d4", linkedin: "#", twitter: "#" },
+  { name: "Ananya Mehta",  role: "Head of Design",       expertise: "UI/UX & Design Systems",       avatar: "/images/team/ananya.png", color: "#ec4899", linkedin: "#", twitter: "#" },
+  { name: "Vikram Shah",   role: "Head of AI/ML",        expertise: "Machine Learning & NLP",       avatar: "/images/team/vikram.png", color: "#22c55e", linkedin: "#", twitter: "#" },
+  { name: "Sneha Gupta",   role: "Head of Delivery",     expertise: "Project Management",           avatar: "/images/team/sneha.png", color: "#f97316", linkedin: "#", twitter: "#" },
 ];
 
 const values = [
@@ -103,12 +103,7 @@ function StatCard({ stat }: { stat: (typeof stats)[0] }) {
   return (
     <div
       ref={ref}
-      className="group flex flex-col items-center text-center p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-1"
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        borderColor: "rgba(255,255,255,0.07)",
-        backdropFilter: "blur(8px)",
-      }}
+      className="group flex flex-col items-center text-center p-8 transition-all duration-300 hover:-translate-y-1 ng-card-dark"
     >
       <div
         className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
@@ -287,11 +282,7 @@ export default function AboutPage() {
             {values.map((v) => (
               <div
                 key={v.title}
-                className="group p-7 rounded-2xl border transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  borderColor: "rgba(255,255,255,0.07)",
-                }}
+                className="group p-7 transition-all duration-300 hover:-translate-y-1 ng-card-dark"
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-all duration-300"
@@ -410,6 +401,82 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── Life & Culture Section ── */}
+      <section className="py-24 border-b" style={{ borderColor: "var(--border-subtle)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Image Grid Column (6 cols) */}
+            <div className="lg:col-span-6 relative order-2 lg:order-1">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl aspect-[4/5] group/img">
+                    <img 
+                      src="/images/about_office1.png" 
+                      alt="NextGen Office Workspace" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <p className="text-white text-xs font-bold font-sora">HQ Collaboration Space</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4 pt-8">
+                  <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl aspect-[4/5] group/img2">
+                    <img 
+                      src="/images/about_office2.png" 
+                      alt="NextGen Collaborative Meeting" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover/img2:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img2:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <p className="text-white text-xs font-bold font-sora">Engineering Lab</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none z-0" />
+            </div>
+
+            {/* Content Column (6 cols) */}
+            <div className="lg:col-span-6 order-1 lg:order-2">
+              <span
+                className="inline-block text-[10.5px] font-bold uppercase tracking-widest mb-4 px-3 py-1 rounded-full border"
+                style={{
+                  color: "var(--accent-primary)",
+                  borderColor: "rgba(var(--accent-primary-rgb),0.25)",
+                  backgroundColor: "rgba(var(--accent-primary-rgb),0.06)",
+                }}
+              >
+                Our Environment
+              </span>
+              <h2
+                className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-6"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Life & Culture at NextGen
+              </h2>
+              <div className="space-y-6 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                <p>
+                  At NextGen Tech Solutions, we believe that extraordinary software is built by people who are inspired, 
+                  empowered, and aligned. Our workspaces are designed to spark creativity, encourage spontaneous 
+                  whiteboard sessions, and support deep, uninterrupted focus.
+                </p>
+                <p>
+                  Whether working from our state-of-the-art office in Ranchi or collaborating remotely across different timezones, 
+                  our team is united by a relentless pursuit of engineering perfection. We run weekly tech talks, invest in personal growth courses, 
+                  and foster an open door culture where the best idea always wins.
+                </p>
+                <p>
+                  We strive to maintain a healthy work-life integration. We celebrate launch milestones together, host community hackathons, 
+                  and prioritize mental and physical well-being.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* ── Team ── */}
       <section className="py-24 border-b" style={{ borderColor: "var(--border-subtle)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -440,23 +507,25 @@ export default function AboutPage() {
             {team.map((member) => (
               <div
                 key={member.name}
-                className="group p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  borderColor: "rgba(255,255,255,0.07)",
-                }}
+                className="group p-6 transition-all duration-300 hover:-translate-y-1 ng-card-dark"
               >
                 <div className="flex items-center gap-4 mb-5">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center font-extrabold text-lg shrink-0"
-                    style={{
-                      background: `${member.color}18`,
-                      border: `1.5px solid ${member.color}35`,
-                      color: member.color,
-                    }}
-                  >
-                    {member.avatar}
-                  </div>
+                  {member.avatar.startsWith("/") ? (
+                    <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0 border" style={{ borderColor: `${member.color}35` }}>
+                      <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                    </div>
+                  ) : (
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center font-extrabold text-lg shrink-0"
+                      style={{
+                        background: `${member.color}18`,
+                        border: `1.5px solid ${member.color}35`,
+                        color: member.color,
+                      }}
+                    >
+                      {member.avatar}
+                    </div>
+                  )}
                   <div>
                     <div className="font-bold text-sm" style={{ color: "var(--text-primary)" }}>
                       {member.name}

@@ -6,7 +6,7 @@ import FAQ from "@/components/sections/FAQ";
 
 export default function ContactPage() {
   return (
-    <div className="bg-white">
+    <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       <PageHero
         badge="Contact Us"
         title="Let's Start a"

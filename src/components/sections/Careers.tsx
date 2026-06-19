@@ -59,15 +59,25 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
   };
 
   return (
-    <section className="py-16 bg-white text-slate-800 border-t border-slate-200/50" id="careers">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-24 border-t relative overflow-hidden text-slate-350" style={{ background: "var(--bg-primary)", borderColor: "var(--border-subtle)" }} id="careers">
+      {/* Decorative Grid Pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:24px_24px] opacity-80 pointer-events-none z-0" />
+      <div className="absolute top-1/4 left-[-10%] w-[40%] h-[40%] bg-[radial-gradient(circle,_rgba(6,182,212,0.04)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0" />
+
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            CAREERS
+        <div className="text-center mb-16">
+          <span className="inline-block text-[10.5px] font-bold uppercase tracking-widest mb-4 px-3 py-1 rounded-full border"
+            style={{
+              color: "var(--accent-primary)",
+              borderColor: "rgba(var(--accent-primary-rgb),0.25)",
+              backgroundColor: "rgba(var(--accent-primary-rgb),0.06)",
+            }}
+          >
+            Careers
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Build the Future With Us</h2>
-          <p className="text-slate-550 mt-2 max-w-xl mx-auto text-xs leading-relaxed">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight font-sora">Build the Future With Us</h2>
+          <p className="text-slate-400 mt-4 max-w-xl mx-auto text-xs leading-relaxed">
             Join a team of ambitious engineers, designers, and builders working on high-impact projects for global clients.
           </p>
         </div>
@@ -76,7 +86,7 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
           
           {/* Left Block: Open Positions */}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-4">
+            <p className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 mb-6 font-sora">
               Open Positions
             </p>
             <div className="space-y-4">
@@ -84,33 +94,41 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
                 <div
                   key={job.title}
                   onClick={() => setSelectedJob(job)}
-                  className="p-5 bg-slate-50 border border-slate-200/60 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-white hover:shadow-sm transition-all duration-200 flex items-start justify-between gap-4"
+                  className="p-5 rounded-2xl cursor-pointer transition-all duration-300 flex items-start justify-between gap-4 ng-card-dark"
                 >
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100/50 px-2 py-0.5 rounded">
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded border"
+                        style={{
+                          color: "var(--accent-primary)",
+                          borderColor: "rgba(var(--accent-primary-rgb),0.25)",
+                          backgroundColor: "rgba(var(--accent-primary-rgb),0.06)",
+                        }}
+                      >
                         {job.department}
                       </span>
-                      <span className="flex items-center gap-1 text-[9px] font-semibold text-green-600">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      <span className="flex items-center gap-1.5 text-[9px] font-semibold text-emerald-450">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                         Hiring
                       </span>
                     </div>
-                    <h4 className="text-sm sm:text-base font-bold text-slate-900 mb-2">{job.title}</h4>
-                    <div className="flex flex-wrap gap-3 text-xs text-slate-500">
-                      <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-slate-400" />{job.location}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-slate-400" />{job.type}</span>
-                      <span className="flex items-center gap-1"><Briefcase className="w-3.5 h-3.5 text-slate-400" />{job.experience}</span>
+                    <h4 className="text-sm sm:text-base font-bold text-white mb-3 font-sora">{job.title}</h4>
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-400">
+                      <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />{job.location}</span>
+                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />{job.type}</span>
+                      <span className="flex items-center gap-1.5"><Briefcase className="w-3.5 h-3.5 text-slate-500 shrink-0" />{job.experience}</span>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-slate-400 mt-1" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.02] border border-white/[0.06] flex items-center justify-center shrink-0 mt-1">
+                    <ArrowRight className="w-4 h-4 text-slate-400" />
+                  </div>
                 </div>
               ))}
             </div>
 
             {!hideViewAll && (
-              <div className="mt-6">
-                <Link href="/careers" className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-6 py-3 rounded-full transition-all shadow-sm">
+              <div className="mt-8">
+                <Link href="/careers" className="ng-btn-primary">
                   View All Openings <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -119,55 +137,121 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
 
           {/* Right Block: Perks */}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-4">
+            <p className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 mb-6 font-sora">
               Why Work With Us
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {perks.map((perk) => (
-                <div key={perk.title} className="p-5 bg-slate-50 border border-slate-200/60 rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-sm">
-                  <perk.icon className="w-5 h-5 text-blue-600 mb-3" />
-                  <h4 className="text-sm font-bold text-slate-900 mb-1">{perk.title}</h4>
-                  <p className="text-xs leading-relaxed text-slate-550">{perk.desc}</p>
+                <div key={perk.title} className="p-5 rounded-2xl transition-all duration-300 ng-card-dark">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20 mb-4 shrink-0">
+                    <perk.icon className="w-4.5 h-4.5 text-[var(--accent-primary)]" />
+                  </div>
+                  <h4 className="text-sm font-bold text-white mb-2 font-sora">{perk.title}</h4>
+                  <p className="text-xs leading-relaxed text-slate-400">{perk.desc}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 p-5 bg-slate-50 border border-slate-200/60 rounded-2xl">
-              <div className="flex items-center gap-2 mb-2">
-                <Star className="w-4 h-4 text-amber-500" />
-                <span className="text-xs font-semibold text-slate-600">Glassdoor Rating: 4.9/5</span>
+            <div className="mt-6 p-6 rounded-2xl ng-card-dark">
+              <div className="flex items-center gap-2 mb-3">
+                <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                <span className="text-xs font-semibold text-slate-350">Glassdoor Rating: 4.9 / 5</span>
               </div>
-              <p className="text-xs text-slate-600 italic leading-relaxed">
+              <p className="text-xs text-slate-400 italic leading-relaxed">
                 &ldquo;The most collaborative and technically challenging place I&apos;ve ever worked. Real ownership, real impact.&rdquo;
               </p>
-              <div className="text-[10px] text-slate-400 mt-2">— Senior Engineer, 3 years at NextGen</div>
+              <div className="text-[10px] text-slate-500 mt-3 font-semibold">— Senior Engineer, 3 years at NextGen</div>
             </div>
           </div>
 
         </div>
+
+        {/* ── Life & Culture Showcase ── */}
+        <div className="mt-24 pt-16 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            {/* Left text */}
+            <div className="lg:col-span-5 space-y-6">
+              <span
+                className="inline-block text-[10.5px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border"
+                style={{
+                  color: "var(--accent-primary)",
+                  borderColor: "rgba(var(--accent-primary-rgb),0.25)",
+                  backgroundColor: "rgba(var(--accent-primary-rgb),0.06)",
+                }}
+              >
+                Life at NextGen
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight font-sora">
+                Where Builders Do Their Best Work
+              </h3>
+              <p className="text-xs leading-relaxed text-slate-400">
+                We are building a culture of high performance, creative freedom, and absolute engineering integrity. 
+                We believe in hiring great people and getting out of their way. We don't track hours, we track impact.
+              </p>
+              <div className="space-y-3">
+                {[
+                  "Work on global products serving millions of users.",
+                  "Continuous learning with paid courses & books budget.",
+                  "Autonomous execution with direct access to leaders.",
+                  "Flexible remote-first culture with high accountability."
+                ].map((point, idx) => (
+                  <div key={idx} className="flex items-center gap-2.5 text-xs text-slate-350">
+                    <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
+                    <span>{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Images (7 cols) */}
+            <div className="lg:col-span-7 grid grid-cols-2 gap-4">
+              <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl aspect-[4/3] group/c1">
+                <img 
+                  src="/images/careers/team_collab.png" 
+                  alt="NextGen Developers Collaboration" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover/c1:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/c1:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <p className="text-white text-[10px] font-bold uppercase tracking-wider font-sora">Collaborative Sprint</p>
+                </div>
+              </div>
+              <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl aspect-[4/3] group/c2">
+                <img 
+                  src="/images/careers/workstation.png" 
+                  alt="Developer Workstation" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover/c2:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/c2:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <p className="text-white text-[10px] font-bold uppercase tracking-wider font-sora">Deep Focus Workstation</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Modal Popup */}
       {selectedJob && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={closeModal} />
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onClick={closeModal} />
           
-          <div className="relative w-full max-w-lg rounded-2xl bg-white border border-slate-250 p-6 sm:p-8 shadow-2xl z-10 text-slate-800">
+          <div className="relative w-full max-w-lg rounded-2xl bg-slate-900 border border-white/10 p-6 sm:p-8 shadow-2xl z-10 text-white backdrop-blur-xl">
             <button 
               onClick={closeModal}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="mb-6">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-blue-600">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-cyan-400">
                 Careers • {selectedJob.department}
               </span>
-              <h3 className="text-slate-900 font-extrabold text-lg mt-1">
+              <h3 className="text-white font-extrabold text-lg mt-1 font-sora">
                 Apply for {selectedJob.title}
               </h3>
-              <p className="text-xs text-slate-500 mt-1 flex flex-wrap gap-x-3 gap-y-1">
+              <p className="text-xs text-slate-400 mt-1 flex flex-wrap gap-x-3 gap-y-1 font-medium">
                 <span>{selectedJob.location}</span>
                 <span>•</span>
                 <span>{selectedJob.type}</span>
@@ -178,14 +262,16 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
 
             {success ? (
               <div className="text-center py-8 flex flex-col items-center">
-                <CheckCircle2 className="w-12 h-12 text-green-500 mb-4" />
-                <h4 className="text-slate-900 font-bold text-lg mb-1">Application Submitted!</h4>
-                <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 animate-bounce">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h4 className="text-white font-bold text-lg mb-1 font-sora">Application Submitted!</h4>
+                <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
                   Thank you for applying to NextGen. We review applications within 48 hours and will email you with the next steps if your profile fits.
                 </p>
                 <button 
                   onClick={closeModal}
-                  className="mt-6 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition-all"
+                  className="mt-6 px-5 py-2.5 bg-white text-slate-950 hover:bg-slate-100 font-bold text-xs rounded-xl transition-all"
                 >
                   Close Window
                 </button>
@@ -193,7 +279,7 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
             ) : (
               <form onSubmit={handleApplySubmit} className="space-y-4">
                 {error && (
-                  <div className="flex items-center gap-2 p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-650">
+                  <div className="flex items-center gap-2 p-3 rounded-xl bg-red-950/20 border border-red-500/20 text-xs text-red-400">
                     <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
                     <span>{error}</span>
                   </div>
@@ -201,69 +287,69 @@ export default function Careers({ hideViewAll = false }: { hideViewAll?: boolean
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Full Name *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Full Name *</label>
                     <input 
                       type="text" 
                       required 
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="John Doe" 
-                      className="w-full h-10 px-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-850 placeholder-slate-400 outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full h-10 px-3 rounded-lg bg-slate-950 border border-white/10 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Email Address *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Email Address *</label>
                     <input 
                       type="email" 
                       required 
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="john@company.com" 
-                      className="w-full h-10 px-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-850 placeholder-slate-400 outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full h-10 px-3 rounded-lg bg-slate-950 border border-white/10 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-500"
                     />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Phone Number *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Phone Number *</label>
                     <input 
                       type="tel" 
                       required 
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="+91 98765 43210" 
-                      className="w-full h-10 px-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-850 placeholder-slate-400 outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full h-10 px-3 rounded-lg bg-slate-950 border border-white/10 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Resume / Portfolio Link *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Resume / Portfolio Link *</label>
                     <input 
                       type="url" 
                       required 
                       value={form.resume}
                       onChange={(e) => setForm({ ...form, resume: e.target.value })}
                       placeholder="https://drive.google.com/..." 
-                      className="w-full h-10 px-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-850 placeholder-slate-400 outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full h-10 px-3 rounded-lg bg-slate-950 border border-white/10 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-500"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 mb-1">Cover Letter</label>
+                  <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Cover Letter</label>
                   <textarea 
                     rows={3} 
                     value={form.coverLetter}
                     onChange={(e) => setForm({ ...form, coverLetter: e.target.value })}
                     placeholder="Tell us why you are interested in this position..." 
-                    className="w-full p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-855 placeholder-slate-400 outline-none resize-none focus:border-blue-500 focus:bg-white"
+                    className="w-full p-3 rounded-lg bg-slate-950 border border-white/10 text-xs text-white placeholder-slate-500 outline-none resize-none focus:border-cyan-500"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full h-11 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-bold text-xs flex items-center justify-center gap-2 rounded-lg transition-all"
+                  className="w-full h-11 bg-white hover:bg-slate-100 disabled:opacity-50 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 rounded-lg transition-all"
                 >
                   {submitting ? "Submitting Application..." : "Submit Application"}
                 </button>

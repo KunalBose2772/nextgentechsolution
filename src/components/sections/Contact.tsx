@@ -58,9 +58,9 @@ export default function Contact() {
       });
       const data = await res.json();
       if (!res.ok) { 
-        setError(data.error ?? "Something went wrong. Please try again."); 
-        setSending(false); 
-        return; 
+         setError(data.error ?? "Something went wrong. Please try again."); 
+         setSending(false); 
+         return; 
       }
       setLeadId(data.leadId ?? null);
       setSent(true);
@@ -73,8 +73,11 @@ export default function Contact() {
   };
 
   return (
-    <section className="py-16 bg-white text-slate-850 border-t border-slate-200/50" id="contact">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-24 border-t relative overflow-hidden" style={{ background: "var(--bg-primary)", borderColor: "var(--border-subtle)" }} id="contact">
+      {/* Background Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-[radial-gradient(circle_at_center,_rgba(6,182,212,0.02)_0%,_transparent_70%)] pointer-events-none z-0" />
+
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         
         <SectionHeader
           badge="CONTACT US"
@@ -82,31 +85,31 @@ export default function Contact() {
           titleHighlight="Together"
           description="Ready to transform your vision into reality? Reach out and let's discuss your project."
           align="center"
-          theme="light"
-          className="mb-12"
+          theme="dark"
+          className="mb-16"
         />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           
           {/* Form */}
-          <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-6 sm:p-8">
+          <div className="bg-[#0a0a0c]/60 border border-white/[0.08] rounded-2xl p-6 sm:p-8 backdrop-blur-md">
             {sent ? (
               <div className="text-center py-12">
-                <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto mb-4 text-blue-600">
+                <div className="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mx-auto mb-4 text-cyan-400">
                   <Send className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Message Sent!</h3>
-                <p className="text-xs text-slate-500 mb-2">
+                <h3 className="text-lg font-bold text-white mb-2">Message Sent!</h3>
+                <p className="text-xs text-slate-400 mb-2">
                   Our team will reach out within 24 hours.
                 </p>
                 {leadId && (
-                  <p className="text-[10px] text-slate-400 font-mono">
-                    Reference: <span className="text-blue-600 font-bold">{leadId}</span>
+                  <p className="text-[10px] text-slate-500 font-mono">
+                    Reference: <span className="text-cyan-400 font-bold">{leadId}</span>
                   </p>
                 )}
                 <button
                   onClick={() => { setSent(false); setLeadId(null); }}
-                  className="mt-6 text-xs font-bold text-blue-600 hover:underline"
+                  className="mt-6 text-xs font-bold text-cyan-400 hover:underline"
                 >
                   Send another message
                 </button>
@@ -121,55 +124,55 @@ export default function Contact() {
                 />
 
                 {error && (
-                  <div className="flex items-start gap-2 p-3 rounded-xl text-xs bg-red-50 border border-red-200 text-red-600">
-                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-2 p-3 rounded-xl text-xs bg-red-950/25 border border-red-500/25 text-red-400">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
                     <span>{error}</span>
                   </div>
                 )}
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-2">Full Name *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Full Name *</label>
                     <input
                       type="text"
                       required
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="John Doe"
-                      className="w-full bg-white border border-slate-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-lg px-4 py-2 text-xs outline-none text-slate-800 transition-all h-10"
+                      className="w-full bg-slate-950 border border-white/10 focus:border-cyan-500 focus:ring-0 rounded-lg px-4 py-2 text-xs outline-none text-white transition-all h-10"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-2">Email Address *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Email Address *</label>
                     <input
                       type="email"
                       required
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="john@company.com"
-                      className="w-full bg-white border border-slate-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-lg px-4 py-2 text-xs outline-none text-slate-800 transition-all h-10"
+                      className="w-full bg-slate-950 border border-white/10 focus:border-cyan-500 focus:ring-0 rounded-lg px-4 py-2 text-xs outline-none text-white transition-all h-10"
                     />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-2">Phone Number *</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Phone Number *</label>
                     <input
                       type="tel"
                       required
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="+91 9876543210"
-                      className="w-full bg-white border border-slate-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-lg px-4 py-2 text-xs outline-none text-slate-800 transition-all h-10"
+                      className="w-full bg-slate-950 border border-white/10 focus:border-cyan-500 focus:ring-0 rounded-lg px-4 py-2 text-xs outline-none text-white transition-all h-10"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-2">Budget Range</label>
+                    <label className="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Budget Range</label>
                     <select
                       value={form.budget}
                       onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                      className="w-full bg-white border border-slate-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-lg px-4 py-2 text-xs outline-none text-slate-500 transition-all h-10"
+                      className="w-full bg-slate-950 border border-white/10 focus:border-cyan-500 focus:ring-0 rounded-lg px-4 py-2 text-xs outline-none text-slate-400 transition-all h-10"
                     >
                       <option value="">Select budget</option>
                       <option value="5k-15k">$5K – $15K</option>
@@ -181,17 +184,17 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2">Service Needed</label>
+                  <label className="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Service Needed</label>
                   <div className="flex flex-wrap gap-2">
                     {services.map((s) => (
                       <button
                         key={s}
                         type="button"
                         onClick={() => setForm({ ...form, service: s })}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
                           form.service === s
-                            ? "bg-blue-50 border-blue-600 text-blue-600"
-                            : "bg-white border-slate-200 text-slate-500 hover:border-slate-350"
+                            ? "bg-cyan-500/10 border-cyan-500 text-white"
+                            : "bg-white/[0.02] border-white/10 text-slate-400 hover:border-white/20"
                         }`}
                       >
                         {s}
@@ -201,25 +204,25 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2">Project Details *</label>
+                  <label className="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Project Details *</label>
                   <textarea
                     required
                     rows={4}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Tell us about your project, goals, and timeline..."
-                    className="w-full bg-white border border-slate-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-lg px-4 py-2.5 text-xs outline-none text-slate-800 transition-all resize-none"
+                    className="w-full bg-slate-950 border border-white/10 focus:border-cyan-500 focus:ring-0 rounded-lg px-4 py-2.5 text-xs outline-none text-white transition-all resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-bold text-xs h-11 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm"
+                  className="w-full bg-white hover:bg-slate-100 disabled:opacity-50 text-slate-950 font-bold text-xs h-11 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
                 >
                   {sending ? (
                     <>
-                      <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                      <div className="w-4 h-4 rounded-full border-2 border-slate-950/30 border-t-slate-950 animate-spin" />
                       Sending...
                     </>
                   ) : (
@@ -244,22 +247,22 @@ export default function Contact() {
                 <a
                   key={label}
                   href={href}
-                  className="flex items-center gap-4 bg-slate-50 border border-slate-200/60 hover:border-slate-300 rounded-2xl p-5 transition-all group"
+                  className="flex items-center gap-4 bg-[#0a0a0c]/60 border border-white/[0.08] hover:border-white/20 rounded-2xl p-5 transition-all group backdrop-blur-md"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-white border border-slate-200/60 flex items-center justify-center shrink-0 text-blue-600">
+                  <div className="w-11 h-11 rounded-xl bg-slate-950 border border-white/10 flex items-center justify-center shrink-0 text-cyan-400">
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</div>
-                    <div className="text-xs font-bold text-slate-800 mt-0.5">{value}</div>
+                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{label}</div>
+                    <div className="text-xs font-bold text-white mt-0.5">{value}</div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 text-slate-500 transition-transform group-hover:translate-x-1 group-hover:text-white" />
                 </a>
               ))}
             </div>
 
-            <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-5">
-              <p className="text-[10px] font-bold text-slate-450 uppercase tracking-wider mb-4">
+            <div className="bg-[#0a0a0c]/60 border border-white/[0.08] rounded-2xl p-5 backdrop-blur-md">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-4">
                 Connect With Us
               </p>
               <div className="flex flex-wrap gap-3">
@@ -273,7 +276,7 @@ export default function Contact() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-white border border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-800 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all"
+                    className="flex items-center gap-2 bg-slate-950 border border-white/10 hover:border-white/20 text-slate-400 hover:text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition-all"
                   >
                     <Icon className="w-4 h-4" />
                     {label}
@@ -282,11 +285,11 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-5 flex items-start gap-3">
-              <span className="w-2 h-2 rounded-full bg-green-500 shrink-0 mt-1.5" />
+            <div className="bg-[#0a0a0c]/60 border border-white/[0.08] rounded-2xl p-5 flex items-start gap-3 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-green-500 shrink-0 mt-1.5 animate-pulse" />
               <div>
-                <div className="text-slate-850 font-bold text-xs">Available right now</div>
-                <p className="text-[11px] leading-relaxed text-slate-500 mt-1">
+                <div className="text-white font-bold text-xs">Available right now</div>
+                <p className="text-[11px] leading-relaxed text-slate-400 mt-1">
                   Our team typically responds within 2–4 hours during business hours (IST). Guaranteed response within 24 hours.
                 </p>
               </div>

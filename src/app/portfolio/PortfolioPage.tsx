@@ -7,7 +7,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function PortfolioPage() {
   return (
-    <div className="bg-white">
+    <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       <PageHero
         badge="Our Portfolio"
         title="150+ Projects,"

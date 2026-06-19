@@ -156,7 +156,7 @@ export default function Hero() {
   return (
     <section
       className="relative overflow-visible"
-      style={{ minHeight: "100vh", background: "#000000", paddingTop: "80px" }}
+      style={{ minHeight: "100vh", background: "#000000", paddingTop: "110px" }}
     >
       {/* ── Video Background ──────────────────────────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-black">
@@ -204,7 +204,7 @@ export default function Hero() {
 
       {/* ── Main Content ──────────────────────────────────────────── */}
       <div
-        className="ng-container relative z-10 w-full min-h-[calc(100vh-80px)] flex flex-col justify-center pt-7 pb-48 lg:pb-36"
+        className="ng-container relative z-10 w-full min-h-[calc(100vh-110px)] flex flex-col justify-center pt-2 pb-48 lg:pb-36"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch w-full">
 
@@ -509,10 +509,10 @@ export default function Hero() {
 
       {/* ── Slide Tabs ────────────────────────────────────────────── */}
       <div
-        className="absolute z-30 bottom-[92px] hidden md:block"
-        style={{ left: "max(20px, calc((100vw - 1400px) / 2 + 32px))" }}
+        className="absolute z-30 bottom-[92px] hidden md:block w-full overflow-x-auto hide-scrollbar"
+        style={{ paddingLeft: "max(20px, calc((100vw - 1400px) / 2 + 32px))" }}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-max pr-6">
           {slides.map((s, idx) => {
             const active = idx === currentIndex;
             const SIcon = s.tagIcon;

@@ -53,6 +53,14 @@ const footerLinks = {
     { label: "Privacy Policy",    href: "/privacy" },
     { label: "Terms of Service",  href: "/terms" },
   ],
+  Locations: [
+    { label: "Bangalore", href: "/locations/bangalore" },
+    { label: "Mumbai", href: "/locations/mumbai" },
+    { label: "Delhi NCR", href: "/locations/delhi-ncr" },
+    { label: "Hyderabad", href: "/locations/hyderabad" },
+    { label: "Pune", href: "/locations/pune" },
+    { label: "Ranchi", href: "/locations/ranchi" },
+  ],
 };
 
 const socials = [
@@ -212,7 +220,7 @@ export default function Footer() {
           </div>
 
           {/* Links Grid */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-5 gap-8">
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category} className="col-span-1">
                 <h4 className="text-white font-bold text-[11px] uppercase tracking-wider mb-4">

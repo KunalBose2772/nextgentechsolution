@@ -170,7 +170,7 @@ const serviceHighlights = [
 
 export default function ServicesPage() {
   return (
-    <div className="bg-white min-h-screen text-slate-800">
+    <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       
       <PageHero
         badge="Our Services"
@@ -186,9 +186,10 @@ export default function ServicesPage() {
           <div
             key={service.id}
             id={service.id}
-            className={`py-20 ${i % 2 === 1 ? "bg-slate-50/40" : "bg-white"}`}
+            className={`py-24 border-b`}
+            style={{ borderColor: "var(--border-subtle)", background: i % 2 === 1 ? "var(--bg-surface)" : "transparent" }}
           >
-            <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-12 gap-12 items-center">
+            <div className="ng-container grid lg:grid-cols-12 gap-12 items-center">
               {/* Content Column (7 cols) */}
               <div className={`lg:col-span-7 ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div className="flex items-center gap-2 mb-4">
@@ -200,24 +201,25 @@ export default function ServicesPage() {
                     {service.title}
                   </span>
                 </div>
-                <h2 className="text-slate-900 font-extrabold text-2xl sm:text-3xl mt-2 mb-4 tracking-tight leading-tight">
+                <h2 className="ng-h2 mt-2 mb-4">
                   {service.headline}
                 </h2>
-                <p className="text-slate-600 text-xs leading-relaxed mb-6">{service.description}</p>
+                <p className="text-sm leading-relaxed mb-8" style={{ color: "var(--text-secondary)" }}>{service.description}</p>
                 
-                <div className="grid sm:grid-cols-2 gap-3 mb-8">
+                <div className="grid sm:grid-cols-2 gap-4 mb-10">
                   {service.features.map((f) => (
-                    <div key={f} className="flex items-center gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: service.accent }} />
-                      <span className="text-slate-600 text-xs font-medium">{f}</span>
+                    <div key={f} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: "var(--accent-primary-dim)" }}>
+                        <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--accent-primary)" }} />
+                      </div>
+                      <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{f}</span>
                     </div>
                   ))}
                 </div>
                 
                 <Link
                   href={`/services/${service.id}`}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-bold text-xs tracking-wider transition-all hover:opacity-90 shadow-sm"
-                  style={{ backgroundColor: service.accent }}
+                  className="ng-btn-primary"
                 >
                   Explore Details & Pricing
                   <ArrowRight className="w-4 h-4" />
@@ -226,17 +228,18 @@ export default function ServicesPage() {
 
               {/* Mockup Column (5 cols) */}
               <div className={`lg:col-span-5 ${i % 2 === 1 ? "lg:order-1" : ""}`}>
-                <div className="rounded-3xl p-6 border border-slate-200/60 bg-white shadow-sm">
+                <div className="ng-card-dark p-8">
                   {service.mockup}
                   
-                  <div className="mt-5 space-y-2">
+                  <div className="mt-6 space-y-3">
                     {service.features.slice(0, 2).map((f) => (
                       <div
                         key={f}
-                        className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-150"
+                        className="flex items-center gap-3 p-3.5 rounded-xl border"
+                        style={{ background: "rgba(255,255,255,0.02)", borderColor: "var(--border-subtle)" }}
                       >
-                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: service.accent }} />
-                        <span className="text-slate-600 text-[11px] font-medium">{f}</span>
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--accent-primary)" }} />
+                        <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{f}</span>
                       </div>
                     ))}
                   </div>
