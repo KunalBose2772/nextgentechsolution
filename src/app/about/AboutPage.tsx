@@ -2,44 +2,80 @@
 
 import { useEffect, useRef, useState } from "react";
 import PageHero from "@/components/common/PageHero";
+import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
-import Link from "next/link";
+import Image from "next/image";
 import {
   CheckCircle2, Users, Award, TrendingUp, Globe,
-  Heart, Zap, Shield, ArrowRight, Code, Cpu, Star, Rocket,
+  Target, Eye
 } from "lucide-react";
-import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 import { COMPANY } from "@/lib/utils";
 
 /* ─── Data ─────────────────────────────────────────────────────────── */
 
-const team = [
-  { name: "Kunal Bose",     role: "Founder & CEO",          expertise: "Strategy & Business Development", initials: "KB", color: "#7c3aed" },
-  { name: "Rahul Kumar",    role: "Head of Engineering",     expertise: "Full-Stack & System Architecture",  initials: "RK", color: "#06b6d4" },
-  { name: "Priya Singh",    role: "Head of Design",          expertise: "UI/UX & Brand Identity",           initials: "PS", color: "#ec4899" },
-  { name: "Arjun Mehta",   role: "Head of AI & Cloud",      expertise: "Machine Learning & DevOps",        initials: "AM", color: "#22c55e" },
-];
-
-const values = [
-  { icon: Zap,    color: "#7c3aed", bg: "rgba(124,58,237,0.08)",   title: "Innovation First",   desc: "We embrace emerging technologies and challenge conventions to build breakthrough solutions for every client." },
-  { icon: Shield, color: "#06b6d4", bg: "rgba(6,182,212,0.08)",    title: "Integrity Always",   desc: "Transparent communication, honest timelines, and zero compromise on quality — every single project." },
-  { icon: Heart,  color: "#ec4899", bg: "rgba(236,72,153,0.08)",   title: "Client Success",     desc: "Your success is our measure. We stay accountable from discovery through post-launch growth." },
-  { icon: Users,  color: "#22c55e", bg: "rgba(34,197,94,0.08)",    title: "Team Excellence",    desc: "A team of passionate specialists who invest in continuous learning and genuinely love what they build." },
+const teamMembers = [
+  {
+    name: "Dr. Rahul Sharma",
+    role: "Managing Director",
+    expertise: "Enterprise Systems & AI Strategy",
+    image: "/images/team/rahul.png",
+    linkedin: "#",
+    twitter: "#",
+    github: "#"
+  },
+  {
+    name: "Priya Malhotra",
+    role: "Creative Director",
+    expertise: "Brand Strategy & Human-Centric UX",
+    image: "/images/team/priya.png",
+    linkedin: "#",
+    twitter: "#",
+    github: "#"
+  },
+  {
+    name: "Vikram Singhania",
+    role: "Director of Operations",
+    expertise: "Global Delivery & Agile Scale",
+    image: "/images/team/vikram.png",
+    linkedin: "#",
+    twitter: "#",
+    github: "#"
+  },
+  {
+    name: "Sneha Reddy",
+    role: "Director of Client Success",
+    expertise: "Client Partnerships & Product Growth",
+    image: "/images/team/sneha.png",
+    linkedin: "#",
+    twitter: "#",
+    github: "#"
+  },
+  {
+    name: "Aryan Kapoor",
+    role: "Director of Engineering",
+    expertise: "Cloud Infrastructure & Hyper-Scale Systems",
+    image: "/images/team/aryan.png",
+    linkedin: "#",
+    twitter: "#",
+    github: "#"
+  },
+  {
+    name: "Ananya Roy",
+    role: "Director of Product",
+    expertise: "SaaS Roadmap & AI-First Frameworks",
+    image: "/images/team/ananya.png",
+    linkedin: "#",
+    twitter: "#",
+    github: "#"
+  }
 ];
 
 const stats = [
-  { icon: TrendingUp, value: "150+", label: "Projects Delivered", color: "#7c3aed" },
-  { icon: Globe,      value: "50+",  label: "Global Clients",     color: "#06b6d4" },
-  { icon: Users,      value: "25+",  label: "Team Members",       color: "#22c55e" },
-  { icon: Award,      value: "100%", label: "Client Retention",   color: "#f97316" },
-];
-
-const differentiators = [
-  { icon: Code,   label: "Senior-only engineering teams — no juniors on critical delivery paths." },
-  { icon: Star,   label: "Fixed-price & milestone-based contracts with no hidden surprises." },
-  { icon: Cpu,    label: "AI-augmented workflows that accelerate delivery by 30–40%." },
-  { icon: Globe,  label: "Multi-timezone coverage across India, Europe, and North America." },
-  { icon: Rocket, label: "Launched in 2026 with a world-class team and enterprise-grade infrastructure." },
+  { icon: TrendingUp, value: "150+", label: "Projects Shipped", color: "#7c3aed" },
+  { icon: Globe,      value: "50+",  label: "Global Clients",    color: "#06b6d4" },
+  { icon: Users,      value: "25+",  label: "Tech Specialists",  color: "#22c55e" },
+  { icon: Award,      value: "100%", label: "Client Uptime",     color: "#f97316" },
 ];
 
 /* ─── Animated counter ─────────────────────────────────────────────── */
@@ -80,13 +116,15 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
   }, [start]);
 
   return (
-    <div ref={ref} className="flex flex-col items-center text-center p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
-      <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-        style={{ background: `${stat.color}12`, border: `1.5px solid ${stat.color}28` }}>
+    <div ref={ref} className="flex items-center gap-4 p-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+        style={{ background: `${stat.color}12`, border: `1.5px solid ${stat.color}25` }}>
         <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
       </div>
-      <div className="text-4xl font-extrabold tracking-tight text-slate-900 mb-1">{count}{suffix}</div>
-      <div className="text-xs font-bold uppercase tracking-widest text-slate-400">{stat.label}</div>
+      <div>
+        <div className="text-3xl font-black tracking-tight text-slate-900 leading-none mb-1.5">{count}{suffix}</div>
+        <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">{stat.label}</div>
+      </div>
     </div>
   );
 }
@@ -94,19 +132,42 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 /* ─── Main page ─────────────────────────────────────────────────────── */
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#fafbfc]">
+
+      {/* CSS injection for infinite running marquee */}
+      <style>{`
+        @keyframes team-marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-300px * 6 - 1.5rem * 6));
+          }
+        }
+        .team-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: team-marquee 35s linear infinite;
+        }
+        .team-marquee-wrap:hover .team-marquee-track {
+          animation-play-state: paused;
+        }
+      `}</style>
 
       {/* ── 1. Page Header ── */}
       <PageHero
         badge="About Us"
-        title="Building World-Class"
-        titleHighlight="Digital Products"
-        description={`NextGen Tech Solution was launched in ${COMPANY.founded} with a singular mission: to make enterprise-grade software accessible to every ambitious business — not just the Fortune 500.`}
+        title="Engineering Tomorrow's"
+        titleHighlight="Digital Future"
+        description={`NextGen Tech Solution was founded in ${COMPANY.founded} with a singular mission: to make enterprise-grade software accessible to every ambitious business — not just the Fortune 500.`}
         breadcrumbs={[{ label: "About" }]}
       />
 
-      {/* ── 2. Stats Strip ── */}
-      <section className="py-16 bg-white border-b border-slate-100">
+      {/* ── 2. About Section of Homepage ── */}
+      <About isAboutPage={true} />
+
+      {/* ── 3. Stats Strip ── */}
+      <section className="py-12 bg-slate-50 border-y border-slate-200/60">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {stats.map((stat) => <StatCard key={stat.label} stat={stat} />)}
@@ -114,49 +175,151 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 3. Mission + Who We Are ── */}
-      <section className="py-20 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-            {/* Left: copy */}
-            <div>
-              <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#7c3aed] mb-4 px-2.5 py-1 rounded-md bg-purple-50 border border-purple-100">
-                Our Story
+      {/* ── 4. Our Mission Section ── */}
+      <section className="py-24 bg-white border-b border-slate-200/60 relative overflow-hidden">
+        <div className="absolute top-[10%] right-[-5%] w-[30%] h-[30%] bg-[radial-gradient(circle,_rgba(124,58,237,0.03)_0%,_transparent_75%)] blur-[90px] pointer-events-none" />
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column: Text & Pointers */}
+            <div className="lg:col-span-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-[var(--accent-global)] bg-[var(--accent-global-dim)] mb-4">
+                Our Mission
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-5 leading-tight">
-                A new-generation tech company <span className="text-[#7c3aed]">built for speed</span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-6 font-sora leading-tight">
+                Democratizing <span className="text-[var(--accent-global)]">Enterprise Engineering</span>
               </h2>
-              <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
-                <p>
-                  Founded in <strong className="text-slate-800">June 2026</strong>, NextGen Tech Solution was built from day one with a world-class team, modern infrastructure, and a client-first philosophy. We didn't grow slowly — we launched at full speed.
-                </p>
-                <p>
-                  We operate as a <strong className="text-slate-800">premium technology partner</strong>, not a typical vendor. Our engineers embed deeply in your product, think strategically about your goals, and stay accountable from the first discovery call through post-launch growth.
-                </p>
-                <p>
-                  Headquartered in Ranchi, India — with remote coverage across India, Europe, and North America — we serve startups, scale-ups, and enterprises looking for genuine engineering excellence.
-                </p>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8">
+                We believe that every fast-growing startup and ambitious scale-up deserves access to clean, modern, and high-performance product engineering. Our mission is to eliminate tech bottlenecks and deliver standard software architectures that perform under load.
+              </p>
+              
+              <div className="space-y-4">
+                {[
+                  { title: "Senior-Led Execution", desc: "No junior engineers on your critical paths. Every line of code is reviewed by veteran tech leads." },
+                  { title: "IP Security & Portability", desc: "Full code ownership and absolute security. We write clean, commented code that remains easily portable." },
+                  { title: "Agile, Fast Cycles", desc: "Rapid 2-week iterations designed to ship features quickly, gather market feedback, and pivot fast." }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-3.5 items-start">
+                    <div className="w-6 h-6 rounded-full bg-purple-50 border border-purple-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#7c3aed]" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 mb-0.5 font-sora">{item.title}</h4>
+                      <p className="text-xs sm:text-sm text-slate-500 leading-normal">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Link href="/contact"
-                className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white bg-[#7c3aed] hover:bg-[#6d28d9] transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-purple-200">
-                Start a Project <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
 
-            {/* Right: differentiators card */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-              <h3 className="text-base font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <span className="w-1 h-5 rounded-full bg-[#7c3aed] inline-block" />
-                Why We&apos;re Different
-              </h3>
+            {/* Right Column: Image Layout */}
+            <div className="lg:col-span-6 relative">
+              {/* Browser mockup frame */}
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-white">
+                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-50 border-b border-slate-100">
+                  <div className="flex gap-1">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                  </div>
+                  <div className="mx-auto w-[60%] h-4 rounded bg-white border border-slate-200 text-[8px] text-slate-400 flex items-center justify-center font-mono">
+                    nextgentech.solutions/mission
+                  </div>
+                </div>
+                <div className="relative aspect-[16/10] bg-slate-50">
+                  <Image
+                    src="/images/careers/team_collab.png"
+                    alt="NextGen team collaborating on code"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                  />
+                </div>
+              </div>
+              {/* Floating decorative metric badge */}
+              <div className="absolute bottom-[-16px] left-[-16px] bg-white border border-slate-200 rounded-xl p-3.5 shadow-xl hidden sm:flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#7c3aed]/10 flex items-center justify-center text-[#7c3aed]">
+                  <Target className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[8px] font-extrabold text-slate-400 uppercase tracking-widest leading-none mb-0.5">SPEED TO MARKET</p>
+                  <p className="text-xs font-bold text-slate-800 leading-none font-sora">30% Faster Ship Rate</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. Our Vision Section ── */}
+      <section className="py-24 bg-slate-50 border-b border-slate-200/60 relative overflow-hidden">
+        <div className="absolute bottom-[10%] left-[-5%] w-[30%] h-[30%] bg-[radial-gradient(circle,_rgba(6,182,212,0.03)_0%,_transparent_75%)] blur-[90px] pointer-events-none" />
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column: Image Layout */}
+            <div className="lg:col-span-6 order-2 lg:order-1 relative">
+              {/* Browser mockup frame */}
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-white">
+                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-50 border-b border-slate-100">
+                  <div className="flex gap-1">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                  </div>
+                  <div className="mx-auto w-[60%] h-4 rounded bg-white border border-slate-200 text-[8px] text-slate-400 flex items-center justify-center font-mono">
+                    nextgentech.solutions/vision
+                  </div>
+                </div>
+                <div className="relative aspect-[16/10] bg-slate-50">
+                  <Image
+                    src="/images/careers/workstation.png"
+                    alt="NextGen clean developer workstation"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                  />
+                </div>
+              </div>
+              {/* Floating decorative metric badge */}
+              <div className="absolute bottom-[-16px] right-[-16px] bg-white border border-slate-200 rounded-xl p-3.5 shadow-xl hidden sm:flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#06b6d4]/10 flex items-center justify-center text-[#06b6d4]">
+                  <Eye className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[8px] font-extrabold text-slate-400 uppercase tracking-widest leading-none mb-0.5">FORWARD THINKING</p>
+                  <p className="text-xs font-bold text-slate-800 leading-none font-sora">AI-First Core Workflow</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Text & Pointers */}
+            <div className="lg:col-span-6 order-1 lg:order-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-[var(--accent-global)] bg-[var(--accent-global-dim)] mb-4">
+                Our Vision
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-6 font-sora leading-tight">
+                An AI-First <span className="text-[#06b6d4]">Technology Future</span>
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8">
+                We envision a future where software operates autonomously, scaling with zero infrastructure limits. We aim to stay at the absolute cutting edge of artificial intelligence, multi-agent networks, and secure serverless systems to insulate our clients from tech obsolescence.
+              </p>
+              
               <div className="space-y-4">
-                {differentiators.map((d) => (
-                  <div key={d.label} className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 bg-purple-50 border border-purple-100">
-                      <d.icon className="w-3.5 h-3.5 text-[#7c3aed]" />
+                {[
+                  { title: "Intelligent Workflows", desc: "Infusing machine learning models, custom vector spaces, and smart LLM chains into standard enterprise applications." },
+                  { title: "Auto-Scalable Frameworks", desc: "Designing platforms that deploy on serverless architectures, minimizing monthly bills and maintenance overhead." },
+                  { title: "Continuous Technical Evolution", desc: "Upskilling and adapting to next-generation libraries so your product stays secure, efficient, and forward-compliant." }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-3.5 items-start">
+                    <div className="w-6 h-6 rounded-full bg-cyan-50 border border-cyan-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#06b6d4]" />
                     </div>
-                    <p className="text-sm leading-relaxed text-slate-600">{d.label}</p>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 mb-0.5 font-sora">{item.title}</h4>
+                      <p className="text-xs sm:text-sm text-slate-500 leading-normal">{item.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -166,65 +329,85 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 4. Values ── */}
-      <section className="py-20 bg-white border-b border-slate-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="text-center mb-14">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#7c3aed] mb-3 px-2.5 py-1 rounded-md bg-purple-50 border border-purple-100">
-              Our Values
+      {/* ── 6. Directors & Leaders Section (Infinite Marquee) ── */}
+      <section className="py-24 bg-white border-b border-slate-200/60 overflow-hidden relative">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10 mb-14">
+          <div className="text-center">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-[var(--accent-global)] bg-[var(--accent-global-dim)] mb-4">
+              Leadership
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-4">What We Stand For</h2>
-            <p className="text-slate-500 text-[15px] max-w-xl mx-auto leading-relaxed">
-              Four principles that guide every line of code we write and every relationship we build.
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 font-sora">
+              Our Directors & <span className="text-[var(--accent-global)]">Leaders</span>
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base max-w-xl mx-auto mt-4 leading-relaxed">
+              We are guided by a team of forward-thinking architects, creative designers, and delivery directors committed to long-term digital growth.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {values.map((v) => (
-              <div key={v.title} className="p-7 bg-slate-50 border border-slate-100 rounded-2xl hover:border-slate-200 hover:shadow-sm transition-all duration-200">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
-                  style={{ background: v.bg, border: `1.5px solid ${v.color}25` }}>
-                  <v.icon className="w-5 h-5" style={{ color: v.color }} />
-                </div>
-                <h3 className="font-bold text-slate-900 mb-2 text-[15px]">{v.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-500">{v.desc}</p>
+        </div>
+
+        {/* Running Marquee Strip */}
+        <div className="team-marquee-wrap relative w-full overflow-hidden py-4 select-none">
+          {/* Edge fading masks */}
+          <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+          <div className="team-marquee-track gap-6">
+            {[...Array(2)].map((_, setIdx) => (
+              <div key={setIdx} className="flex gap-6">
+                {teamMembers.map((member, i) => (
+                  <div
+                    key={`${setIdx}-${i}`}
+                    className="w-[300px] shrink-0 bg-slate-50 border border-slate-200/80 rounded-3xl p-5 hover:shadow-xl hover:bg-white hover:border-[#7c3aed]/25 transition-all duration-300 flex flex-col justify-between"
+                  >
+                    <div>
+                      {/* Avatar Image Frame */}
+                      <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-5 border border-slate-200/60 bg-slate-100">
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="260px"
+                        />
+                      </div>
+
+                      <h3 className="font-extrabold text-slate-900 text-sm mb-1 font-sora">
+                        {member.name}
+                      </h3>
+                      <p className="text-[11px] font-bold text-[#7c3aed] uppercase tracking-wider mb-2.5">
+                        {member.role}
+                      </p>
+                      <p className="text-xs text-slate-500 leading-normal mb-5 min-h-[36px]">
+                        {member.expertise}
+                      </p>
+                    </div>
+
+                    {/* Social links */}
+                    <div className="flex items-center justify-between pt-3.5 border-t border-slate-200/50">
+                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                        Director
+                      </span>
+                      <div className="flex gap-2">
+                        <a href={member.linkedin} className="w-7 h-7 rounded-full bg-slate-200/60 text-slate-500 hover:bg-[#7c3aed] hover:text-white flex items-center justify-center transition-all duration-200" aria-label="LinkedIn">
+                          <FaLinkedinIn className="w-3.5 h-3.5" />
+                        </a>
+                        <a href={member.twitter} className="w-7 h-7 rounded-full bg-slate-200/60 text-slate-500 hover:bg-[#7c3aed] hover:text-white flex items-center justify-center transition-all duration-200" aria-label="Twitter">
+                          <FaTwitter className="w-3.5 h-3.5" />
+                        </a>
+                        <a href={member.github} className="w-7 h-7 rounded-full bg-slate-200/60 text-slate-500 hover:bg-[#7c3aed] hover:text-white flex items-center justify-center transition-all duration-200" aria-label="GitHub">
+                          <FaGithub className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 5. Team ── */}
-      <section className="py-20 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="mb-12">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#7c3aed] mb-3 px-2.5 py-1 rounded-md bg-purple-50 border border-purple-100">
-              The Team
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-4">Meet Our Leaders</h2>
-            <p className="text-slate-500 text-[15px] max-w-xl leading-relaxed">
-              A passionate group of engineers, designers, and strategists united by one goal — shipping excellent products.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {team.map((member) => (
-              <div key={member.name} className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md hover:border-slate-300 transition-all duration-200">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center font-extrabold text-lg mb-4"
-                  style={{ background: `${member.color}12`, border: `1.5px solid ${member.color}30`, color: member.color }}>
-                  {member.initials}
-                </div>
-                <div className="font-bold text-slate-900 text-sm mb-0.5">{member.name}</div>
-                <div className="text-[11px] font-semibold text-[#7c3aed] mb-3">{member.role}</div>
-                <div className="flex items-start gap-2 pt-3 border-t border-slate-100">
-                  <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0 text-slate-300" />
-                  <span className="text-xs text-slate-500 leading-relaxed">{member.expertise}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. Contact CTA ── */}
+      {/* ── 7. Contact CTA ── */}
       <Contact />
     </div>
   );

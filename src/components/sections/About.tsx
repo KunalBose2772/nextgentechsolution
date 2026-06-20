@@ -5,7 +5,11 @@ import Image from "next/image";
 import { ArrowRight, CheckCircle2, PhoneCall, ShieldCheck } from "lucide-react";
 import { COMPANY } from "@/lib/utils";
 
-export default function About() {
+interface AboutProps {
+  isAboutPage?: boolean;
+}
+
+export default function About({ isAboutPage = false }: AboutProps) {
   return (
     <section className="py-10 bg-white relative overflow-hidden" id="about">
       {/* Decorative Grid Pattern */}
@@ -149,10 +153,10 @@ export default function About() {
             {/* CTA Button */}
             <div className="mt-8">
               <Link
-                href="/about"
+                href={isAboutPage ? "/contact" : "/about"}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-xs sm:text-sm rounded-full transition-all duration-300 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/25 hover:-translate-y-0.5"
               >
-                Know More <ArrowRight className="w-4.5 h-4.5" />
+                {isAboutPage ? "Start a Project" : "Know More"} <ArrowRight className="w-4.5 h-4.5" />
               </Link>
             </div>
           </div>

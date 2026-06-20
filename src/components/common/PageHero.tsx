@@ -29,23 +29,27 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section
-      className="relative bg-white border-b border-slate-200 overflow-hidden"
-      style={{ paddingTop: "clamp(96px, 10vw, 124px)", paddingBottom: "36px" }}
+      className="relative overflow-hidden"
+      style={{
+        background: "radial-gradient(circle at 80% 20%, #9333ea 0%, #7C3AED 55%, #5b21b6 100%)",
+        paddingTop: "clamp(96px, 10vw, 124px)",
+        paddingBottom: "36px"
+      }}
     >
-      {/* Subtle right-side purple glow */}
+      {/* Soft overlay gradient for depth */}
       <div
-        className="absolute top-0 right-0 w-[500px] h-full pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 80% 100% at 100% 50%, rgba(139,92,246,0.07) 0%, transparent 70%)",
+          background: "linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 100%)"
         }}
       />
-      {/* Purple accent line at bottom */}
+
+      {/* Subtle dot grid in white overlay */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[3px] pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-[0.05]"
         style={{
-          background:
-            "linear-gradient(90deg, #7c3aed 0%, #a855f7 40%, transparent 75%)",
+          backgroundImage: "radial-gradient(white 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
         }}
       />
 
@@ -56,23 +60,23 @@ export default function PageHero({
           <nav aria-label="Breadcrumb" className="flex items-center gap-1 mb-4 flex-wrap">
             <Link
               href="/"
-              className="flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-[#7c3aed] transition-colors duration-150"
+              className="flex items-center gap-1 text-[11px] font-semibold text-purple-200 hover:text-white transition-colors duration-150"
             >
               <Home className="w-3 h-3" />
               Home
             </Link>
             {breadcrumbs.map((crumb, idx) => (
               <span key={idx} className="flex items-center gap-1">
-                <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
+                <ChevronRight className="w-3 h-3 text-purple-300 shrink-0" />
                 {crumb.href && idx < breadcrumbs.length - 1 ? (
                   <Link
                     href={crumb.href}
-                    className="text-[11px] font-semibold text-slate-400 hover:text-[#7c3aed] transition-colors duration-150"
+                    className="text-[11px] font-semibold text-purple-200 hover:text-white transition-colors duration-150"
                   >
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-[11px] font-bold text-[#7c3aed]">
+                  <span className="text-[11px] font-bold text-white">
                     {crumb.label}
                   </span>
                 )}
@@ -87,27 +91,27 @@ export default function PageHero({
             <span
               className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-md"
               style={{
-                color: "#7c3aed",
-                background: "rgba(124,58,237,0.07)",
-                border: "1px solid rgba(124,58,237,0.18)",
+                color: "#white",
+                background: "rgba(255, 255, 255, 0.15)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] inline-block" />
-              {badge}
+              <span className="w-1.5 h-1.5 rounded-full bg-white inline-block animate-pulse" />
+              <span className="text-white">{badge}</span>
             </span>
           </div>
         )}
 
         {/* Title */}
         <h1
-          className="font-extrabold tracking-tight text-slate-900 leading-tight mb-3"
+          className="font-extrabold tracking-tight text-white leading-tight mb-3"
           style={{ fontSize: "clamp(26px, 3.5vw, 42px)" }}
         >
           {title}
           {titleHighlight && (
             <>
               {" "}
-              <span className="text-[#7c3aed]">{titleHighlight}</span>
+              <span className="text-purple-100">{titleHighlight}</span>
             </>
           )}
         </h1>
@@ -115,7 +119,7 @@ export default function PageHero({
         {/* Description */}
         {description && (
           <p
-            className="text-slate-500 leading-relaxed max-w-2xl"
+            className="text-purple-100 leading-relaxed max-w-2xl text-opacity-90"
             style={{ fontSize: "clamp(13px, 1.3vw, 15px)" }}
           >
             {description}
