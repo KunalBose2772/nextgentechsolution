@@ -41,7 +41,7 @@ export default function SectionHeader({
       >
         {title}{" "}
         {titleHighlight && (
-          <span style={{ color: "var(--accent-primary)" }}>{titleHighlight}</span>
+          <span style={{ color: "var(--accent-global)" }}>{titleHighlight}</span>
         )}
       </h2>
 

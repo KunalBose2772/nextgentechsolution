@@ -78,13 +78,13 @@ export default function Services() {
 
   return (
     <section 
-      className="py-24 text-slate-800 border-t border-slate-200/50 relative overflow-hidden" 
+      className="py-10 text-slate-800 border-t border-slate-200/50 relative overflow-hidden" 
       id="services"
       style={{
-        background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(var(--accent-primary-rgb), 0.05) 0%, transparent 70%), linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%)"
+        background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(var(--accent-global-rgb), 0.04) 0%, transparent 70%), linear-gradient(180deg, #f8fafc 0%, #f9f8ff 50%, #f8fafc 100%)"
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 relative z-10">
         
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
@@ -106,7 +106,7 @@ export default function Services() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-4 py-2 rounded-full text-xs font-bold border transition-all cursor-pointer ${
                   activeCategory === cat.id
-                    ? "bg-[var(--accent-blue)] text-white border-[var(--accent-blue)] shadow-md shadow-blue-500/10"
+                    ? "bg-[var(--accent-global)] text-white border-[var(--accent-global)] shadow-md shadow-purple-500/10"
                     : "bg-slate-100 text-slate-500 border-slate-200 hover:border-slate-350 hover:text-slate-800"
                 }`}
               >
@@ -116,7 +116,7 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {filteredServices.map((service) => (
             <div
               key={service.id}
@@ -128,8 +128,8 @@ export default function Services() {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.04)",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "rgba(var(--accent-primary-rgb), 0.25)";
-                e.currentTarget.style.boxShadow = "0 20px 50px rgba(0,0,0,0.08), 0 0 30px rgba(var(--accent-primary-rgb), 0.04)";
+                e.currentTarget.style.borderColor = "rgba(var(--accent-global-rgb), 0.25)";
+                e.currentTarget.style.boxShadow = "0 20px 50px rgba(0,0,0,0.08), 0 0 30px rgba(var(--accent-global-rgb), 0.04)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)";
@@ -137,11 +137,10 @@ export default function Services() {
               }}
             >
               <div>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all duration-350 group-hover:scale-115 group-hover:rotate-6 shadow-sm shadow-purple-500/5 group-hover:shadow-md group-hover:shadow-purple-500/20"
                   style={{
-                    background: "rgba(var(--accent-primary-rgb), 0.10)",
-                    border: "1px solid rgba(var(--accent-primary-rgb), 0.20)",
-                    color: "var(--accent-primary)",
+                    background: "var(--accent-global)",
+                    color: "#ffffff",
                   }}
                 >
                   <service.icon className="w-5 h-5" />
@@ -151,7 +150,7 @@ export default function Services() {
                 <div className="space-y-1.5 border-t pt-4 mb-6" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
                   {service.features.map((feat) => (
                     <div key={feat} className="flex items-center gap-2 text-xs text-slate-650">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--accent-primary)" }} />
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--accent-global)" }} />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -161,7 +160,7 @@ export default function Services() {
                 <Link
                   href={`/services/${service.id}`}
                   className="inline-flex items-center gap-1.5 text-xs font-bold transition-opacity hover:opacity-75"
-                  style={{ color: "var(--accent-primary)" }}
+                  style={{ color: "var(--accent-global)" }}
                 >
                   Explore service <ChevronRight className="w-4 h-4" />
                 </Link>
@@ -173,7 +172,7 @@ export default function Services() {
         <div className="text-center mt-12">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 bg-[var(--accent-blue)] hover:opacity-95 text-white font-bold text-xs px-6 py-3 rounded-full shadow-lg shadow-blue-500/10 transition-all border border-blue-500/10"
+            className="inline-flex items-center gap-2 bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-xs px-6 py-3 rounded-full shadow-lg shadow-purple-500/10 transition-all border border-purple-500/10"
           >
             View All Services <ArrowRight className="w-4 h-4" />
           </Link>

@@ -53,16 +53,16 @@ const projects = [
   },
 ];
 
-/* ── Gradient Arrow SVG (exact from Reliable theme) ─────────────────── */
+/* ── Gradient Arrow SVG ────────────────────────────────────────────── */
 function ArrowIcon({ size = 40 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="arr1" x1="0.546204" y1="30.5091" x2="60.4725" y2="30.5091" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF4A68" /><stop offset="1" stopColor="#FC9C44" />
+          <stop stopColor="#7C3AED" /><stop offset="1" stopColor="#6366F1" />
         </linearGradient>
         <linearGradient id="arr2" x1="36.2991" y1="12.6318" x2="60.4709" y2="12.6318" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF4A68" /><stop offset="1" stopColor="#FC9C44" />
+          <stop stopColor="#7C3AED" /><stop offset="1" stopColor="#6366F1" />
         </linearGradient>
         <clipPath id="arrclip">
           <rect width="59.9264" height="59.9264" fill="white" transform="translate(0.546021 0.545898)" />
@@ -90,40 +90,22 @@ function ProjectCard({ project, cardRef }: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        flexShrink: 0,
-        width: 520,
-        height: 576,
-        background: "#ffffff",
-        borderRadius: 32,
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        cursor: "pointer",
-        boxShadow: hovered
-          ? "0 32px 80px rgba(15,23,42,0.12)"
-          : "0 8px 32px rgba(15,23,42,0.05)",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        transition: "box-shadow 0.4s ease, transform 0.4s ease",
-        willChange: "transform",
+        boxShadow: hovered
+          ? "0 32px 80px rgba(0,0,0,0.4)"
+          : "0 8px 32px rgba(0,0,0,0.18)",
       }}
     >
       {/* ── Text block ── */}
-      <div style={{ padding: "40px 32px 24px 32px" }}>
+      <div className="ra-project3-text">
         {/* Title + Arrow row */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 20 }}>
           <h3
-            className="href-underline"
+            className="ra-project3-title-text"
             style={{
-              fontFamily: "'Syne', sans-serif",
-              fontSize: 24,
-              fontWeight: 700,
-              color: "#1c1c2d",
-              lineHeight: 1.35,
-              letterSpacing: "-0.01em",
               textDecoration: hovered ? "underline" : "none",
               textUnderlineOffset: 4,
               textDecorationColor: "rgba(28,28,45,0.3)",
-              flex: 1,
             }}
           >
             {project.title}
@@ -140,7 +122,7 @@ function ProjectCard({ project, cardRef }: {
           </div>
         </div>
 
-        {/* Tags — exact style: bg #e9ebed, Inter 14px, #46505b */}
+        {/* Tags ── bg #e9ebed, Inter 14px, #46505b */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {project.tags.map((tag) => (
             <span
@@ -191,7 +173,7 @@ function ProjectCard({ project, cardRef }: {
   );
 }
 
-/* ── Circular "View All Services" button (last item, exact from theme) ── */
+/* ── Circular "View All Services" button (last item) ── */
 function CircleBtn() {
   const [hovered, setHovered] = useState(false);
   return (
@@ -221,7 +203,7 @@ function CircleBtn() {
       >
         <defs>
           <linearGradient id="circleg" x1="0.981598" y1="103.509" x2="208" y2="103.509" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#FF4A68" /><stop offset="1" stopColor="#FC9C44" />
+            <stop stopColor="#7C3AED" /><stop offset="1" stopColor="#6366F1" />
           </linearGradient>
         </defs>
         <circle cx="104.491" cy="103.509" r="102.509" stroke="url(#circleg)" strokeWidth="2" />
@@ -238,8 +220,6 @@ function CircleBtn() {
     </Link>
   );
 }
-
-
 
 /* ── Main Section ────────────────────────────────────────────────────── */
 export default function Portfolio() {
@@ -283,20 +263,10 @@ export default function Portfolio() {
           display: flex;
           flex-direction: row;
           align-items: center;
-          height: 100%;
+          height: calc(100vh - 108px); /* Height minus sticky header */
+          margin-top: 108px; /* Start directly below sticky header */
           width: max-content;
-          padding-top: 0;
-          padding-bottom: 0;
           position: relative;
-        }
-        .ra-pro-bg {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          pointer-events: none;
-          z-index: 0;
         }
         /* Left title panel */
         .ra-project3-title-2 {
@@ -329,6 +299,58 @@ export default function Portfolio() {
           position: relative;
           z-index: 2;
         }
+        /* Responsive Card styles */
+        .ra-project3-item {
+          flex-shrink: 0;
+          width: 520px;
+          height: 560px;
+          background: #ffffff;
+          border-radius: 32px;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          cursor: pointer;
+          transition: box-shadow 0.4s ease, transform 0.4s ease;
+          will-change: transform;
+        }
+        .ra-project3-text {
+          padding: 40px 32px 24px 32px;
+        }
+        .ra-project3-title-text {
+          font-family: 'Syne', sans-serif;
+          font-size: 24px;
+          font-weight: 700;
+          color: #1c1c2d;
+          line-height: 1.35;
+          letter-spacing: -0.01em;
+          flex: 1;
+        }
+        @media (max-height: 850px) {
+          .ra-project3-item {
+            width: 450px;
+            height: 480px;
+            border-radius: 24px;
+          }
+          .ra-project3-text {
+            padding: 28px 24px 16px 24px;
+          }
+          .ra-project3-title-text {
+            font-size: 19px;
+          }
+        }
+        @media (max-height: 700px) {
+          .ra-project3-item {
+            width: 390px;
+            height: 400px;
+            border-radius: 20px;
+          }
+          .ra-project3-text {
+            padding: 20px 20px 12px 20px;
+          }
+          .ra-project3-title-text {
+            font-size: 15px;
+          }
+        }
         @media (max-width: 1024px) {
           .ra-project3-title-2 { min-width: 260px; padding: 0 32px 0 40px; }
           .ra-project3-title { min-width: 260px; padding: 0 40px 0 32px; }
@@ -339,17 +361,20 @@ export default function Portfolio() {
       <section
         ref={sectionRef}
         id="portfolio-section"
-        className="relative"
-        style={{ background: "#f8fafc" }}
+        className="relative overflow-hidden"
+        style={{ background: "#0B0F19" }}
       >
-        {/* ── Wide horizontal scroll container ── */}
-        <div ref={wrapRef} className="ra-project3-wrap">
+        {/* --- BACKGROUND DESIGN (Static to ensure consistency during horizontal scroll) --- */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
+          background: "linear-gradient(to bottom, #000000 0%, #05050A 50%, #000000 100%)",
+        }} />
 
-          {/* Light gradient backdrop — replaces dark backdrop */}
-          <div style={{
-            position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
-            background: "linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%)",
-          }} />
+        <div className="absolute inset-0 z-[0] opacity-100 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(124,58,237,0.07)_0%,_transparent_75%)] rounded-full blur-[120px] pointer-events-none z-[0]" />
+
+        {/* ── Wide horizontal scroll container ── */}
+        <div ref={wrapRef} className="ra-project3-wrap z-10">
 
           {/* ── LEFT TITLE (ra-project3-title-2) ── */}
           <div className="ra-project3-title-2 flex flex-col justify-center">
@@ -359,7 +384,7 @@ export default function Portfolio() {
               titleHighlight="Our Projects"
               description="A curated showcase of our latest enterprise solutions, mobile apps, and SaaS platforms."
               align="left"
-              theme="light"
+              theme="dark"
               className="w-[320px]"
             />
           </div>
@@ -382,7 +407,7 @@ export default function Portfolio() {
               titleHighlight="Success Story"
               description="Partner with NextGen to transform your product ideas into digital realities."
               align="left"
-              theme="light"
+              theme="dark"
               className="w-[320px]"
             />
           </div>

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
-import SectionGlow from "@/components/ui/SectionGlow";
 
 const track1 = [
   {
@@ -195,13 +194,21 @@ export default function Testimonials() {
 
   return (
     <section 
-      className="relative overflow-hidden py-16 md:py-24 z-30" 
+      className="relative overflow-hidden py-16 md:py-24 z-30 bg-white border-t border-slate-200/50" 
       id="testimonials"
-      style={{
-        background: "linear-gradient(180deg, #0A0A0B 0%, #030303 100%)",
-      }}
     >
-      <SectionGlow />
+      {/* Grid backdrop */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      
+      {/* Ambient Glows for Light Theme */}
+      <div 
+        className="absolute top-[-10%] left-[-15%] w-[450px] h-[450px] rounded-full pointer-events-none opacity-[0.05] blur-[90px] z-0" 
+        style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
+      />
+      <div 
+        className="absolute bottom-[-10%] right-[-15%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.04] blur-[100px] z-0" 
+        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
+      />
 
       {/* Styles for continuous marquee motion */}
       <style>{`
@@ -231,21 +238,6 @@ export default function Testimonials() {
         }
       `}</style>
 
-      {/* Technical Dotted Grid Background */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.03] z-0 ng-grid-bg" 
-      />
-      
-      {/* Large Blurry Colored Ambient Glows */}
-      <div 
-        className="absolute top-[-10%] left-[-15%] w-[450px] h-[450px] rounded-full pointer-events-none opacity-[0.12] blur-[90px] z-0" 
-        style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} 
-      />
-      <div 
-        className="absolute bottom-[-10%] right-[-15%] w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08] blur-[100px] z-0" 
-        style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} 
-      />
-
       <div className="relative z-10 w-full">
         {/* Section Header */}
         <div className="mb-14 px-6">
@@ -255,14 +247,15 @@ export default function Testimonials() {
             titleHighlight="On Google"
             description="Don't take our word for it — here's a live feed of 5-star reviews from our verified Google Business profile."
             align="center"
+            theme="light"
           />
         </div>
 
         {/* Marquees wrapper */}
         <div className="marquee-container flex flex-col gap-6 w-full py-4 relative">
           {/* Subtle overlay gradients to fade edges */}
-          <div className="absolute inset-y-0 left-0 w-[120px] bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-10" />
-          <div className="absolute inset-y-0 right-0 w-[120px] bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-y-0 left-0 w-[120px] bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-y-0 right-0 w-[120px] bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-10" />
 
           {/* Row 1: Left-to-Right */}
           <div className="overflow-hidden w-full py-2">
@@ -284,7 +277,7 @@ export default function Testimonials() {
         </div>
 
         {/* Trust Metrics footer */}
-        <div className="ng-container mt-12 max-w-2xl mx-auto pt-8 border-t border-white/[0.05]">
+        <div className="ng-container mt-12 max-w-2xl mx-auto pt-8 border-t border-slate-200">
           <div className="grid grid-cols-3 gap-6 text-center">
             {[
               { value: "4.9 / 5", label: "Google Rating" },
@@ -293,7 +286,7 @@ export default function Testimonials() {
             ].map((item) => (
               <div key={item.label}>
                 <div
-                  className="text-[22px] font-extrabold text-white mb-0.5"
+                  className="text-[22px] font-extrabold text-slate-900 mb-0.5"
                   style={{ fontFamily: "Sora, sans-serif" }}
                 >
                   {item.value}

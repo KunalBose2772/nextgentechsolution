@@ -8,11 +8,11 @@ import { posts } from "@/lib/blog-data";
 
 export default function Blog() {
   // We use the first 3 posts
-  const featuredPosts = posts.slice(0, 3);
+  const featuredPosts = posts.slice(0, 4);
 
   return (
     <section className="py-16 bg-slate-50 text-slate-800 border-t border-slate-200/50" id="blog">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-[1400px] mx-auto px-4">
         
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
@@ -28,14 +28,14 @@ export default function Blog() {
           <div>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-6 py-3 rounded-full transition-all"
+              className="inline-flex items-center gap-2 bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-xs px-6 py-3 rounded-full transition-all shadow-md shadow-purple-500/10 hover:shadow-purple-500/25 hover:-translate-y-0.5"
             >
               Explore Blog <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredPosts.map((post) => (
             <div
               key={post.id}
@@ -72,7 +72,7 @@ export default function Blog() {
                       <Clock className="w-3.5 h-3.5" /> {post.readTime}
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 mb-3 transition-colors group-hover:text-[var(--accent-primary)]">
+                  <h3 className="text-base font-bold text-slate-900 mb-3 transition-colors group-hover:text-[var(--accent-global)]">
                     {post.title}
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed mb-6 line-clamp-2">
@@ -82,7 +82,7 @@ export default function Blog() {
                 <div>
                   <Link
                     href={`/blog/${post.id}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-slate-950 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--accent-global)] hover:text-slate-950 transition-colors"
                   >
                     Read article <ArrowRight className="w-4 h-4" />
                   </Link>

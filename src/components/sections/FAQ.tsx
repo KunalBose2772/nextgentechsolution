@@ -49,16 +49,15 @@ export default function FAQ() {
 
   return (
     <section
-      className="relative overflow-hidden py-16 md:py-20"
+      className="relative overflow-hidden py-10 bg-white border-t border-slate-200/50"
       id="faq"
-      style={{ background: "linear-gradient(160deg, #020209 0%, #060612 50%, #020209 100%)" }}
     >
       {/* Grid backdrop */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-[var(--accent-global-dim)] rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+      <div className="max-w-[1400px] mx-auto px-4 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
 
           {/* Left Block */}
           <div className="lg:col-span-5">
@@ -68,18 +67,18 @@ export default function FAQ() {
               titleHighlight="Questions"
               description="Everything you need to know before starting your project with us."
               align="left"
-              theme="dark"
-              className="mb-8"
+              className="mb-6"
+              theme="light"
             />
 
-            <div className="p-6 rounded-2xl border border-white/[0.07]" style={{ background: "rgba(255,255,255,0.025)" }}>
-              <h4 className="text-base font-bold text-white mb-2">Still have questions?</h4>
-              <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+            <div className="p-6 rounded-2xl border border-slate-200 bg-slate-50 shadow-sm">
+              <h4 className="text-base font-bold text-slate-900 mb-2 font-sora">Still have questions?</h4>
+              <p className="text-xs text-slate-500 mb-6 leading-relaxed">
                 Book a free 30-minute consultation. We&apos;ll answer everything and help figure out the best path forward.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs px-5 py-2.5 rounded-full transition-all shadow-[0_4px_16px_rgba(6,182,212,0.25)] cursor-pointer"
+                className="inline-flex items-center justify-center bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-xs px-5 py-2.5 rounded-full transition-all shadow-md shadow-purple-500/10 hover:shadow-purple-500/25 hover:-translate-y-0.5"
               >
                 Book Free Consultation
               </Link>
@@ -87,20 +86,20 @@ export default function FAQ() {
           </div>
 
           {/* Right Block */}
-          <div className="lg:col-span-7 rounded-2xl border border-white/[0.07] overflow-hidden" style={{ background: "rgba(255,255,255,0.02)" }}>
-            <div className="divide-y divide-white/[0.05]">
+          <div className="lg:col-span-7 rounded-2xl border border-slate-200 overflow-hidden bg-white shadow-sm">
+            <div className="divide-y divide-slate-100">
               {faqs.map((item, i) => {
                 const isOpen = openIndex === i;
                 return (
                   <div key={i} className="px-6 py-4">
                     <button
-                      className="w-full flex items-center justify-between gap-4 text-left font-bold text-sm text-slate-200 hover:text-white transition-colors duration-200 cursor-pointer"
+                      className="w-full flex items-center justify-between gap-4 text-left font-bold text-sm text-slate-700 hover:text-slate-900 transition-colors duration-200 cursor-pointer font-sora"
                       onClick={() => toggle(i)}
                       aria-expanded={isOpen}
                     >
                       <span>{item.q}</span>
                       <span
-                        className="shrink-0 transition-transform duration-300 text-cyan-400"
+                        className="shrink-0 transition-transform duration-300 text-[var(--accent-global)]"
                         style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }}
                       >
                         <Plus className="w-4 h-4" />
@@ -110,7 +109,7 @@ export default function FAQ() {
                       className="overflow-hidden transition-all duration-300 ease-in-out"
                       style={{ maxHeight: isOpen ? "200px" : "0px", opacity: isOpen ? 1 : 0 }}
                     >
-                      <p className="mt-3 text-xs text-slate-400 leading-relaxed pl-1 pb-1">
+                      <p className="mt-3 text-xs text-slate-500 leading-relaxed pl-1 pb-1">
                         {item.a}
                       </p>
                     </div>

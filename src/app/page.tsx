@@ -15,6 +15,7 @@ const Testimonials = dynamic(() => import("@/components/sections/Testimonials"))
 const Blog = dynamic(() => import("@/components/sections/Blog"));
 const FAQ = dynamic(() => import("@/components/sections/FAQ"));
 const Contact = dynamic(() => import("@/components/sections/Contact"));
+const ServicesTicker = dynamic(() => import("@/components/sections/ServicesTicker"));
 
 export const metadata: Metadata = {
   title: "NextGen Tech Solutions — Premium IT Company | Web, Mobile, AI & SaaS",
@@ -39,10 +40,11 @@ export default function HomePage() {
       <TrustedBy />
       <About />
       <Services />
+      <ServicesTicker />
       <WhyChooseUs />
       <Portfolio />
-      <TechStack />
       <Process />
+      <TechStack />
       <Testimonials />
       <Blog />
       <FAQ />

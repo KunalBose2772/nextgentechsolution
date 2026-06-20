@@ -2,158 +2,97 @@
 
 import { useState, useEffect } from "react";
 import { 
-  Search, FileText, Palette, Code2, TestTube, Rocket, Wrench, 
-  CheckCircle, ArrowRight, Sparkles, Sliders, Zap, Cpu
+  Laptop, Smartphone, Layers, Brain, Cloud, Paintbrush,
+  Sliders, Zap, Sparkles, CheckCircle, ArrowRight
 } from "lucide-react";
 
-const steps = [
-  {
-    icon: Search,
-    number: "01",
-    title: "Discovery & Strategy",
-    description: "Deep-dive into your business goals, requirements, and user needs. We map out scope, conduct competitive research, and define concrete success metrics.",
-    duration: "1–2 weeks",
-    deliverables: ["Product Requirements Document", "Technical Feasibility Audit", "Roadmap & Estimate"],
-    color: "text-cyan-600",
-    bgColor: "bg-cyan-50",
-    borderColor: "border-cyan-200/60"
-  },
-  {
-    icon: FileText,
-    number: "02",
-    title: "Planning & Architecture",
-    description: "Designing the blueprint. We select the technology stack, structure system architecture, define database schemas, and map out milestones for execution.",
-    duration: "1 week",
-    deliverables: ["Database & Schema Design", "Tech Stack Selection", "Timeline & Sprint Planning"],
-    color: "text-violet-600",
-    bgColor: "bg-violet-50",
-    borderColor: "border-violet-200/60"
-  },
-  {
-    icon: Palette,
-    number: "03",
-    title: "UI/UX & Interactive Design",
-    description: "Crafting pixel-perfect interface designs. We build user flows, wireframes, interactive prototypes, and a comprehensive design system.",
-    duration: "2–3 weeks",
-    deliverables: ["High-Fidelity Figma Mockups", "Interactive Prototypes", "Design System & Tokens"],
-    color: "text-pink-600",
-    bgColor: "bg-pink-50",
-    borderColor: "border-pink-200/60"
-  },
-  {
-    icon: Code2,
-    number: "04",
-    title: "Agile Development",
-    description: "Code implementation. We build in fast-paced sprints with daily updates, automated code testing, clean architectures, and clear documentation.",
-    duration: "4–12 weeks",
-    deliverables: ["Production-Ready Build", "Documented APIs & Schema", "Clean Unit & Integration Tests"],
-    color: "text-emerald-600",
-    bgColor: "bg-emerald-50",
-    borderColor: "border-emerald-200/60"
-  },
-  {
-    icon: TestTube,
-    number: "05",
-    title: "Automated QA & Testing",
-    description: "Quality assurance. We perform rigid security scans, speed performance tuning, accessibility testing, and end-to-end user flows validation.",
-    duration: "1–2 weeks",
-    deliverables: ["Security & Penetration Audit", "Performance & Speed Audit", "Automated QA Test Reports"],
-    color: "text-amber-600",
-    bgColor: "bg-amber-50",
-    borderColor: "border-amber-200/60"
-  },
-  {
-    icon: Rocket,
-    number: "06",
-    title: "Deployment & Orchestration",
-    description: "Going live securely. We configure automated CI/CD pipelines, set up autoscaling infrastructure, monitor telemetry metrics, and deploy without downtime.",
-    duration: "1 week",
-    deliverables: ["Zero-Downtime Live Release", "CI/CD Pipeline Integration", "Monitoring & Alerts Setup"],
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
-    borderColor: "border-blue-200/60"
-  },
-  {
-    icon: Wrench,
-    number: "07",
-    title: "Continuous Maintenance",
-    description: "Long-term partnership. We keep servers updated, monitor application health, apply security updates, and implement ongoing performance optimizations.",
-    duration: "Ongoing",
-    deliverables: ["24/7 Monitoring Reports", "Server Security Patches", "Feature Updates & Tweaks"],
-    color: "text-purple-600",
-    bgColor: "bg-purple-50",
-    borderColor: "border-purple-200/60"
-  }
-];
-
 const servicesList = [
-  "Web Development",
-  "Mobile App",
-  "SaaS Platform",
-  "AI Solutions",
-  "Cloud / DevOps",
-  "UI/UX Design"
+  { id: "web", name: "Web Application", icon: Laptop, baseHours: 120, code: "WEB", desc: "Custom website or portal" },
+  { id: "mobile", name: "Mobile App", icon: Smartphone, baseHours: 160, code: "MOB", desc: "iOS & Android app solution" },
+  { id: "saas", name: "SaaS Platform", icon: Layers, baseHours: 240, code: "SAS", desc: "Subscription cloud platform" },
+  { id: "ai", name: "AI/LLM Solution", icon: Brain, baseHours: 200, code: "AIS", desc: "Chatbots & automation" },
+  { id: "devops", name: "Cloud & DevOps", icon: Cloud, baseHours: 90, code: "CLD", desc: "Server & cloud setup" },
+  { id: "uiux", name: "UI/UX Design", icon: Paintbrush, baseHours: 70, code: "DSN", desc: "Figma specs & visuals" }
 ];
 
 const projectScales = [
   {
-    name: "MVP Prototype",
-    desc: "Proof of concept or initial version to validate product-market fit quickly.",
-    multiplier: 1.0
+    name: "Starter Launch",
+    desc: "Build core features quickly to test your product idea.",
+    multiplier: 1.0,
+    code: "STR"
   },
   {
-    name: "Startup Disruptor",
-    desc: "Custom production application with integrations, ready to scale for users.",
-    multiplier: 2.2
+    name: "Growth Edition",
+    desc: "Optimized for high growth and customer traffic.",
+    multiplier: 2.2,
+    code: "GRW"
   },
   {
-    name: "Enterprise Scale",
-    desc: "Mission-critical system with high availability, security audits, and multi-tenant setup.",
-    multiplier: 4.5
+    name: "Enterprise Grade",
+    desc: "For top-tier scale, security, and dedicated support.",
+    multiplier: 4.5,
+    code: "ENT"
   }
 ];
 
+const featureModules = [
+  { id: "auth", name: "Sign-in & Accounts", desc: "Secure signup, user roles & logins.", hours: 25 },
+  { id: "admin", name: "Owner Control Panel", desc: "Dashboard to manage user actions.", hours: 35 },
+  { id: "api", name: "Tool Integrations", desc: "Stripe payments & CRM setup.", hours: 20 },
+  { id: "realtime", name: "Live Chat & Alerts", desc: "Instantly message users or send alerts.", hours: 30 },
+  { id: "ai", name: "Smart AI Chatbot", desc: "Integrate ChatGPT-like assistants.", hours: 45 },
+  { id: "multitenant", name: "Multi-Company Sync", desc: "Separate secure account isolation.", hours: 40 }
+];
+
 const velocities = [
-  { name: "Standard Delivery", desc: "Optimal engineering velocity", durationMult: 1.0, costMult: 1.0 },
-  { name: "Express Velocity", desc: "40% faster delivery speed", durationMult: 0.6, costMult: 1.25 },
-  { name: "Ultra Speed Run", desc: "60% faster with dedicated devs", durationMult: 0.4, costMult: 1.5 }
+  { name: "Regular Pace", desc: "Standard delivery time with a balanced team.", durationMult: 1.0, costMult: 1.0 },
+  { name: "Accelerated Delivery", desc: "Speed up project launch with extra developers.", durationMult: 0.6, costMult: 1.25 },
+  { name: "High Priority Launch", desc: "Fastest delivery with priority launch.", durationMult: 0.4, costMult: 1.5 }
 ];
 
 export default function Process() {
-  const [selectedService, setSelectedService] = useState("Web Development");
-  const [selectedScale, setSelectedScale] = useState("Startup Disruptor");
-  const [selectedVelocity, setSelectedVelocity] = useState("Standard Delivery");
+  const [selectedService, setSelectedService] = useState(servicesList[0]);
+  const [selectedScale, setSelectedScale] = useState(projectScales[1]);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [selectedVelocity, setSelectedVelocity] = useState(velocities[0]);
   const [blueprintId, setBlueprintId] = useState("");
+  const [compiling, setCompiling] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
+  // Trigger simulated blueprint compilation
   useEffect(() => {
-    const serviceCode = selectedService.slice(0, 3).toUpperCase().replace(" ", "");
-    const scaleCode = selectedScale.slice(0, 3).toUpperCase().replace(" ", "");
+    setCompiling(true);
+    const serviceCode = selectedService.code;
+    const scaleCode = selectedScale.code;
     const randNum = Math.floor(1000 + Math.random() * 9000);
     const id = `NG-${serviceCode}-${scaleCode}-${randNum}`;
-    // Use a microtask to avoid setState-in-effect lint violation
-    const timer = setTimeout(() => setBlueprintId(id), 0);
-    return () => clearTimeout(timer);
-  }, [selectedService, selectedScale]);
+    setBlueprintId(id);
 
-  // Calculate telemetry values
-  const baseHoursMap: Record<string, number> = {
-    "Web Development": 120,
-    "Mobile App": 160,
-    "SaaS Platform": 240,
-    "AI Solutions": 200,
-    "Cloud / DevOps": 80,
-    "UI/UX Design": 60,
+    const timer = setTimeout(() => {
+      setCompiling(false);
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [selectedService, selectedScale, selectedFeatures, selectedVelocity]);
+
+  const toggleFeature = (id: string) => {
+    setSelectedFeatures(prev => 
+      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
+    );
   };
 
-  const currentScale = projectScales.find(s => s.name === selectedScale) || projectScales[1];
-  const currentVelocity = velocities.find(v => v.name === selectedVelocity) || velocities[0];
+  const featureHours = selectedFeatures.reduce((acc, fId) => {
+    const feat = featureModules.find(f => f.id === fId);
+    return acc + (feat ? feat.hours : 0);
+  }, 0);
 
-  const baseHours = baseHoursMap[selectedService] || 120;
-  const calculatedHours = Math.round(baseHours * currentScale.multiplier);
-  const calculatedWeeks = Math.max(2, Math.round((calculatedHours / 35) * currentVelocity.durationMult));
+  const baseHours = selectedService.baseHours;
+  const calculatedHours = Math.round((baseHours * selectedScale.multiplier) + featureHours);
+  const calculatedWeeks = Math.max(2, Math.round((calculatedHours / 35) * selectedVelocity.durationMult));
 
-  const minCost = calculatedHours * 55 * currentVelocity.costMult;
-  const maxCost = calculatedHours * 80 * currentVelocity.costMult;
+  const minCost = calculatedHours * 55 * selectedVelocity.costMult;
+  const maxCost = calculatedHours * 80 * selectedVelocity.costMult;
 
   const formatCostValue = (val: number) => {
     return `$${(val / 1000).toFixed(1)}k`;
@@ -161,7 +100,10 @@ export default function Process() {
 
   const costRangeStr = `${formatCostValue(minCost)} – ${formatCostValue(maxCost)}`;
 
-  // Determine budget option to prefill in Contact form
+  // Calculate complexity index percentage
+  const maxPossibleHours = (240 * 4.5) + 195;
+  const complexityIndex = Math.min(98, Math.max(20, Math.round((calculatedHours / maxPossibleHours) * 100)));
+
   let mappedBudget = "5k-15k";
   const averageCost = (minCost + maxCost) / 2;
   if (averageCost < 15000) mappedBudget = "5k-15k";
@@ -171,9 +113,9 @@ export default function Process() {
 
   const handleLockScope = () => {
     const scopeData = {
-      service: selectedService,
-      scale: selectedScale,
-      velocity: selectedVelocity,
+      service: selectedService.name,
+      scale: selectedScale.name,
+      velocity: selectedVelocity.name,
       hours: calculatedHours,
       costRange: costRangeStr,
       blueprintId,
@@ -185,304 +127,386 @@ export default function Process() {
     const el = document.getElementById("contact");
     if (el) {
       const offset = el.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: offset, behavior: "auto" });
+      window.scrollTo({ top: offset, behavior: "smooth" });
     }
   };
 
   return (
-    <section className="py-16 bg-slate-50 text-slate-850 border-t border-slate-200/50" id="process">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-16 bg-slate-50 text-slate-800 border-t border-slate-200/50" id="process">
+      <div className="max-w-[1400px] mx-auto px-4" id="scope-planner">
         
-        {/* Process Section Header */}
-        <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-            OUR PROCESS
+        {/* Scope Planner Section Header */}
+        <div className="text-center mb-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-[var(--accent-global)] bg-[var(--accent-global-dim)] mb-4">
+            Interactive Planner
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            How We Build Excellence
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight font-sora">
+            Interactive Scope & <span className="text-[var(--accent-global)]">Cost Planner</span>
           </h2>
-          <p className="text-slate-550 mt-2 text-sm max-w-xl mx-auto leading-relaxed">
-            Our proven 7-step engineering framework designed to take products from abstract concept to market leader.
+          <p className="text-slate-555 mt-3 text-sm max-w-xl mx-auto leading-relaxed">
+            Configure your custom solution parameters to generate immediate technical estimates and blueprint calculations.
           </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
-          {steps.map((step) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={step.number}
-                className="p-6 bg-white border border-slate-200/60 rounded-2xl flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-sm"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${step.bgColor} ${step.borderColor} ${step.color}`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-2xl font-extrabold text-slate-150">
-                      {step.number}
-                    </span>
-                  </div>
-
-                  <h4 className="text-sm font-bold text-slate-900 mb-2">
-                    {step.title}
-                  </h4>
-                  <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-slate-50 border border-slate-100 text-slate-500 mb-4">
-                    {step.duration}
-                  </span>
-                  <p className="text-xs text-slate-550 leading-relaxed mb-6">
-                    {step.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-slate-100 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
-                    Key Deliverables:
-                  </span>
-                  {step.deliverables.map((del, dIdx) => (
-                    <div key={dIdx} className="flex items-start gap-2 text-xs text-slate-600">
-                      <CheckCircle className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${step.color}`} />
-                      <span>{del}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Start Project Box */}
-          <div className="p-6 bg-blue-50/50 border border-blue-100/50 rounded-2xl flex flex-col justify-between transition-all duration-200 hover:-translate-y-1">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-150 flex items-center justify-center text-blue-600">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-                  Interactive
+        <div className="grid lg:grid-cols-12 gap-8 items-stretch w-full">
+          
+          {/* Left Controls (Funnel-Step Form Card) */}
+          <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-sm relative overflow-hidden h-[420px]">
+            
+            {/* Step Header & Indicators */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+              <div className="flex items-center gap-2 font-sora">
+                <span className="w-6 h-6 rounded-full bg-purple-100 text-[var(--accent-global)] flex items-center justify-center text-xs font-black select-none">
+                  {currentStep}
+                </span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Step {currentStep} of 4
                 </span>
               </div>
-
-              <h4 className="text-sm font-bold text-slate-900 mb-2">
-                Configure your own scope?
-              </h4>
-              <p className="text-xs text-slate-550 leading-relaxed mb-6">
-                Scroll down to use our dynamic Project Configurator tool to build a custom blueprint and request a tailored quote.
-              </p>
+              <div className="flex gap-1.5">
+                {[1, 2, 3, 4].map((stepNum) => (
+                  <div
+                    key={stepNum}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      currentStep >= stepNum ? "w-6 bg-[var(--accent-global)]" : "w-2 bg-slate-200"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
-            <div className="pt-4 border-t border-blue-100/40">
-              <button 
-                onClick={() => {
-                  const el = document.getElementById("scope-planner");
-                  if (el) {
-                    const offset = el.getBoundingClientRect().top + window.scrollY - 100;
-                    window.scrollTo({ top: offset, behavior: "auto" });
-                  }
-                }}
-                className="w-full h-11 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2 rounded-lg transition-all"
-              >
-                Go to Planner
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Scope Planner Section */}
-        <div className="border-t border-slate-200/60 pt-16" id="scope-planner">
-          <div className="text-center mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">
-              INTERACTIVE PLANNER
-            </span>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Interactive Scope & Cost Planner
-            </h3>
-            <p className="text-slate-550 mt-2 text-xs max-w-xl mx-auto leading-relaxed">
-              Define your custom solution parameters to generate immediate technical estimates and blueprint calculations.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Left Controls */}
-            <div className="lg:col-span-7 space-y-6">
+            {/* Form Content Steps */}
+            <div className="flex-1 flex flex-col justify-center">
               
-              {/* Service Selection */}
-              <div>
-                <label className="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
-                  1. Select Service Type
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {servicesList.map((service) => (
-                    <button
-                      key={service}
-                      type="button"
-                      onClick={() => setSelectedService(service)}
-                      className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-all text-center ${
-                        selectedService === service
-                          ? "bg-blue-50 border-blue-600 text-blue-600"
-                          : "bg-white border-slate-200 text-slate-600 hover:border-slate-350"
-                      }`}
-                    >
-                      {service}
-                    </button>
-                  ))}
+              {/* Step 1: Select Service Type */}
+              {currentStep === 1 && (
+                <div className="space-y-3.5 animate-fadeIn">
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900 font-sora mb-0.5">What type of product are we building?</h4>
+                    <p className="text-xs text-slate-500">Select a category to set the foundation of your blueprint scope.</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {servicesList.map((service) => {
+                      const SIcon = service.icon;
+                      const isSelected = selectedService.id === service.id;
+                      return (
+                        <button
+                          key={service.id}
+                          type="button"
+                          onClick={() => setSelectedService(service)}
+                          className={`p-3 rounded-xl border transition-all text-left flex items-center gap-2.5 cursor-pointer group/btn ${
+                            isSelected
+                              ? "bg-[var(--accent-global-dim)] border-[var(--accent-global)] text-[var(--accent-global)] shadow-sm"
+                              : "bg-slate-55/40 border-slate-200 text-slate-700 hover:border-slate-350 hover:bg-slate-100/50"
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                            isSelected ? "bg-[var(--accent-global)] text-white" : "bg-white text-slate-400 group-hover/btn:scale-110"
+                          }`}>
+                            <SIcon className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-xs font-bold font-sora leading-none mb-0.5 truncate">{service.name}</div>
+                            <div className="text-[9px] text-slate-500 font-medium leading-none truncate">{service.desc}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Project Scale */}
-              <div>
-                <label className="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
-                  2. Choose Project Scale
-                </label>
-                <div className="space-y-2">
-                  {projectScales.map((scale) => (
-                    <button
-                      key={scale.name}
-                      type="button"
-                      onClick={() => setSelectedScale(scale.name)}
-                      className={`w-full text-left p-4 rounded-xl border transition-all flex items-start gap-3.5 ${
-                        selectedScale === scale.name
-                          ? "bg-blue-50/40 border-blue-600"
-                          : "bg-white border-slate-200 hover:border-slate-350"
-                      }`}
-                    >
-                      <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
-                        selectedScale === scale.name
-                          ? "border-blue-600 bg-blue-600 text-white"
-                          : "border-slate-300 bg-white text-transparent"
-                      }`}>
-                        <CheckCircle className="w-3.5 h-3.5" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 mb-1">{scale.name}</div>
-                        <div className="text-[11px] text-slate-500 leading-normal">{scale.desc}</div>
-                      </div>
-                    </button>
-                  ))}
+              {/* Step 2: Choose Project Scale */}
+              {currentStep === 2 && (
+                <div className="space-y-3.5 animate-fadeIn">
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900 font-sora mb-0.5">Select the scale of your project</h4>
+                    <p className="text-xs text-slate-500">Choose a scale matching your development goals and traffic density.</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {projectScales.map((scale) => {
+                      const isSelected = selectedScale.name === scale.name;
+                      return (
+                        <button
+                          key={scale.name}
+                          type="button"
+                          onClick={() => setSelectedScale(scale)}
+                          className={`p-3.5 rounded-xl border transition-all text-left flex flex-col justify-between cursor-pointer group/btn h-full min-h-[95px] ${
+                            isSelected
+                              ? "bg-purple-50/15 border-[var(--accent-global)] shadow-sm"
+                              : "bg-slate-55/40 border-slate-200 hover:border-slate-350 hover:bg-slate-100/50"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full mb-2.5">
+                            <div className={`w-4.5 h-4.5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
+                              isSelected
+                                ? "border-[var(--accent-global)] bg-[var(--accent-global)] text-white"
+                                : "border-slate-300 bg-white text-transparent"
+                            }`}>
+                              <CheckCircle className="w-3 h-3" />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs font-bold text-slate-900 mb-0.5 font-sora leading-tight">{scale.name}</div>
+                            <div className="text-[9.5px] text-slate-555 leading-normal font-medium">{scale.desc}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Delivery Velocity */}
-              <div>
-                <label className="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
-                  3. Select Delivery Velocity
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  {velocities.map((v) => (
-                    <button
-                      key={v.name}
-                      type="button"
-                      onClick={() => setSelectedVelocity(v.name)}
-                      className={`p-3.5 rounded-xl border transition-all text-left flex flex-col justify-between ${
-                        selectedVelocity === v.name
-                          ? "bg-blue-50 border-blue-600 text-blue-600"
-                          : "bg-white border-slate-200 text-slate-600 hover:border-slate-350"
-                      }`}
-                    >
-                      <div className="text-xs font-bold mb-1 flex items-center gap-1.5">
-                        {v.name === "Ultra Speed Run" ? (
-                          <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                        ) : (
-                          <Sliders className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        )}
-                        {v.name}
-                      </div>
-                      <div className="text-[10px] text-slate-450 leading-normal">{v.desc}</div>
-                    </button>
-                  ))}
+              {/* Step 3: Select Advanced Features */}
+              {currentStep === 3 && (
+                <div className="space-y-3.5 animate-fadeIn">
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900 font-sora mb-0.5">Select advanced features to include</h4>
+                    <p className="text-xs text-slate-500">Select capabilities to enhance the functionality of your product.</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {featureModules.map((feat) => {
+                      const active = selectedFeatures.includes(feat.id);
+                      return (
+                        <button
+                          key={feat.id}
+                          type="button"
+                          onClick={() => toggleFeature(feat.id)}
+                          className={`text-left p-3 rounded-xl border transition-all flex flex-col justify-between cursor-pointer h-full min-h-[95px] ${
+                            active
+                              ? "bg-purple-50/15 border-[var(--accent-global)] shadow-sm"
+                              : "bg-slate-55/40 border-slate-200 hover:border-slate-350 hover:bg-slate-100/50"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full mb-2">
+                            {/* Futuristic Switch UI */}
+                            <div className={`w-6.5 h-4 rounded-full p-0.5 shrink-0 transition-colors duration-300 flex items-center ${
+                              active ? "bg-[var(--accent-global)]" : "bg-slate-300"
+                            }`}>
+                              <div className={`w-2.5 h-2.5 bg-white rounded-full transition-transform duration-300 shadow-sm ${
+                                active ? "translate-x-2.5" : "translate-x-0"
+                              }`} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs font-bold text-slate-900 mb-0.5 font-sora leading-tight">
+                              {feat.name}
+                            </div>
+                            <div className="text-[9.5px] text-slate-500 leading-tight font-medium line-clamp-2">{feat.desc}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Step 4: Select Delivery Velocity */}
+              {currentStep === 4 && (
+                <div className="space-y-3.5 animate-fadeIn">
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900 font-sora mb-0.5">Choose your preferred delivery speed</h4>
+                    <p className="text-xs text-slate-500">Select the timeline pace that matches your roadmap velocity objectives.</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {velocities.map((v) => {
+                      const isSelected = selectedVelocity.name === v.name;
+                      return (
+                        <button
+                          key={v.name}
+                          type="button"
+                          onClick={() => setSelectedVelocity(v)}
+                          className={`p-3 rounded-xl border transition-all text-left flex flex-col justify-between cursor-pointer group/btn h-full min-h-[95px] ${
+                            isSelected
+                              ? "bg-[var(--accent-global-dim)] border-[var(--accent-global)] text-[var(--accent-global)] shadow-sm"
+                              : "bg-slate-55/40 border-slate-200 text-slate-655 hover:border-slate-350 hover:bg-slate-100/50"
+                          }`}
+                        >
+                          <div className="text-xs font-bold mb-2.5 flex items-center gap-1.5 font-sora">
+                            {v.name === "High Priority Launch" ? (
+                              <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                            ) : (
+                              <Sliders className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                            )}
+                            {v.name}
+                          </div>
+                          <div className="text-[9.5px] text-slate-500 leading-normal font-medium">{v.desc}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
             </div>
 
-            {/* Right Telemetry Dashboard (Corporate Sleek Dark Theme) */}
-            <div className="lg:col-span-5 bg-slate-950 border border-slate-800 text-slate-300 rounded-3xl p-6 relative overflow-hidden font-mono shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-              {/* Neon Grid Backdrop */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-              
-              <div className="relative z-10 space-y-6">
-                
-                {/* HUD Header */}
-                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                  <div className="flex items-center gap-2">
-                    <Cpu className="w-4 h-4 text-blue-500 animate-pulse" />
-                    <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">
-                      Telemetry HUD v2.6
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                    ONLINE
-                  </span>
-                </div>
+            {/* Navigation Footer Buttons */}
+            <div className="flex justify-between items-center pt-4 mt-4 border-t border-slate-100 font-sora">
+              {currentStep > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(prev => prev - 1)}
+                  className="px-5 h-10 border border-slate-200 text-slate-600 hover:bg-slate-55/20 text-xs font-bold rounded-xl transition-all cursor-pointer"
+                >
+                  Back
+                </button>
+              ) : (
+                <div />
+              )}
 
-                {/* Console Log Lines */}
-                <div className="space-y-3.5 text-[11px] leading-relaxed">
-                  <div className="text-slate-500">
-                    &gt; [SYSTEMSTATUS]: COMPILING REAL-TIME BLUEPRINT ENGINE...
-                  </div>
-                  
-                  <div className="flex justify-between border-b border-slate-900 pb-2">
-                    <span className="text-slate-400">BLUEPRINT ID:</span>
-                    <span className="text-blue-400 font-bold">{blueprintId}</span>
-                  </div>
-
-                  <div className="flex justify-between border-b border-slate-900 pb-2">
-                    <span className="text-slate-400">PRIMARY MODULE:</span>
-                    <span className="text-white font-bold">{selectedService}</span>
-                  </div>
-
-                  <div className="flex justify-between border-b border-slate-900 pb-2">
-                    <span className="text-slate-400">PROJECT SCALE:</span>
-                    <span className="text-white font-bold">{selectedScale}</span>
-                  </div>
-
-                  <div className="flex justify-between border-b border-slate-900 pb-2">
-                    <span className="text-slate-400">VELOCITY MODE:</span>
-                    <span className="text-white font-bold">{selectedVelocity}</span>
-                  </div>
-
-                  <div className="flex justify-between border-b border-slate-900 pb-2">
-                    <span className="text-slate-400">ARCH COMPATIBILITY:</span>
-                    <span className="text-emerald-400 font-bold">99.8% READY</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 pt-4">
-                    <div className="bg-slate-900/50 border border-slate-850 p-3 rounded-xl">
-                      <div className="text-[9px] text-slate-500 mb-1">DEVELOPER HOURS</div>
-                      <div className="text-lg font-bold text-white tracking-tight">{calculatedHours} hrs</div>
-                    </div>
-                    <div className="bg-slate-900/50 border border-slate-850 p-3 rounded-xl">
-                      <div className="text-[9px] text-slate-500 mb-1">EST. DELIVERY</div>
-                      <div className="text-lg font-bold text-white tracking-tight">~{calculatedWeeks} weeks</div>
-                    </div>
-                  </div>
-
-                  <div className="bg-blue-950/20 border border-blue-900/30 p-4 rounded-xl mt-4">
-                    <div className="text-[9px] text-blue-400 mb-1">ESTIMATED BUDGET RANGE</div>
-                    <div className="text-2xl font-bold text-blue-400 tracking-tight">{costRangeStr}</div>
-                  </div>
-                </div>
-
-                {/* Submit Action */}
+              {currentStep < 4 ? (
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(prev => prev + 1)}
+                  className="px-5 h-10 bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white text-xs font-bold rounded-xl flex items-center gap-2 transition-all cursor-pointer shadow-sm"
+                >
+                  Next Step
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              ) : (
                 <button
                   type="button"
                   onClick={handleLockScope}
-                  className="w-full h-12 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 rounded-xl transition-all shadow-[0_4px_16px_rgba(59,130,246,0.3)] mt-6 cursor-pointer"
+                  className="px-5 h-10 bg-gradient-to-r from-[var(--accent-global)] to-indigo-650 hover:from-[var(--accent-global-hover)] hover:to-indigo-550 text-white text-xs font-bold rounded-xl flex items-center gap-2 transition-all shadow-md cursor-pointer"
                 >
+                  Lock Scope & Request Quote
                   <CheckCircle className="w-4 h-4" />
-                  Lock Scope & Pre-fill Form
                 </button>
-
-                <p className="text-[9px] text-slate-500 text-center leading-normal mt-2">
-                  * All calculations are preliminary estimates based on standard developers output metrics and baseline requirements.
-                </p>
-
-              </div>
+              )}
             </div>
 
           </div>
+
+          {/* Right Telemetry Dashboard (Futuristic Cyber-HUD) */}
+          <div className="lg:col-span-5 bg-[#0B0F19] border border-slate-800/80 rounded-3xl p-6 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col justify-between z-10 text-slate-350 h-[420px]">
+            
+            {/* Glowing Neon Ambient Effects */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-[radial-gradient(circle_at_top_right,_rgba(124,58,237,0.12)_0%,_transparent_70%)] pointer-events-none z-0" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(circle_at_bottom_left,_rgba(6,182,212,0.06)_0%,_transparent_70%)] pointer-events-none z-0" />
+            
+            {/* Grid Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none z-0" />
+            
+            <div className="relative z-10 space-y-5 flex-1 flex flex-col justify-between">
+              
+              {/* HUD Header */}
+              <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+                  <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase font-sora font-extrabold">
+                    Configuration Summary
+                  </span>
+                </div>
+                <span className="text-[9px] text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-bold font-sora select-none">
+                  Live Estimate
+                </span>
+              </div>
+
+              {/* Side-by-side: Circular Gauge & Price */}
+              <div className="grid grid-cols-2 gap-4 items-center">
+                {/* Circular Gauge */}
+                <div className="flex flex-col items-center justify-center">
+                  <div className="relative w-28 h-28 flex items-center justify-center">
+                    {/* SVG Circular Gauge */}
+                    <svg className="w-full h-full transform -rotate-90">
+                      <defs>
+                        <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#8B5CF6" />
+                          <stop offset="100%" stopColor="#4F46E5" />
+                        </linearGradient>
+                      </defs>
+                      <circle
+                        cx="56"
+                        cy="56"
+                        r="48"
+                        className="stroke-slate-800/60 fill-none"
+                        strokeWidth="5"
+                      />
+                      <circle
+                        cx="56"
+                        cy="56"
+                        r="48"
+                        className="fill-none transition-all duration-500"
+                        stroke="url(#purpleGrad)"
+                        strokeWidth="5"
+                        strokeDasharray={2 * Math.PI * 48}
+                        strokeDashoffset={2 * Math.PI * 48 * (1 - complexityIndex / 100)}
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    {/* Center Text */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center font-sora">
+                      <span className="text-[8px] text-slate-400 uppercase tracking-wider font-extrabold">Project Scale</span>
+                      <span className="text-xl font-black text-white leading-none mt-0.5">
+                        {compiling ? "..." : `${complexityIndex}%`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Estimated Price Range */}
+                <div className="bg-gradient-to-br from-purple-950/20 to-slate-900/20 border border-purple-900/30 p-4 rounded-2xl flex flex-col justify-center h-28 shadow-inner">
+                  <div className="text-[9.5px] text-purple-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 animate-pulse" />
+                    Investment Range
+                  </div>
+                  <div className="text-xl font-black text-white tracking-tight font-sora leading-tight">
+                    {compiling ? "Calculating..." : costRangeStr}
+                  </div>
+                  <div className="text-[8.5px] text-slate-500 mt-1 leading-tight">
+                    *Estimated total cost
+                  </div>
+                </div>
+              </div>
+
+              {/* Side-by-side: Progress Bars */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5 font-sora">
+                  <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                    <span>Scope Effort</span>
+                    <span className="text-white font-extrabold">{compiling ? "..." : `${calculatedHours}h`}</span>
+                  </div>
+                  <div className="h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800/40 p-[0.5px]">
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full transition-all duration-500" 
+                      style={{ width: `${compiling ? 10 : complexityIndex}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 font-sora">
+                  <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                    <span>Timeline</span>
+                    <span className="text-white font-extrabold">{compiling ? "..." : `~${calculatedWeeks}w`}</span>
+                  </div>
+                  <div className="h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800/40 p-[0.5px]">
+                    <div 
+                      className="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full transition-all duration-500" 
+                      style={{ width: `${compiling ? 10 : (100 - (calculatedWeeks / 15) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 3-Column Info Footer */}
+              <div className="grid grid-cols-3 gap-3 border-t border-slate-800/40 pt-3.5 text-[10px] font-sora">
+                <div>
+                  <div className="text-slate-500 mb-0.5">Blueprint Code:</div>
+                  <div className="text-purple-400 font-mono font-bold tracking-wider truncate">{blueprintId}</div>
+                </div>
+                <div>
+                  <div className="text-slate-500 mb-0.5">Category:</div>
+                  <div className="text-white font-bold truncate">{selectedService.name}</div>
+                </div>
+                <div>
+                  <div className="text-slate-500 mb-0.5">Security Level:</div>
+                  <div className="text-emerald-400 font-bold truncate">ENTERPRISE</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
 
       </div>

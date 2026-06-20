@@ -30,6 +30,15 @@
   --accent-cyan:      #00E5FF;
   --accent-cyan-dim:  rgba(0,229,255,0.08);
 
+  --accent-purple:       #7C3AED;
+  --accent-purple-hover: #6D28D9;
+  --accent-purple-dim:   rgba(124, 58, 237, 0.08);
+
+  --accent-global:       var(--accent-purple);
+  --accent-global-hover: var(--accent-purple-hover);
+  --accent-global-dim:   var(--accent-purple-dim);
+  --accent-global-rgb:   124, 58, 237;
+
   --border-subtle:    rgba(255,255,255,0.06);
   --border-default:   rgba(255,255,255,0.08);
   --border-emphasis:  rgba(var(--accent-primary-rgb), 0.30);
@@ -373,12 +382,12 @@ h1, h2, h3, h4, h5, h6 {
   gap: 6px;
   padding: 5px 12px;
   border-radius: 100px;
-  border: 1px solid rgba(var(--accent-primary-rgb), 0.25);
-  background: rgba(var(--accent-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-global-rgb), 0.25);
+  background: rgba(var(--accent-global-rgb), 0.08);
   font-family: "Inter", sans-serif;
   font-size: 11px;
   font-weight: 600;
-  color: var(--accent-blue);
+  color: var(--accent-global);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -387,7 +396,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent-cyan);
+  background: var(--accent-global);
   animation: ng-pulse 2s infinite;
 }
 
@@ -398,7 +407,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent-blue);
+  color: var(--accent-global);
   margin-bottom: 16px;
 }
 

@@ -60,8 +60,8 @@ export default function TrustedBy() {
                 border: "1px solid #e2e8f0",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#f0f9ff";
-                e.currentTarget.style.borderColor = "rgba(6,182,212,0.3)";
+                e.currentTarget.style.background = "var(--accent-global-dim)";
+                e.currentTarget.style.borderColor = "rgba(124,58,237,0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#f8fafc";
@@ -71,7 +71,7 @@ export default function TrustedBy() {
               {/* Dot */}
               <div
                 className="w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ background: "var(--accent-primary)" }}
+                style={{ background: "var(--accent-global)" }}
               />
               <span
                 className="text-sm font-bold tracking-tight text-slate-600"
