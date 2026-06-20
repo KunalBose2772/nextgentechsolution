@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https: wss:",
               "media-src 'self' blob:",
-              "frame-src 'self'",
+              "frame-src 'self' https://www.google.com https://maps.google.com https://maps.googleapis.com",
               "worker-src 'self' blob:",
             ].join("; "),
           },
