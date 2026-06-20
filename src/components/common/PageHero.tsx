@@ -23,96 +23,56 @@ export default function PageHero({
   badge,
   title,
   titleHighlight,
-  titleOutline,
   description,
   children,
   breadcrumbs,
 }: PageHeroProps) {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{
-        background: "linear-gradient(135deg, #faf5ff 0%, #f3e8ff 30%, #ede9fe 60%, #f8fafc 100%)",
-        paddingTop: "clamp(110px, 13vw, 152px)",
-        paddingBottom: "clamp(52px, 7vw, 88px)",
-      }}
+      className="relative bg-white border-b border-slate-200 overflow-hidden"
+      style={{ paddingTop: "clamp(96px, 10vw, 124px)", paddingBottom: "36px" }}
     >
-      {/* Purple radial glow — top centre */}
+      {/* Subtle right-side purple glow */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute top-0 right-0 w-[500px] h-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 70% at 50% -10%, rgba(139,92,246,0.22) 0%, rgba(109,40,217,0.08) 45%, transparent 75%)",
+            "radial-gradient(ellipse 80% 100% at 100% 50%, rgba(139,92,246,0.07) 0%, transparent 70%)",
         }}
       />
-
-      {/* Subtle dot grid */}
+      {/* Purple accent line at bottom */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.18]"
+        className="absolute bottom-0 left-0 right-0 h-[3px] pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(circle, #7c3aed 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
+          background:
+            "linear-gradient(90deg, #7c3aed 0%, #a855f7 40%, transparent 75%)",
         }}
       />
 
-      {/* Left side accent blob */}
-      <div
-        className="absolute -left-40 top-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full pointer-events-none blur-[100px]"
-        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 70%)" }}
-      />
-
-      {/* Right side accent blob */}
-      <div
-        className="absolute -right-32 top-1/4 w-[320px] h-[320px] rounded-full pointer-events-none blur-[80px]"
-        style={{ background: "radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%)" }}
-      />
-
-      {/* Bottom fade into page bg */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-white/60 pointer-events-none" />
-
-      {/* Bottom accent line */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, rgba(139,92,246,0.35) 50%, transparent 100%)",
-        }}
-      />
-
-      {/* Main content */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center text-center">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
 
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 mb-7 flex-wrap justify-center"
-          >
+          <nav aria-label="Breadcrumb" className="flex items-center gap-1 mb-4 flex-wrap">
             <Link
               href="/"
-              className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-[#7c3aed] transition-colors duration-200"
+              className="flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-[#7c3aed] transition-colors duration-150"
             >
               <Home className="w-3 h-3" />
               Home
             </Link>
             {breadcrumbs.map((crumb, idx) => (
-              <span key={idx} className="flex items-center gap-1.5">
-                <ChevronRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+              <span key={idx} className="flex items-center gap-1">
+                <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
                 {crumb.href && idx < breadcrumbs.length - 1 ? (
                   <Link
                     href={crumb.href}
-                    className="text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-[#7c3aed] transition-colors duration-200"
+                    className="text-[11px] font-semibold text-slate-400 hover:text-[#7c3aed] transition-colors duration-150"
                   >
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span
-                    className="text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
-                    style={{
-                      color: "#7c3aed",
-                      background: "rgba(124,58,237,0.10)",
-                      border: "1px solid rgba(124,58,237,0.20)",
-                    }}
-                  >
+                  <span className="text-[11px] font-bold text-[#7c3aed]">
                     {crumb.label}
                   </span>
                 )}
@@ -123,73 +83,48 @@ export default function PageHero({
 
         {/* Badge */}
         {badge && (
-          <div className="flex justify-center mb-5">
+          <div className="mb-3">
             <span
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10.5px] font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-md"
               style={{
                 color: "#7c3aed",
-                border: "1.5px solid rgba(124,58,237,0.25)",
                 background: "rgba(124,58,237,0.07)",
+                border: "1px solid rgba(124,58,237,0.18)",
               }}
             >
-              <span
-                className="w-1.5 h-1.5 rounded-full animate-pulse"
-                style={{ backgroundColor: "#7c3aed" }}
-              />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] inline-block" />
               {badge}
             </span>
           </div>
         )}
 
-        {/* Headline */}
+        {/* Title */}
         <h1
-          className="font-extrabold tracking-tight mb-5 max-w-4xl mx-auto leading-[1.1]"
-          style={{
-            fontSize: "clamp(34px, 5vw, 62px)",
-            color: "#0f172a",
-          }}
+          className="font-extrabold tracking-tight text-slate-900 leading-tight mb-3"
+          style={{ fontSize: "clamp(26px, 3.5vw, 42px)" }}
         >
           {title}
           {titleHighlight && (
             <>
               {" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {titleHighlight}
-              </span>
-            </>
-          )}
-          {titleOutline && (
-            <>
-              {" "}
-              <span className="text-slate-300 font-light">{titleOutline}</span>
+              <span className="text-[#7c3aed]">{titleHighlight}</span>
             </>
           )}
         </h1>
 
         {/* Description */}
         {description && (
-          <p className="text-slate-500 text-sm sm:text-[15px] max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
+          <p
+            className="text-slate-500 leading-relaxed max-w-2xl"
+            style={{ fontSize: "clamp(13px, 1.3vw, 15px)" }}
+          >
             {description}
           </p>
         )}
 
-        {/* Slot */}
-        {children && <div className="mt-2">{children}</div>}
+        {/* Optional slot */}
+        {children && <div className="mt-5">{children}</div>}
       </div>
-
-      <style>{`
-        @keyframes ph-float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-14px); }
-        }
-      `}</style>
     </section>
   );
 }
