@@ -384,16 +384,64 @@ export default function OnboardingModal() {
                     src="/images/architect_portrait.png"
                     alt="Technical Supervisor"
                     fill
-                    className="object-contain object-bottom pt-8"
+                    className="object-contain object-bottom pt-4 scale-120 origin-bottom"
                     priority
                   />
                   {/* Subtle soft gradient overlay at top and bottom */}
                   <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-white/10 pointer-events-none" />
 
+                  {/* Floating Card 1: Projects Done */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0,
+                      y: [0, -6, 0]
+                    }}
+                    transition={{
+                      x: { duration: 0.4, delay: 0.25 },
+                      opacity: { duration: 0.4, delay: 0.25 },
+                      y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="absolute top-[26%] left-4 z-10 bg-white/90 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgba(124,58,237,0.06)] rounded-2xl px-4 py-2 flex items-center gap-2.5 max-w-[170px]"
+                  >
+                    <div className="w-7 h-7 rounded-xl bg-purple-50 flex items-center justify-center text-purple-650 shrink-0">
+                      <Sparkles className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-slate-900 font-extrabold text-xs leading-none">150+</div>
+                      <div className="text-slate-500 text-[8px] font-bold uppercase tracking-wider mt-0.5">Projects Done</div>
+                    </div>
+                  </motion.div>
+
+                  {/* Floating Card 2: On-Time SLA */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0,
+                      y: [0, 6, 0]
+                    }}
+                    transition={{
+                      x: { duration: 0.4, delay: 0.35 },
+                      opacity: { duration: 0.4, delay: 0.35 },
+                      y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }
+                    }}
+                    className="absolute bottom-[28%] right-4 z-10 bg-white/90 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgba(124,58,237,0.06)] rounded-2xl px-4 py-2 flex items-center gap-2.5 max-w-[170px]"
+                  >
+                    <div className="w-7 h-7 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+                      <Check className="w-4 h-4 stroke-[3]" />
+                    </div>
+                    <div>
+                      <div className="text-slate-900 font-extrabold text-xs leading-none">99.8%</div>
+                      <div className="text-slate-500 text-[8px] font-bold uppercase tracking-wider mt-0.5">On-Time SLA</div>
+                    </div>
+                  </motion.div>
+
                   {/* Close button on welcome screen */}
                   <button 
                     onClick={handleClose}
-                    className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 transition-all cursor-pointer shadow-md border border-slate-200"
+                    className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-955 transition-all cursor-pointer shadow-md border border-slate-200"
                   >
                     <X className="w-4 h-4" />
                   </button>
