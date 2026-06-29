@@ -379,21 +379,21 @@ export default function OnboardingModal() {
                 </div>
 
                 {/* Right Architect Headshot Panel (Clean image only, NO names, NO overlays!) */}
-                <div className="w-full md:w-[380px] bg-slate-900 relative min-h-[350px] md:min-h-full overflow-hidden shrink-0 border-l border-slate-100/60">
+                <div className="w-full md:w-[380px] bg-gradient-to-tr from-purple-100/50 via-slate-50 to-indigo-50/30 relative min-h-[350px] md:min-h-full overflow-hidden shrink-0 border-l border-slate-100/60">
                   <Image
                     src="/images/architect_portrait.png"
                     alt="Technical Supervisor"
                     fill
-                    className="object-cover object-center"
+                    className="object-contain object-bottom pt-8"
                     priority
                   />
-                  {/* Subtle dark gradient overlay at top and bottom */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-slate-955/25 pointer-events-none" />
+                  {/* Subtle soft gradient overlay at top and bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-white/10 pointer-events-none" />
 
                   {/* Close button on welcome screen */}
                   <button 
                     onClick={handleClose}
-                    className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-white/80 hover:bg-white text-slate-700 hover:text-slate-900 transition-all cursor-pointer shadow-md"
+                    className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 transition-all cursor-pointer shadow-md border border-slate-200"
                   >
                     <X className="w-4 h-4" />
                   </button>
