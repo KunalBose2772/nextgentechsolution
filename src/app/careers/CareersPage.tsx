@@ -7,7 +7,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function CareersPage() {
   return (
-    <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
+    <div className="min-h-screen bg-[#fafbfc]">
       <PageHero
         badge="We're Hiring"
         title="Join a Team That"

@@ -1,13 +1,12 @@
 "use client";
 
 import PageHero from "@/components/common/PageHero";
-import Portfolio from "@/components/sections/Portfolio";
-import CaseStudies from "@/components/sections/CaseStudies";
+import PortfolioGrid from "@/components/sections/PortfolioGrid";
 import Contact from "@/components/sections/Contact";
 
 export default function PortfolioPage() {
   return (
-    <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
+    <div className="min-h-screen bg-[#fafbfc]">
       <PageHero
         badge="Our Portfolio"
         title="150+ Projects,"
@@ -16,8 +15,11 @@ export default function PortfolioPage() {
         description="A showcase of our best work — from early-stage startups to Fortune 500 enterprises across 10+ industries."
         breadcrumbs={[{ label: "Portfolio" }]}
       />
-      <Portfolio />
-      <CaseStudies theme="dark" />
+      
+      {/* Light-themed filterable portfolio grid */}
+      <PortfolioGrid />
+
+      {/* Standard contact form & footer */}
       <Contact />
     </div>
   );

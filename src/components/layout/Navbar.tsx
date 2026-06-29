@@ -34,50 +34,104 @@ function LogoMark({ size = 52 }: { size?: number }) {
   );
 }
 
-const megaMenuData = {
-  development: {
-    label: "Development",
-    desc: "Custom software & web engineering",
+const servicesMenuLinks = [
+  {
+    label: "Web Development",
+    desc: "Custom full-stack web applications",
+    href: "/services/web",
     icon: Code2,
-    color: "#7C3AED",
-    items: [
-      { label: "Web Development", href: "/services/web", icon: Code2, desc: "Modern full-stack applications" },
-      { label: "Mobile App Development", href: "/services/mobile", icon: Smartphone, desc: "iOS & Android native apps" },
-      { label: "SaaS Platforms", href: "/services/saas", icon: Layers, desc: "Scalable multi-tenant platforms" },
-      { label: "AI & ML Solutions", href: "/services/ai", icon: Brain, desc: "Intelligent automation & analytics" },
-      { label: "Cloud Services", href: "/services/cloud", icon: Cloud, desc: "AWS, Azure & GCP expertise" },
-      { label: "DevOps & CI/CD", href: "/services/devops", icon: Server, desc: "Infrastructure & deployment" },
-    ]
+    color: "#3B82F6", // Blue
+    bg: "rgba(59, 130, 246, 0.08)"
   },
-  marketing: {
-    label: "Digital Marketing",
-    desc: "Reach, engage & scale audience",
+  {
+    label: "Mobile App Development",
+    desc: "iOS & Android native apps",
+    href: "/services/mobile",
+    icon: Smartphone,
+    color: "#10B981", // Emerald
+    bg: "rgba(16, 185, 129, 0.08)"
+  },
+  {
+    label: "SaaS Platforms",
+    desc: "Scalable multi-tenant portals",
+    href: "/services/saas",
+    icon: Layers,
+    color: "#8B5CF6", // Purple
+    bg: "rgba(139, 92, 246, 0.08)"
+  },
+  {
+    label: "AI & ML Solutions",
+    desc: "Intelligent agents & automation",
+    href: "/services/ai",
+    icon: Brain,
+    color: "#EF4444", // Red
+    bg: "rgba(239, 68, 68, 0.08)"
+  },
+  {
+    label: "Cloud Services",
+    desc: "AWS, Azure & GCP infra setups",
+    href: "/services/cloud",
+    icon: Cloud,
+    color: "#06B6D4", // Cyan
+    bg: "rgba(6, 182, 212, 0.08)"
+  },
+  {
+    label: "DevOps & CI/CD",
+    desc: "Continuous deployment automation",
+    href: "/services/devops",
+    icon: Server,
+    color: "#F59E0B", // Amber
+    bg: "rgba(245, 158, 11, 0.08)"
+  },
+  {
+    label: "WhatsApp Marketing",
+    desc: "Official business API & automation",
+    href: "/services/whatsapp-marketing",
+    icon: MessageSquare,
+    color: "#25D366", // Green
+    bg: "rgba(37, 211, 102, 0.08)"
+  },
+  {
+    label: "Search Engine Optimization",
+    desc: "Rank page 1 on Google & search engines",
+    href: "/services/seo",
+    icon: Search,
+    color: "#3B82F6", // Blue
+    bg: "rgba(59, 130, 246, 0.08)"
+  },
+  {
+    label: "Social Media Marketing",
+    desc: "Grow audiences & organic content",
+    href: "/services/social-media-marketing",
+    icon: Share2,
+    color: "#8B5CF6", // Purple
+    bg: "rgba(139, 92, 246, 0.08)"
+  },
+  {
+    label: "Paid Ads (PPC)",
+    desc: "Target ad campaigns on Meta & Google",
+    href: "/services/ppc",
     icon: Target,
-    color: "#22C55E",
-    items: [
-      { label: "WhatsApp Marketing", href: "/services/whatsapp-marketing", icon: MessageSquare, desc: "Automated broadcast & campaigns" },
-      { label: "Content Marketing", href: "/services/content-marketing", icon: FileText, desc: "High-converting copy & strategic content" },
-      { label: "Search Engine Optimization", href: "/services/seo", icon: Search, desc: "Rank page 1 on Google & search engines" },
-      { label: "Social Media Marketing", href: "/services/social-media-marketing", icon: Share2, desc: "Engaging audience growth & content creation" },
-      { label: "Paid Ads (PPC)", href: "/services/ppc", icon: Target, desc: "Targeted Meta & Google ad campaigns" },
-      { label: "Influencer Marketing", href: "/services/influencer-marketing", icon: Users, desc: "Scale reach via trusted creators" },
-      { label: "Digital Marketing Services", href: "/services/digital-marketing", icon: Layout, desc: "Full-scale growth optimization" },
-    ]
+    color: "#EF4444", // Red
+    bg: "rgba(239, 68, 68, 0.08)"
   },
-  branding: {
-    label: "Branding",
-    desc: "Visual identity & ORM positioning",
-    icon: Palette,
-    color: "#EC4899",
-    items: [
-      { label: "Online Reputation Management", href: "/services/orm", icon: Shield, desc: "Manage public image & brand reputation" },
-      { label: "3D Video Editing", href: "/services/3d-video-editing", icon: Video, desc: "Premium 3D visuals & cinematic cuts" },
-      { label: "Still Branding", href: "/services/still-branding", icon: Palette, desc: "Logo, design systems, and identity assets" },
-      { label: "Performance Marketing", href: "/services/performance-marketing", icon: Target, desc: "Data-driven creative validation & ROI growth" },
-      { label: "Graphic Designing", href: "/services/graphic-designing", icon: PenTool, desc: "Modern marketing collateral & layouts" },
-    ]
+  {
+    label: "3D Video Editing",
+    desc: "Premium video edits & motion cuts",
+    href: "/services/3d-video-editing",
+    icon: Video,
+    color: "#EC4899", // Pink
+    bg: "rgba(236, 72, 153, 0.08)"
+  },
+  {
+    label: "Graphic Designing",
+    desc: "Visual collaterals & layout designs",
+    href: "/services/graphic-designing",
+    icon: PenTool,
+    color: "#06B6D4", // Cyan
+    bg: "rgba(6, 182, 212, 0.08)"
   }
-};
+];
 
 // Custom Palette icon wrapper since we imported Lucide icons dynamically
 function Palette(props: any) {
@@ -116,7 +170,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(!isHome); // inner pages start scrolled
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"development" | "marketing" | "branding">("development");
   const megaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -240,8 +293,8 @@ export default function Navbar() {
 
         {/* Level 2: Navigation & Branding (Desktop Only) */}
         <div className={cn(
-          "hidden lg:flex items-center justify-between w-full px-6 mx-auto max-w-[1400px] transition-all duration-500 ease-in-out",
-          scrolled ? "py-3" : "py-6"
+          "hidden lg:flex items-stretch justify-between w-full px-6 mx-auto max-w-[1400px] transition-all duration-500 ease-in-out",
+          scrolled ? "h-[72px]" : "h-[104px]"
         )}>
           {/* Logo on Left */}
           <Link href="/" className="flex items-center shrink-0 group" aria-label="NextGen Tech Solutions — Home">
@@ -250,7 +303,7 @@ export default function Navbar() {
 
           {/* Centered Navigation Menu */}
           <nav
-            className="flex items-center gap-1.5 xl:gap-3.5 relative"
+            className="flex items-stretch gap-1.5 xl:gap-3.5 h-full"
             role="navigation"
             aria-label="Main navigation"
           >
@@ -263,14 +316,14 @@ export default function Navbar() {
                 /* Wrapper div is now flex container so child is perfectly aligned vertically with other links */
                 <div
                   key={link.label}
-                  className="relative flex items-center h-full group"
+                  className="flex items-stretch h-full group"
                   onMouseEnter={onMegaEnter}
                   onMouseLeave={onMegaLeave}
                 >
                   <Link
                     href={link.href}
                     className={cn(
-                      "font-sora uppercase tracking-wider relative inline-flex items-center gap-1 text-[11.5px] font-extrabold transition-all duration-500 ease-in-out group/nav px-3 py-1.5",
+                      "font-sora uppercase tracking-wider relative inline-flex items-center gap-1 text-[11.5px] font-extrabold transition-all duration-500 ease-in-out group/nav px-3 h-full",
                       scrolled
                         ? (isActive ? "text-[#7C3AED]" : "text-black hover:text-[#7C3AED]")
                         : (isActive ? "text-white" : "text-white/85 hover:text-white")
@@ -290,137 +343,132 @@ export default function Navbar() {
                     />
                     {isActive && (
                       <span className={cn(
-                        "absolute bottom-[-10px] left-3 right-3 h-[2.5px] rounded-full transition-all duration-500 ease-in-out",
+                        "absolute bottom-0 left-3 right-3 h-[3px] rounded-t-full transition-all duration-500 ease-in-out",
                         scrolled ? "bg-[#7C3AED]" : "bg-white"
                       )} />
                     )}
                   </Link>
 
-                  {/* Mega Menu with responsive width parameters to prevent clipping */}
+                  {/* Mega Menu matching the premium integrations design */}
                   <div
                     className={cn(
-                      "absolute top-[calc(100%-2px)] left-1/2 -translate-x-1/2 mt-2.5 w-[95vw] lg:w-[800px] xl:w-[860px] overflow-hidden flex transition-all duration-500 ease-in-out origin-top z-50 backdrop-blur-xl rounded-2xl bg-white border border-slate-200 shadow-2xl text-slate-800",
+                      "absolute top-full left-0 right-0 w-full bg-white border-b border-slate-200 rounded-b-[28px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] text-slate-800 transition-all duration-300 ease-in-out origin-top z-50",
                       megaOpen
-                        ? "opacity-100 scale-100 pointer-events-auto translate-y-0"
-                        : "opacity-0 scale-95 pointer-events-none -translate-y-2"
+                        ? "opacity-100 scale-y-100 pointer-events-auto"
+                        : "opacity-0 scale-y-95 pointer-events-none"
                     )}
                     onMouseEnter={onMegaEnter}
                     onMouseLeave={onMegaLeave}
                     role="menu"
                     aria-label="Services menu"
                   >
-                    <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-violet-500/40 via-blue-500/20 to-transparent" />
-
-                    {/* Left categories pane */}
-                    <div className="w-[220px] xl:w-[260px] p-5 flex flex-col gap-2 shrink-0 relative z-10 pt-6 bg-slate-50 border-r border-slate-200/80">
-                      <p className="text-[9.5px] font-bold uppercase tracking-[0.15em] px-2.5 mb-3 text-slate-400 select-none">
-                        Categories
-                      </p>
-                      {Object.entries(megaMenuData).map(([key, tab]) => {
-                        const TabIcon = tab.icon;
-                        const isActiveTab = activeTab === key;
-                        return (
-                          <button
-                            key={key}
-                            type="button"
-                            onMouseEnter={() => setActiveTab(key as any)}
-                            onClick={() => setActiveTab(key as any)}
-                            className={cn(
-                              "flex items-center gap-3.5 w-full p-3 rounded-xl transition-all text-left cursor-pointer relative border outline-none group/btn",
-                              isActiveTab
-                                ? "bg-white border-slate-250 text-slate-900 shadow-sm"
-                                : "bg-transparent border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100"
-                            )}
-                          >
-                            {isActiveTab && (
-                              <span className="absolute left-0 top-3.5 bottom-3.5 w-[3px] bg-[#7C3AED] rounded-r" />
-                            )}
-                            <div
-                              className="w-8.5 h-8.5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-300"
-                              style={{
-                                background: isActiveTab ? "rgba(124, 58, 237, 0.1)" : "rgba(0, 0, 0, 0.02)",
-                                borderColor: isActiveTab ? "rgba(124, 58, 237, 0.2)" : "rgba(0, 0, 0, 0.06)",
-                                color: isActiveTab ? "#7C3AED" : "#64748b",
-                              }}
-                            >
-                              <TabIcon className="w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110" />
-                            </div>
-                            <div className="min-w-0">
-                              <p className="text-[12.5px] font-bold leading-tight font-sora truncate">{tab.label}</p>
-                              <span className={cn(
-                                "text-[10px] block mt-0.5 leading-none transition-colors",
-                                isActiveTab ? "text-[#7C3AED] font-medium" : "text-slate-400"
-                              )}>
-                                {tab.items.length} services
-                              </span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Right services grid */}
-                    <div className="flex-1 p-6 flex flex-col justify-between relative z-10 pt-6 bg-white">
-                      <div>
-                        <div className="mb-4 pb-3 flex items-center justify-between px-1 border-b border-slate-100">
-                          <div>
-                            <h3 className="text-sm font-extrabold font-sora tracking-tight text-slate-900">
-                              {megaMenuData[activeTab].label} Services
-                            </h3>
-                            <p className="text-[10.5px] text-slate-500 mt-0.5 leading-normal">
-                              {megaMenuData[activeTab].desc}
-                            </p>
-                          </div>
-                          <span className="text-[9.5px] font-bold px-2 py-0.5 rounded font-mono tracking-wider select-none uppercase border bg-slate-50 border-slate-200 text-slate-500">
-                            {megaMenuData[activeTab].items.length} available
-                          </span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3">
-                          {megaMenuData[activeTab].items.map((s) => {
+                    {/* Centered content aligning with the header container */}
+                    <div className="max-w-[1400px] mx-auto px-6 py-10 grid grid-cols-[1fr_450px] gap-10">
+                      
+                      {/* Left Pane - Grid of Services & Helper Link */}
+                      <div className="flex flex-col justify-between">
+                        {/* 3-column grid of service cards */}
+                        <div className="grid grid-cols-3 gap-4">
+                          {servicesMenuLinks.map((s) => {
                             const ItemIcon = s.icon;
                             return (
                               <Link
                                 key={s.label}
                                 href={s.href}
                                 role="menuitem"
-                                className="group/card flex items-center justify-between p-3.5 rounded-xl transition-all duration-300 hover:shadow-lg bg-slate-50 border border-slate-150 hover:bg-slate-100/50 hover:border-slate-300 hover:shadow-slate-100"
+                                className="group/card flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50/50 hover:border-slate-350 transition-all duration-200"
                               >
                                 <div className="flex items-center gap-3.5 min-w-0">
-                                  <div className="p-2 rounded-lg shrink-0 transition-all duration-300 bg-white border border-slate-200 text-slate-500 group-hover/card:bg-violet-50 group-hover/card:border-violet-200 group-hover/card:text-[#7C3AED]">
-                                    <ItemIcon className="w-4 h-4" />
-                                  </div>
-                                  <div className="min-w-0">
-                                    <h4 className="text-[12.5px] font-bold leading-tight font-sora flex items-center gap-1.5 truncate text-slate-850">
-                                      {s.label}
-                                      <span className="text-[10px] text-[#7C3AED] select-none opacity-40 group-hover/card:opacity-100 transition-opacity">★</span>
-                                    </h4>
-                                    <p className="text-[10px] text-slate-500 mt-1 leading-normal group-hover/card:text-slate-400 transition-colors truncate max-w-[200px]">
-                                      {s.desc}
-                                    </p>
-                                  </div>
+                                  <ItemIcon
+                                    className="w-5.5 h-5.5 shrink-0 transition-transform duration-300 group-hover/card:scale-105"
+                                    style={{ color: s.color }}
+                                  />
+                                  <span className="text-[13.5px] font-bold text-slate-850 font-sora leading-none truncate">
+                                    {s.label}
+                                  </span>
                                 </div>
-                                <div className="shrink-0 pl-2 opacity-30 group-hover/card:opacity-100 group-hover/card:translate-x-0.5 transition-all duration-300">
-                                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover/card:text-[#7C3AED]" />
+                                <div className="text-slate-300 group-hover/card:text-slate-800 transition-colors pl-1 shrink-0">
+                                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover/card:translate-x-0.5" />
                                 </div>
                               </Link>
                             );
                           })}
                         </div>
+
+                        {/* Bottom Helper link */}
+                        <div className="mt-8 flex items-center gap-2 text-xs text-slate-500 font-medium">
+                          <MessageSquare className="w-4 h-4 text-slate-400 shrink-0" />
+                          <span>
+                            Need help? Contact our{" "}
+                            <Link
+                              href="/contact"
+                              className="text-slate-800 font-semibold underline underline-offset-4 decoration-[#7C3AED]/45 hover:decoration-[#7C3AED] transition-colors"
+                            >
+                              support service
+                            </Link>
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="pt-4 mt-6 flex items-center justify-between border-t border-slate-100">
-                        <span className="text-[9px] text-slate-400 font-medium font-mono uppercase tracking-wider">
-                          Select a category to explore services
-                        </span>
-                        <Link
-                          href="/services"
-                          className="group/all flex items-center gap-1 text-xs font-bold text-[#7C3AED] hover:text-[#6D28D9] transition-colors font-sora"
-                        >
-                          View All Services
-                          <ArrowRight className="w-3.5 h-3.5 group-hover/all:translate-x-0.5 transition-transform" />
-                        </Link>
+                      {/* Right Pane - Feature Promo Banner */}
+                      <div className="pl-8 border-l border-slate-100 flex flex-col justify-center">
+                        {/* Pastel background banner card - Horizontal Layout */}
+                        <div className="flex p-6 rounded-[24px] bg-[#F4F5FA] border border-slate-200/40 relative overflow-hidden group/banner h-full min-h-[260px]">
+                          {/* Decorative background shapes */}
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-200/10 rounded-full blur-2xl -mr-10 -mt-10" />
+                          <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-200/10 rounded-full blur-xl -ml-8 -mb-8" />
+
+                          {/* Left text column */}
+                          <div className="flex-1 flex flex-col justify-between pr-4 relative z-10">
+                            <div>
+                              {/* Header row */}
+                              <div className="flex items-center gap-1.5 mb-1">
+                                {/* Blue Zap icon */}
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className="w-4 h-4 text-[#3B82F6]"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M14.615 1.595a.75.75 0 0 1 .359.852L12.972 9.75h7.278a.75.75 0 0 1 .68.439.75.75 0 0 1-.096.807l-10.5 11.25a.75.75 0 0 1-1.27-.527l2.003-7.319H3.75a.75.75 0 0 1-.68-.439.75.75 0 0 1 .096-.807l10.5-11.25a.75.75 0 0 1 .949-.071Z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                                <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-widest font-sora">
+                                  Discover more with
+                                </span>
+                              </div>
+
+                              <h3 className="text-2.5xl font-black text-slate-900 leading-tight font-sora tracking-tight">
+                                Premium
+                              </h3>
+                            </div>
+
+                            {/* Choose plan pill-button */}
+                            <Link
+                              href="/contact"
+                              className="mt-4 flex items-center justify-between px-4.5 py-2.5 rounded-full bg-white border border-slate-200 text-[10.5px] font-bold text-slate-950 hover:bg-slate-50 hover:border-slate-350 shadow-sm transition-all duration-300 group-hover/banner:shadow-md shrink-0 w-full"
+                            >
+                              <span>Choose Premium plan</span>
+                              <ArrowRight className="w-3.5 h-3.5 text-slate-600 transition-transform duration-300 group-hover/banner:translate-x-0.5" />
+                            </Link>
+                          </div>
+
+                          {/* Right illustration column */}
+                          <div className="w-[180px] shrink-0 relative z-10 flex items-center justify-center pl-2">
+                            <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 shadow-md bg-white w-full aspect-[4/3] flex items-center justify-center">
+                              <img
+                                src="/images/mega_menu_banner.png"
+                                alt="NextGen Premium Services"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover/banner:scale-105"
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -429,7 +477,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   className={cn(
-                    "font-sora uppercase tracking-wider relative inline-flex items-center gap-1.5 rounded-lg text-[11.5px] font-extrabold transition-all duration-500 ease-in-out px-3 py-1.5",
+                    "font-sora uppercase tracking-wider relative inline-flex items-center gap-1.5 text-[11.5px] font-extrabold transition-all duration-500 ease-in-out px-3 h-full",
                     scrolled
                       ? (isActive ? "text-[#7C3AED]" : "text-black hover:text-[#7C3AED]")
                       : (isActive ? "text-white" : "text-white/85 hover:text-white")
@@ -438,7 +486,7 @@ export default function Navbar() {
                   {link.label}
                   {isActive && (
                     <span className={cn(
-                      "absolute bottom-[-10px] left-3 right-3 h-[2.5px] rounded-full transition-all duration-500 ease-in-out",
+                      "absolute bottom-0 left-3 right-3 h-[3px] rounded-t-full transition-all duration-500 ease-in-out",
                       scrolled ? "bg-[#7C3AED]" : "bg-white"
                     )} />
                   )}

@@ -44,7 +44,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Discovery & Wireframing", desc: "Map site maps, user interactions, and structural mockups." },
       { step: "02", title: "Engineering Phase", desc: "Implement edge-routing, design components, and hook databases." },
-      { step: "03", title: "Deployment & Speed Optimization", desc: "Configure CDNs, secure SSL certificates, and check performance scores." }
+      { step: "03", title: "Deployment & Speed Optimization", desc: "Configure CDNs, secure SSL certificates, and check performance scores." },
+      { step: "04", title: "Ongoing Support & Scaling", desc: "Monitor performance, iterate on feedback, and scale infrastructure as your traffic grows." }
     ],
     pricing: [
       { tier: "Startup", price: "₹2,50,000+", desc: "For launching initial MVPs and marketing pages.", features: ["Single-page App", "Tailwind CSS", "Basic Database Integration", "1 Month Support"] },
@@ -75,7 +76,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "UI Prototype Design", desc: "Create interactive clickable mockups in Figma." },
       { step: "02", title: "Functional Buildout", desc: "Write cross-platform codebase and link device peripherals." },
-      { step: "03", title: "Store Submission", desc: "Manage deployment reviews and production settings." }
+      { step: "03", title: "Store Submission", desc: "Manage deployment reviews and production settings." },
+      { step: "04", title: "Post-Launch Growth", desc: "Track app analytics, release updates, and optimize store rankings continuously." }
     ],
     pricing: [
       { tier: "MVP App", price: "₹3,50,000+", desc: "Perfect for initial product launch on one app store.", features: ["Flutter Core", "Standard Auth", "Cloud Database Sync", "1 Month Maintenance"] },
@@ -106,7 +108,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "SaaS Blueprinting", desc: "Detail billing tiers, data flows, and database segregation." },
       { step: "02", title: "Core Architecture Setup", desc: "Build authentication, multi-tenancy layers, and Stripe integrations." },
-      { step: "03", title: "Dashboard & Release", desc: "Launch charts portal and open API gateway endpoints." }
+      { step: "03", title: "Dashboard & Release", desc: "Launch charts portal and open API gateway endpoints." },
+      { step: "04", title: "Retention & Optimization", desc: "Analyze churn signals, optimize billing flows, and iterate on user feedback loops." }
     ],
     pricing: [
       { tier: "SaaS MVP", price: "₹4,00,000+", desc: "For launching basic SaaS concepts with simple plans.", features: ["User Authentication", "Stripe Checkout Integration", "Database Setup", "1 Month Support"] },
@@ -137,7 +140,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Data Collection & Feasibility", desc: "Clean training datasets and verify machine learning approaches." },
       { step: "02", title: "Model Development & Tuning", desc: "Fine-tune LLMs, design prompt networks, and integrate vectors." },
-      { step: "03", title: "API Integration & Testing", desc: "Connect models to UI interfaces and optimize query speeds." }
+      { step: "03", title: "API Integration & Testing", desc: "Connect models to UI interfaces and optimize query speeds." },
+      { step: "04", title: "Monitoring & Retraining", desc: "Track model accuracy drift, retrain on new data, and scale inference infrastructure." }
     ],
     pricing: [
       { tier: "AI Integration", price: "₹3,00,000+", desc: "Connect existing models like GPT-4 to your current software.", features: ["API Wrapper", "Prompt Engineering", "Basic Vector Database", "1 Month Support"] },
@@ -168,7 +172,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Infrastructure Audit", desc: "Analyze current system architecture and estimate cloud costs." },
       { step: "02", title: "IaC Setup", desc: "Write Terraform files and provision network boundaries." },
-      { step: "03", title: "Migration Phase", desc: "Transfer database assets with zero-downtime." }
+      { step: "03", title: "Migration Phase", desc: "Transfer database assets with zero-downtime." },
+      { step: "04", title: "Optimization & Cost Control", desc: "Fine-tune cloud spend, set auto-scaling thresholds, and configure real-time cost alerts." }
     ],
     pricing: [
       { tier: "Basic Migration", price: "₹2,00,000+", desc: "Migrate basic applications to secure cloud instances.", features: ["Single Server Setup", "Cloud Backup Setup", "SSL Installation", "1 Month Maintenance"] },
@@ -199,7 +204,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Workflow Analysis", desc: "Map department roles, database tables, and reports." },
       { step: "02", title: "Database Development", desc: "Construct relational schemas and draft permission boundaries." },
-      { step: "03", title: "Dashboard Launch", desc: "Integrate communication channels and output metrics." }
+      { step: "03", title: "Dashboard Launch", desc: "Integrate communication channels and output metrics." },
+      { step: "04", title: "Training & Handover", desc: "Train staff on new dashboards, document workflows, and set up ongoing SLA support." }
     ],
     pricing: [
       { tier: "Standard CRM", price: "₹4,00,000+", desc: "For tracking sales, contacts, and lead logs.", features: ["Lead Kanban View", "Team Auth", "SMTP Email setups", "1 Month Support"] },
@@ -230,7 +236,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Pipeline Mapping", desc: "Trace current build steps and deploy targets." },
       { step: "02", title: "Pipeline Scripting", desc: "Write workflows, configure tests, and package servers." },
-      { step: "03", title: "Monitoring Launch", desc: "Launch Grafana displays and connect alert thresholds." }
+      { step: "03", title: "Monitoring Launch", desc: "Launch Grafana displays and connect alert thresholds." },
+      { step: "04", title: "Continuous Improvement", desc: "Tune pipeline speed, add security scan gates, and iterate on deployment frequency." }
     ],
     pricing: [
       { tier: "Basic Pipeline", price: "₹2,50,000+", desc: "Automate deployments for a single server project.", features: ["GitHub Actions Setup", "Docker Configuration", "Basic Alerts", "1 Month Support"] },
@@ -261,7 +268,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "User Research", desc: "Interview target audiences and define user flows." },
       { step: "02", title: "Wireframing", desc: "Construct layouts and layout parameters." },
-      { step: "03", title: "Design System Assembly", desc: "Establish type scales, components, and style guides." }
+      { step: "03", title: "Design System Assembly", desc: "Establish type scales, components, and style guides." },
+      { step: "04", title: "Handoff & Developer Support", desc: "Export annotated Figma specs, component libraries, and support engineering implementation." }
     ],
     pricing: [
       { tier: "Standard UI", price: "₹1,50,000+", desc: "Figma layouts for simple projects.", features: ["Up to 8 Pages", "Mobile Responsive Specs", "Brand Styling Assets", "Handoff Files"] },
@@ -292,7 +300,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Technology Audit", desc: "Evaluate software setups, code structure, and data flows." },
       { step: "02", title: "Modernization Blueprinting", desc: "Map steps to replace services with microservices." },
-      { step: "03", title: "Migration & Rollout", desc: "Migrate data and deploy modern web modules." }
+      { step: "03", title: "Migration & Rollout", desc: "Migrate data and deploy modern web modules." },
+      { step: "04", title: "Stabilize & Train", desc: "Validate system stability under load, document new architecture, and train teams on modern tooling." }
     ],
     pricing: [
       { tier: "Technology Audit", price: "₹2,00,000+", desc: "Identify performance bottlenecks and security issues.", features: ["Full Codebase Scan", "Database Performance Check", "Transformation Plan", "Audit Document"] },
@@ -323,7 +332,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Setup Monitoring", desc: "Install bug logging and performance tools." },
       { step: "02", title: "Scheduled Maintenance", desc: "Run weekly backups and database cleanup." },
-      { step: "03", title: "Incident Support", desc: "Resolve issues according to the SLA timeline." }
+      { step: "03", title: "Incident Support", desc: "Resolve issues according to the SLA timeline." },
+      { step: "04", title: "Reporting & Improvement", desc: "Deliver monthly health reports and recommend proactive upgrades to prevent future incidents." }
     ],
     pricing: [
       { tier: "Essential", price: "₹50,000 / mo", desc: "For simple web applications.", features: ["8 Hours Monthly Support", "Uptime Monitoring", "Monthly Backups", "48h Response SLA"] },
@@ -354,7 +364,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "API Verification", desc: "Verify Meta Business Manager and register phone number endpoints." },
       { step: "02", title: "Flow & Agent Design", desc: "Draft interactive chatbot flows and intent parameters in AI nodes." },
-      { step: "03", title: "Integration & Launch", desc: "Synchronize messaging gateways with your internal CRM databases." }
+      { step: "03", title: "Integration & Launch", desc: "Synchronize messaging gateways with your internal CRM databases." },
+      { step: "04", title: "Analytics & Iteration", desc: "Monitor message delivery rates, conversation drop-offs, and refine bot responses continuously." }
     ],
     pricing: [
       { tier: "Starter", price: "₹80,000+", desc: "Standard templates and custom contact list uploads.", features: ["Official API Setup", "1 Automated Bot Flow", "Up to 10k contacts/mo", "1 Month Support"] },
@@ -385,7 +396,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Audience Research", desc: "Analyze competitor content gaps and map key search terms." },
       { step: "02", title: "Content Development", desc: "Write deep-dive technical copy focused on user conversions." },
-      { step: "03", title: "Distribution & Optimization", desc: "Publish across search networks and track conversion metrics." }
+      { step: "03", title: "Distribution & Optimization", desc: "Publish across search networks and track conversion metrics." },
+      { step: "04", title: "Authority Growth", desc: "Build topical cluster authority through consistent publishing and strategic internal linking." }
     ],
     pricing: [
       { tier: "Standard", price: "₹60,000 / mo", desc: "Regular articles for search visibility and organic growth.", features: ["4 Technical Articles", "Keyword optimization", "1 Newsletter email template", "Monthly reports"] },
@@ -416,7 +428,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Technical Audit", desc: "Scan website crawl blocks, duplicate tags, and load speeds." },
       { step: "02", title: "On-Page & Schema Updates", desc: "Inject structured data markup and optimize search hierarchy." },
-      { step: "03", title: "Authority Building", desc: "Deploy target outreach assets to acquire premium links." }
+      { step: "03", title: "Authority Building", desc: "Deploy target outreach assets to acquire premium links." },
+      { step: "04", title: "Rank Tracking & Reporting", desc: "Monitor keyword positions weekly and deliver actionable growth strategy adjustments monthly." }
     ],
     pricing: [
       { tier: "Starter SEO", price: "₹75,000 / mo", desc: "For local businesses and emerging startup frameworks.", features: ["Technical SEO audit", "On-page tag optimization", "5 target keywords", "Monthly progress reports"] },
@@ -447,7 +460,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Brand Tone Definition", desc: "Establish design rules, content pillars, and writing guidelines." },
       { step: "02", title: "Creative Production", desc: "Produce reels, high-end infographics, and weekly copy." },
-      { step: "03", title: "Scheduler & Engagement", desc: "Publish across active networks and engage with community comments." }
+      { step: "03", title: "Scheduler & Engagement", desc: "Publish across active networks and engage with community comments." },
+      { step: "04", title: "Analytics & Strategy Refresh", desc: "Analyze reach and engagement data monthly and pivot content pillars to maximize audience growth." }
     ],
     pricing: [
       { tier: "Starter", price: "₹65,000 / mo", desc: "Essential social media scheduling for consistent presence.", features: ["3 posts per week", "1 custom video reel/mo", "Community monitoring", "Monthly growth report"] },
@@ -478,7 +492,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Funnel Mapping & Setup", desc: "Configure tracking pixels, landing pages, and campaign settings." },
       { step: "02", title: "Asset Creation & Launch", desc: "Write ad copies, design visuals, and launch targeted test sets." },
-      { step: "03", title: "A/B Testing & Optimization", desc: "Scale winning ad sets, lower CPC, and maximize ROI." }
+      { step: "03", title: "A/B Testing & Optimization", desc: "Scale winning ad sets, lower CPC, and maximize ROI." },
+      { step: "04", title: "Budget Scaling", desc: "Increase spend on proven creatives, expand audience segments, and track ROAS targets weekly." }
     ],
     pricing: [
       { tier: "Test Campaign", price: "₹80,000+", desc: "For launching initial product validation ad groups.", features: ["Google & Meta setup", "Audience research", "3 ad creative designs", "Weekly reports"] },
@@ -509,7 +524,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Creator Research", desc: "Identify creators matching your demographic bounds." },
       { step: "02", title: "Outreach & Negotiation", desc: "Contact creators, agree on assets, and secure contracts." },
-      { step: "03", title: "Launch & Link Tracking", desc: "Monitor video publishes and track conversions using affiliate metrics." }
+      { step: "03", title: "Launch & Link Tracking", desc: "Monitor video publishes and track conversions using affiliate metrics." },
+      { step: "04", title: "Results Review & Scale", desc: "Analyze conversion attribution reports and renegotiate top-performing creator partnerships." }
     ],
     pricing: [
       { tier: "Starter", price: "₹1,20,000+", desc: "Micro-influencer campaign builder for local reach.", features: ["Up to 5 Micro-Creators", "Outreach & Briefs", "Asset validation reviews", "Campaign report"] },
@@ -540,7 +556,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Funnel Diagnostics", desc: "Audit current digital touchpoints, bounce rates, and copy." },
       { step: "02", title: "Campaign Implementation", desc: "Build email flows, optimize landing pages, and align ad copy." },
-      { step: "03", title: "Scale & Optimize", desc: "Run continuous A/B test iterations to maximize sales value." }
+      { step: "03", title: "Scale & Optimize", desc: "Run continuous A/B test iterations to maximize sales value." },
+      { step: "04", title: "Revenue Attribution", desc: "Map MRR growth to each channel, report on CAC/LTV ratios, and refocus budget on best ROI." }
     ],
     pricing: [
       { tier: "Growth Plan", price: "₹1,50,000 / mo", desc: "Integrated digital marketing plan for scaling startups.", features: ["SEO & Blog updates", "Email newsletter setup", "Ad campaign tracking support", "Weekly metrics report"] },
@@ -571,7 +588,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Reputation Analysis", desc: "Scan reviews, search engines, and mention sentiment metrics." },
       { step: "02", title: "PR & SEO Injection", desc: "Draft positive press releases and launch high-authority pages." },
-      { step: "03", title: "Suppression & Review Loops", desc: "Promote positive pages to push down negative search results." }
+      { step: "03", title: "Suppression & Review Loops", desc: "Promote positive pages to push down negative search results." },
+      { step: "04", title: "Ongoing Brand Guard", desc: "Run continuous sentiment monitoring and respond swiftly to emerging reputation threats." }
     ],
     pricing: [
       { tier: "Basic Protection", price: "₹1,00,000+", desc: "Monitor brand mentions and request positive review flows.", features: ["Mentions monitoring", "Review link generation setup", "Monthly search check", "1 Month Support"] },
@@ -602,7 +620,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Storyboarding & Mockups", desc: "Draft video scripts, reference styles, and 3D wireframes." },
       { step: "02", title: "Rendering & Assembly", desc: "Animate 3D layers, compile clips, and color grade files." },
-      { step: "03", title: "Audio & Delivery", desc: "Add voiceovers, mix sound effects, and output high-res files." }
+      { step: "03", title: "Audio & Delivery", desc: "Add voiceovers, mix sound effects, and output high-res files." },
+      { step: "04", title: "Revisions & Final Export", desc: "Incorporate client feedback, finalize color grades, and deliver platform-specific optimized exports." }
     ],
     pricing: [
       { tier: "Social Pack", price: "₹90,000+", desc: "Short-form video edits for social media channels.", features: ["3 Short-form reels", "Dynamic captions & SFX", "Color correction", "1 Round revision"] },
@@ -633,7 +652,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Moodboarding", desc: "Explore competitor brand identities and establish tone rules." },
       { step: "02", title: "Identity Design", desc: "Develop logos, typography scales, and color systems." },
-      { step: "03", title: "Handoff Manual", desc: "Compile logo files, document design guides, and export layouts." }
+      { step: "03", title: "Handoff Manual", desc: "Compile logo files, document design guides, and export layouts." },
+      { step: "04", title: "Brand Activation", desc: "Apply brand identity across digital touchpoints, social profiles, and marketing collateral." }
     ],
     pricing: [
       { tier: "Startup Identity", price: "₹80,000+", desc: "Essential branding assets for launching companies.", features: ["Primary Logo Design", "Color palette setup", "Typography guide", "Handoff files"] },
@@ -664,7 +684,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Attribution Setup", desc: "Verify tracking codes, conversion triggers, and pixels." },
       { step: "02", title: "Creative A/B Testing", desc: "Deploy ad variants, test copy, and identify winners." },
-      { step: "03", title: "Scale Phase", desc: "Scale winning ad sets and optimize cost-per-acquisition metrics." }
+      { step: "03", title: "Scale Phase", desc: "Scale winning ad sets and optimize cost-per-acquisition metrics." },
+      { step: "04", title: "ROAS Reporting", desc: "Deliver weekly performance dashboards mapping ad spend directly to revenue and LTV outcomes." }
     ],
     pricing: [
       { tier: "Growth Funnel", price: "₹1,20,000 / mo", desc: "Scale initial customer acquisition channels.", features: ["Meta & Google ads", "A/B landing page updates", "Attribution tracking setup", "Weekly KPI sync calls"] },
@@ -695,7 +716,8 @@ export const SERVICES_MAP: Record<string, ServiceDetail> = {
     process: [
       { step: "01", title: "Design Concept Brief", desc: "Align on graphic dimensions, brand guidelines, and visual goals." },
       { step: "02", title: "Draft Development", desc: "Produce initial graphic directions and color layouts." },
-      { step: "03", title: "Handoff & File Prep", desc: "Export high-resolution PNG, SVG, and print-ready PDF files." }
+      { step: "03", title: "Handoff & File Prep", desc: "Export high-resolution PNG, SVG, and print-ready PDF files." },
+      { step: "04", title: "Revision & Asset Library", desc: "Incorporate final feedback rounds and compile all assets into an organized, shareable design vault." }
     ],
     pricing: [
       { tier: "Basic Pack", price: "₹50,000+", desc: "Essential marketing graphic assets for startups.", features: ["10 Custom social assets", "3 Ad banner variants", "Figma source files", "1 Round revision"] },

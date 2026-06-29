@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import OnboardingModal from "@/components/shared/OnboardingModal";
 import { Toaster } from "react-hot-toast";
 
 const CRM_PATHS = ["/dashboard", "/admin", "/telecallers", "/superadmin"];
@@ -227,6 +228,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <main className="relative">{children}</main>
             <Footer />
             <ThemeToggle />
+            <OnboardingModal />
           </>
         )}
       </body>

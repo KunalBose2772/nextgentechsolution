@@ -1,0 +1,480 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { 
+  Calendar, Coins, Briefcase, Zap, Cpu, Code2, 
+  Smartphone, Layers, Database, Settings, MessageSquare, Globe
+} from "lucide-react";
+import Link from "next/link";
+import SectionHeader from "@/components/ui/SectionHeader";
+
+interface PremiumCapabilitiesProps {
+  serviceId: string;
+  serviceTitle: string;
+  features: string[]; // Retained for type compatibility
+}
+
+interface ServiceMarketingContent {
+  wideTitle: string;
+  wideDesc: string;
+  metrics: { label: string; value: string }[];
+  squareTitle: string;
+  squareDesc: string;
+  cardTitle: string;
+  icon: any;
+  wideGradient: string;
+  squareGradient: string;
+}
+
+const getMarketingContent = (id: string, title: string): ServiceMarketingContent => {
+  switch (id) {
+    case "web":
+      return {
+        wideTitle: "Custom Web Applications Built for Sales & Speed",
+        wideDesc: "Engaging, conversion-optimized platforms engineered with next-gen frameworks for sub-second load times and high organic visibility.",
+        metrics: [
+          { label: "Uptime SLA", value: "99.99%" },
+          { label: "Page Load Speed", value: "<0.5s" }
+        ],
+        squareTitle: "Future-Proof React & Next.js Architecture",
+        squareDesc: "Robust, secure, and search-optimized codebase designed to grow with your active user base.",
+        cardTitle: "NextGen Web Engine",
+        icon: Code2,
+        wideGradient: "from-[#1E3A8A] to-[#1D4ED8]",
+        squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "mobile":
+      return {
+        wideTitle: "Immersive Native iOS & Android App Development",
+        wideDesc: "Stunning cross-platform Flutter & React Native apps delivering fluid native performance, offline sync, and beautiful transitions.",
+        metrics: [
+          { label: "Crash-free SLA", value: "99.9%" },
+          { label: "Store Approvals", value: "100%" }
+        ],
+        squareTitle: "Offline-First Sync & Peripherals",
+        squareDesc: "Keep your users engaged with seamless cloud synchronization and deep device hardware integration.",
+        cardTitle: "NextGen Mobile Dev",
+        icon: Smartphone,
+        wideGradient: "from-[#4C1D95] to-[#6D28D9]",
+        squareGradient: "from-[#F59E0B] to-[#D97706]"
+      };
+    case "saas":
+      return {
+        wideTitle: "Custom Multi-Tenant SaaS Software Platforms",
+        wideDesc: "Rigid database tenant isolation, Stripe subscription billing gateways, custom dashboards, and user permission modules.",
+        metrics: [
+          { label: "DB Segregation", value: "Secure" },
+          { label: "Billing Engine", value: "Stripe API" }
+        ],
+        squareTitle: "Embedded Analytics & User Panels",
+        squareDesc: "Empower your software clients with dynamic charts, usage trackers, and white-labeling features.",
+        cardTitle: "NextGen SaaS Core",
+        icon: Layers,
+        wideGradient: "from-[#0F172A] to-[#334155]",
+        squareGradient: "from-[#06B6D4] to-[#0891B2]"
+      };
+    case "ai":
+      return {
+        wideTitle: "Deploy Intelligent AI Agents That Drive ROI",
+        wideDesc: "Custom machine learning models, retrieval-augmented generation (RAG) vector searches, and agentic workflows that automate workflows.",
+        metrics: [
+          { label: "Agent Response", value: "<1.5s" },
+          { label: "Operations Speedup", value: "10x" }
+        ],
+        squareTitle: "Trained Enterprise Models & Vectors",
+        squareDesc: "Leverage private internal corporate wikis with safe, secure, and sandboxed AI integrations.",
+        cardTitle: "NextGen AI Agent",
+        icon: Cpu,
+        wideGradient: "from-[#064E3B] to-[#047857]",
+        squareGradient: "from-[#8B5CF6] to-[#7C3AED]"
+      };
+    case "cloud":
+      return {
+        wideTitle: "High-Availability, Zero-Downtime Cloud Infrastructure",
+        wideDesc: "Secure cloud architectures, automated backups, SOC2 compliance setups, and optimized cloud budgets on AWS & GCP.",
+        metrics: [
+          { label: "Uptime SLA", value: "99.99%" },
+          { label: "Failover Routine", value: "Automated" }
+        ],
+        squareTitle: "Terraform Infrastructure as Code",
+        squareDesc: "Deploy standardized, compliance-ready server and database clusters in minutes.",
+        cardTitle: "NextGen Cloud Node",
+        icon: Database,
+        wideGradient: "from-[#075985] to-[#0369A1]",
+        squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "erp":
+      return {
+        wideTitle: "Centralize Business Workflows with Custom ERPs",
+        wideDesc: "Automated billing templates, GST calculation engines, CRM pipelines, and granular department role permissions.",
+        metrics: [
+          { label: "Department Sync", value: "100%" },
+          { label: "Invoice Engine", value: "Automated" }
+        ],
+        squareTitle: "Omnichannel Communications Hub",
+        squareDesc: "Interact with client logs, SMTP email routing, and WhatsApp alerts directly inside one unified portal.",
+        cardTitle: "NextGen ERP Engine",
+        icon: Layers,
+        wideGradient: "from-[#1E1B4B] to-[#312E81]",
+        squareGradient: "from-[#EC4899] to-[#DB2777]"
+      };
+    case "whatsapp-marketing":
+      return {
+        wideTitle: "Automated WhatsApp API Marketing Funnels",
+        wideDesc: "Official Business API verifications, broadcast campaign schedulers, conversational AI chatbots, and multi-agent inbox systems.",
+        metrics: [
+          { label: "Open Rates", value: "98%" },
+          { label: "AI Bot Support", value: "24/7" }
+        ],
+        squareTitle: "Real-Time CRM & Lead Sync",
+        squareDesc: "Connect message triggers directly to user actions and databases for immediate notifications.",
+        cardTitle: "NextGen WA Bot",
+        icon: MessageSquare,
+        wideGradient: "from-[#064E3B] to-[#047857]",
+        squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "seo":
+      return {
+        wideTitle: "Dominate Page 1 Rankings for High-Value Intent",
+        wideDesc: "Technical website audits, structured schema markup, Core Web Vitals speed optimization, and authority link acquisition.",
+        metrics: [
+          { label: "Target Position", value: "Page 1" },
+          { label: "Traffic Growth", value: "2.5x" }
+        ],
+        squareTitle: "JSON-LD Rich Schema Markups",
+        squareDesc: "Guide crawler engines to index product specifications, FAQs, and reviews with rich result cards.",
+        cardTitle: "NextGen SEO Core",
+        icon: Globe,
+        wideGradient: "from-[#1E3A8A] to-[#1D4ED8]",
+        squareGradient: "from-[#8B5CF6] to-[#7C3AED]"
+      };
+    case "ppc":
+      return {
+        wideTitle: "Maximize Return on Ad Spend (ROAS)",
+        wideDesc: "Google Search Campaigns, Meta visual advertising suites, and targeted LinkedIn B2B funnels designed to acquire leads.",
+        metrics: [
+          { label: "Conversion Lift", value: "3.5x+" },
+          { label: "Ad Set A/B Testing", value: "Active" }
+        ],
+        squareTitle: "Advanced Attribution Tracking",
+        squareDesc: "Pixel configurations and conversion APIs that ensure every rupee spent maps directly to a lead.",
+        cardTitle: "NextGen PPC Manager",
+        icon: Coins,
+        wideGradient: "from-[#7F1D1D] to-[#991B1B]",
+        squareGradient: "from-[#F59E0B] to-[#D97706]"
+      };
+    default:
+      return {
+        wideTitle: `Premium ${title} Customized for Your Brand`,
+        wideDesc: `Get tailored, high-converting ${title} designed by expert engineers to streamline operations and scale conversions.`,
+        metrics: [
+          { label: "Delivery SLA", value: "On-Time" },
+          { label: "Expert Support", value: "24/7" }
+        ],
+        squareTitle: "Engineered for Enterprise Performance",
+        squareDesc: "Security audits, clean modular patterns, and flexible integrations mapped for scaling companies.",
+        cardTitle: "NextGen Engine",
+        icon: Settings,
+        wideGradient: "from-[#1E1B4B] to-[#312E81]",
+        squareGradient: "from-[#10B981] to-[#059669]"
+      };
+  }
+};
+
+// Official green WhatsApp branding vector icon
+function WhatsAppIcon({ className = "w-5.5 h-5.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="currentColor">
+      <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+    </svg>
+  );
+}
+
+export default function PremiumCapabilities({ serviceId, serviceTitle, features }: PremiumCapabilitiesProps) {
+  const content = getMarketingContent(serviceId, serviceTitle);
+
+  const handleScrollToSection = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const conversionTabs = [
+    {
+      label: "Book Consultation",
+      desc: "Schedule a Discovery Call",
+      icon: Calendar,
+      iconBg: "bg-[#E0F2FE]", // Google Blue-light
+      iconColor: "text-[#0284C7]",
+      hoverBg: "group-hover:bg-[#0284C7] group-hover:text-white",
+      actionHref: "#contact-project-form",
+      onClick: handleScrollToSection("contact-project-form"),
+      isExternal: false
+    },
+    {
+      label: "Cost Calculator",
+      desc: "Estimate Project Budget",
+      icon: Coins,
+      iconBg: "bg-[#FEF3C7]", // Gold-light
+      iconColor: "text-[#D97706]",
+      hoverBg: "group-hover:bg-[#D97706] group-hover:text-white",
+      actionHref: serviceId === "web" ? "#cost-calculator" : "#contact-project-form",
+      onClick: handleScrollToSection(serviceId === "web" ? "cost-calculator" : "contact-project-form"),
+      isExternal: false
+    },
+    {
+      label: "Chat on WhatsApp",
+      desc: "Instant Tech Callback",
+      icon: WhatsAppIcon,
+      iconBg: "bg-[#DCFCE7]", // Green-light
+      iconColor: "text-[#25D366]",
+      hoverBg: "group-hover:bg-[#25D366] group-hover:text-white",
+      actionHref: "https://wa.me/919031806381",
+      isExternal: true
+    },
+    {
+      label: "View Portfolio",
+      desc: "Explore Case Studies",
+      icon: Briefcase,
+      iconBg: "bg-[#F3E8FF]", // Purple-light
+      iconColor: "text-[#7C3AED]",
+      hoverBg: "group-hover:bg-[#7C3AED] group-hover:text-white",
+      actionHref: "/portfolio",
+      isExternal: false
+    }
+  ];
+
+  return (
+    <section 
+      className="py-20 text-slate-800 border-t border-slate-200/50 relative overflow-hidden"
+      style={{
+        background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,58,237,0.02) 0%, transparent 70%), linear-gradient(180deg, #ffffff 0%, #fcfbff 50%, #ffffff 100%)"
+      }}
+    >
+      <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+        
+        {/* Section Heading - Homepage consistent layout */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mb-12"
+        >
+          <SectionHeader
+            badge="OUR CAPABILITIES"
+            title="How We Power Your"
+            titleHighlight={`${serviceTitle} Projects`}
+            description="Scale your brand with bank-grade security, sub-second load times, and custom-tailored integrations designed to maximize your conversions."
+            align="left"
+            theme="light"
+            className="max-w-3xl"
+          />
+        </motion.div>
+
+        {/* Feature Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-8">
+          
+          {/* 1. WIDE CARD (Left) */}
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            className="lg:col-span-8 flex"
+          >
+            <div 
+              className={`w-full rounded-[28px] bg-gradient-to-br ${content.wideGradient} text-white p-8 md:p-10 relative overflow-hidden flex flex-col justify-between group shadow-sm min-h-[300px]`}
+            >
+              {/* Radial gradient glow for premium shine */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.08)_0%,transparent_60%)] pointer-events-none" />
+
+              {/* Card Header & Title */}
+              <div className="max-w-[70%] z-10 space-y-3">
+                <h3 className="text-xl md:text-2xl font-black font-sora tracking-tight leading-snug">
+                  {content.wideTitle}
+                </h3>
+                <p className="text-white/70 text-xs sm:text-[13px] leading-relaxed max-w-[480px]">
+                  {content.wideDesc}
+                </p>
+              </div>
+
+              {/* Metrics & Action Button */}
+              <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-6 items-end mt-8 z-10">
+                
+                {/* Stats / Features */}
+                <div className="flex gap-10">
+                  {content.metrics.map((m, idx) => (
+                    <div key={idx}>
+                      <div className="text-2xl font-black font-sora leading-none mb-1 text-white">
+                        {m.value}
+                      </div>
+                      <div className="text-[10.5px] font-bold text-white/60 uppercase tracking-wider leading-tight">
+                        {m.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Yellow Action Button */}
+                <div className="md:justify-self-end">
+                  <a
+                    href="#contact-project-form"
+                    onClick={handleScrollToSection("contact-project-form")}
+                    className="inline-flex items-center justify-center bg-[#FACC15] hover:bg-[#EAB308] text-slate-950 font-black text-[11px] uppercase tracking-wider px-6 py-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 shadow-md shadow-black/10 hover:shadow-black/20"
+                  >
+                    Show More
+                  </a>
+                </div>
+
+              </div>
+
+              {/* Rotated 3D Glassmorphic Tech Graphic (Right) */}
+              <div className="absolute right-[-24px] top-[12%] lg:top-[15%] w-[260px] h-[160px] pointer-events-none hidden sm:block">
+                <div 
+                  className="w-full h-full rounded-2xl bg-white/[0.07] border border-white/20 backdrop-blur-md shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4)] rotate-[-12deg] transform transition-transform duration-700 group-hover:rotate-[-6deg] group-hover:scale-103 p-4 flex flex-col justify-between"
+                  style={{
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1)"
+                  }}
+                >
+                  <div className="flex justify-between items-start">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/10">
+                      <content.icon className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">
+                      {content.cardTitle}
+                    </span>
+                  </div>
+                  
+                  {/* Visual chart pattern representing backend logs */}
+                  <div className="space-y-2">
+                    <div className="h-1.5 w-16 bg-white/25 rounded-full" />
+                    <div className="h-1 w-28 bg-white/15 rounded-full" />
+                    <div className="h-1 w-20 bg-white/15 rounded-full" />
+                  </div>
+
+                  <div className="flex justify-between items-end">
+                    <span className="text-[10px] font-mono text-white/60">DEPLOYED.SSL</span>
+                    <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center">
+                      <Zap className="w-3.5 h-3.5 text-[#FACC15]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+
+          {/* 2. SQUARE CARD (Right) */}
+          <motion.div
+            initial={{ opacity: 0, x: 32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
+            className="lg:col-span-4 flex"
+          >
+            <div 
+              className={`w-full rounded-[28px] bg-gradient-to-br ${content.squareGradient} text-white p-8 md:p-10 relative overflow-hidden flex flex-col justify-between shadow-sm min-h-[300px]`}
+            >
+              {/* Radial shine overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.08)_0%,transparent_60%)] pointer-events-none" />
+
+              <div className="z-10 space-y-3">
+                <h3 className="text-xl md:text-2xl font-black font-sora tracking-tight leading-snug">
+                  {content.squareTitle}
+                </h3>
+                <p className="text-white/70 text-xs sm:text-[13px] leading-relaxed">
+                  {content.squareDesc}
+                </p>
+              </div>
+
+              {/* Decorative subtle vector background shape */}
+              <div className="absolute bottom-[-20%] right-[-10%] w-[180px] h-[180px] opacity-15 rounded-full border-[12px] border-white pointer-events-none" />
+              <div className="absolute bottom-[-10%] right-[-5%] w-[120px] h-[120px] opacity-10 rounded-full border-[8px] border-white pointer-events-none" />
+
+              <div className="z-10 text-[11px] font-bold uppercase tracking-widest text-white/60">
+                NEXTGEN VERIFIED
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
+
+        {/* 3. BOTTOM HIGH-CONVERSION ACTIONS (Pills with real colored logos) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {conversionTabs.map((tab, index) => {
+            const Icon = tab.icon;
+            
+            const pillContent = (
+              <>
+                <div 
+                  className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${tab.iconBg} ${tab.iconColor} transition-all duration-300 ${tab.hoverBg}`}
+                >
+                  <Icon className="w-5.5 h-5.5" />
+                </div>
+                
+                <div>
+                  <div className="text-slate-800 font-bold text-[13px] font-sora leading-tight group-hover:text-[var(--accent-global)] transition-colors duration-300">
+                    {tab.label}
+                  </div>
+                  <div className="text-slate-400 text-[10px] font-semibold mt-0.5 leading-none">
+                    {tab.desc}
+                  </div>
+                </div>
+              </>
+            );
+
+            const wrapperMotion = (children: React.ReactNode) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+              >
+                {children}
+              </motion.div>
+            );
+
+            if (tab.isExternal) {
+              return wrapperMotion(
+                <a
+                  href={tab.actionHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3.5 bg-white border border-slate-200/50 p-4.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all duration-300 group cursor-pointer"
+                >
+                  {pillContent}
+                </a>
+              );
+            }
+
+            if (tab.onClick) {
+              return wrapperMotion(
+                <a
+                  href={tab.actionHref}
+                  onClick={tab.onClick}
+                  className="flex items-center gap-3.5 bg-white border border-slate-200/50 p-4.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all duration-300 group cursor-pointer"
+                >
+                  {pillContent}
+                </a>
+              );
+            }
+
+            return wrapperMotion(
+              <Link
+                href={tab.actionHref}
+                className="flex items-center gap-3.5 bg-white border border-slate-200/50 p-4.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all duration-300 group cursor-pointer"
+              >
+                {pillContent}
+              </Link>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
