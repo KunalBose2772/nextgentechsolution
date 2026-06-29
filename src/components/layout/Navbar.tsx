@@ -352,7 +352,7 @@ export default function Navbar() {
                   {/* Mega Menu matching the premium integrations design */}
                   <div
                     className={cn(
-                      "absolute top-full left-0 right-0 w-full bg-white border-b border-slate-200 rounded-b-[28px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] text-slate-800 transition-all duration-300 ease-in-out origin-top z-50",
+                      "absolute top-full left-0 right-0 w-full bg-white border-t border-slate-200/85 border-b border-slate-200 rounded-b-[28px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] text-slate-800 transition-all duration-300 ease-in-out origin-top z-50",
                       megaOpen
                         ? "opacity-100 scale-y-100 pointer-events-auto"
                         : "opacity-0 scale-y-95 pointer-events-none"
