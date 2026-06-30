@@ -91,6 +91,15 @@ const webFaqs = [
 // Icons for Process Workflow Steps
 const processStepIcons = [Terminal, Code2, Globe];
 
+// Helper to convert hex to RGB
+function hexToRgb(hex: string): string {
+  const cleanHex = hex.replace("#", "");
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  return isNaN(r) || isNaN(g) || isNaN(b) ? "124, 58, 237" : `${r}, ${g}, ${b}`;
+}
+
 export default function WebServiceDetail({ service }: { service: ServiceDetail }) {
   // Form State
   const [form, setForm] = useState({ name: "", email: "", phone: "", budget: "", message: "" });
@@ -196,6 +205,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
       type: "quote",
       preselectedPackage: `Custom Estimate (₹${estimatedCost.toLocaleString("en-IN")})`,
       serviceType: service.title,
+      accentColor: service.accent,
       customQuoteDetails: {
         cost: estimatedCost,
         projectType,
@@ -233,8 +243,16 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
     }
   };
 
+  const rgb = hexToRgb(service.accent);
+  const customStyles = {
+    "--accent-global": service.accent,
+    "--accent-global-hover": `${service.accent}dd`,
+    "--accent-global-dim": `rgba(${rgb}, 0.08)`,
+    "--accent-global-rgb": rgb,
+  } as React.CSSProperties;
+
   return (
-    <div className="min-h-screen text-[var(--text-secondary)] bg-[var(--bg-primary)] relative overflow-hidden">
+    <div className="min-h-screen text-[var(--text-secondary)] bg-[var(--bg-primary)] relative overflow-hidden" style={customStyles}>
       {/* Background Grids & Ambient Glows */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0" />
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full opacity-[0.12] blur-[140px] pointer-events-none" style={{ background: "radial-gradient(circle, var(--accent-global) 0%, transparent 80%)" }} />
@@ -423,17 +441,16 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center mb-10"
+            className="mb-10"
           >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 bg-indigo-50 border border-indigo-200 mb-3" style={{fontFamily:"'Inter',sans-serif"}}>
-              Pricing Estimator
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sora text-slate-900 mb-2">
-              Build Your <span className="text-indigo-600">Custom Quote</span>
-            </h2>
-            <p className="text-slate-500 text-sm max-w-xl mx-auto" style={{fontFamily:"'Inter',sans-serif"}}>
-              Answer 4 quick questions and get a transparent, instant estimate — no sales calls needed.
-            </p>
+            <SectionHeader
+              badge="Pricing Estimator"
+              title="Build Your"
+              titleHighlight="Custom Quote"
+              description="Answer 4 quick questions and get a transparent, instant estimate — no sales calls needed."
+              align="center"
+              theme="light"
+            />
           </motion.div>
 
           {/* ── Card ── */}
@@ -448,10 +465,10 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
             {/* Slider CSS */}
             <style dangerouslySetInnerHTML={{__html:`
-              .calc-r::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#000;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.22);transition:transform .15s}
+              .calc-r::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent-global, #000);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.22);transition:transform .15s}
               .calc-r::-webkit-slider-thumb:hover{transform:scale(1.15)}
-              .calc-r::-moz-range-thumb{width:18px;height:18px;border:none;border-radius:50%;background:#000;cursor:pointer}
-              .calc-r::-webkit-slider-runnable-track{background:linear-gradient(to right,#000 var(--pct,0%),#e2e8f0 var(--pct,0%));border-radius:999px}
+              .calc-r::-moz-range-thumb{width:18px;height:18px;border:none;border-radius:50%;background:var(--accent-global, #000);cursor:pointer}
+              .calc-r::-webkit-slider-runnable-track{background:linear-gradient(to right,var(--accent-global, #000) var(--pct,0%),#e2e8f0 var(--pct,0%));border-radius:999px}
             `}}/>
 
             {/* ═══ LEFT CONFIGURATOR ═══ */}
@@ -465,9 +482,9 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                       onClick={() => calcStep > s && setCalcStep(s)}
                       className={`flex items-center justify-center w-8 h-8 rounded-full text-[11px] font-black transition-all duration-300 flex-shrink-0 ${
                         s < calcStep
-                          ? "bg-slate-900 text-white cursor-pointer"
+                          ? "bg-[var(--accent-global)] text-white cursor-pointer animate-pulse"
                           : s === calcStep
-                          ? "bg-black text-white ring-4 ring-black/15 scale-110"
+                          ? "bg-[var(--accent-global)] text-white ring-4 ring-[var(--accent-global)]/20 scale-110"
                           : "bg-slate-100 text-slate-400 cursor-default"
                       }`}
                     >
@@ -475,7 +492,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                     </button>
                     {s < 4 && (
                       <div className="flex-1 h-[2px] mx-2 rounded-full overflow-hidden bg-slate-100">
-                        <div className={`h-full bg-black rounded-full transition-all duration-500 ${calcStep > s ? "w-full" : "w-0"}`} />
+                        <div className={`h-full bg-[var(--accent-global)] rounded-full transition-all duration-500 ${calcStep > s ? "w-full" : "w-0"}`} />
                       </div>
                     )}
                   </div>
@@ -486,7 +503,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               <div className="grid grid-cols-4 text-center mb-8 -mt-5">
                 {["Project Type","Engagement","Pages","Add-ons"].map((lbl, i) => (
                   <span key={i} className={`text-[9px] font-extrabold uppercase tracking-widest transition-colors duration-200 ${
-                    i + 1 === calcStep ? "text-black" : i + 1 < calcStep ? "text-slate-500" : "text-slate-300"
+                    i + 1 === calcStep ? "text-[var(--accent-global)] font-black" : i + 1 < calcStep ? "text-slate-500" : "text-slate-300"
                   }`}>{lbl}</span>
                 ))}
               </div>
@@ -513,16 +530,17 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           onClick={() => { setProjectType(t.id as any); setTimeout(() => setCalcStep(2), 320); }}
                           className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 group ${
                             sel
-                              ? "border-black bg-black text-white shadow-lg"
+                              ? "text-slate-900 shadow-md"
                               : "border-slate-200 bg-white hover:border-slate-400 hover:shadow-md"
                           }`}
+                          style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
                           <div className="flex items-start gap-3">
                             <span className="text-xl mt-0.5">{t.icon}</span>
                             <div>
-                              <p className={`text-sm font-extrabold tracking-tight ${sel ? "text-white" : "text-slate-800"}`}>{t.label}</p>
-                              <p className={`text-[11px] mt-0.5 ${sel ? "text-white/70" : "text-slate-400"}`}>{t.desc}</p>
-                              <p className={`text-xs font-black font-mono mt-1.5 ${sel ? "text-yellow-300" : "text-indigo-600"}`}>from ₹{t.base.toLocaleString("en-IN")}</p>
+                              <p className={`text-sm font-extrabold tracking-tight ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{t.label}</p>
+                              <p className={`text-[11px] mt-0.5 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{t.desc}</p>
+                              <p className="text-xs font-black font-mono mt-1.5 text-[var(--accent-global)]">from ₹{t.base.toLocaleString("en-IN")}</p>
                             </div>
                           </div>
                         </button>
@@ -551,12 +569,16 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           type="button"
                           onClick={() => { setBillingModel(opt.id as any); setTimeout(() => setCalcStep(3), 320); }}
                           className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 ${
-                            sel ? "border-black bg-black text-white shadow-lg" : "border-slate-200 bg-white hover:border-slate-400 hover:shadow-md"
+                            sel ? "text-slate-900 shadow-md" : "border-slate-200 bg-white hover:border-slate-400 hover:shadow-md"
                           }`}
+                          style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "bg-white/20 text-white border-white/20" : opt.tagColor}`}>{opt.tag}</span>
-                          <p className={`text-sm font-extrabold ${sel ? "text-white" : "text-slate-800"}`}>{opt.label}</p>
-                          <p className={`text-[11px] mt-1 ${sel ? "text-white/65" : "text-slate-400"}`}>{opt.desc}</p>
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                                style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
+                                className={sel ? "" : opt.tagColor}
+                          >{opt.tag}</span>
+                          <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
+                          <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>
                         </button>
                       );
                     })}
@@ -587,14 +609,14 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                       {[1,5,10,15,20,25].map(v => <span key={v} className={pageCount >= v ? "text-slate-700" : ""}>{v}</span>)}
                     </div>
                     {pageCount > 1 && (
-                      <p className="mt-3 text-xs font-semibold text-indigo-600">+ ₹{((pageCount - 1) * 8000).toLocaleString("en-IN")} for {pageCount - 1} extra {pageCount - 1 === 1 ? "page" : "pages"}</p>
+                      <p className="mt-3 text-xs font-semibold text-[var(--accent-global)]">+ ₹{((pageCount - 1) * 8000).toLocaleString("en-IN")} for {pageCount - 1} extra {pageCount - 1 === 1 ? "page" : "pages"}</p>
                     )}
                   </div>
                   <div className="flex justify-between items-center">
                     <button onClick={() => setCalcStep(2)} className="text-xs text-slate-400 hover:text-slate-600 font-semibold transition-colors">← Back</button>
                     <button
                       onClick={() => setCalcStep(4)}
-                      className="px-6 py-2.5 rounded-xl bg-black text-white text-xs font-extrabold uppercase tracking-widest hover:bg-slate-800 transition-all duration-200 shadow-md hover:-translate-y-0.5"
+                      className="px-6 py-2.5 rounded-xl bg-[var(--accent-global)] text-white text-xs font-extrabold uppercase tracking-widest hover:bg-[var(--accent-global-hover)] transition-all duration-200 shadow-md hover:-translate-y-0.5 cursor-pointer"
                     >
                       Next →
                     </button>
@@ -633,21 +655,28 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           type="button"
                           onClick={() => toggle(!on)}
                           className={`w-full text-left flex items-center gap-3 py-3 px-4 rounded-2xl border-2 transition-all duration-200 ${
-                            on ? "border-black bg-black" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
+                            on ? "text-slate-900 shadow-md" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
                           }`}
+                          style={on ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
                           {/* Toggle Knob */}
-                          <div className={`flex-shrink-0 w-9 h-5 rounded-full relative transition-all duration-300 ${on ? "bg-white/25" : "bg-slate-100"}`}>
-                            <div className={`w-4 h-4 rounded-full absolute top-0.5 transition-all duration-300 shadow ${on ? "bg-white translate-x-4" : "bg-slate-400 translate-x-0.5"}`} />
+                          <div 
+                            className={`flex-shrink-0 w-9 h-5 rounded-full relative transition-all duration-300 ${on ? "" : "bg-slate-100"}`}
+                            style={on ? { backgroundColor: "rgba(var(--accent-global-rgb), 0.3)" } : {}}
+                          >
+                            <div 
+                              className={`w-4 h-4 rounded-full absolute top-0.5 transition-all duration-300 shadow ${on ? "translate-x-4" : "bg-slate-400 translate-x-0.5"}`}
+                              style={on ? { backgroundColor: "var(--accent-global)" } : {}}
+                            />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className={`text-xs font-extrabold ${on ? "text-white" : "text-slate-800"}`}>{svc.label}</span>
+                              <span className={`text-xs font-extrabold ${on ? "text-slate-950 font-black" : "text-slate-800"}`}>{svc.label}</span>
                               {!on && <span className={`text-[7px] font-black uppercase px-1.5 py-0.5 rounded-full border ${svc.bc}`}>{svc.badge}</span>}
                             </div>
-                            <p className={`text-[10px] mt-0.5 truncate ${on ? "text-white/55" : "text-slate-400"}`}>{svc.sub}</p>
+                            <p className={`text-[10px] mt-0.5 truncate ${on ? "text-slate-650 font-medium" : "text-slate-400"}`}>{svc.sub}</p>
                           </div>
-                          <span className={`text-[10px] font-black font-mono flex-shrink-0 ${on ? "text-yellow-300" : "text-slate-500"}`}>+₹{svc.price.toLocaleString("en-IN")}</span>
+                          <span className="text-[10px] font-black font-mono flex-shrink-0 text-[var(--accent-global)]">+₹{svc.price.toLocaleString("en-IN")}</span>
                         </button>
                       );
                     })}
@@ -660,19 +689,37 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               {calcStep > 1 && (
                 <div className="flex flex-wrap gap-2 mt-6 pt-5 border-t border-slate-100">
                   {projectType && (
-                    <button onClick={() => setCalcStep(1)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-bold hover:bg-slate-700 transition-colors">
+                    <button 
+                      onClick={() => setCalcStep(1)} 
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-global-dim)] text-[var(--accent-global)] border text-[10px] font-bold transition-all cursor-pointer"
+                      style={{ borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
+                    >
                       {projectType === "landing" ? "Landing Page" : projectType === "portal" ? "Web App" : projectType === "ecommerce" ? "E-Commerce" : "SaaS Platform"}
                       <span className="opacity-50 text-[8px]">✎</span>
                     </button>
                   )}
                   {calcStep > 2 && (
-                    <button onClick={() => setCalcStep(2)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-bold hover:bg-slate-700 transition-colors">
+                    <button 
+                      onClick={() => setCalcStep(2)} 
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-global-dim)] text-[var(--accent-global)] border text-[10px] font-bold transition-all cursor-pointer"
+                      style={{ borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
+                    >
                       {billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
                       <span className="opacity-50 text-[8px]">✎</span>
                     </button>
                   )}
                   {calcStep > 3 && (
-                    <button onClick={() => setCalcStep(3)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-bold hover:bg-slate-700 transition-colors">
+                    <button 
+                      onClick={() => setCalcStep(3)} 
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-global-dim)] text-[var(--accent-global)] border text-[10px] font-bold transition-all cursor-pointer"
+                      style={{ borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
+                    >
                       {pageCount} {pageCount === 1 ? "page" : "pages"}
                       <span className="opacity-50 text-[8px]">✎</span>
                     </button>
@@ -684,22 +731,22 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
             {/* ═══ RIGHT SUMMARY ═══ */}
             <div
-              className="md:col-span-4 flex flex-col justify-between p-6 sm:p-8 relative"
-              style={{background:"#FACC15", fontFamily:"'Inter',sans-serif"}}
+              className="md:col-span-4 flex flex-col justify-between p-6 sm:p-8 relative text-white"
+              style={{background:"var(--accent-global)", fontFamily:"'Inter',sans-serif"}}
             >
               <div className="space-y-4">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-black/50 mb-0.5">Your Estimate</p>
-                  <h3 className="text-lg font-black text-black font-sora">Summary</h3>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-0.5">Your Estimate</p>
+                  <h3 className="text-lg font-black text-white font-sora">Summary</h3>
                 </div>
 
-                <div className="space-y-2 text-[12px] font-semibold text-black/80">
+                <div className="space-y-2 text-[12px] font-semibold text-white/90">
                   {projectType ? (
                     <div className="flex justify-between">
                       <span>{projectType === "landing" ? "Landing Page" : projectType === "portal" ? "Web App" : projectType === "ecommerce" ? "E-Commerce" : "SaaS Platform"}</span>
-                      <span className="font-black text-black font-mono">Base</span>
+                      <span className="font-black text-white font-mono">Base</span>
                     </div>
-                  ) : <p className="text-[11px] text-black/40 italic">Select a project type to begin…</p>}
+                  ) : <p className="text-[11px] text-white/50 italic">Select a project type to begin…</p>}
                   {pageCount > 1 && <div className="flex justify-between"><span>+ {pageCount} pages</span><span className="font-black font-mono">₹{((pageCount-1)*8000).toLocaleString("en-IN")}</span></div>}
                   {hasAuth     && <div className="flex justify-between"><span>+ Auth & Login</span><span className="font-black font-mono">₹40,000</span></div>}
                   {hasPayments && <div className="flex justify-between"><span>+ Payment Gateway</span><span className="font-black font-mono">₹50,000</span></div>}
@@ -707,49 +754,49 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                   {hasDatabase && <div className="flex justify-between"><span>+ Database Setup</span><span className="font-black font-mono">₹45,000</span></div>}
                   {hasPwa      && <div className="flex justify-between"><span>+ PWA / Mobile</span><span className="font-black font-mono">₹30,000</span></div>}
                   {billingModel === "retainer" && (
-                    <div className="flex justify-between text-emerald-900"><span>Retainer discount</span><span className="font-black font-mono">–10%</span></div>
+                    <div className="flex justify-between text-white/80"><span>Retainer discount</span><span className="font-black font-mono">–10%</span></div>
                   )}
                 </div>
 
-                <div className="h-px bg-black/20" />
+                <div className="h-px bg-white/20" />
 
                 {/* Promo */}
-                <div className="rounded-xl border border-black/20 bg-black/8 px-3.5 py-2.5">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-black/50 mb-0.5">Promo Code</p>
+                <div className="rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-white/60 mb-0.5">Promo Code</p>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-black text-black">NEXTGEN10</span>
-                    <span className="text-[8px] font-black text-emerald-900 bg-white/50 px-2 py-0.5 rounded-full border border-black/10">10% OFF</span>
+                    <span className="text-sm font-black text-white">NEXTGEN10</span>
+                    <span className="text-[8px] font-black text-white bg-white/20 px-2 py-0.5 rounded-full border border-white/10">10% OFF</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-4 mt-6 md:mt-0">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-black/50">Total Estimate</p>
-                  <div className="text-3xl sm:text-4xl font-black text-black mt-0.5 font-sora tracking-tight">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/60">Total Estimate</p>
+                  <div className="text-3xl sm:text-4xl font-black text-white mt-0.5 font-sora tracking-tight">
                     ₹{estimatedCost.toLocaleString("en-IN")}
                   </div>
                   {billingModel === "retainer" && (
-                    <p className="text-[10px] font-bold text-emerald-900 mt-0.5">Retainer discount applied</p>
+                    <p className="text-[10px] font-bold text-white/80 mt-0.5">Retainer discount applied</p>
                   )}
                 </div>
 
                 <div className="flex items-start gap-2">
-                  <input type="checkbox" id="terms_agree2" defaultChecked className="mt-0.5 w-4 h-4 rounded cursor-pointer" style={{accentColor:"#000"}} />
-                  <label htmlFor="terms_agree2" className="text-[10px] leading-snug text-black/65 cursor-pointer font-medium">
-                    I agree to the <span className="underline font-bold text-black">Terms of Service</span>.
+                  <input type="checkbox" id="terms_agree2" defaultChecked className="mt-0.5 w-4 h-4 rounded cursor-pointer" style={{accentColor:"var(--accent-global)"}} />
+                  <label htmlFor="terms_agree2" className="text-[10px] leading-snug text-white/85 cursor-pointer font-medium">
+                    I agree to the <span className="underline font-bold text-white">Terms of Service</span>.
                   </label>
                 </div>
 
                 <button
                   onClick={handleApplyEstimate}
-                  className="w-full bg-black text-white font-extrabold text-[11px] uppercase tracking-widest py-3.5 rounded-xl shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                  className="w-full bg-white text-slate-900 font-extrabold text-[11px] uppercase tracking-widest py-3.5 rounded-xl shadow-lg hover:bg-slate-50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer"
                   style={{fontFamily:"'Inter',sans-serif"}}
                 >
                   Book Free Consultation
                 </button>
 
-                <p className="text-[9px] text-black/45 text-center font-medium">
+                <p className="text-[9px] text-white/60 text-center font-medium">
                   No payment now. Free 30-min strategy call.
                 </p>
               </div>
@@ -766,7 +813,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
       {/* ── 6. Premium FAQ Section (dark background) ── */}
       <section className="relative w-full overflow-hidden py-24 sm:py-32 border-b border-white/[0.06]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(124,58,237,0.05),transparent)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(var(--accent-global-rgb),0.05),transparent)] pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
 
           {/* Header row */}
@@ -783,9 +830,9 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               <span
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-5"
                 style={{
-                  background: "var(--accent-global-dim, rgba(124,58,237,0.10))",
-                  color: "var(--accent-global, #7c3aed)",
-                  border: "1px solid color-mix(in srgb, var(--accent-global, #7c3aed) 25%, transparent)",
+                  background: "var(--accent-global-dim)",
+                  color: "var(--accent-global)",
+                  border: "1px solid rgba(var(--accent-global-rgb), 0.25)",
                 }}
               >
                 FAQs
@@ -795,7 +842,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                 style={{ fontFamily: "'Sora', sans-serif" }}
               >
                 Everything you want to{" "}
-                <span style={{ color: "var(--accent-global, #7c3aed)" }}>know</span>
+                <span style={{ color: "var(--accent-global)" }}>know</span>
               </h2>
               <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Can't find the answer you're looking for? Reach out to our engineering team directly.
@@ -804,8 +851,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                 href="#contact-project-form"
                 className="inline-flex items-center gap-2 text-sm font-bold rounded-xl px-6 py-3 text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
                 style={{
-                  background: "var(--accent-global, #7c3aed)",
-                  boxShadow: "0 4px 14px color-mix(in srgb, var(--accent-global, #7c3aed) 35%, transparent)",
+                  background: "var(--accent-global)",
+                  boxShadow: "0 4px 14px rgba(var(--accent-global-rgb), 0.35)",
                   fontFamily: "'Inter', sans-serif",
                 }}
               >
@@ -831,10 +878,10 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                     key={idx}
                     className="rounded-[22px] border overflow-hidden transition-all duration-300"
                     style={{
-                      background: isOpen ? "rgba(124,58,237,0.08)" : "rgba(255,255,255,0.04)",
-                      borderColor: isOpen ? "var(--accent-global, #7c3aed)" : "rgba(255,255,255,0.08)",
+                      background: isOpen ? "var(--accent-global-dim)" : "rgba(255,255,255,0.04)",
+                      borderColor: isOpen ? "var(--accent-global)" : "rgba(255,255,255,0.08)",
                       boxShadow: isOpen
-                        ? "0 8px 30px rgba(124,58,237,0.15)"
+                        ? "0 8px 30px rgba(var(--accent-global-rgb), 0.15)"
                         : "0 2px 12px rgba(0,0,0,0.12)",
                     }}
                   >
@@ -849,9 +896,9 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 transition-all duration-300"
                           style={{
                             background: isOpen
-                              ? "var(--accent-global, #7c3aed)"
-                              : "var(--accent-global-dim, rgba(124,58,237,0.08))",
-                            color: isOpen ? "#fff" : "var(--accent-global, #7c3aed)",
+                              ? "var(--accent-global)"
+                              : "var(--accent-global-dim)",
+                            color: isOpen ? "#fff" : "var(--accent-global)",
                             fontFamily: "'Sora', sans-serif",
                           }}
                         >
@@ -868,7 +915,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                         className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
                         style={{
                           background: isOpen
-                            ? "var(--accent-global, #7c3aed)"
+                            ? "var(--accent-global)"
                             : "rgb(241 245 249)",
                           color: isOpen ? "#fff" : "#94a3b8",
                           transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
@@ -923,9 +970,9 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
             <span
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-5"
               style={{
-                background: "var(--accent-global-dim, rgba(124,58,237,0.10))",
-                color: "var(--accent-global, #7c3aed)",
-                border: "1px solid color-mix(in srgb, var(--accent-global, #7c3aed) 25%, transparent)",
+                background: "var(--accent-global-dim)",
+                color: "var(--accent-global)",
+                border: "1px solid rgba(var(--accent-global-rgb), 0.25)",
               }}
             >
               Pricing & Budgets
@@ -935,7 +982,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               style={{ fontFamily: "'Sora', sans-serif" }}
             >
               Simple,{" "}
-              <span style={{ color: "var(--accent-global, #7c3aed)" }}>Transparent</span>{" "}
+              <span style={{ color: "var(--accent-global)" }}>Transparent</span>{" "}
               Pricing
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -956,18 +1003,18 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                   transition={{ duration: 0.55, delay: idx * 0.1 }}
                   className={`relative rounded-[28px] p-8 flex flex-col border transition-all duration-300 hover:-translate-y-1 ${
                     isPopular
-                      ? "border-[var(--accent-global,#7c3aed)] bg-[var(--accent-global,#7c3aed)]"
+                      ? "border-[var(--accent-global)] bg-[var(--accent-global)]"
                       : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg"
                   }`}
                   style={{
                     boxShadow: isPopular
-                      ? "0 24px 60px color-mix(in srgb, var(--accent-global, #7c3aed) 25%, transparent)"
+                      ? "0 24px 60px rgba(var(--accent-global-rgb), 0.25)"
                       : "0 4px 20px rgba(0,0,0,0.05)",
                   }}
                 >
                   {isPopular && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                      <span className="inline-flex items-center gap-1 px-3.5 py-1 rounded-full bg-white text-[10px] font-black uppercase tracking-widest shadow-md" style={{ color: "var(--accent-global, #7c3aed)" }}>
+                      <span className="inline-flex items-center gap-1 px-3.5 py-1 rounded-full bg-white text-[10px] font-black uppercase tracking-widest shadow-md" style={{ color: "var(--accent-global)" }}>
                         ★ Most Popular
                       </span>
                     </div>
@@ -1001,12 +1048,12 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                       <div key={feat} className="flex items-center gap-2.5">
                         <div
                           className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
-                            isPopular ? "bg-white/20" : "bg-[var(--accent-global-dim,rgba(124,58,237,0.08))]"
+                            isPopular ? "bg-white/20" : "bg-[var(--accent-global-dim)]"
                           }`}
                         >
                           <Check
                             className="w-3 h-3 stroke-[2.5]"
-                            style={{ color: isPopular ? "#fff" : "var(--accent-global, #7c3aed)" }}
+                            style={{ color: isPopular ? "#fff" : "var(--accent-global)" }}
                           />
                         </div>
                         <span
@@ -1021,11 +1068,11 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
                   <button
                     type="button"
-                    onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: tier.tier, serviceType: service.title })}
+                    onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: tier.tier, serviceType: service.title, accentColor: service.accent })}
                     className={`w-full h-12 rounded-xl font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer ${
                       isPopular
-                        ? "bg-white text-[var(--accent-global,#7c3aed)] hover:bg-slate-50"
-                        : "border-2 border-slate-200 text-slate-800 hover:border-[var(--accent-global,#7c3aed)] hover:text-[var(--accent-global,#7c3aed)]"
+                        ? "bg-white text-[var(--accent-global)] hover:bg-slate-50"
+                        : "border-2 border-slate-200 text-slate-800 hover:border-[var(--accent-global)] hover:text-[var(--accent-global)]"
                     }`}
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
@@ -1098,11 +1145,11 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                     {tier.features[rowIdx] ? (
                       <div
                         className="w-6 h-6 rounded-full flex items-center justify-center"
-                        style={{ background: "var(--accent-global-dim, rgba(124,58,237,0.10))" }}
+                        style={{ background: "var(--accent-global-dim)" }}
                       >
                         <Check
                           className="w-3.5 h-3.5 stroke-[2.5]"
-                          style={{ color: "var(--accent-global, #7c3aed)" }}
+                          style={{ color: "var(--accent-global)" }}
                         />
                       </div>
                     ) : (
@@ -1129,7 +1176,10 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
           
           {/* Header aligned center */}
           <div className="text-center mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-[var(--accent-global)] bg-[var(--accent-global-dim)] border border-[var(--accent-global)]/20 mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <span 
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-[var(--accent-global)] bg-[var(--accent-global-dim)] border mb-3" 
+              style={{ fontFamily: "'Inter', sans-serif", borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
+            >
               Start Project
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sora text-white leading-tight mb-4">
@@ -1147,7 +1197,10 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               <div className="p-8 sm:p-10">
                 {sent ? (
                   <div className="text-center py-12">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-purple-500/10 border border-purple-500/20 text-[var(--accent-global)]">
+                    <div 
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 border text-[var(--accent-global)]"
+                      style={{ backgroundColor: "rgba(var(--accent-global-rgb), 0.1)", borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
+                    >
                       <Check className="w-6 h-6" />
                     </div>
                     <h3 className="text-slate-900 font-bold text-lg mb-2 font-sora">Project Request Sent!</h3>
@@ -1187,7 +1240,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           type="text" required value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
                           placeholder="Aryan Roy"
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
                       </div>
                       <div>
@@ -1196,7 +1250,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           type="email" required value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
                           placeholder="aryan@organization.com"
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
                       </div>
                     </div>
@@ -1208,7 +1263,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                           type="tel" required value={form.phone}
                           onChange={(e) => setForm({ ...form, phone: e.target.value })}
                           placeholder="+91 9031806381"
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
                       </div>
                       <div>
@@ -1216,7 +1272,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                         <select
                           value={form.budget}
                           onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200 cursor-pointer"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200 cursor-pointer"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         >
                           <option value="">Select range</option>
                           <option value="startup">Startup Tier (Under ₹4 Lakhs)</option>
@@ -1232,7 +1289,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                         required rows={4} value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         placeholder="Tell us about your web development project requirements, target goals, and expected delivery timeline..."
-                        className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none resize-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200 leading-relaxed"
+                        className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none resize-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200 leading-relaxed"
+                        style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                       />
                     </div>
 
@@ -1240,7 +1298,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                       type="submit"
                       disabled={sending}
                       className="w-full h-12 disabled:opacity-60 text-white font-bold text-sm flex items-center justify-center gap-2 rounded-full transition-all duration-300 cursor-pointer shadow-lg"
-                      style={{ background: "var(--accent-global, #7c3aed)", boxShadow: "0 6px 20px color-mix(in srgb, var(--accent-global, #7c3aed) 35%, transparent)" }}
+                      style={{ background: "var(--accent-global, #7c3aed)", boxShadow: "0 6px 20px rgba(var(--accent-global-rgb), 0.35)" }}
                     >
                       {sending ? "Submitting..." : "Send Message"}
                     </button>
@@ -1257,7 +1315,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                 { icon: MapPin, label: "Location",  value: COMPANY.location, href: "#" },
               ].map(({ icon: Icon, label, value, href }) => (
                 <a key={label} href={href} className="flex items-center gap-4 bg-slate-900 border border-white/[0.07] hover:border-[var(--accent-global)]/40 rounded-2xl p-5 transition-all duration-200 group hover:bg-slate-800/80">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[var(--accent-global-dim)] border border-[var(--accent-global)]/30 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[var(--accent-global-dim)] border border-[var(--accent-global)]/30 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg">
                     <Icon className="w-5 h-5 text-[var(--accent-global)]" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -1402,8 +1460,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: "15% Promo Discount Blueprint", serviceType: service.title })}
-              className="bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-[10px] sm:text-xs px-4 sm:px-5 py-2 rounded-full flex items-center gap-1.5 transition-all shadow-md shadow-purple-500/10 cursor-pointer"
+              onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: "15% Promo Discount Blueprint", serviceType: service.title, accentColor: service.accent })}
+              className="bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-[10px] sm:text-xs px-4 sm:px-5 py-2 rounded-full flex items-center gap-1.5 transition-all shadow-md shadow-[0_4px_12px_rgba(var(--accent-global-rgb),0.15)] cursor-pointer"
             >
               Claim 15% Discount <ArrowRight className="w-3.5 h-3.5" />
             </button>

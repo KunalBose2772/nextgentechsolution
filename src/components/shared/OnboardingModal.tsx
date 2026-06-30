@@ -12,6 +12,7 @@ export interface OnboardingTriggerOptions {
   type: "package" | "quote" | "general";
   preselectedPackage?: string;
   serviceType?: string;
+  accentColor?: string;
   customQuoteDetails?: {
     cost: number;
     projectType: string;
@@ -19,6 +20,15 @@ export interface OnboardingTriggerOptions {
     pageCount: number;
     features: string[];
   };
+}
+
+// Helper to convert hex to RGB
+function hexToRgb(hex: string): string {
+  const cleanHex = hex.replace("#", "");
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  return isNaN(r) || isNaN(g) || isNaN(b) ? "124, 58, 237" : `${r}, ${g}, ${b}`;
 }
 
 // Trigger helper
@@ -31,6 +41,7 @@ export function triggerOnboardingModal(options: OnboardingTriggerOptions) {
 export default function OnboardingModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(0); 
+  const [accentColor, setAccentColor] = useState("");
   
   // Dynamic settings from trigger
   const [flowType, setFlowType] = useState<"package" | "quote" | "general">("general");
@@ -70,6 +81,7 @@ export default function OnboardingModal() {
       setPreselectedPackage(detail.preselectedPackage || "");
       setServiceType(detail.serviceType || "");
       setQuoteDetails(detail.customQuoteDetails || null);
+      setAccentColor(detail.accentColor || "");
       
       // Auto-prefill budget and default messages based on type
       let defaultBudget = "";
@@ -233,6 +245,12 @@ export default function OnboardingModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 15 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
+            style={accentColor ? {
+              ["--accent-global" as any]: accentColor,
+              ["--accent-global-hover" as any]: `${accentColor}dd`,
+              ["--accent-global-dim" as any]: `rgba(${hexToRgb(accentColor)}, 0.08)`,
+              ["--accent-global-rgb" as any]: hexToRgb(accentColor),
+            } : undefined}
             className="bg-white text-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl relative z-10 overflow-hidden min-h-[500px] flex flex-col md:flex-row border border-slate-100"
           >
             

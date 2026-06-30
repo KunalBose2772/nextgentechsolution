@@ -307,7 +307,7 @@ export default function Hero() {
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
                   <button
-                    onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: `${slide.label} Custom Package`, serviceType: slide.label })}
+                    onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: `${slide.label} Custom Package`, serviceType: slide.label, accentColor: slide.accent })}
                     className="group inline-flex items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-[13px] font-semibold text-white rounded-full transition-all duration-300 flex-1 sm:flex-initial px-3 sm:px-[22px] py-2.5 sm:py-[12px] shrink-0 whitespace-nowrap cursor-pointer"
                     style={{
                       background: slide.accent,
@@ -449,7 +449,7 @@ export default function Hero() {
                         </div>
                       </div>
                       <button
-                        onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: `${slide.label} Spotlight Custom Plan`, serviceType: slide.label })}
+                        onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: `${slide.label} Spotlight Custom Plan`, serviceType: slide.label, accentColor: slide.accent })}
                         className="inline-flex items-center gap-1.5 text-[11px] font-bold rounded-full px-4 py-2 transition-all duration-200 hover:opacity-90 shadow-sm cursor-pointer"
                         style={{
                           background: slide.accent,

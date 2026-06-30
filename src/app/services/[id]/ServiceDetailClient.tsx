@@ -15,6 +15,15 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import React from "react";
 import { triggerOnboardingModal } from "@/components/shared/OnboardingModal";
 
+// Helper to convert hex to RGB
+function hexToRgb(hex: string): string {
+  const cleanHex = hex.replace("#", "");
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  return isNaN(r) || isNaN(g) || isNaN(b) ? "124, 58, 237" : `${r}, ${g}, ${b}`;
+}
+
 // Interactive 3D Card wrapper for Pricing and Key sections
 function Interactive3DCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const x = useMotionValue(0);
@@ -115,8 +124,16 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
     }
   };
 
+  const rgb = hexToRgb(service.accent);
+  const customStyles = {
+    "--accent-global": service.accent,
+    "--accent-global-hover": `${service.accent}dd`,
+    "--accent-global-dim": `rgba(${rgb}, 0.08)`,
+    "--accent-global-rgb": rgb,
+  } as React.CSSProperties;
+
   return (
-    <div className="bg-[#fafbfc] min-h-screen text-slate-800 overflow-hidden">
+    <div className="bg-[#fafbfc] min-h-screen text-slate-800 overflow-hidden" style={customStyles}>
 
       {/* Smooth Page Hero Entrance */}
       <motion.div
@@ -202,7 +219,7 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                 key={tier.tier}
                 className={`rounded-3xl p-8 border ${
                   idx === 1 
-                    ? "border-[var(--accent-global)] bg-purple-50/5 shadow-[0_15px_40px_rgba(124,58,237,0.04)]" 
+                    ? "border-[var(--accent-global)] bg-[var(--accent-global-dim)] shadow-[0_15px_40px_rgba(var(--accent-global-rgb),0.06)]" 
                     : "bg-white border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.02)]"
                 }`}
               >
@@ -211,7 +228,7 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                     <span className="text-slate-900 font-extrabold text-sm font-sora">{tier.tier}</span>
                     {idx === 1 && (
                       <span 
-                        className="text-[9px] font-bold px-2.5 py-1 rounded-full uppercase text-white bg-[var(--accent-global)] shadow-md shadow-purple-500/20"
+                        className="text-[9px] font-bold px-2.5 py-1 rounded-full uppercase text-white bg-[var(--accent-global)] shadow-md shadow-[0_4px_12px_rgba(var(--accent-global-rgb),0.25)]"
                       >
                         Popular Choice
                       </span>
@@ -232,10 +249,10 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
 
                 <button
                   type="button"
-                  onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: tier.tier, serviceType: service.title })}
+                  onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: tier.tier, serviceType: service.title, accentColor: service.accent })}
                   className={`w-full h-11 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all duration-300 mt-4 cursor-pointer ${
                     idx === 1
-                      ? "bg-[var(--accent-global)] text-white hover:bg-[var(--accent-global-hover)] shadow-md shadow-purple-500/10 hover:shadow-purple-500/20"
+                      ? "bg-[var(--accent-global)] text-white hover:bg-[var(--accent-global-hover)] shadow-md shadow-[0_4px_12px_rgba(var(--accent-global-rgb),0.2)] hover:shadow-[0_6px_18px_rgba(var(--accent-global-rgb),0.35)]"
                       : "text-slate-800 border border-slate-200 bg-slate-50 hover:bg-slate-100"
                   }`}
                 >
@@ -276,7 +293,10 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
               <div className="p-8 sm:p-10">
                 {sent ? (
                   <div className="text-center py-12">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-purple-500/10 border border-purple-500/20 text-[var(--accent-global)]">
+                    <div 
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 border text-[var(--accent-global)]"
+                      style={{ backgroundColor: "rgba(var(--accent-global-rgb), 0.1)", borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
+                    >
                       <Check className="w-6 h-6" />
                     </div>
                     <h3 className="text-slate-900 font-bold text-lg mb-2 font-sora">Project Request Sent!</h3>
@@ -316,7 +336,8 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                           type="text" required value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
                           placeholder="Aryan Roy"
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
                       </div>
                       <div>
@@ -325,7 +346,8 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                           type="email" required value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
                           placeholder="aryan@organization.com"
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
                       </div>
                     </div>
@@ -337,7 +359,8 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                           type="tel" required value={form.phone}
                           onChange={(e) => setForm({ ...form, phone: e.target.value })}
                           placeholder="+91 9031806381"
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
                       </div>
                       <div>
@@ -345,7 +368,8 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                         <select
                           value={form.budget}
                           onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200 cursor-pointer"
+                          className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200 cursor-pointer"
+                          style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         >
                           <option value="">Select range</option>
                           <option value="startup">Startup Tier (Under ₹4 Lakhs)</option>
@@ -361,7 +385,8 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                         required rows={4} value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         placeholder={`Tell us about your ${service.title} project requirements, target goals, and expected delivery timeline...`}
-                        className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none resize-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 focus:ring-[var(--accent-global)]/20 transition-all duration-200 leading-relaxed"
+                        className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none resize-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200 leading-relaxed"
+                        style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                       />
                     </div>
 
@@ -369,7 +394,7 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                       type="submit"
                       disabled={sending}
                       className="w-full h-12 disabled:opacity-60 text-white font-bold text-sm flex items-center justify-center gap-2 rounded-full transition-all duration-300 cursor-pointer shadow-lg"
-                      style={{ background: "var(--accent-global, #7c3aed)", boxShadow: "0 6px 20px color-mix(in srgb, var(--accent-global, #7c3aed) 35%, transparent)" }}
+                      style={{ background: "var(--accent-global, #7c3aed)", boxShadow: "0 6px 20px rgba(var(--accent-global-rgb), 0.35)" }}
                     >
                       {sending ? "Submitting..." : "Send Message"}
                     </button>
@@ -386,7 +411,7 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
                 { icon: MapPin, label: "Location",  value: COMPANY.location, href: "#" },
               ].map(({ icon: Icon, label, value, href }) => (
                 <a key={label} href={href} className="flex items-center gap-4 bg-slate-900 border border-white/[0.07] hover:border-[var(--accent-global)]/40 rounded-2xl p-5 transition-all duration-200 group hover:bg-slate-800/80">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[var(--accent-global-dim)] border border-[var(--accent-global)]/30 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[var(--accent-global-dim)] border border-[var(--accent-global)]/30 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg">
                     <Icon className="w-5 h-5 text-[var(--accent-global)]" />
                   </div>
                   <div className="flex-1 min-w-0">

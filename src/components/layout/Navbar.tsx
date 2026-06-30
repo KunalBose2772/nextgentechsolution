@@ -8,7 +8,7 @@ import {
   Code2, Smartphone, Layers, Brain, Cloud, Server,
   ChevronDown, Menu, X, ArrowRight,
   MessageSquare, FileText, Search, Share2, Users, Shield, Video, PenTool, Target, Layout,
-  Phone, Mail, MapPin
+  Phone, Mail, MapPin, Sparkles
 } from "lucide-react";
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa";
 import { cn } from "@/lib/utils";
@@ -408,63 +408,53 @@ export default function Navbar() {
                             </Link>
                           </span>
                         </div>
-                      </div>
-
-                      {/* Right Pane - Feature Promo Banner */}
+                      </div>                      {/* Right Pane - Feature Promo Banner */}
                       <div className="pl-8 border-l border-slate-100 flex flex-col justify-center">
-                        {/* Pastel background banner card - Horizontal Layout */}
-                        <div className="flex p-6 rounded-[24px] bg-[#F4F5FA] border border-slate-200/40 relative overflow-hidden group/banner h-full min-h-[260px]">
-                          {/* Decorative background shapes */}
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-200/10 rounded-full blur-2xl -mr-10 -mt-10" />
-                          <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-200/10 rounded-full blur-xl -ml-8 -mb-8" />
+                        {/* Vertical Custom Showcase Card */}
+                        <div className="flex flex-col justify-between p-6 rounded-[24px] bg-gradient-to-br from-purple-50/70 via-white/80 to-indigo-50/40 border border-purple-100/60 shadow-[0_8px_24px_rgba(124,58,237,0.02)] h-full relative overflow-hidden group/banner">
+                          {/* Decorative soft glowing backdrops */}
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-200/20 rounded-full blur-2xl -mr-8 -mt-8 pointer-events-none" />
 
-                          {/* Left text column */}
-                          <div className="flex-1 flex flex-col justify-between pr-4 relative z-10">
-                            <div>
-                              {/* Header row */}
-                              <div className="flex items-center gap-1.5 mb-1">
-                                {/* Blue Zap icon */}
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  className="w-4 h-4 text-[#3B82F6]"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M14.615 1.595a.75.75 0 0 1 .359.852L12.972 9.75h7.278a.75.75 0 0 1 .68.439.75.75 0 0 1-.096.807l-10.5 11.25a.75.75 0 0 1-1.27-.527l2.003-7.319H3.75a.75.75 0 0 1-.68-.439.75.75 0 0 1 .096-.807l10.5-11.25a.75.75 0 0 1 .949-.071Z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                                <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-widest font-sora">
-                                  Discover more with
-                                </span>
-                              </div>
-
-                              <h3 className="text-2.5xl font-black text-slate-900 leading-tight font-sora tracking-tight">
-                                Premium
-                              </h3>
+                          <div className="relative z-10">
+                            {/* 1. Capsule Badge: Featured Service */}
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-[#7C3AED] bg-purple-100/50 border border-purple-200/30 mb-3">
+                              <Sparkles className="w-3 h-3 text-[#7C3AED] animate-pulse" />
+                              <span>Featured Service</span>
                             </div>
 
-                            {/* Choose plan pill-button */}
-                            <Link
-                              href="/contact"
-                              className="mt-4 flex items-center justify-between px-4.5 py-2.5 rounded-full bg-white border border-slate-200 text-[10.5px] font-bold text-slate-950 hover:bg-slate-50 hover:border-slate-350 shadow-sm transition-all duration-300 group-hover/banner:shadow-md shrink-0 w-full"
-                            >
-                              <span>Choose Premium plan</span>
-                              <ArrowRight className="w-3.5 h-3.5 text-slate-600 transition-transform duration-300 group-hover/banner:translate-x-0.5" />
-                            </Link>
+                            {/* 2. Headline: Premium Digital Solutions */}
+                            <h3 className="text-lg font-black text-slate-900 font-sora leading-tight tracking-tight mb-1">
+                              <span className="text-[#7C3AED]">Premium</span> Digital Solutions
+                            </h3>
+
+                            {/* 3. Description */}
+                            <p className="text-slate-500 text-xs leading-relaxed font-semibold max-w-[280px]">
+                              Powerful, scalable and future-ready solutions tailored for your business growth.
+                            </p>
                           </div>
 
-                          {/* Right illustration column */}
-                          <div className="w-[180px] shrink-0 relative z-10 flex items-center justify-center pl-2">
-                            <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 shadow-md bg-white w-full aspect-[4/3] flex items-center justify-center">
-                              <img
-                                src="/images/mega_menu_banner.png"
-                                alt="NextGen Premium Services"
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover/banner:scale-105"
-                              />
-                            </div>
+                          {/* 4. Laptop Showcase image with purple background blob and shadow */}
+                          <div className="relative w-full aspect-[16/9] -mt-6 -mb-6 flex items-center justify-center z-10">
+                            {/* Glowing Purple background blob */}
+                            <div className="absolute w-28 h-28 bg-[#7C3AED]/20 rounded-full blur-2xl pointer-events-none z-0" />
+                            {/* Soft Purple shadow overlay underneath the laptop */}
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[80%] h-4 bg-purple-500/30 blur-md rounded-full pointer-events-none z-0" />
+                            <img
+                              src="/images/mega_menu_banner.png"
+                              alt="Premium Digital Solutions"
+                              className="object-contain w-full h-full max-h-[110px] transition-transform duration-700 group-hover/banner:scale-105 relative z-10"
+                            />
+                          </div>
+
+                          {/* 5. Pill CTA Button: Explore Services → */}
+                          <div className="relative z-10">
+                            <Link
+                              href="/services"
+                              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-black text-white bg-[#7C3AED] hover:bg-[#6D28D9] shadow-[0_6px_20px_rgba(124,58,237,0.3)] hover:shadow-[0_8px_26px_rgba(124,58,237,0.45)] transition-all duration-300 cursor-pointer"
+                            >
+                              <span>Explore Services</span>
+                              <ArrowRight className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover/banner:translate-x-0.5" />
+                            </Link>
                           </div>
                         </div>
                       </div>

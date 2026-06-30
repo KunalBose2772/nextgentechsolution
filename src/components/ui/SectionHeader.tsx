@@ -36,7 +36,7 @@ export default function SectionHeader({
       )}
 
       <h2
-        className="ng-h2 mb-4"
+        className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight font-sora mb-4"
         style={{ color: isLight ? "#0F172A" : "#ffffff" }}
       >
         {title}{" "}

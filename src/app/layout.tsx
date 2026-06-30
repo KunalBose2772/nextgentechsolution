@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import ThemeToggle from "@/components/ui/ThemeToggle";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import OnboardingModal from "@/components/shared/OnboardingModal";
 import { Toaster } from "react-hot-toast";
 
@@ -227,7 +227,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Navbar />
             <main className="relative">{children}</main>
             <Footer />
-            <ThemeToggle />
+            <ScrollToTop />
             <OnboardingModal />
           </>
         )}
