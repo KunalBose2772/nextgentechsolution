@@ -8,7 +8,8 @@ import {
   Code2, Smartphone, Layers, Brain, Cloud, Server,
   ChevronDown, Menu, X, ArrowRight,
   MessageSquare, FileText, Search, Share2, Users, Shield, Video, PenTool, Target, Layout,
-  Phone, Mail, MapPin, Sparkles
+  Phone, Mail, MapPin, Sparkles,
+  GraduationCap, Activity, MonitorPlay, School, Store, Calculator, Truck, Boxes, ShoppingCart, Briefcase
 } from "lucide-react";
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa";
 import { cn } from "@/lib/utils";
@@ -133,6 +134,21 @@ const servicesMenuLinks = [
   }
 ];
 
+const productsMenuLinks = [
+  { label: "Documents Management", href: "/products/dms", icon: FileText, color: "#3B82F6", bg: "rgba(59, 130, 246, 0.08)" },
+  { label: "Learning Management", href: "/products/lms", icon: GraduationCap, color: "#F59E0B", bg: "rgba(245, 158, 11, 0.08)" },
+  { label: "Hospital Management", href: "/products/hms", icon: Activity, color: "#EF4444", bg: "rgba(239, 68, 68, 0.08)" },
+  { label: "OTT Platforms", href: "/products/ott", icon: MonitorPlay, color: "#8B5CF6", bg: "rgba(139, 92, 246, 0.08)" },
+  { label: "School Management", href: "/products/school-erp", icon: School, color: "#10B981", bg: "rgba(16, 185, 129, 0.08)" },
+  { label: "Marketplace Solutions", href: "/products/marketplace", icon: Store, color: "#F97316", bg: "rgba(249, 115, 22, 0.08)" },
+  { label: "POS (Point of Sale)", href: "/products/pos", icon: Calculator, color: "#0EA5E9", bg: "rgba(14, 165, 233, 0.08)" },
+  { label: "CRM System", href: "/products/crm", icon: Users, color: "#EC4899", bg: "rgba(236, 72, 153, 0.08)" },
+  { label: "Logistics Management", href: "/products/logistics", icon: Truck, color: "#6366F1", bg: "rgba(99, 102, 241, 0.08)" },
+  { label: "Inventory Management", href: "/products/inventory", icon: Boxes, color: "#14B8A6", bg: "rgba(20, 184, 166, 0.08)" },
+  { label: "E-Commerce Solutions", href: "/products/ecommerce", icon: ShoppingCart, color: "#F43F5E", bg: "rgba(244, 63, 94, 0.08)" },
+  { label: "HR Payroll & Roster", href: "/products/hrms", icon: Briefcase, color: "#8B5CF6", bg: "rgba(139, 92, 246, 0.08)" }
+];
+
 // Custom Palette icon wrapper since we imported Lucide icons dynamically
 function Palette(props: any) {
   return (
@@ -157,7 +173,7 @@ const navLinks = [
   { label: "Home",      href: "/" },
   { label: "About",     href: "/about" },
   { label: "Services",  href: "/services", hasMenu: true },
-  { label: "Solutions", href: "/solutions" },
+  { label: "Products",  href: "/products", hasMenu: true },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Blog",      href: "/blog" },
   { label: "Careers",   href: "/careers" },
@@ -165,11 +181,12 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  // Pages with a dark full-screen hero that needs a transparent navbar on load
+  const isHome = pathname === "/" || pathname.startsWith("/products/");
 
   const [scrolled, setScrolled] = useState(!isHome); // inner pages start scrolled
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
+  const [megaOpen, setMegaOpen] = useState<string | null>(null);
   const megaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -188,7 +205,7 @@ export default function Navbar() {
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
     setMobileOpen(false);
-    setMegaOpen(false);
+    setMegaOpen(null);
   }
 
   useEffect(() => {
@@ -196,12 +213,12 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const onMegaEnter = () => {
+  const onMegaEnter = (menuLabel: string) => {
     if (megaTimer.current) clearTimeout(megaTimer.current);
-    setMegaOpen(true);
+    setMegaOpen(menuLabel);
   };
   const onMegaLeave = () => {
-    megaTimer.current = setTimeout(() => setMegaOpen(false), 180);
+    megaTimer.current = setTimeout(() => setMegaOpen(null), 180);
   };
 
   return (
@@ -317,7 +334,7 @@ export default function Navbar() {
                 <div
                   key={link.label}
                   className="flex items-stretch h-full group"
-                  onMouseEnter={onMegaEnter}
+                  onMouseEnter={() => onMegaEnter(link.label)}
                   onMouseLeave={onMegaLeave}
                 >
                   <Link
@@ -338,7 +355,7 @@ export default function Navbar() {
                         scrolled
                           ? (isActive ? "text-[#7C3AED]" : "text-slate-500 group-hover/nav:text-[#7C3AED]")
                           : (isActive ? "text-white" : "text-white/60 group-hover/nav:text-white"),
-                        megaOpen && (scrolled ? "text-[#7C3AED] rotate-180" : "text-white rotate-180")
+                        (megaOpen === link.label) && (scrolled ? "text-[#7C3AED] rotate-180" : "text-white rotate-180")
                       )}
                     />
                     {isActive && (
@@ -353,23 +370,23 @@ export default function Navbar() {
                   <div
                     className={cn(
                       "absolute top-full left-0 right-0 w-full bg-white border-t border-slate-200/85 border-b border-slate-200 rounded-b-[28px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] text-slate-800 transition-all duration-300 ease-in-out origin-top z-50",
-                      megaOpen
+                      (megaOpen === link.label)
                         ? "opacity-100 scale-y-100 pointer-events-auto"
                         : "opacity-0 scale-y-95 pointer-events-none"
                     )}
-                    onMouseEnter={onMegaEnter}
+                    onMouseEnter={() => onMegaEnter(link.label)}
                     onMouseLeave={onMegaLeave}
                     role="menu"
-                    aria-label="Services menu"
+                    aria-label={`${link.label} menu`}
                   >
                     {/* Centered content aligning with the header container */}
                     <div className="max-w-[1400px] mx-auto px-6 py-10 grid grid-cols-[1fr_450px] gap-10">
                       
                       {/* Left Pane - Grid of Services & Helper Link */}
                       <div className="flex flex-col justify-between">
-                        {/* 3-column grid of service cards */}
+                        {/* 3-column grid of service/product cards */}
                         <div className="grid grid-cols-3 gap-4">
-                          {servicesMenuLinks.map((s) => {
+                          {(link.label === "Products" ? productsMenuLinks : servicesMenuLinks).map((s) => {
                             const ItemIcon = s.icon;
                             return (
                               <Link
@@ -424,12 +441,12 @@ export default function Navbar() {
 
                             {/* 2. Headline: Premium Digital Solutions */}
                             <h3 className="text-lg font-black text-slate-900 font-sora leading-tight tracking-tight mb-1">
-                              <span className="text-[#7C3AED]">Premium</span> Digital Solutions
+                              <span className="text-[#7C3AED]">Premium</span> Digital {link.label}
                             </h3>
 
                             {/* 3. Description */}
                             <p className="text-slate-500 text-xs leading-relaxed font-semibold max-w-[280px]">
-                              Powerful, scalable and future-ready solutions tailored for your business growth.
+                              Powerful, scalable and future-ready {link.label.toLowerCase()} tailored for your business growth.
                             </p>
                           </div>
 
@@ -446,13 +463,13 @@ export default function Navbar() {
                             />
                           </div>
 
-                          {/* 5. Pill CTA Button: Explore Services → */}
+                          {/* 5. Pill CTA Button */}
                           <div className="relative z-10">
                             <Link
-                              href="/services"
+                              href={link.href}
                               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-black text-white bg-[#7C3AED] hover:bg-[#6D28D9] shadow-[0_6px_20px_rgba(124,58,237,0.3)] hover:shadow-[0_8px_26px_rgba(124,58,237,0.45)] transition-all duration-300 cursor-pointer"
                             >
-                              <span>Explore Services</span>
+                              <span>Explore {link.label}</span>
                               <ArrowRight className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover/banner:translate-x-0.5" />
                             </Link>
                           </div>

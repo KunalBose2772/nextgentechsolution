@@ -132,7 +132,7 @@ export default function ProcessSteps({
                 className="absolute -bottom-5 -right-2 text-[100px] font-black leading-none select-none pointer-events-none"
                 style={{
                   fontFamily: "'Sora', sans-serif",
-                  color: "#7c3aed",
+                  color: "var(--accent-global, #7c3aed)",
                   opacity: 0.09,
                 }}
                 aria-hidden="true"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -52,6 +52,11 @@ const cardsData = [
 export default function TechStack() {
   const containerRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -132,7 +137,7 @@ export default function TechStack() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none z-[-2]" />
       
       {/* Floating Particles */}
-      {Array.from({ length: 12 }).map((_, i) => (
+      {mounted && Array.from({ length: 12 }).map((_, i) => (
         <div 
           key={i}
           className="absolute rounded-full bg-white z-0"

@@ -69,23 +69,23 @@ function InteractiveTiltCard({ children, className = "" }: { children: React.Rea
   );
 }
 
-// Web specific FAQs for SEO FAQPage schema
-const webFaqs = [
+// DevOps specific FAQs for SEO FAQPage schema
+const devopsFaqs = [
   {
-    question: "Why should we build a custom web app instead of using website builders?",
-    answer: "Custom web development provides absolute freedom over design, performance, security, and scaling. Website builders (like WordPress or Webflow) are great for simple blogs, but they inject heavy, generic code that slows down performance, limits database integrations, and makes autoscaling impossible. Our custom Next.js apps load in sub-seconds, are tailored to your exact business workflows, and can scale to millions of concurrent users without breaking."
+    question: "What does a CI/CD pipeline actually do?",
+    answer: "Continuous Integration and Continuous Deployment automates testing and server releases. Every time a developer pushes code, the pipeline runs tests, packages the app, and deploys it to the server with zero manual intervention."
   },
   {
-    question: "Do you build SEO-friendly web applications?",
-    answer: "Yes, SEO is at the core of our engineering process. By leveraging Next.js, we use Server-Side Rendering (SSR) and Static Site Generation (SSG) to ensure search engine crawlers can index complete HTML pages instantly. We also optimize Core Web Vitals (LCP, FID, CLS), inject semantic HTML structure, build dynamic XML sitemaps, and integrate custom JSON-LD schema markups."
+    question: "Can you containerize our legacy monolithic app?",
+    answer: "Yes, we can wrap your existing code in Docker containers, allowing it to run predictably anywhere, and orchestrate it using Kubernetes for better scaling and resilience."
   },
   {
-    question: "What is your typical web development stack?",
-    answer: "Our standard stack is React, Next.js 15, TypeScript, Node.js, and Tailwind CSS. We use PostgreSQL, Supabase, or MongoDB for databases, and Prisma or Mongoose for ORM layers. For deployments, we configure AWS, Vercel, or Google Cloud platforms. This modern stack ensures lightning-fast speed, robust typing, and simple integrations."
+    question: "What happens if a deployment fails?",
+    answer: "Our pipelines include automated health checks. If a newly deployed version fails to boot or throws errors, the system instantly rolls back to the previous stable version, ensuring users never see downtime."
   },
   {
-    question: "Do you provide maintenance and scaling support after deployment?",
-    answer: "Absolutely. We offer flexible post-launch SLA support plans covering 24/7 server monitoring, performance audits, minor iteration requests, core packages upgrades, and cloud cost management. Our engineering team acts as your dedicated technical partner."
+    question: "How do you monitor application health?",
+    answer: "We set up comprehensive observability stacks using tools like Prometheus for metrics, Grafana for visualization, and the ELK stack for centralized logging, complete with Slack/Email alerts."
   }
 ];
 
@@ -101,7 +101,7 @@ function hexToRgb(hex: string): string {
   return isNaN(r) || isNaN(g) || isNaN(b) ? "124, 58, 237" : `${r}, ${g}, ${b}`;
 }
 
-export default function WebServiceDetail({ service }: { service: ServiceDetail }) {
+export default function DevOpsServiceDetail({ service }: { service: ServiceDetail }) {
   // Form State
   const [form, setForm] = useState({ name: "", email: "", phone: "", budget: "", message: "" });
   const [sending, setSending] = useState(false);
@@ -111,14 +111,14 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
   
   // Interactive Calculator State
   const [calcStep, setCalcStep] = useState<number>(1);
-  const [projectType, setProjectType] = useState<"saas" | "ecommerce" | "portal" | "landing">("saas");
+  const [projectType, setProjectType] = useState<string>("b2b");
   const [billingModel, setBillingModel] = useState<"fixed" | "retainer">("fixed");
   const [pageCount, setPageCount] = useState<number>(5);
-  const [hasAuth, setHasAuth] = useState(true);
-  const [hasPayments, setHasPayments] = useState(true);
-  const [hasCrm, setHasCrm] = useState(false);
-  const [hasDatabase, setHasDatabase] = useState(true);
-  const [hasPwa, setHasPwa] = useState(false);
+  const [hasGithubActions, setHasGithubActions] = useState(true);
+  const [hasK8s, setHasK8s] = useState(true);
+  const [hasPrometheus, setHasPrometheus] = useState(false);
+  const [hasElk, setHasElk] = useState(false);
+  const [hasSecurity, setHasSecurity] = useState(false);
   const [estimatedCost, setEstimatedCost] = useState<number>(350000);
 
   // Accordion State
@@ -136,20 +136,20 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
     let basePrice = 120000;
     
     // Project Type Multiplier
-    if (projectType === "saas") basePrice = 250000;
-    else if (projectType === "ecommerce") basePrice = 280000;
-    else if (projectType === "portal") basePrice = 220000;
-    else if (projectType === "landing") basePrice = 80000;
+    if (projectType === "mvp") basePrice = 250000;
+    else if (projectType === "b2b") basePrice = 450000;
+    else if (projectType === "b2c") basePrice = 600000;
+    else if (projectType === "enterprise") basePrice = 850000;
 
     // Pages cost
     basePrice += pageCount * 12000;
 
     // Feature toggles
-    if (hasAuth) basePrice += 40000;
-    if (hasPayments) basePrice += 50000;
-    if (hasCrm) basePrice += 35000;
-    if (hasDatabase) basePrice += 45000;
-    if (hasPwa) basePrice += 30000;
+    if (hasGithubActions) basePrice += 40000;
+    if (hasK8s) basePrice += 80000;
+    if (hasPrometheus) basePrice += 50000;
+    if (hasElk) basePrice += 70000;
+    if (hasSecurity) basePrice += 35000;
 
     // Billing model discount (Monthly Retainer gets 10% off the setup estimate)
     if (billingModel === "retainer") {
@@ -157,7 +157,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
     }
 
     setEstimatedCost(basePrice);
-  }, [projectType, pageCount, hasAuth, hasPayments, hasCrm, hasDatabase, hasPwa, billingModel]);
+  }, [projectType, pageCount, hasGithubActions, hasK8s, hasPrometheus, hasElk, hasSecurity, billingModel]);
 
   // Handle scroll to show sticky CTA bar
   useEffect(() => {
@@ -190,17 +190,17 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 - Pages: ${pageCount}
 - Auth: ${hasAuth ? "Yes" : "No"}
 - Payments: ${hasPayments ? "Yes" : "No"}
-- CRM Sync: ${hasCrm ? "Yes" : "No"}
-- Database: ${hasDatabase ? "Yes" : "No"}
-- PWA: ${hasPwa ? "Yes" : "No"}
+- Prometheus/Grafana: ${hasPrometheus ? "Yes" : "No"}
+- ELK Logging: ${hasElk ? "Yes" : "No"}
+- Security Scanning: ${hasSecurity ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
     if (hasAuth) featuresList.push("User Authentication");
     if (hasPayments) featuresList.push("Payment Integration");
-    if (hasCrm) featuresList.push("CRM Sync");
-    if (hasDatabase) featuresList.push("Database & API");
-    if (hasPwa) featuresList.push("PWA Support");
+    if (hasPrometheus) featuresList.push("Prometheus/Grafana");
+    if (hasElk) featuresList.push("ELK Logging Stack");
+    if (hasSecurity) featuresList.push("Security Scanning");
 
     triggerOnboardingModal({
       type: "quote",
@@ -262,8 +262,8 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
       {/* ── 1. Service Hero Section ── */}
       <ServiceHero
-        title="Bespoke Web Platforms Built For"
-        titleHighlight="High Conversion & Infinite Scale"
+        title="CI/CD & DevOps Engineering Built For"
+        titleHighlight="Velocity & Unbreakable Reliability"
         description={service.description}
         breadcrumbs={[
           { label: "Services", href: "/services" },
@@ -289,9 +289,9 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
           >
             <SectionHeader
               badge="ARCHITECTURE COMPARISON"
-              title="Why Traditional Website Builders"
-              titleHighlight="Fail Your Business"
-              description="A side-by-side comparison of old-school template builders like WordPress and Wix versus our bespoke high-performance architectures."
+              title="Why Manual Operations"
+              titleHighlight="Break Systems"
+              description="A side-by-side comparison of manual code deployments versus our fully automated, resilient CI/CD pipelines."
               align="center"
               theme="dark"
             />
@@ -314,20 +314,20 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                   <div className="grid grid-cols-7 w-full items-center">
                     <div className="col-span-4" />
                     <div className="col-span-3 text-slate-500 font-bold uppercase text-[10px] tracking-widest text-left pl-4">
-                      TRADITIONAL CMS
+                      MANUAL DEPLOYMENTS
                     </div>
                   </div>
                 </div>
 
                 {/* Data Rows */}
                 {[
-                  { feature: "PAGE LOAD SPEED", value: "3.2s – 8s (Frustratingly slow)" },
-                  { feature: "MOBILE PERFORMANCE", value: "Laggy mobile animations" },
-                  { feature: "SEO & GOOGLE SEARCH", value: "Restricted template structure" },
-                  { feature: "TRAFFIC SPIKE CAPACITY", value: "Crashes under sudden load" },
-                  { feature: "CYBER SECURITY", value: "Vulnerable plugins & hacks" },
-                  { feature: "DESIGN FREEDOM", value: "Restricted by rigid layouts" },
-                  { feature: "HOSTING COST & FEES", value: "Expensive recurring fees" }
+                  { feature: "CODE RELEASES", value: "Prone to human error" },
+                  { feature: "TESTING", value: "Manual clicks & checks" },
+                  { feature: "ROLLBACKS", value: "Panic & manual fixes" },
+                  { feature: "SCALING", value: "Adding servers by hand" },
+                  { feature: "MONITORING", value: "Waiting for users to complain" },
+                  { feature: "ENVIRONMENT SETUP", value: "Works on my machine" },
+                  { feature: "SECURITY", value: "Reactive patching" }
                 ].map((item, idx) => (
                   <div key={idx} className="grid grid-cols-7 h-[60px] items-center border-b border-white/[0.06] last:border-b-0">
                     {/* Feature name */}
@@ -369,13 +369,13 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
                   {/* Card Rows */}
                   {[
-                    "Sub-second loading",
-                    "Fluid & buttery-smooth",
-                    "First-page optimized",
-                    "Infinite scale capacity",
-                    "100% Hack-proof code",
-                    "Bespoke customized layouts",
-                    "Zero recurring cloud fees"
+                    "100% automated & consistent",
+                    "Automated unit & E2E gates",
+                    "Instant zero-downtime reverts",
+                    "Kubernetes auto-scaling",
+                    "Real-time metrics & alerts",
+                    "Identical Docker containers",
+                    "Automated vulnerability scans"
                   ].map((value, idx) => (
                     <div key={idx} className="h-[60px] flex items-center gap-3.5 pl-6 pr-4 border-b border-white/[0.05] last:border-b-0">
                       <div className="w-5 h-5 rounded-full bg-[#4ADE80] flex items-center justify-center shrink-0 shadow-[0_2px_10px_rgba(74,222,128,0.25)]">
@@ -394,13 +394,13 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
             {/* Mobile View (Stacked Cards) */}
             <div className="block md:hidden space-y-4">
               {[
-                { feature: "PAGE LOAD SPEED", traditional: "3.2s – 8s (Frustratingly slow)", nextgen: "Sub-second loading" },
-                { feature: "MOBILE PERFORMANCE", traditional: "Laggy animations & load delays", nextgen: "Fluid & buttery-smooth" },
-                { feature: "SEO & GOOGLE SEARCH", traditional: "Restricted template structure", nextgen: "First-page optimized" },
-                { feature: "TRAFFIC SPIKE CAPACITY", traditional: "Servers crash under sudden load", nextgen: "Infinite scale capacity" },
-                { feature: "CYBER SECURITY", traditional: "Vulnerable plugins & database leaks", nextgen: "100% Hack-proof code" },
-                { feature: "DESIGN FREEDOM", traditional: "Restricted by rigid layouts", nextgen: "Bespoke customized layouts" },
-                { feature: "HOSTING COST & FEES", traditional: "Expensive recurring fees", nextgen: "Zero or near-zero cloud fees" }
+                { feature: "CODE RELEASES", traditional: "Prone to human error", nextgen: "100% automated & consistent" },
+                { feature: "TESTING", traditional: "Manual clicks & checks", nextgen: "Automated unit & E2E gates" },
+                { feature: "ROLLBACKS", traditional: "Panic & manual fixes", nextgen: "Instant zero-downtime reverts" },
+                { feature: "SCALING", traditional: "Adding servers by hand", nextgen: "Kubernetes auto-scaling" },
+                { feature: "MONITORING", traditional: "Waiting for users to complain", nextgen: "Real-time metrics & alerts" },
+                { feature: "ENVIRONMENT SETUP", traditional: "Works on my machine", nextgen: "Identical Docker containers" },
+                { feature: "SECURITY", traditional: "Reactive patching", nextgen: "Automated vulnerability scans" }
               ].map((item, idx) => (
                 <motion.div
                   key={idx}
@@ -518,10 +518,10 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {([
-                      { id:"landing",   label:"Landing Page",     desc:"Single page to convert visitors",       base:80000,  icon:"🏠" },
-                      { id:"portal",    label:"Web Application",  desc:"Custom features, user dashboard, logic", base:220000, icon:"⚙️" },
-                      { id:"ecommerce", label:"E-Commerce Store",  desc:"Product catalogue, cart, checkout",      base:280000, icon:"🛒" },
-                      { id:"saas",      label:"SaaS Platform",    desc:"Multi-tenant, subscriptions, APIs",      base:250000, icon:"🚀" },
+                      { id:"mvp",       label:"Basic CI/CD",      desc:"Automate single server deployments",    base:250000, icon:"⚙️" },
+                      { id:"b2b",       label:"Docker Migration", desc:"Containerize existing monoliths",       base:450000, icon:"🐳" },
+                      { id:"b2c",       label:"K8s Cluster",      desc:"High-availability orchestration",       base:600000, icon:"🚢" },
+                      { id:"enterprise",label:"Enterprise SRE",   desc:"Advanced observability & SLAs",         base:850000, icon:"🏢" },
                     ] as {id:string;label:string;desc:string;base:number;icon:string}[]).map((t) => {
                       const sel = projectType === t.id;
                       return (
@@ -634,20 +634,20 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {([
-                      { stateKey:"auth",     label:"User Auth & Login",       sub:"JWT, OAuth, role-based access",      price:40000, badge:"Security",   bc:"text-blue-600 bg-blue-50 border-blue-200" },
-                      { stateKey:"payments", label:"Payment Gateway",          sub:"Razorpay / Stripe integration",       price:50000, badge:"Popular",    bc:"text-emerald-600 bg-emerald-50 border-emerald-200" },
-                      { stateKey:"crm",      label:"CRM & Lead Capture",       sub:"Form-to-CRM, automation triggers",    price:35000, badge:"Sales",      bc:"text-amber-600 bg-amber-50 border-amber-200" },
-                      { stateKey:"database", label:"Custom DB Architecture",   sub:"PostgreSQL schema, indexing, APIs",   price:45000, badge:"Enterprise", bc:"text-purple-600 bg-purple-50 border-purple-200" },
-                      { stateKey:"pwa",      label:"PWA / Mobile-Ready",       sub:"Offline support, install prompt",     price:30000, badge:"Mobile",     bc:"text-cyan-600 bg-cyan-50 border-cyan-200" },
-                      { stateKey:"seo",      label:"Technical SEO Setup",      sub:"Meta, schema, Core Web Vitals",       price:20000, badge:"Growth",     bc:"text-rose-600 bg-rose-50 border-rose-200" },
+                      { stateKey:"auth",     label:"GitHub Actions Setup",    sub:"Automated testing & deployments",    price:40000, badge:"Standard",   bc:"text-blue-600 bg-blue-50 border-blue-200" },
+                      { stateKey:"payments", label:"Kubernetes (K8s)",        sub:"Containerized scaling clusters",     price:80000, badge:"Popular",    bc:"text-emerald-600 bg-emerald-50 border-emerald-200" },
+                      { stateKey:"dashboards",label:"Prometheus & Grafana",   sub:"Real-time resource dashboards",      price:50000, badge:"Analytics",  bc:"text-amber-600 bg-amber-50 border-amber-200" },
+                      { stateKey:"whitelabel",label:"ELK Stack Logging",      sub:"Centralized application logs",       price:70000, badge:"Enterprise", bc:"text-purple-600 bg-purple-50 border-purple-200" },
+                      { stateKey:"customdomain",label:"Security Scanning",    sub:"Automated vulnerability pipelines",  price:35000, badge:"Security",   bc:"text-cyan-600 bg-cyan-50 border-cyan-200" },
+                      { stateKey:"seo",      label:"Technical SEO Setup",     sub:"Meta, schema, Core Web Vitals",      price:20000, badge:"Growth",     bc:"text-rose-600 bg-rose-50 border-rose-200" },
                     ] as {stateKey:string;label:string;sub:string;price:number;badge:string;bc:string}[]).map((svc) => {
                       const map: Record<string, [boolean, (v:boolean)=>void]> = {
-                        auth:     [hasAuth,     setHasAuth],
-                        payments: [hasPayments, setHasPayments],
-                        crm:      [hasCrm,      setHasCrm],
-                        database: [hasDatabase, setHasDatabase],
-                        pwa:      [hasPwa,      setHasPwa],
-                        seo:      [hasAuth,     setHasAuth],
+                        auth:         [hasGithubActions, setHasGithubActions],
+                        payments:     [hasK8s,           setHasK8s],
+                        dashboards:   [hasPrometheus,    setHasPrometheus],
+                        whitelabel:   [hasElk,           setHasElk],
+                        customdomain: [hasSecurity,      setHasSecurity],
+                        seo:          [hasGithubActions, setHasGithubActions],
                       };
                       const [on, toggle] = map[svc.stateKey];
                       return (
@@ -697,7 +697,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                       onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
                     >
-                      {projectType === "landing" ? "Landing Page" : projectType === "portal" ? "Web App" : projectType === "ecommerce" ? "E-Commerce" : "SaaS Platform"}
+                      {projectType === "mvp" ? "Basic CI/CD" : projectType === "b2b" ? "Docker Migration" : projectType === "b2c" ? "K8s Cluster" : "Enterprise SRE"}
                       <span className="opacity-50 text-[8px]">✎</span>
                     </button>
                   )}
@@ -744,16 +744,16 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                 <div className="space-y-2 text-[12px] font-semibold text-white/90">
                   {projectType ? (
                     <div className="flex justify-between">
-                      <span>{projectType === "landing" ? "Landing Page" : projectType === "portal" ? "Web App" : projectType === "ecommerce" ? "E-Commerce" : "SaaS Platform"}</span>
+                      <span>{projectType === "mvp" ? "Basic CI/CD" : projectType === "b2b" ? "Docker Migration" : projectType === "b2c" ? "K8s Cluster" : "Enterprise SRE"}</span>
                       <span className="font-black text-white font-mono">Base</span>
                     </div>
                   ) : <p className="text-[11px] text-white/50 italic">Select a project type to begin…</p>}
                   {pageCount > 1 && <div className="flex justify-between"><span>+ {pageCount} pages</span><span className="font-black font-mono">₹{((pageCount-1)*8000).toLocaleString("en-IN")}</span></div>}
-                  {hasAuth     && <div className="flex justify-between"><span>+ Auth & Login</span><span className="font-black font-mono">₹40,000</span></div>}
-                  {hasPayments && <div className="flex justify-between"><span>+ Payment Gateway</span><span className="font-black font-mono">₹50,000</span></div>}
-                  {hasCrm      && <div className="flex justify-between"><span>+ CRM Integration</span><span className="font-black font-mono">₹35,000</span></div>}
-                  {hasDatabase && <div className="flex justify-between"><span>+ Database Setup</span><span className="font-black font-mono">₹45,000</span></div>}
-                  {hasPwa      && <div className="flex justify-between"><span>+ PWA / Mobile</span><span className="font-black font-mono">₹30,000</span></div>}
+                  {hasGithubActions && <div className="flex justify-between"><span>+ GitHub Actions</span><span className="font-black font-mono">₹40,000</span></div>}
+                  {hasK8s && <div className="flex justify-between"><span>+ Kubernetes</span><span className="font-black font-mono">₹80,000</span></div>}
+                  {hasPrometheus && <div className="flex justify-between"><span>+ Prometheus/Grafana</span><span className="font-black font-mono">₹50,000</span></div>}
+                  {hasElk && <div className="flex justify-between"><span>+ ELK Logging</span><span className="font-black font-mono">₹70,000</span></div>}
+                  {hasSecurity && <div className="flex justify-between"><span>+ Security Scanning</span><span className="font-black font-mono">₹35,000</span></div>}
                   {billingModel === "retainer" && (
                     <div className="flex justify-between text-white/80"><span>Retainer discount</span><span className="font-black font-mono">–10%</span></div>
                   )}
@@ -876,7 +876,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
               className="space-y-3"
             >
-              {webFaqs.map((faq, idx) => {
+              {devopsFaqs.map((faq, idx) => {
                 const isOpen = openFaq === idx;
                 return (
                   <div

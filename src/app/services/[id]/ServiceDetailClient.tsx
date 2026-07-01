@@ -10,10 +10,22 @@ import { ServiceDetail } from "@/lib/services-data";
 import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 import { COMPANY } from "@/lib/utils";
 import WebServiceDetail from "@/components/sections/WebServiceDetail";
+import MobileServiceDetail from "@/components/sections/MobileServiceDetail";
+import SaasServiceDetail from "@/components/sections/SaasServiceDetail";
+import AiServiceDetail from "@/components/sections/AiServiceDetail";
+import CloudServiceDetail from "@/components/sections/CloudServiceDetail";
+import DevOpsServiceDetail from "@/components/sections/DevOpsServiceDetail";
+import WhatsappServiceDetail from "@/components/sections/WhatsappServiceDetail";
+import SeoServiceDetail from "@/components/sections/SeoServiceDetail";
+import SmmServiceDetail from "@/components/sections/SmmServiceDetail";
+import PpcServiceDetail from "@/components/sections/PpcServiceDetail";
+import VideoEditingServiceDetail from "@/components/sections/VideoEditingServiceDetail";
+import GraphicDesignServiceDetail from "@/components/sections/GraphicDesignServiceDetail";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import React from "react";
 import { triggerOnboardingModal } from "@/components/shared/OnboardingModal";
+import Portfolio from "@/components/sections/Portfolio";
 
 // Helper to convert hex to RGB
 function hexToRgb(hex: string): string {
@@ -74,6 +86,39 @@ function Interactive3DCard({ children, className = "" }: { children: React.React
 export default function ServiceDetailClient({ service }: { service: ServiceDetail }) {
   if (service.id === "web") {
     return <WebServiceDetail service={service} />;
+  }
+  if (service.id === "mobile") {
+    return <MobileServiceDetail service={service} />;
+  }
+  if (service.id === "saas") {
+    return <SaasServiceDetail service={service} />;
+  }
+  if (service.id === "ai") {
+    return <AiServiceDetail service={service} />;
+  }
+  if (service.id === "cloud") {
+    return <CloudServiceDetail service={service} />;
+  }
+  if (service.id === "devops") {
+    return <DevOpsServiceDetail service={service} />;
+  }
+  if (service.id === "whatsapp-marketing") {
+    return <WhatsappServiceDetail service={service} />;
+  }
+  if (service.id === "seo") {
+    return <SeoServiceDetail service={service} />;
+  }
+  if (service.id === "social-media-marketing") {
+    return <SmmServiceDetail service={service} />;
+  }
+  if (service.id === "ppc") {
+    return <PpcServiceDetail service={service} />;
+  }
+  if (service.id === "3d-video-editing") {
+    return <VideoEditingServiceDetail service={service} />;
+  }
+  if (service.id === "graphic-designing") {
+    return <GraphicDesignServiceDetail service={service} />;
   }
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", budget: "", message: "" });
@@ -195,6 +240,11 @@ export default function ServiceDetailClient({ service }: { service: ServiceDetai
 
         {/* 3. Our Process Workflow - light themed 4-step cards */}
         <ProcessSteps steps={service.process} serviceTitle={service.title} />
+
+        {/* 3.5. Portfolio Section */}
+        <div className="w-[100vw] relative left-1/2 -translate-x-1/2">
+          <Portfolio />
+        </div>
 
         {/* 4. Pricing Tiers with 3D cards */}
         <section className="py-16 border-t border-slate-100 my-12" id="estimate-calculator">

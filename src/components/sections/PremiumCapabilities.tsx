@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { 
   Calendar, Coins, Briefcase, Zap, Cpu, Code2, 
-  Smartphone, Layers, Database, Settings, MessageSquare, Globe
+  Smartphone, Layers, Database, Settings, MessageSquare, Globe, ShieldCheck
 } from "lucide-react";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -55,7 +55,7 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         squareDesc: "Keep your users engaged with seamless cloud synchronization and deep device hardware integration.",
         cardTitle: "NextGen Mobile Dev",
         icon: Smartphone,
-        wideGradient: "from-[#4C1D95] to-[#6D28D9]",
+        wideGradient: "from-[#065F46] to-[#10B981]",
         squareGradient: "from-[#F59E0B] to-[#D97706]"
       };
     case "saas":
@@ -70,7 +70,7 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         squareDesc: "Empower your software clients with dynamic charts, usage trackers, and white-labeling features.",
         cardTitle: "NextGen SaaS Core",
         icon: Layers,
-        wideGradient: "from-[#0F172A] to-[#334155]",
+        wideGradient: "from-[#4C1D95] to-[#8B5CF6]",
         squareGradient: "from-[#06B6D4] to-[#0891B2]"
       };
     case "ai":
@@ -85,7 +85,7 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         squareDesc: "Leverage private internal corporate wikis with safe, secure, and sandboxed AI integrations.",
         cardTitle: "NextGen AI Agent",
         icon: Cpu,
-        wideGradient: "from-[#064E3B] to-[#047857]",
+        wideGradient: "from-[#991B1B] to-[#EF4444]",
         squareGradient: "from-[#8B5CF6] to-[#7C3AED]"
       };
     case "cloud":
@@ -100,8 +100,23 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         squareDesc: "Deploy standardized, compliance-ready server and database clusters in minutes.",
         cardTitle: "NextGen Cloud Node",
         icon: Database,
-        wideGradient: "from-[#075985] to-[#0369A1]",
+        wideGradient: "from-[#0369A1] to-[#0EA5E9]",
         squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "devops":
+      return {
+        wideTitle: "Ship Code Safely and Automatically",
+        wideDesc: "Automated CI/CD pipelines, Docker containerizations, Kubernetes orchestration setups, and infrastructure monitoring systems.",
+        metrics: [
+          { label: "Pipeline Speed", value: "Minutes" },
+          { label: "Deployment Error", value: "0%" }
+        ],
+        squareTitle: "Continuous Monitoring & Alerts",
+        squareDesc: "Instantly detect anomalies with Prometheus and Grafana dashboards before they affect users.",
+        cardTitle: "NextGen CI/CD Pipeline",
+        icon: Settings,
+        wideGradient: "from-[#A16207] to-[#EAB308]",
+        squareGradient: "from-[#0F172A] to-[#334155]"
       };
     case "erp":
       return {
@@ -130,8 +145,68 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         squareDesc: "Connect message triggers directly to user actions and databases for immediate notifications.",
         cardTitle: "NextGen WA Bot",
         icon: MessageSquare,
-        wideGradient: "from-[#064E3B] to-[#047857]",
-        squareGradient: "from-[#10B981] to-[#059669]"
+        wideGradient: "from-[#14532D] to-[#22C55E]",
+        squareGradient: "from-[#1E40AF] to-[#3B82F6]"
+      };
+    case "social-media-marketing":
+      return {
+        wideTitle: "Engage Audiences Where They Spend Their Time",
+        wideDesc: "Premium graphics, video reels, and technical copy designed to grow active communities around your brand.",
+        metrics: [
+          { label: "Reach Growth", value: "300%" },
+          { label: "Content Quality", value: "Premium" }
+        ],
+        squareTitle: "Omnichannel Calendar Scheduling",
+        squareDesc: "Publish across LinkedIn, X, Instagram, and YouTube seamlessly.",
+        cardTitle: "NextGen Social",
+        icon: MessageSquare,
+        wideGradient: "from-[#6B21A8] to-[#A855F7]",
+        squareGradient: "from-[#0F172A] to-[#1E293B]"
+      };
+    case "ppc":
+      return {
+        wideTitle: "Direct Conversions with High-Yield Ad Campaigns",
+        wideDesc: "Data-driven paid advertising campaigns across Google, Meta, and LinkedIn designed to maximize return on ad spend (ROAS).",
+        metrics: [
+          { label: "Lower CPA", value: "40%" },
+          { label: "ROAS Target", value: "3.5x" }
+        ],
+        squareTitle: "Dynamic Retargeting Loops",
+        squareDesc: "Advanced pixel tracking and A/B testing to capture intent and re-engage lost leads.",
+        cardTitle: "NextGen PPC",
+        icon: Coins,
+        wideGradient: "from-[#991B1B] to-[#DC2626]",
+        squareGradient: "from-[#C2410C] to-[#F97316]"
+      };
+    case "3d-video-editing":
+      return {
+        wideTitle: "Cinematic 3D Visuals and Premium Motion Graphics",
+        wideDesc: "Photorealistic 3D product animations and cinematic video editing tailored for SaaS, ads, and brand showcases.",
+        metrics: [
+          { label: "Engagement", value: "4.2x" },
+          { label: "Render Quality", value: "8K UHD" }
+        ],
+        squareTitle: "Dynamic Motion Graphics",
+        squareDesc: "Custom typography, 3D tracking, and fluid transitions to elevate your storytelling.",
+        cardTitle: "NextGen Studio",
+        icon: Layers,
+        wideGradient: "from-[#BE185D] to-[#EC4899]",
+        squareGradient: "from-[#312E81] to-[#6366F1]"
+      };
+    case "graphic-designing":
+      return {
+        wideTitle: "Stunning Graphic Collaterals That Match Your Brand",
+        wideDesc: "Professional graphic design services for marketing collaterals, social media assets, ebooks, and corporate brochures.",
+        metrics: [
+          { label: "Design Consistency", value: "100%" },
+          { label: "Turnaround", value: "24-48h" }
+        ],
+        squareTitle: "Brand Asset Vault",
+        squareDesc: "Organized, shareable design libraries containing all your high-res vectors and print-ready files.",
+        cardTitle: "NextGen Graphics",
+        icon: Layers,
+        wideGradient: "from-[#0369A1] to-[#38BDF8]",
+        squareGradient: "from-[#9D174D] to-[#EC4899]"
       };
     case "seo":
       return {
@@ -162,6 +237,21 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         icon: Coins,
         wideGradient: "from-[#7F1D1D] to-[#991B1B]",
         squareGradient: "from-[#F59E0B] to-[#D97706]"
+      };
+    case "dms":
+      return {
+        wideTitle: "Custom Document Solutions Built for Speed & Security",
+        wideDesc: "Streamline your enterprise document workflows with automated indexing, OCR metadata extraction, and sub-second full-text searches.",
+        metrics: [
+          { label: "Uptime SLA", value: "99.99%" },
+          { label: "Search Speed", value: "<0.8s" }
+        ],
+        squareTitle: "Role-Based Security & Audit Compliance",
+        squareDesc: "Rigid user permission control, full document activity logging, and AES-256 data protection setups.",
+        cardTitle: "NextGen DMS Platform",
+        icon: ShieldCheck,
+        wideGradient: "from-[#1e3a8a] to-[#2563eb]",
+        squareGradient: "from-[#10B981] to-[#059669]"
       };
     default:
       return {

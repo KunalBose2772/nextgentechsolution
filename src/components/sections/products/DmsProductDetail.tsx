@@ -5,88 +5,109 @@ import {
   Check, ArrowRight, Mail, Phone, MapPin, AlertCircle, 
   Code2, Zap, Globe, ChevronDown, ChevronUp,
   Cpu, Layers, Award, Sparkles, Terminal, CheckCircle2,
-  Shield, Database, CreditCard, RefreshCw, Smartphone, ChevronRight, X
+  Shield, Database, CreditCard, RefreshCw, Smartphone, ChevronRight, ChevronLeft, X,
+  FileText, Users, Cloud, MousePointerClick, ShieldCheck, Rocket
 } from "lucide-react";
 import Link from "next/link";
 import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
-import { ServiceDetail } from "@/lib/services-data";
+import { ProductDetail } from "@/lib/products-data";
 import { COMPANY } from "@/lib/utils";
-import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import React from "react";
-import ServiceHero from "@/components/sections/ServiceHero";
+import ProductHero from "@/components/sections/products/ProductHero";
+import DmsBentoFeatures from "@/components/sections/products/DmsBentoFeatures";
 import PremiumCapabilities from "@/components/sections/PremiumCapabilities";
 import SectionHeader from "@/components/ui/SectionHeader";
 import TechStack from "@/components/sections/TechStack";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import { triggerOnboardingModal } from "@/components/shared/OnboardingModal";
-import Portfolio from "@/components/sections/Portfolio";
+import TrustedBy from "@/components/sections/TrustedBy";
 
 // Interactive 3D Parallax Tilt Card Component
 function InteractiveTiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const springCfg = { stiffness: 120, damping: 22, mass: 0.6 };
+  const sx = useSpring(rawX, springCfg);
+  const sy = useSpring(rawY, springCfg);
+  const rotateY  = useTransform(sx, [-0.5, 0.5], [-12, 12]);
+  const rotateX  = useTransform(sy, [-0.5, 0.5], [8, -8]);
+  const translateX = useTransform(sx, [-0.5, 0.5], [-10, 10]);
+  const translateY = useTransform(sy, [-0.5, 0.5], [-6, 6]);
 
-  const rotateX = useTransform(y, [-150, 150], [12, -12]);
-  const rotateY = useTransform(x, [-150, 150], [-12, 12]);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    rawX.set((e.clientX - r.left) / r.width - 0.5);
+    rawY.set((e.clientY - r.top)  / r.height - 0.5);
+  };
 
-  function handleMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const el = event.currentTarget;
-    const rect = el.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = event.clientX - rect.left - width / 2;
-    const mouseY = event.clientY - rect.top - height / 2;
-    x.set(mouseX);
-    y.set(mouseY);
-  }
-
-  function handleMouseLeave() {
-    x.set(0);
-    y.set(0);
-  }
+  const handleMouseLeave = () => {
+    rawX.set(0);
+    rawY.set(0);
+  };
 
   return (
-    <motion.div
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: 1000,
-      }}
+    <div
+      ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`transition-shadow duration-300 relative cursor-pointer group ${className}`}
+      className={`relative cursor-pointer group ${className}`}
+      style={{ perspective: "1200px" }}
     >
       {/* 3D glow */}
       <div 
-        className="absolute -inset-2 rounded-[32px] bg-gradient-to-tr from-purple-500/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" 
-        style={{ transform: "translateZ(-10px)" }}
+        className="absolute inset-0 rounded-[32px] bg-gradient-to-tr from-purple-500/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" 
       />
-      <div style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} className="w-full h-full flex flex-col justify-between">
+      <motion.div
+        style={{
+          rotateX,
+          rotateY,
+          translateX,
+          translateY,
+          transformStyle: "preserve-3d",
+        }}
+        className="w-full h-full flex flex-col justify-between"
+      >
         {children}
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
-// Web specific FAQs for SEO FAQPage schema
-const webFaqs = [
+// DMS specific FAQs for SEO FAQPage schema
+const dmsFaqs = [
   {
-    question: "Why should we build a custom web app instead of using website builders?",
-    answer: "Custom web development provides absolute freedom over design, performance, security, and scaling. Website builders (like WordPress or Webflow) are great for simple blogs, but they inject heavy, generic code that slows down performance, limits database integrations, and makes autoscaling impossible. Our custom Next.js apps load in sub-seconds, are tailored to your exact business workflows, and can scale to millions of concurrent users without breaking."
+    question: "Is the DMS cloud-based or on-premise?",
+    answer: "We offer both! You can deploy our DMS on your own internal servers (On-Premise) or use our scalable, secure cloud-hosted version."
   },
   {
-    question: "Do you build SEO-friendly web applications?",
-    answer: "Yes, SEO is at the core of our engineering process. By leveraging Next.js, we use Server-Side Rendering (SSR) and Static Site Generation (SSG) to ensure search engine crawlers can index complete HTML pages instantly. We also optimize Core Web Vitals (LCP, FID, CLS), inject semantic HTML structure, build dynamic XML sitemaps, and integrate custom JSON-LD schema markups."
+    question: "Does it support OCR and full-text search?",
+    answer: "Yes, our built-in OCR (Optical Character Recognition) engine scans PDFs and images, allowing you to instantly search for any keyword within the document."
   },
   {
-    question: "What is your typical web development stack?",
-    answer: "Our standard stack is React, Next.js 15, TypeScript, Node.js, and Tailwind CSS. We use PostgreSQL, Supabase, or MongoDB for databases, and Prisma or Mongoose for ORM layers. For deployments, we configure AWS, Vercel, or Google Cloud platforms. This modern stack ensures lightning-fast speed, robust typing, and simple integrations."
+    question: "Is it compliant with HIPAA/GDPR?",
+    answer: "Absolutely. Our DMS includes role-based access control, encryption at rest, and detailed audit logs ensuring full regulatory compliance."
   },
   {
-    question: "Do you provide maintenance and scaling support after deployment?",
-    answer: "Absolutely. We offer flexible post-launch SLA support plans covering 24/7 server monitoring, performance audits, minor iteration requests, core packages upgrades, and cloud cost management. Our engineering team acts as your dedicated technical partner."
+    question: "Can we integrate it with our existing ERP?",
+    answer: "Yes, we provide REST APIs and Webhooks to seamlessly integrate the DMS with your existing ERP, CRM, or HR systems."
   }
+];
+
+const dmsProcess = [
+  { title: "Discovery", description: "We analyze your document workflows and compliance requirements." },
+  { title: "Configuration", description: "We set up roles, folder structures, and configure the OCR engine." },
+  { title: "Migration", description: "Secure import of your legacy files into the new system." },
+  { title: "Go-Live", description: "Training your team and deploying the system live." }
+];
+
+const dmsPricing = [
+  { tier: "Starter", price: "₹45k", desc: "Cloud-hosted, up to 10 users.", features: ["Basic OCR", "Cloud Storage", "Role-based Access", "Email Support"] },
+  { tier: "Corporate", price: "₹95k", desc: "Cloud-hosted, up to 50 users.", features: ["Advanced OCR", "E-Signatures", "Approval Workflows", "Priority Support"] },
+  { tier: "Enterprise", price: "₹2.5L+", desc: "Unlimited users, On-Premise.", features: ["On-Premise Deploy", "ERP Integration", "Custom Workflows", "Dedicated Manager"] }
 ];
 
 // Icons for Process Workflow Steps
@@ -101,7 +122,31 @@ function hexToRgb(hex: string): string {
   return isNaN(r) || isNaN(g) || isNaN(b) ? "124, 58, 237" : `${r}, ${g}, ${b}`;
 }
 
-export default function WebServiceDetail({ service }: { service: ServiceDetail }) {
+const dmsTestimonials = [
+  {
+    quote: "NextGen DMS transformed the way our team processes invoices. We close approval cycles 4x faster and maintain perfect audit trails for compliance. Truly the best system we have ever deployed.",
+    name: "Sarah Jenkins",
+    role: "Operations Director, FinTech Corp",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80",
+    stars: 5
+  },
+  {
+    quote: "The automated metadata indexing and OCR search are absolute lifesavers. Finding contracts that used to take hours now takes seconds. It integrates flawlessly with our existing cloud workflow.",
+    name: "David Chen",
+    role: "VP of Legal, Global Logistics",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80",
+    stars: 5
+  },
+  {
+    quote: "Automatic file retention policies and encryption keys gave our security compliance officer peace of mind. Setup took less than a day. Highly recommend their enterprise support team.",
+    name: "Marcus Brody",
+    role: "IT Security Lead, HealthGroup",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80",
+    stars: 5
+  }
+];
+
+export default function DmsProductDetail({ product }: { product: ProductDetail }) {
   // Form State
   const [form, setForm] = useState({ name: "", email: "", phone: "", budget: "", message: "" });
   const [sending, setSending] = useState(false);
@@ -109,18 +154,6 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
   const [error, setError] = useState("");
   const [leadId, setLeadId] = useState<string | null>(null);
   
-  // Interactive Calculator State
-  const [calcStep, setCalcStep] = useState<number>(1);
-  const [projectType, setProjectType] = useState<"saas" | "ecommerce" | "portal" | "landing">("saas");
-  const [billingModel, setBillingModel] = useState<"fixed" | "retainer">("fixed");
-  const [pageCount, setPageCount] = useState<number>(5);
-  const [hasAuth, setHasAuth] = useState(true);
-  const [hasPayments, setHasPayments] = useState(true);
-  const [hasCrm, setHasCrm] = useState(false);
-  const [hasDatabase, setHasDatabase] = useState(true);
-  const [hasPwa, setHasPwa] = useState(false);
-  const [estimatedCost, setEstimatedCost] = useState<number>(350000);
-
   // Accordion State
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -131,33 +164,23 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
   // Quick Hero email conversion
   const [heroEmail, setHeroEmail] = useState("");
 
-  // Recalculate price dynamically when options change
+  // Testimonial State
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
   useEffect(() => {
-    let basePrice = 120000;
-    
-    // Project Type Multiplier
-    if (projectType === "saas") basePrice = 250000;
-    else if (projectType === "ecommerce") basePrice = 280000;
-    else if (projectType === "portal") basePrice = 220000;
-    else if (projectType === "landing") basePrice = 80000;
+    const timer = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % dmsTestimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
-    // Pages cost
-    basePrice += pageCount * 12000;
+  const handleNext = () => {
+    setActiveTestimonial((prev) => (prev + 1) % dmsTestimonials.length);
+  };
 
-    // Feature toggles
-    if (hasAuth) basePrice += 40000;
-    if (hasPayments) basePrice += 50000;
-    if (hasCrm) basePrice += 35000;
-    if (hasDatabase) basePrice += 45000;
-    if (hasPwa) basePrice += 30000;
-
-    // Billing model discount (Monthly Retainer gets 10% off the setup estimate)
-    if (billingModel === "retainer") {
-      basePrice = Math.round(basePrice * 0.9);
-    }
-
-    setEstimatedCost(basePrice);
-  }, [projectType, pageCount, hasAuth, hasPayments, hasCrm, hasDatabase, hasPwa, billingModel]);
+  const handlePrev = () => {
+    setActiveTestimonial((prev) => (prev - 1 + dmsTestimonials.length) % dmsTestimonials.length);
+  };
 
   // Handle scroll to show sticky CTA bar
   useEffect(() => {
@@ -183,39 +206,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
     }
   };
 
-  const handleApplyEstimate = () => {
-    let messageString = `Calculator Estimate Selected:
-- Project Type: ${projectType.toUpperCase()}
-- Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
-- Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
-- CRM Sync: ${hasCrm ? "Yes" : "No"}
-- Database: ${hasDatabase ? "Yes" : "No"}
-- PWA: ${hasPwa ? "Yes" : "No"}
-- Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
-    
-    const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
-    if (hasCrm) featuresList.push("CRM Sync");
-    if (hasDatabase) featuresList.push("Database & API");
-    if (hasPwa) featuresList.push("PWA Support");
 
-    triggerOnboardingModal({
-      type: "quote",
-      preselectedPackage: `Custom Estimate (₹${estimatedCost.toLocaleString("en-IN")})`,
-      serviceType: service.title,
-      accentColor: service.accent,
-      customQuoteDetails: {
-        cost: estimatedCost,
-        projectType,
-        billingModel,
-        pageCount,
-        features: featuresList
-      }
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -226,7 +217,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
       const res = await fetch("/api/public/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, service: service.title }),
+        body: JSON.stringify({ ...form, service: product.title }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -244,575 +235,334 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
     }
   };
 
-  const rgb = hexToRgb(service.accent);
+  const rgb = hexToRgb(product.accent);
   const customStyles = {
-    "--accent-global": service.accent,
-    "--accent-global-hover": `${service.accent}dd`,
+    "--accent-global": product.accent,
+    "--accent-global-hover": `${product.accent}dd`,
     "--accent-global-dim": `rgba(${rgb}, 0.08)`,
     "--accent-global-rgb": rgb,
   } as React.CSSProperties;
 
   return (
-    <div className="min-h-screen text-[var(--text-secondary)] bg-[var(--bg-primary)] relative overflow-hidden" style={customStyles}>
-      {/* Background Grids & Ambient Glows */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0" />
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full opacity-[0.12] blur-[140px] pointer-events-none" style={{ background: "radial-gradient(circle, var(--accent-global) 0%, transparent 80%)" }} />
-      <div className="absolute top-[30%] right-[-10%] w-[45%] h-[45%] rounded-full opacity-[0.08] blur-[120px] pointer-events-none" style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 80%)" }} />
-      <div className="absolute bottom-[10%] left-[-5%] w-[40%] h-[40%] rounded-full opacity-[0.10] blur-[110px] pointer-events-none" style={{ background: "radial-gradient(circle, var(--accent-global) 0%, transparent 80%)" }} />
+    <div className="min-h-screen text-[var(--text-secondary)] bg-[var(--bg-primary)] relative" style={customStyles}>
 
-      {/* ── 1. Service Hero Section ── */}
-      <ServiceHero
-        title="Bespoke Web Platforms Built For"
-        titleHighlight="High Conversion & Infinite Scale"
-        description={service.description}
-        breadcrumbs={[
-          { label: "Services", href: "/services" },
-          { label: service.title },
+      {/* ── 1. Product Hero (full-screen dark, identical to homepage) ── */}
+      <ProductHero
+        label="Document Management System"
+        tagline="Enterprise SaaS • Secure & Scalable"
+        title1="Smart Document"
+        title2="Management for"
+        titleHighlight="Modern Enterprises"
+        description="Secure. Organize. Collaborate. Access your critical documents anytime, anywhere with NextGen DMS."
+        accent={product.accent}
+        accentHover={`${product.accent}cc`}
+        accentAlpha={`rgba(59, 130, 246, 0.14)`}
+        ctaText="Request a Demo"
+        secondaryText="Explore Features"
+        features={["Bank-Level Security", "Access Anywhere", "Automated Workflows"]}
+        cardStat="1M+"
+        cardStatLabel="Documents Managed"
+        mockupImage="/images/dms_mockup.png"
+        stats={[
+          { value: "1M+",   label: "Documents Managed",   sub: "Across all deployments",    icon: FileText },
+          { value: "10K+",  label: "Active Users",         sub: "Trusted daily",             icon: Users },
+          { value: "500+",  label: "Enterprises",          sub: "Deployments worldwide",     icon: Shield },
+          { value: "99.9%", label: "Uptime SLA",           sub: "Guaranteed reliability",    icon: Zap },
+          { value: "24/7",  label: "Support Available",    sub: "Dedicated account team",    icon: Cloud },
         ]}
       />
 
+      <TrustedBy />
+
       <PremiumCapabilities
-        serviceId={service.id}
-        serviceTitle={service.title}
-        features={service.features}
+        serviceId="dms"
+        serviceTitle="Document Management"
+        features={product.features}
       />
 
-      {/* ── 2. Head-to-Head Comparison (CMS vs Headless NextGen) ── */}
-      <section className="py-24 border-b border-white/[0.06] relative z-10 overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: "easeOut" }}
-            className="mb-20"
-          >
-            <SectionHeader
-              badge="ARCHITECTURE COMPARISON"
-              title="Why Traditional Website Builders"
-              titleHighlight="Fail Your Business"
-              description="A side-by-side comparison of old-school template builders like WordPress and Wix versus our bespoke high-performance architectures."
-              align="center"
-              theme="dark"
-            />
-          </motion.div>
+      <DmsBentoFeatures />
 
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-[1400px] mx-auto w-full"
-          >
-            {/* Desktop Table View (md and up) - Flex columns to keep card borders solid */}
-            <div className="hidden md:flex items-start gap-8 relative z-10 w-full">
-              
-              {/* Left Side Table (58.33% width) */}
-              <div className="w-[58.33%] pt-5">
-                {/* Header Row */}
-                <div className="h-11 flex items-end pb-3 border-b border-white/[0.08] w-full">
-                  <div className="grid grid-cols-7 w-full items-center">
-                    <div className="col-span-4" />
-                    <div className="col-span-3 text-slate-500 font-bold uppercase text-[10px] tracking-widest text-left pl-4">
-                      TRADITIONAL CMS
-                    </div>
-                  </div>
-                </div>
-
-                {/* Data Rows */}
-                {[
-                  { feature: "PAGE LOAD SPEED", value: "3.2s – 8s (Frustratingly slow)" },
-                  { feature: "MOBILE PERFORMANCE", value: "Laggy mobile animations" },
-                  { feature: "SEO & GOOGLE SEARCH", value: "Restricted template structure" },
-                  { feature: "TRAFFIC SPIKE CAPACITY", value: "Crashes under sudden load" },
-                  { feature: "CYBER SECURITY", value: "Vulnerable plugins & hacks" },
-                  { feature: "DESIGN FREEDOM", value: "Restricted by rigid layouts" },
-                  { feature: "HOSTING COST & FEES", value: "Expensive recurring fees" }
-                ].map((item, idx) => (
-                  <div key={idx} className="grid grid-cols-7 h-[60px] items-center border-b border-white/[0.06] last:border-b-0">
-                    {/* Feature name */}
-                    <div className="col-span-4 font-bold text-slate-200 text-[10px] tracking-widest text-left uppercase">
-                      {item.feature}
-                    </div>
-                    {/* Value */}
-                    <div className="col-span-3 text-slate-450 text-xs pl-4 text-left">
-                      {item.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Right Side Card (41.67% width) */}
-              <div 
-                className="w-[41.67%] rounded-[24px] border border-white/[0.06] p-5 shadow-2xl relative overflow-hidden"
-                style={{
-                  background: "#181622",
-                  boxShadow: "0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05)"
-                }}
-              >
-                {/* Card Header (outside inner box) */}
-                <div className="h-11 flex items-center justify-center pb-3">
-                  <div className="text-sm font-black tracking-tight font-sora text-white flex items-center gap-1">
-                    nextgentech <span className="font-light text-slate-450">solutions</span>
-                  </div>
-                </div>
-
-                {/* Card Inner Rows Container */}
-                <div 
-                  className="rounded-[18px] border border-white/[0.08] overflow-hidden relative"
-                  style={{
-                    background: "linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%), #1E1C2A"
-                  }}
-                >
-                  {/* Subtle Top-Left Glow */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(74,222,128,0.06),transparent_50%)] pointer-events-none" />
-
-                  {/* Card Rows */}
-                  {[
-                    "Sub-second loading",
-                    "Fluid & buttery-smooth",
-                    "First-page optimized",
-                    "Infinite scale capacity",
-                    "100% Hack-proof code",
-                    "Bespoke customized layouts",
-                    "Zero recurring cloud fees"
-                  ].map((value, idx) => (
-                    <div key={idx} className="h-[60px] flex items-center gap-3.5 pl-6 pr-4 border-b border-white/[0.05] last:border-b-0">
-                      <div className="w-5 h-5 rounded-full bg-[#4ADE80] flex items-center justify-center shrink-0 shadow-[0_2px_10px_rgba(74,222,128,0.25)]">
-                        <Check className="w-3.5 h-3.5 text-slate-950 stroke-[3.5]" />
-                      </div>
-                      <span className="text-white font-bold text-[13px]">
-                        {value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            {/* Mobile View (Stacked Cards) */}
-            <div className="block md:hidden space-y-4">
-              {[
-                { feature: "PAGE LOAD SPEED", traditional: "3.2s – 8s (Frustratingly slow)", nextgen: "Sub-second loading" },
-                { feature: "MOBILE PERFORMANCE", traditional: "Laggy animations & load delays", nextgen: "Fluid & buttery-smooth" },
-                { feature: "SEO & GOOGLE SEARCH", traditional: "Restricted template structure", nextgen: "First-page optimized" },
-                { feature: "TRAFFIC SPIKE CAPACITY", traditional: "Servers crash under sudden load", nextgen: "Infinite scale capacity" },
-                { feature: "CYBER SECURITY", traditional: "Vulnerable plugins & database leaks", nextgen: "100% Hack-proof code" },
-                { feature: "DESIGN FREEDOM", traditional: "Restricted by rigid layouts", nextgen: "Bespoke customized layouts" },
-                { feature: "HOSTING COST & FEES", traditional: "Expensive recurring fees", nextgen: "Zero or near-zero cloud fees" }
-              ].map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: idx * 0.07 }}
-                  className="bg-[var(--bg-surface)] border border-white/[0.08] rounded-2xl p-5 space-y-3"
-                >
-                  <div className="text-[10px] uppercase tracking-widest font-black text-slate-400">
-                    {item.feature}
-                  </div>
-                  
-                  {/* Traditional */}
-                  <div className="flex items-start gap-2.5 text-xs text-slate-400">
-                    <span className="text-red-400 font-bold shrink-0">✕</span>
-                    <span>{item.traditional}</span>
-                  </div>
-
-                  {/* NextGen */}
-                  <div className="flex items-start gap-2.5 text-xs text-white font-bold bg-white/[0.03] p-3 rounded-xl border border-white/[0.05]">
-                    <Check className="w-4 h-4 text-emerald-450 shrink-0 mt-0.5" />
-                    <span>{item.nextgen}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── 3. Interactive Calculator Section ── */}
-      <section className="py-20 bg-[#F7F8FA] border-y border-slate-200/70 relative z-10" id="calculator">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-
-          {/* ── Heading ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-10"
-          >
-            <SectionHeader
-              badge="Pricing Estimator"
-              title="Build Your"
-              titleHighlight="Custom Quote"
-              description="Answer 4 quick questions and get a transparent, instant estimate — no sales calls needed."
-              align="center"
-              theme="light"
-            />
-          </motion.div>
-
-          {/* ── Card ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 36, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
-            className="rounded-[28px] border border-slate-200/80 bg-white overflow-hidden grid md:grid-cols-12"
-            style={{boxShadow:"0 8px 40px rgba(10,14,40,0.07), 0 1px 3px rgba(10,14,40,0.04)"}}
-          >
-
-            {/* Slider CSS */}
-            <style dangerouslySetInnerHTML={{__html:`
-              .calc-r::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent-global, #000);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.22);transition:transform .15s}
-              .calc-r::-webkit-slider-thumb:hover{transform:scale(1.15)}
-              .calc-r::-moz-range-thumb{width:18px;height:18px;border:none;border-radius:50%;background:var(--accent-global, #000);cursor:pointer}
-              .calc-r::-webkit-slider-runnable-track{background:linear-gradient(to right,var(--accent-global, #000) var(--pct,0%),#e2e8f0 var(--pct,0%));border-radius:999px}
-            `}}/>
-
-            {/* ═══ LEFT CONFIGURATOR ═══ */}
-            <div className="md:col-span-8 p-6 sm:p-10" style={{fontFamily:"'Inter',sans-serif"}}>
-
-              {/* Step Progress Bar */}
-              <div className="flex items-center gap-0 mb-8">
-                {[1,2,3,4].map((s) => (
-                  <div key={s} className="flex items-center flex-1 last:flex-none">
-                    <button
-                      onClick={() => calcStep > s && setCalcStep(s)}
-                      className={`flex items-center justify-center w-8 h-8 rounded-full text-[11px] font-black transition-all duration-300 flex-shrink-0 ${
-                        s < calcStep
-                          ? "bg-[var(--accent-global)] text-white cursor-pointer animate-pulse"
-                          : s === calcStep
-                          ? "bg-[var(--accent-global)] text-white ring-4 ring-[var(--accent-global)]/20 scale-110"
-                          : "bg-slate-100 text-slate-400 cursor-default"
-                      }`}
-                    >
-                      {s < calcStep ? "✓" : s}
-                    </button>
-                    {s < 4 && (
-                      <div className="flex-1 h-[2px] mx-2 rounded-full overflow-hidden bg-slate-100">
-                        <div className={`h-full bg-[var(--accent-global)] rounded-full transition-all duration-500 ${calcStep > s ? "w-full" : "w-0"}`} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Step Labels */}
-              <div className="grid grid-cols-4 text-center mb-8 -mt-5">
-                {["Project Type","Engagement","Pages","Add-ons"].map((lbl, i) => (
-                  <span key={i} className={`text-[9px] font-extrabold uppercase tracking-widest transition-colors duration-200 ${
-                    i + 1 === calcStep ? "text-[var(--accent-global)] font-black" : i + 1 < calcStep ? "text-slate-500" : "text-slate-300"
-                  }`}>{lbl}</span>
-                ))}
-              </div>
-
-              {/* ── STEP 1: Project Type ── */}
-              {calcStep === 1 && (
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-xl font-extrabold text-slate-900 font-sora mb-1">What are you building?</p>
-                    <p className="text-xs text-slate-400 font-medium">Choose the type that best matches your vision.</p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {([
-                      { id:"landing",   label:"Landing Page",     desc:"Single page to convert visitors",       base:80000,  icon:"🏠" },
-                      { id:"portal",    label:"Web Application",  desc:"Custom features, user dashboard, logic", base:220000, icon:"⚙️" },
-                      { id:"ecommerce", label:"E-Commerce Store",  desc:"Product catalogue, cart, checkout",      base:280000, icon:"🛒" },
-                      { id:"saas",      label:"SaaS Platform",    desc:"Multi-tenant, subscriptions, APIs",      base:250000, icon:"🚀" },
-                    ] as {id:string;label:string;desc:string;base:number;icon:string}[]).map((t) => {
-                      const sel = projectType === t.id;
-                      return (
-                        <button
-                          key={t.id}
-                          type="button"
-                          onClick={() => { setProjectType(t.id as any); setTimeout(() => setCalcStep(2), 320); }}
-                          className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 group ${
-                            sel
-                              ? "text-slate-900 shadow-md"
-                              : "border-slate-200 bg-white hover:border-slate-400 hover:shadow-md"
-                          }`}
-                          style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
-                        >
-                          <div className="flex items-start gap-3">
-                            <span className="text-xl mt-0.5">{t.icon}</span>
-                            <div>
-                              <p className={`text-sm font-extrabold tracking-tight ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{t.label}</p>
-                              <p className={`text-[11px] mt-0.5 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{t.desc}</p>
-                              <p className="text-xs font-black font-mono mt-1.5 text-[var(--accent-global)]">from ₹{t.base.toLocaleString("en-IN")}</p>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* ── STEP 2: Engagement Model ── */}
-              {calcStep === 2 && (
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-xl font-extrabold text-slate-900 font-sora mb-1">How do you want to work?</p>
-                    <p className="text-xs text-slate-400 font-medium">This determines the billing structure and timeline.</p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {([
-                      { id:"fixed",    label:"Fixed Price",       desc:"Defined scope, one-time delivery. Best for clear requirements.", tag:"Most Common", tagColor:"bg-blue-50 text-blue-700 border-blue-100" },
-                      { id:"retainer", label:"Monthly Retainer",  desc:"Ongoing dev, priority support, 10% off. Best for growing products.", tag:"Save 10%",    tagColor:"bg-emerald-50 text-emerald-700 border-emerald-100" },
-                    ] as {id:string;label:string;desc:string;tag:string;tagColor:string}[]).map((opt) => {
-                      const sel = billingModel === opt.id;
-                      return (
-                        <button
-                          key={opt.id}
-                          type="button"
-                          onClick={() => { setBillingModel(opt.id as any); setTimeout(() => setCalcStep(3), 320); }}
-                          className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 ${
-                            sel ? "text-slate-900 shadow-md" : "border-slate-200 bg-white hover:border-slate-400 hover:shadow-md"
-                          }`}
-                          style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
-                        >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
-                                style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
-                          >{opt.tag}</span>
-                          <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
-                          <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <button onClick={() => setCalcStep(1)} className="text-xs text-slate-400 hover:text-slate-600 font-semibold transition-colors mt-1">← Back</button>
-                </div>
-              )}
-
-              {/* ── STEP 3: Pages ── */}
-              {calcStep === 3 && (
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-xl font-extrabold text-slate-900 font-sora mb-1">How many pages?</p>
-                    <p className="text-xs text-slate-400 font-medium">Each additional page beyond the first adds ₹8,000.</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-sm font-bold text-slate-600">Pages / Screens</span>
-                      <span className="text-2xl font-black text-black font-mono">{pageCount}</span>
-                    </div>
-                    <input
-                      type="range" min={1} max={25} value={pageCount}
-                      onChange={(e) => setPageCount(parseInt(e.target.value))}
-                      className="calc-r w-full h-[3px] bg-slate-200 rounded-full appearance-none cursor-pointer outline-none block"
-                      style={{"--pct": `${(pageCount - 1) / 24 * 100}%`} as any}
-                    />
-                    <div className="flex justify-between mt-3 text-[9px] font-bold text-slate-400 font-mono">
-                      {[1,5,10,15,20,25].map(v => <span key={v} className={pageCount >= v ? "text-slate-700" : ""}>{v}</span>)}
-                    </div>
-                    {pageCount > 1 && (
-                      <p className="mt-3 text-xs font-semibold text-[var(--accent-global)]">+ ₹{((pageCount - 1) * 8000).toLocaleString("en-IN")} for {pageCount - 1} extra {pageCount - 1 === 1 ? "page" : "pages"}</p>
-                    )}
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <button onClick={() => setCalcStep(2)} className="text-xs text-slate-400 hover:text-slate-600 font-semibold transition-colors">← Back</button>
-                    <button
-                      onClick={() => setCalcStep(4)}
-                      className="px-6 py-2.5 rounded-xl bg-[var(--accent-global)] text-white text-xs font-extrabold uppercase tracking-widest hover:bg-[var(--accent-global-hover)] transition-all duration-200 shadow-md hover:-translate-y-0.5 cursor-pointer"
-                    >
-                      Next →
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* ── STEP 4: Add-ons ── */}
-              {calcStep === 4 && (
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-xl font-extrabold text-slate-900 font-sora mb-1">Any add-on features?</p>
-                    <p className="text-xs text-slate-400 font-medium">Toggle what you need — pricing updates instantly.</p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {([
-                      { stateKey:"auth",     label:"User Auth & Login",       sub:"JWT, OAuth, role-based access",      price:40000, badge:"Security",   bc:"text-blue-600 bg-blue-50 border-blue-200" },
-                      { stateKey:"payments", label:"Payment Gateway",          sub:"Razorpay / Stripe integration",       price:50000, badge:"Popular",    bc:"text-emerald-600 bg-emerald-50 border-emerald-200" },
-                      { stateKey:"crm",      label:"CRM & Lead Capture",       sub:"Form-to-CRM, automation triggers",    price:35000, badge:"Sales",      bc:"text-amber-600 bg-amber-50 border-amber-200" },
-                      { stateKey:"database", label:"Custom DB Architecture",   sub:"PostgreSQL schema, indexing, APIs",   price:45000, badge:"Enterprise", bc:"text-purple-600 bg-purple-50 border-purple-200" },
-                      { stateKey:"pwa",      label:"PWA / Mobile-Ready",       sub:"Offline support, install prompt",     price:30000, badge:"Mobile",     bc:"text-cyan-600 bg-cyan-50 border-cyan-200" },
-                      { stateKey:"seo",      label:"Technical SEO Setup",      sub:"Meta, schema, Core Web Vitals",       price:20000, badge:"Growth",     bc:"text-rose-600 bg-rose-50 border-rose-200" },
-                    ] as {stateKey:string;label:string;sub:string;price:number;badge:string;bc:string}[]).map((svc) => {
-                      const map: Record<string, [boolean, (v:boolean)=>void]> = {
-                        auth:     [hasAuth,     setHasAuth],
-                        payments: [hasPayments, setHasPayments],
-                        crm:      [hasCrm,      setHasCrm],
-                        database: [hasDatabase, setHasDatabase],
-                        pwa:      [hasPwa,      setHasPwa],
-                        seo:      [hasAuth,     setHasAuth],
-                      };
-                      const [on, toggle] = map[svc.stateKey];
-                      return (
-                        <button
-                          key={svc.stateKey}
-                          type="button"
-                          onClick={() => toggle(!on)}
-                          className={`w-full text-left flex items-center gap-3 py-3 px-4 rounded-2xl border-2 transition-all duration-200 ${
-                            on ? "text-slate-900 shadow-md" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
-                          }`}
-                          style={on ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
-                        >
-                          {/* Toggle Knob */}
-                          <div 
-                            className={`flex-shrink-0 w-9 h-5 rounded-full relative transition-all duration-300 ${on ? "" : "bg-slate-100"}`}
-                            style={on ? { backgroundColor: "rgba(var(--accent-global-rgb), 0.3)" } : {}}
-                          >
-                            <div 
-                              className={`w-4 h-4 rounded-full absolute top-0.5 transition-all duration-300 shadow ${on ? "translate-x-4" : "bg-slate-400 translate-x-0.5"}`}
-                              style={on ? { backgroundColor: "var(--accent-global)" } : {}}
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className={`text-xs font-extrabold ${on ? "text-slate-950 font-black" : "text-slate-800"}`}>{svc.label}</span>
-                              {!on && <span className={`text-[7px] font-black uppercase px-1.5 py-0.5 rounded-full border ${svc.bc}`}>{svc.badge}</span>}
-                            </div>
-                            <p className={`text-[10px] mt-0.5 truncate ${on ? "text-slate-650 font-medium" : "text-slate-400"}`}>{svc.sub}</p>
-                          </div>
-                          <span className="text-[10px] font-black font-mono flex-shrink-0 text-[var(--accent-global)]">+₹{svc.price.toLocaleString("en-IN")}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <button onClick={() => setCalcStep(3)} className="text-xs text-slate-400 hover:text-slate-600 font-semibold transition-colors">← Back</button>
-                </div>
-              )}
-
-              {/* Completed selections recap chips */}
-              {calcStep > 1 && (
-                <div className="flex flex-wrap gap-2 mt-6 pt-5 border-t border-slate-100">
-                  {projectType && (
-                    <button 
-                      onClick={() => setCalcStep(1)} 
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-global-dim)] text-[var(--accent-global)] border text-[10px] font-bold transition-all cursor-pointer"
-                      style={{ borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
-                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
-                    >
-                      {projectType === "landing" ? "Landing Page" : projectType === "portal" ? "Web App" : projectType === "ecommerce" ? "E-Commerce" : "SaaS Platform"}
-                      <span className="opacity-50 text-[8px]">✎</span>
-                    </button>
-                  )}
-                  {calcStep > 2 && (
-                    <button 
-                      onClick={() => setCalcStep(2)} 
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-global-dim)] text-[var(--accent-global)] border text-[10px] font-bold transition-all cursor-pointer"
-                      style={{ borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
-                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
-                    >
-                      {billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
-                      <span className="opacity-50 text-[8px]">✎</span>
-                    </button>
-                  )}
-                  {calcStep > 3 && (
-                    <button 
-                      onClick={() => setCalcStep(3)} 
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-global-dim)] text-[var(--accent-global)] border text-[10px] font-bold transition-all cursor-pointer"
-                      style={{ borderColor: "rgba(var(--accent-global-rgb), 0.2)" }}
-                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.15)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(var(--accent-global-rgb), 0.08)"; }}
-                    >
-                      {pageCount} {pageCount === 1 ? "page" : "pages"}
-                      <span className="opacity-50 text-[8px]">✎</span>
-                    </button>
-                  )}
-                </div>
-              )}
-
-            </div>
-
-            {/* ═══ RIGHT SUMMARY ═══ */}
-            <div
-              className="md:col-span-4 flex flex-col justify-between p-6 sm:p-8 relative text-white"
-              style={{background:"var(--accent-global)", fontFamily:"'Inter',sans-serif"}}
-            >
-              <div className="space-y-4">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-0.5">Your Estimate</p>
-                  <h3 className="text-lg font-black text-white font-sora">Summary</h3>
-                </div>
-
-                <div className="space-y-2 text-[12px] font-semibold text-white/90">
-                  {projectType ? (
-                    <div className="flex justify-between">
-                      <span>{projectType === "landing" ? "Landing Page" : projectType === "portal" ? "Web App" : projectType === "ecommerce" ? "E-Commerce" : "SaaS Platform"}</span>
-                      <span className="font-black text-white font-mono">Base</span>
-                    </div>
-                  ) : <p className="text-[11px] text-white/50 italic">Select a project type to begin…</p>}
-                  {pageCount > 1 && <div className="flex justify-between"><span>+ {pageCount} pages</span><span className="font-black font-mono">₹{((pageCount-1)*8000).toLocaleString("en-IN")}</span></div>}
-                  {hasAuth     && <div className="flex justify-between"><span>+ Auth & Login</span><span className="font-black font-mono">₹40,000</span></div>}
-                  {hasPayments && <div className="flex justify-between"><span>+ Payment Gateway</span><span className="font-black font-mono">₹50,000</span></div>}
-                  {hasCrm      && <div className="flex justify-between"><span>+ CRM Integration</span><span className="font-black font-mono">₹35,000</span></div>}
-                  {hasDatabase && <div className="flex justify-between"><span>+ Database Setup</span><span className="font-black font-mono">₹45,000</span></div>}
-                  {hasPwa      && <div className="flex justify-between"><span>+ PWA / Mobile</span><span className="font-black font-mono">₹30,000</span></div>}
-                  {billingModel === "retainer" && (
-                    <div className="flex justify-between text-white/80"><span>Retainer discount</span><span className="font-black font-mono">–10%</span></div>
-                  )}
-                </div>
-
-                <div className="h-px bg-white/20" />
-
-                {/* Promo */}
-                <div className="rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-white/60 mb-0.5">Promo Code</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-black text-white">NEXTGEN10</span>
-                    <span className="text-[8px] font-black text-white bg-white/20 px-2 py-0.5 rounded-full border border-white/10">10% OFF</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4 mt-6 md:mt-0">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-white/60">Total Estimate</p>
-                  <div className="text-3xl sm:text-4xl font-black text-white mt-0.5 font-sora tracking-tight">
-                    ₹{estimatedCost.toLocaleString("en-IN")}
-                  </div>
-                  {billingModel === "retainer" && (
-                    <p className="text-[10px] font-bold text-white/80 mt-0.5">Retainer discount applied</p>
-                  )}
-                </div>
-
-                <div className="flex items-start gap-2">
-                  <input type="checkbox" id="terms_agree2" defaultChecked className="mt-0.5 w-4 h-4 rounded cursor-pointer" style={{accentColor:"var(--accent-global)"}} />
-                  <label htmlFor="terms_agree2" className="text-[10px] leading-snug text-white/85 cursor-pointer font-medium">
-                    I agree to the <span className="underline font-bold text-white">Terms of Service</span>.
-                  </label>
-                </div>
-
-                <button
-                  onClick={handleApplyEstimate}
-                  className="w-full bg-white text-slate-900 font-extrabold text-[11px] uppercase tracking-widest py-3.5 rounded-xl shadow-lg hover:bg-slate-50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer"
-                  style={{fontFamily:"'Inter',sans-serif"}}
-                >
-                  Book Free Consultation
-                </button>
-
-                <p className="text-[9px] text-white/60 text-center font-medium">
-                  No payment now. Free 30-min strategy call.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-{/* ── 4. Technology Ecosystem (Home Page TechStack) ── */}
+      {/* ── 4. Technology Ecosystem (Home Page TechStack) ── */}
       <TechStack />
 
-      {/* ── 5. Our Process Workflow (light-themed, 4 steps) ── */}
-      <ProcessSteps steps={service.process} serviceTitle={service.title} />
+      {/* ── Onboarding Steps Section (Light Background) ── */}
+      <section className="py-20 sm:py-24 bg-white relative overflow-visible">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative overflow-visible">
+          {/* Header block above container card */}
+          <div className="max-w-3xl mb-12 sm:mb-16">
+            <span
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-4"
+              style={{
+                background: "var(--accent-global-dim)",
+                color: "var(--accent-global)",
+                border: "1px solid rgba(var(--accent-global-rgb), 0.25)",
+              }}
+            >
+              15-Day Free Trial
+            </span>
+            <h2
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-slate-900 mb-4"
+              style={{ fontFamily: "'Sora', sans-serif" }}
+            >
+              Get Started with NextGen DMS <br />
+              <span style={{ color: "var(--accent-global)" }}>in 3 Simple Steps</span>
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Experience the power of our intelligent Document Management System. Submit your request and start automating workflows in minutes.
+            </p>
+          </div>
 
-      {/* ── 5.5. Portfolio Section ── */}
-      <Portfolio />
+          {/* White container card with list & phone */}
+          <div 
+            className="relative bg-slate-50/70 border border-slate-100 rounded-[36px] p-6 sm:p-10 md:p-12 lg:p-14 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-visible"
+            style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.02)" }}
+          >
+            {/* Left Column: 3 Steps */}
+            <div className="lg:col-span-7 space-y-8 relative z-20">
+              {/* Step 1 */}
+              <div className="flex gap-5 items-start">
+                <div className="w-12 h-12 rounded-full bg-amber-100/80 text-amber-600 flex items-center justify-center shrink-0 shadow-sm border border-amber-200/50">
+                  <MousePointerClick className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-lg font-bold text-slate-900 font-sora">1. Submit Details</h4>
+                  <p className="text-slate-550 text-sm leading-relaxed font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Fill out our quick demo form with your document volume and compliance requirements so we can customize your workspace.
+                  </p>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="h-px bg-slate-200/60 ml-16" />
+
+              {/* Step 2 */}
+              <div className="flex gap-5 items-start">
+                <div className="w-12 h-12 rounded-full bg-sky-100/85 text-sky-600 flex items-center justify-center shrink-0 shadow-sm border border-sky-200/50">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-lg font-bold text-slate-900 font-sora">2. Demo Approved</h4>
+                  <p className="text-slate-550 text-sm leading-relaxed font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Our engineers review your application and provision a secure sandbox loaded with your customized folder system within 2 hours.
+                  </p>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="h-px bg-slate-200/60 ml-16" />
+
+              {/* Step 3 */}
+              <div className="flex gap-5 items-start">
+                <div className="w-12 h-12 rounded-full bg-rose-100/80 text-rose-600 flex items-center justify-center shrink-0 shadow-sm border border-rose-200/50">
+                  <Rocket className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-lg font-bold text-slate-900 font-sora">3. Start Using It</h4>
+                  <p className="text-slate-550 text-sm leading-relaxed font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Log in with secure admin credentials, invite your team, and test automated indexing, OCR search, and custom file retention.
+                  </p>
+                </div>
+              </div>
+
+              {/* Book Free Demo Button */}
+              <div className="pt-4 ml-0">
+                <a
+                  href="#contact-project-form"
+                  className="inline-flex items-center gap-2.5 text-xs sm:text-sm font-extrabold rounded-full px-8 py-4 text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg cursor-pointer"
+                  style={{
+                    background: "var(--accent-global)",
+                    boxShadow: "0 6px 20px rgba(var(--accent-global-rgb), 0.35)",
+                    fontFamily: "'Inter', sans-serif",
+                  }}
+                >
+                  Book Free Demo
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Mockup Image Overflowing with mouse tracking tilt */}
+            <div className="lg:col-span-5 h-[350px] sm:h-[400px] lg:h-[420px] relative overflow-visible mt-8 lg:mt-0 flex justify-center lg:block">
+              {/* Blur backdrop glow */}
+              <div 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] rounded-full blur-3xl opacity-60 pointer-events-none -z-10" 
+                style={{ background: "radial-gradient(circle, var(--accent-global) 0%, transparent 70%)" }}
+              />
+              
+              {/* Interactive Tilt Card overflowing the top & bottom of the container */}
+              <InteractiveTiltCard className="absolute -top-16 -bottom-16 lg:-top-28 lg:-bottom-28 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:-right-8 w-[280px] sm:w-[320px] lg:w-[460px] h-[calc(100%+128px)] lg:h-[calc(100%+224px)] flex items-center justify-center overflow-visible z-20">
+                <img
+                  src="/images/dms_steps.png"
+                  alt="DMS Mobile Interface Mockup"
+                  className="w-full h-full object-contain drop-shadow-[0_24px_55px_rgba(0,0,0,0.18)]"
+                />
+              </InteractiveTiltCard>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials Section (Pure Black - Google Styled White Cards) ── */}
+      <section className="py-20 sm:py-24 bg-[#000000] border-t border-white/[0.08] relative overflow-hidden">
+        {/* Subtle background radial glows */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 70% 50%, var(--accent-global) 0%, transparent 110%)", opacity: 0.12 }} />
+        
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
+          
+          {/* Testimonials Card (Frosted Glass Container) */}
+          <div 
+            className="relative bg-white/[0.03] border border-white/[0.08] rounded-[36px] p-8 md:p-14 lg:p-16 grid lg:grid-cols-12 gap-12 items-center"
+            style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.05)" }}
+          >
+            {/* Left Column: Heading & Metrics */}
+            <div className="lg:col-span-6 space-y-8">
+              <div>
+                <span
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-4"
+                  style={{
+                    background: "rgba(255,255,255,0.06)",
+                    color: "#ffffff",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                  }}
+                >
+                  Always Here To Help You Succeed
+                </span>
+                <h2
+                  className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-white mb-4 font-sora"
+                  style={{ fontFamily: "'Sora', sans-serif" }}
+                >
+                  Real Stories From Real Users <br />
+                  <span style={{ color: "var(--accent-global)" }}>Discover DMS differences</span>
+                </h2>
+              </div>
+
+              {/* Metrics */}
+              <div className="flex items-center gap-8 sm:gap-12 pt-4">
+                <div>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2 font-mono flex items-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5 text-[var(--accent-global)]" /> Documents Processed
+                  </p>
+                  <h3 className="text-3xl sm:text-4xl font-black text-white font-sora">50M+</h3>
+                </div>
+
+                <div className="w-px h-12 bg-white/10" />
+
+                <div>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2 font-mono flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Satisfaction Rate
+                  </p>
+                  <h3 className="text-3xl sm:text-4xl font-black text-white font-sora">98%</h3>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: 3D Stacking Cards */}
+            <div className="lg:col-span-6 relative flex justify-center lg:justify-end items-center overflow-visible">
+              {/* Breathing rich blue glow backdrop directly behind/below the stack */}
+              <div 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full blur-3xl opacity-75 pointer-events-none -z-10 animate-pulse" 
+                style={{ 
+                  background: "radial-gradient(circle, rgba(37, 99, 235, 0.8) 0%, rgba(59, 130, 246, 0.4) 50%, transparent 75%)",
+                  animationDuration: "6s"
+                }}
+              />
+
+              <div className="relative w-full max-w-[480px] h-[340px] md:h-[360px] flex items-center justify-center overflow-visible">
+                {dmsTestimonials.map((t, idx) => {
+                  const offset = (idx - activeTestimonial + dmsTestimonials.length) % dmsTestimonials.length;
+                  const isTop = offset === 0;
+
+                  return (
+                    <motion.div
+                      key={idx}
+                      style={{
+                        zIndex: 30 - offset,
+                        transformOrigin: "bottom center",
+                        background: isTop 
+                          ? "#ffffff" 
+                          : "rgba(255, 255, 255, 0.95)",
+                        borderColor: "rgba(0, 0, 0, 0.08)",
+                        boxShadow: isTop 
+                          ? "0 25px 50px rgba(0,0,0,0.18), 0 4px 18px rgba(0,0,0,0.02)" 
+                          : "0 10px 30px rgba(0,0,0,0.08)",
+                      }}
+                      animate={{
+                        scale: 1 - offset * 0.04,
+                        y: offset * 12,
+                        x: offset * 12,
+                        rotate: offset * 1.5,
+                        opacity: offset <= 2 ? 1 - offset * 0.35 : 0,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 150,
+                        damping: 22,
+                      }}
+                      className="absolute inset-0 border rounded-[28px] p-6 sm:p-8 flex flex-col justify-between"
+                    >
+                      {/* Top: Google stars & G-logo row, then quote */}
+                      <div>
+                        <div className="flex items-center justify-between gap-4 mb-4">
+                          <div className="flex gap-0.5">
+                            {Array.from({ length: t.stars }).map((_, s) => (
+                              <svg key={s} className="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            ))}
+                          </div>
+                          {/* Google Multi-colored G Logo SVG */}
+                          <svg className="w-[18px] h-[18px] shrink-0" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22c-.87-2.6-2.86-4.53-6.16-4.53z" />
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                          </svg>
+                        </div>
+                        <p className="text-slate-800 text-xs sm:text-sm font-medium leading-relaxed italic" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          &ldquo;{t.quote}&rdquo;
+                        </p>
+                      </div>
+
+                      {/* Bottom: reviewer details & nav controls */}
+                      <div className="flex items-center justify-between gap-4 pt-6 border-t border-slate-100">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={t.avatar}
+                            alt={t.name}
+                            className="w-10 h-10 rounded-full object-cover border border-slate-100"
+                          />
+                          <div>
+                            <h5 className="font-extrabold text-slate-900 text-sm font-sora leading-tight">{t.name}</h5>
+                            <p className="text-slate-500 text-[10.5px] font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>{t.role}</p>
+                          </div>
+                        </div>
+
+                        {isTop && (
+                          <div className="flex gap-2 shrink-0">
+                            <button 
+                              onClick={handlePrev}
+                              className="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 flex items-center justify-center transition-all duration-200 text-slate-600 cursor-pointer"
+                            >
+                              <ChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={handleNext}
+                              className="w-9 h-9 rounded-full bg-[var(--accent-global)] hover:opacity-90 text-white flex items-center justify-center transition-all duration-200 cursor-pointer"
+                              style={{ boxShadow: "0 4px 12px rgba(var(--accent-global-rgb), 0.25)" }}
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
       {/* ── 6. Premium FAQ Section (dark background) ── */}
       <section className="relative w-full overflow-hidden py-24 sm:py-32 border-y border-white/[0.08] bg-[#050B14]">
@@ -876,7 +626,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
               className="space-y-3"
             >
-              {webFaqs.map((faq, idx) => {
+              {dmsFaqs.map((faq, idx) => {
                 const isOpen = openFaq === idx;
                 return (
                   <div
@@ -993,7 +743,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
           {/* 3 Pricing Cards */}
           <div className="grid md:grid-cols-3 gap-6 items-stretch mb-14">
-            {service.pricing.map((tier, idx) => {
+            {dmsPricing.map((tier, idx) => {
               const isPopular = idx === 1;
               return (
                 <motion.div
@@ -1069,7 +819,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
 
                   <button
                     type="button"
-                    onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: tier.tier, serviceType: service.title, accentColor: service.accent })}
+                    onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: tier.tier, serviceType: product.title, accentColor: product.accent })}
                     className={`w-full h-12 rounded-xl font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer ${
                       isPopular
                         ? "bg-white text-[var(--accent-global)] hover:bg-slate-50"
@@ -1114,7 +864,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
               <div className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-slate-400" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Feature
               </div>
-              {service.pricing.map((tier, i) => (
+              {dmsPricing.map((tier, i) => (
                 <div
                   key={i}
                   className={`px-4 py-4 text-center text-[12px] font-extrabold ${i === 1 ? "text-white" : "text-slate-700"}`}
@@ -1129,7 +879,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
             </div>
 
             {/* Feature rows */}
-            {service.pricing[0].features.map((_, rowIdx) => (
+            {dmsPricing[0].features.map((_, rowIdx) => (
               <div
                 key={rowIdx}
                 className="grid border-b border-slate-100 last:border-0 hover:bg-slate-50/60 transition-colors"
@@ -1139,9 +889,9 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
                   className="px-6 py-4 text-[13px] font-semibold text-slate-600"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  {service.pricing[0].features[rowIdx] ?? "—"}
+                  {dmsPricing[0].features[rowIdx] ?? "—"}
                 </div>
-                {service.pricing.map((tier, colIdx) => (
+                {dmsPricing.map((tier, colIdx) => (
                   <div key={colIdx} className="px-4 py-4 flex items-center justify-center">
                     {tier.features[rowIdx] ? (
                       <div
@@ -1461,7 +1211,7 @@ export default function WebServiceDetail({ service }: { service: ServiceDetail }
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: "15% Promo Discount Blueprint", serviceType: service.title, accentColor: service.accent })}
+              onClick={() => triggerOnboardingModal({ type: "package", preselectedPackage: "15% Promo Discount Blueprint", serviceType: product.title, accentColor: product.accent })}
               className="bg-[var(--accent-global)] hover:bg-[var(--accent-global-hover)] text-white font-bold text-[10px] sm:text-xs px-4 sm:px-5 py-2 rounded-full flex items-center gap-1.5 transition-all shadow-md shadow-[0_4px_12px_rgba(var(--accent-global-rgb),0.15)] cursor-pointer"
             >
               Claim 15% Discount <ArrowRight className="w-3.5 h-3.5" />
