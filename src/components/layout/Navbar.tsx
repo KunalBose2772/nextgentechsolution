@@ -345,9 +345,10 @@ export default function Navbar() {
                         ? (isActive ? "text-[#7C3AED]" : "text-black hover:text-[#7C3AED]")
                         : (isActive ? "text-white" : "text-white/85 hover:text-white")
                     )}
-                    aria-expanded={megaOpen}
+                    aria-expanded={!!megaOpen}
                     aria-haspopup="true"
                   >
+
                     <span>{link.label}</span>
                     <ChevronDown
                       className={cn(

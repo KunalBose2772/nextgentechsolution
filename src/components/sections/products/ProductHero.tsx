@@ -5,6 +5,7 @@ import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight, Shield, FileText, PlayCircle, Check,
 } from "lucide-react";
+import { triggerBookDemoModal } from "@/components/shared/BookDemoModal";
 
 /* ── Props ────────────────────────────────────────────────────────── */
 interface ProductHeroProps {
@@ -184,7 +185,15 @@ export default function ProductHero({
             <motion.div className="flex flex-row items-center gap-2 mb-7"
               initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}>
-              <button onClick={scrollTo("contact-project-form")}
+              <button 
+                onClick={(e) => {
+                  if (ctaText.toLowerCase().includes("demo")) {
+                    e.preventDefault();
+                    triggerBookDemoModal({ productName: label, accentColor: accent });
+                  } else {
+                    scrollTo("contact-project-form")(e);
+                  }
+                }}
                 className="group inline-flex items-center justify-center gap-2 text-[13px] font-semibold text-white rounded-full transition-all duration-300 px-6 py-3 shrink-0 whitespace-nowrap cursor-pointer"
                 style={{ background: accent, boxShadow: `0 6px 26px ${accent}50` }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = accentHover; e.currentTarget.style.transform = "translateY(-2px)"; }}

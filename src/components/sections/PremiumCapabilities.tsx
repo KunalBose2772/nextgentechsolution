@@ -223,21 +223,6 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         wideGradient: "from-[#1E3A8A] to-[#1D4ED8]",
         squareGradient: "from-[#8B5CF6] to-[#7C3AED]"
       };
-    case "ppc":
-      return {
-        wideTitle: "Maximize Return on Ad Spend (ROAS)",
-        wideDesc: "Google Search Campaigns, Meta visual advertising suites, and targeted LinkedIn B2B funnels designed to acquire leads.",
-        metrics: [
-          { label: "Conversion Lift", value: "3.5x+" },
-          { label: "Ad Set A/B Testing", value: "Active" }
-        ],
-        squareTitle: "Advanced Attribution Tracking",
-        squareDesc: "Pixel configurations and conversion APIs that ensure every rupee spent maps directly to a lead.",
-        cardTitle: "NextGen PPC Manager",
-        icon: Coins,
-        wideGradient: "from-[#7F1D1D] to-[#991B1B]",
-        squareGradient: "from-[#F59E0B] to-[#D97706]"
-      };
     case "dms":
       return {
         wideTitle: "Custom Document Solutions Built for Speed & Security",
@@ -250,8 +235,173 @@ const getMarketingContent = (id: string, title: string): ServiceMarketingContent
         squareDesc: "Rigid user permission control, full document activity logging, and AES-256 data protection setups.",
         cardTitle: "NextGen DMS Platform",
         icon: ShieldCheck,
-        wideGradient: "from-[#1e3a8a] to-[#2563eb]",
+        wideGradient: "from-[#1E3A8A] to-[#3B82F6]",
         squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "lms":
+      return {
+        wideTitle: "Scalable E-Learning Platform Built for Modern Students",
+        wideDesc: "Launch courses, host video lectures, publish quizzes, and verify student progress with automated certificates.",
+        metrics: [
+          { label: "Course Delivery SLA", value: "99.9%" },
+          { label: "Quiz Processor", value: "Real-time" }
+        ],
+        squareTitle: "Interactive Student Portal & Forums",
+        squareDesc: "Let students collaborate in discussion forums and track modules via visual progress logs.",
+        cardTitle: "NextGen LMS Core",
+        icon: Briefcase,
+        wideGradient: "from-[#D97706] to-[#F59E0B]",
+        squareGradient: "from-[#0F172A] to-[#1E293B]"
+      };
+    case "hms":
+      return {
+        wideTitle: "High-Performance Hospital Operations & EHR Core",
+        wideDesc: "Secure EMR record archiving, real-time doctor slot scheduling, and integrated pharmacy inventory control systems.",
+        metrics: [
+          { label: "Data Compliance", value: "HIPAA" },
+          { label: "Slot Sync Speed", value: "<0.5s" }
+        ],
+        squareTitle: "Granular Ward & Bed Allocation Grid",
+        squareDesc: "Instantly allocate available ICU slots, hospital beds, and track active nurse assignments.",
+        cardTitle: "NextGen HMS Node",
+        icon: ShieldCheck,
+        wideGradient: "from-[#DC2626] to-[#EF4444]",
+        squareGradient: "from-[#1E3A8A] to-[#2563EB]"
+      };
+    case "ott":
+      return {
+        wideTitle: "Studio-Grade OTT Video Delivery Platform",
+        wideDesc: "Secure Widevine/FairPlay DRM encryption, multi-bitrate HLS transcoding, and flexible billing options.",
+        metrics: [
+          { label: "Transcode Speed", value: "10x" },
+          { label: "Ad Load Speed", value: "<0.3s" }
+        ],
+        squareTitle: "Multi-Platform Smart TV Playback",
+        squareDesc: "Deliver clean streaming experiences natively on Web, Android, Apple TV, FireTV, and Tizen.",
+        cardTitle: "NextGen OTT Stream",
+        icon: Smartphone,
+        wideGradient: "from-[#6D28D9] to-[#8B5CF6]",
+        squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "school-erp":
+      return {
+        wideTitle: "Digital Campus Administration & Fee Systems",
+        wideDesc: "Automated conflict-free class timetables, online admission manager, and smart fee collections with UPI auto-reminders.",
+        metrics: [
+          { label: "Roster Sync Speed", value: "Instant" },
+          { label: "Reminders", value: "WhatsApp" }
+        ],
+        squareTitle: "RFID Biometrics & GPS Tracking Hub",
+        squareDesc: "Let parents monitor real-time bus locations and register biometric student check-ins.",
+        cardTitle: "NextGen School ERP",
+        icon: Calendar,
+        wideGradient: "from-[#059669] to-[#10B981]",
+        squareGradient: "from-[#B45309] to-[#D97706]"
+      };
+    case "marketplace":
+      return {
+        wideTitle: "High-Scale Multi-Vendor Marketplace Operations",
+        wideDesc: "Onboard independent sellers, manage split payouts, calculate commissions, and sync shipments with top courier APIs.",
+        metrics: [
+          { label: "Payout Sync SLA", value: "Connect API" },
+          { label: "Product Import", value: "Bulk OCR" }
+        ],
+        squareTitle: "Advanced Escrow & Dispute Management",
+        squareDesc: "Protect buyers and sellers with custom holding rule sets and order settlements.",
+        cardTitle: "NextGen Market Core",
+        icon: Coins,
+        wideGradient: "from-[#EA580C] to-[#F97316]",
+        squareGradient: "from-[#1E1B4B] to-[#312E81]"
+      };
+    case "pos":
+      return {
+        wideTitle: "Lightning-Fast Cloud POS Billing Engine",
+        wideDesc: "Process register sales in sub-seconds with barcode integrations, offline billing sync, and automated receipts.",
+        metrics: [
+          { label: "Offline Sync", value: "Automated" },
+          { label: "Transaction SLA", value: "<1s" }
+        ],
+        squareTitle: "Central Multi-Warehouse Inventory Sync",
+        squareDesc: "Deduct items in real-time as bills settle, ensuring accurate stock balances.",
+        cardTitle: "NextGen Cloud POS",
+        icon: Settings,
+        wideGradient: "from-[#0284C7] to-[#0EA5E9]",
+        squareGradient: "from-[#10B981] to-[#059669]"
+      };
+    case "crm":
+      return {
+        wideTitle: "Convert More Leads with Sales Pipeline CRM",
+        wideDesc: "Automate lead routing, WhatsApp follow-ups, client activity logging, and sales projection reports.",
+        metrics: [
+          { label: "Conversion Lift", value: "3.5x+" },
+          { label: "Routing Speed", value: "Round Robin" }
+        ],
+        squareTitle: "Omnichannel Communications & API Integrations",
+        squareDesc: "Onboard leads directly from Google Ads, Meta, IndiaMart, and custom website forms.",
+        cardTitle: "NextGen CRM Panel",
+        icon: MessageSquare,
+        wideGradient: "from-[#DB2777] to-[#EC4899]",
+        squareGradient: "from-[#5B21B6] to-[#7C3AED]"
+      };
+    case "logistics":
+      return {
+        wideTitle: "Fleet Operations & Route Optimization Logistics",
+        wideDesc: "Dynamic vehicle routing, real-time GPS fleet tracking, driver deliveries logging, and proof-of-delivery uploads.",
+        metrics: [
+          { label: "GPS Telemetry Sync", value: "Real-time" },
+          { label: "Fuel Optimization", value: "30% Lift" }
+        ],
+        squareTitle: "Client Consignment Tracking Links",
+        squareDesc: "Send secure, live transit links to clients for real-time order location updates.",
+        cardTitle: "NextGen Logistics",
+        icon: Globe,
+        wideGradient: "from-[#4F46E5] to-[#6366F1]",
+        squareGradient: "from-[#0D9488] to-[#14B8A6]"
+      };
+    case "inventory":
+      return {
+        wideTitle: "Smart Multi-Warehouse Inventory Tracking ERP",
+        wideDesc: "Track stock counts, assign batch expiry tags, set minimum reorder thresholds, and automate PO generation.",
+        metrics: [
+          { label: "Audits Speed", value: "Barcodes" },
+          { label: "Stock Accuracy", value: "99.9%" }
+        ],
+        squareTitle: "Supplier Portals & COGS Analytics",
+        squareDesc: "Manage vendor product lists and analyze product profit margins automatically.",
+        cardTitle: "NextGen Inventory Node",
+        icon: Database,
+        wideGradient: "from-[#0D9488] to-[#14B8A6]",
+        squareGradient: "from-[#1E3A8A] to-[#2563EB]"
+      };
+    case "ecommerce":
+      return {
+        wideTitle: "High-Performance Headless E-Commerce Frontends",
+        wideDesc: "Sub-second catalog page load speeds, custom single-page checkouts, and integrated payment processors.",
+        metrics: [
+          { label: "Catalog Load", value: "<0.3s" },
+          { label: "Cart Recovery Lift", value: "25%" }
+        ],
+        squareTitle: "Automated Abandoned Cart Marketing",
+        squareDesc: "Send automated WhatsApp discount codes and checkout reminder emails to recover lost sales.",
+        cardTitle: "NextGen Commerce Core",
+        icon: Coins,
+        wideGradient: "from-[#E11D48] to-[#F43F5E]",
+        squareGradient: "from-[#312E81] to-[#4338CA]"
+      };
+    case "hrms":
+      return {
+        wideTitle: "Automated HR Administration & Payroll Engine",
+        wideDesc: "Biometric attendance sync, automated PF/ESIC tax compliance sheets, shift roster builders, and employee self-service.",
+        metrics: [
+          { label: "Tax Calculation SLA", value: "Compliant" },
+          { label: "Roster Updates", value: "Instant" }
+        ],
+        squareTitle: "Full Applicant Tracking System (ATS)",
+        squareDesc: "Track candidates, log interview notes, and dispatch job offers from a single screen.",
+        cardTitle: "NextGen HRMS Portal",
+        icon: Briefcase,
+        wideGradient: "from-[#6D28D9] to-[#8B5CF6]",
+        squareGradient: "from-[#1E293B] to-[#334155]"
       };
     default:
       return {

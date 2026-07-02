@@ -1,118 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { 
-  Check, ArrowRight, Mail, Phone, MapPin, AlertCircle, 
-  Code2, Zap, Globe, ChevronDown, ChevronUp,
-  Cpu, Layers, Award, Sparkles, Terminal, CheckCircle2,
-  Shield, Database, CreditCard, RefreshCw, Smartphone, ChevronRight, ChevronLeft, X,
-  FileText, Users, Cloud, MousePointerClick, ShieldCheck, Rocket
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FileText, Users, Shield, Cloud, Zap, Check, ArrowRight,
+  ChevronLeft, ChevronRight, AlertCircle, MapPin, Mail, Phone,
+  MousePointerClick, ShieldCheck, Rocket, X, Play, Settings,
+  CheckCircle2
 } from "lucide-react";
-import Link from "next/link";
 import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 import { ProductDetail } from "@/lib/products-data";
-import { COMPANY } from "@/lib/utils";
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import React from "react";
-import ProductHero from "@/components/sections/products/ProductHero";
-import DmsBentoFeatures from "@/components/sections/products/DmsBentoFeatures";
-import PremiumCapabilities from "@/components/sections/PremiumCapabilities";
-import SectionHeader from "@/components/ui/SectionHeader";
-import TechStack from "@/components/sections/TechStack";
-import ProcessSteps from "@/components/sections/ProcessSteps";
+import ProductHero from "./ProductHero";
+import TrustedBy from "../TrustedBy";
+import PremiumCapabilities from "../PremiumCapabilities";
+import ProductBentoFeatures from "./ProductBentoFeatures";
+import TechStack from "../TechStack";
+import InteractiveTiltCard from "@/components/shared/InteractiveTiltCard";
 import { triggerOnboardingModal } from "@/components/shared/OnboardingModal";
 import { triggerBookDemoModal } from "@/components/shared/BookDemoModal";
-import TrustedBy from "@/components/sections/TrustedBy";
+import { COMPANY } from "@/lib/utils";
 
-// Interactive 3D Parallax Tilt Card Component
-function InteractiveTiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const springCfg = { stiffness: 120, damping: 22, mass: 0.6 };
-  const sx = useSpring(rawX, springCfg);
-  const sy = useSpring(rawY, springCfg);
-  const rotateY  = useTransform(sx, [-0.5, 0.5], [-12, 12]);
-  const rotateX  = useTransform(sy, [-0.5, 0.5], [8, -8]);
-  const translateX = useTransform(sx, [-0.5, 0.5], [-10, 10]);
-  const translateY = useTransform(sy, [-0.5, 0.5], [-6, 6]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    rawX.set((e.clientX - r.left) / r.width - 0.5);
-    rawY.set((e.clientY - r.top)  / r.height - 0.5);
-  };
-
-  const handleMouseLeave = () => {
-    rawX.set(0);
-    rawY.set(0);
-  };
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`relative cursor-pointer group ${className}`}
-      style={{ perspective: "1200px" }}
-    >
-      {/* 3D glow */}
-      <div 
-        className="absolute inset-0 rounded-[32px] bg-gradient-to-tr from-purple-500/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" 
-      />
-      <motion.div
-        style={{
-          rotateX,
-          rotateY,
-          translateX,
-          translateY,
-          transformStyle: "preserve-3d",
-        }}
-        className="w-full h-full flex flex-col justify-between"
-      >
-        {children}
-      </motion.div>
-    </div>
-  );
-}
-
-// DMS specific FAQs for SEO FAQPage schema
-const dmsFaqs = [
-  {
-    question: "Is the DMS cloud-based or on-premise?",
-    answer: "We offer both! You can deploy our DMS on your own internal servers (On-Premise) or use our scalable, secure cloud-hosted version."
-  },
-  {
-    question: "Does it support OCR and full-text search?",
-    answer: "Yes, our built-in OCR (Optical Character Recognition) engine scans PDFs and images, allowing you to instantly search for any keyword within the document."
-  },
-  {
-    question: "Is it compliant with HIPAA/GDPR?",
-    answer: "Absolutely. Our DMS includes role-based access control, encryption at rest, and detailed audit logs ensuring full regulatory compliance."
-  },
-  {
-    question: "Can we integrate it with our existing ERP?",
-    answer: "Yes, we provide REST APIs and Webhooks to seamlessly integrate the DMS with your existing ERP, CRM, or HR systems."
-  }
-];
-
-const dmsProcess = [
-  { title: "Discovery", description: "We analyze your document workflows and compliance requirements." },
-  { title: "Configuration", description: "We set up roles, folder structures, and configure the OCR engine." },
-  { title: "Migration", description: "Secure import of your legacy files into the new system." },
-  { title: "Go-Live", description: "Training your team and deploying the system live." }
-];
-
-const dmsPricing = [
-  { tier: "Starter", price: "₹45k", desc: "Cloud-hosted, up to 10 users.", features: ["Basic OCR", "Cloud Storage", "Role-based Access", "Email Support"] },
-  { tier: "Corporate", price: "₹95k", desc: "Cloud-hosted, up to 50 users.", features: ["Advanced OCR", "E-Signatures", "Approval Workflows", "Priority Support"] },
-  { tier: "Enterprise", price: "₹2.5L+", desc: "Unlimited users, On-Premise.", features: ["On-Premise Deploy", "ERP Integration", "Custom Workflows", "Dedicated Manager"] }
-];
-
-// Icons for Process Workflow Steps
-const processStepIcons = [Terminal, Code2, Globe];
 
 // Helper to convert hex to RGB
 function hexToRgb(hex: string): string {
@@ -120,34 +27,10 @@ function hexToRgb(hex: string): string {
   const r = parseInt(cleanHex.substring(0, 2), 16);
   const g = parseInt(cleanHex.substring(2, 4), 16);
   const b = parseInt(cleanHex.substring(4, 6), 16);
-  return isNaN(r) || isNaN(g) || isNaN(b) ? "124, 58, 237" : `${r}, ${g}, ${b}`;
+  return isNaN(r) || isNaN(g) || isNaN(b) ? "99, 102, 241" : `${r}, ${g}, ${b}`;
 }
 
-const dmsTestimonials = [
-  {
-    quote: "NextGen DMS transformed the way our team processes invoices. We close approval cycles 4x faster and maintain perfect audit trails for compliance. Truly the best system we have ever deployed.",
-    name: "Sarah Jenkins",
-    role: "Operations Director, FinTech Corp",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80",
-    stars: 5
-  },
-  {
-    quote: "The automated metadata indexing and OCR search are absolute lifesavers. Finding contracts that used to take hours now takes seconds. It integrates flawlessly with our existing cloud workflow.",
-    name: "David Chen",
-    role: "VP of Legal, Global Logistics",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80",
-    stars: 5
-  },
-  {
-    quote: "Automatic file retention policies and encryption keys gave our security compliance officer peace of mind. Setup took less than a day. Highly recommend their enterprise support team.",
-    name: "Marcus Brody",
-    role: "IT Security Lead, HealthGroup",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80",
-    stars: 5
-  }
-];
-
-export default function DmsProductDetail({ product }: { product: ProductDetail }) {
+export default function GenericProductDetail({ product }: { product: ProductDetail }) {
   // Form State
   const [form, setForm] = useState({ name: "", email: "", phone: "", budget: "", message: "" });
   const [sending, setSending] = useState(false);
@@ -162,25 +45,46 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
   const [showFloatingCta, setShowFloatingCta] = useState(false);
   const [dismissedCta, setDismissedCta] = useState(false);
 
-  // Quick Hero email conversion
-  const [heroEmail, setHeroEmail] = useState("");
-
   // Testimonial State
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
+  const testimonials = [
+    {
+      quote: `NextGen ${product.title} transformed how our team handles daily workflows. We scaled our operations 4x faster and maintain perfect data compliance. Truly the best system we have ever deployed.`,
+      name: "Sarah Jenkins",
+      role: "Operations Director, FinTech Corp",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80",
+      stars: 5
+    },
+    {
+      quote: `The integration capabilities and robust dashboard architecture are absolute lifesavers. What used to take hours now takes seconds. It integrates flawlessly with our existing corporate cloud workflow.`,
+      name: "David Chen",
+      role: "VP of Technology, Global Logistics",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80",
+      stars: 5
+    },
+    {
+      quote: `Automatic compliance verification and hardware synchronization gave our security compliance officer complete peace of mind. Setup took less than a week. Highly recommend their enterprise support team.`,
+      name: "Marcus Brody",
+      role: "IT Director, HealthGroup",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80",
+      stars: 5
+    }
+  ];
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % dmsTestimonials.length);
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   const handleNext = () => {
-    setActiveTestimonial((prev) => (prev + 1) % dmsTestimonials.length);
+    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
   };
 
   const handlePrev = () => {
-    setActiveTestimonial((prev) => (prev - 1 + dmsTestimonials.length) % dmsTestimonials.length);
+    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
   // Handle scroll to show sticky CTA bar
@@ -195,19 +99,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleHeroSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (heroEmail) {
-      setForm((prev) => ({ ...prev, email: heroEmail }));
-      const targetElement = document.getElementById("contact-project-form");
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
-
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -244,30 +135,32 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
     "--accent-global-rgb": rgb,
   } as React.CSSProperties;
 
+  // Decide mockups based on product
+  const heroMockup = product.id === "dms" ? "/images/dms_mockup.png" : "/images/saas_dashboard_mockup.png";
+  const stepsMockup = product.id === "dms" ? "/images/dms_steps.png" : "/images/saas_dashboard_mockup.png";
+
   return (
     <div className="min-h-screen text-[var(--text-secondary)] bg-[var(--bg-primary)] relative" style={customStyles}>
 
-      {/* ── 1. Product Hero (full-screen dark, identical to homepage) ── */}
+      {/* ── 1. Product Hero ── */}
       <ProductHero
-        label="Document Management System"
+        label={product.title}
         tagline="Enterprise SaaS • Secure & Scalable"
-        title1="Smart Document"
-        title2="Management for"
-        titleHighlight="Modern Enterprises"
-        description="Secure. Organize. Collaborate. Access your critical documents anytime, anywhere with NextGen DMS."
+        title1={product.headline.split(" ").slice(0, 3).join(" ")}
+        title2={product.headline.split(" ").slice(3, -2).join(" ")}
+        titleHighlight={product.headline.split(" ").slice(-2).join(" ")}
+        description={product.description}
         accent={product.accent}
         accentHover={`${product.accent}cc`}
-        accentAlpha={`rgba(59, 130, 246, 0.14)`}
+        accentAlpha={`rgba(${rgb}, 0.14)`}
         ctaText="Request a Demo"
         secondaryText="Explore Features"
-        features={["Bank-Level Security", "Access Anywhere", "Automated Workflows"]}
-        cardStat="1M+"
-        cardStatLabel="Documents Managed"
-        mockupImage="/images/dms_mockup.png"
+        features={product.features.slice(0, 3)}
+        cardStat="250k+"
+        cardStatLabel="Active Transactions"
+        mockupImage={heroMockup}
         stats={[
-          { value: "1M+",   label: "Documents Managed",   sub: "Across all deployments",    icon: FileText },
-          { value: "10K+",  label: "Active Users",         sub: "Trusted daily",             icon: Users },
-          { value: "500+",  label: "Enterprises",          sub: "Deployments worldwide",     icon: Shield },
+          { value: "500k+",  label: "Active Users",        sub: "Trusted daily",             icon: Users },
           { value: "99.9%", label: "Uptime SLA",           sub: "Guaranteed reliability",    icon: Zap },
           { value: "24/7",  label: "Support Available",    sub: "Dedicated account team",    icon: Cloud },
         ]}
@@ -275,21 +168,27 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
 
       <TrustedBy />
 
+      {/* ── 2. Premium Capabilities ── */}
       <PremiumCapabilities
-        serviceId="dms"
-        serviceTitle="Document Management"
+        serviceId={product.id}
+        serviceTitle={product.title}
         features={product.features}
       />
 
-      <DmsBentoFeatures />
+      {/* ── 3. Bento Features Section ── */}
+      <ProductBentoFeatures 
+        productTitle={product.title}
+        features={product.bentoFeatures}
+        accentColor={product.accent}
+      />
 
-      {/* ── 4. Technology Ecosystem (Home Page TechStack) ── */}
+      {/* ── 4. Technology Ecosystem ── */}
       <TechStack />
 
-      {/* ── Onboarding Steps Section (Light Background) ── */}
+      {/* ── 5. Onboarding Steps Section ── */}
       <section className="py-20 sm:py-24 bg-white relative overflow-visible">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative overflow-visible">
-          {/* Header block above container card */}
+          
           <div className="max-w-3xl mb-12 sm:mb-16">
             <span
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-4"
@@ -305,21 +204,21 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-slate-900 mb-4"
               style={{ fontFamily: "'Sora', sans-serif" }}
             >
-              Get Started with NextGen DMS <br />
+              Get Started with NextGen {product.title} <br />
               <span style={{ color: "var(--accent-global)" }}>in 3 Simple Steps</span>
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Experience the power of our intelligent Document Management System. Submit your request and start automating workflows in minutes.
+              Experience the power of our intelligent {product.title}. Submit your request and start automating workflows in minutes.
             </p>
           </div>
 
-          {/* White container card with list & phone */}
           <div 
             className="relative bg-slate-50/70 border border-slate-100 rounded-[36px] p-6 sm:p-10 md:p-12 lg:p-14 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-visible"
             style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.02)" }}
           >
             {/* Left Column: 3 Steps */}
             <div className="lg:col-span-7 space-y-8 relative z-20">
+              
               {/* Step 1 */}
               <div className="flex gap-5 items-start">
                 <div className="w-12 h-12 rounded-full bg-amber-100/80 text-amber-600 flex items-center justify-center shrink-0 shadow-sm border border-amber-200/50">
@@ -328,7 +227,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                 <div className="space-y-1">
                   <h4 className="text-lg font-bold text-slate-900 font-sora">1. Submit Details</h4>
                   <p className="text-slate-550 text-sm leading-relaxed font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    Fill out our quick demo form with your document volume and compliance requirements so we can customize your workspace.
+                    Fill out our quick demo form with your team requirements and scaling parameters so we can customize your workspace.
                   </p>
                 </div>
               </div>
@@ -342,9 +241,9 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-lg font-bold text-slate-900 font-sora">2. Demo Approved</h4>
+                  <h4 className="text-lg font-bold text-slate-900 font-sora">2. Custom Sandbox Approved</h4>
                   <p className="text-slate-550 text-sm leading-relaxed font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    Our engineers review your application and provision a secure sandbox loaded with your customized folder system within 2 hours.
+                    Our engineers review your application and provision a secure custom sandbox environment loaded with product features within 2 hours.
                   </p>
                 </div>
               </div>
@@ -358,15 +257,15 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                   <Rocket className="w-5 h-5" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-lg font-bold text-slate-900 font-sora">3. Start Using It</h4>
+                  <h4 className="text-lg font-bold text-slate-900 font-sora">3. Start Operating</h4>
                   <p className="text-slate-550 text-sm leading-relaxed font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    Log in with secure admin credentials, invite your team, and test automated indexing, OCR search, and custom file retention.
+                    Log in with secure admin credentials, invite your department members, and begin automating daily processes instantly.
                   </p>
                 </div>
               </div>
 
               {/* Book Free Demo Button */}
-              <div className="pt-4 ml-0">
+              <div className="pt-4">
                 <button
                   type="button"
                   onClick={() => triggerBookDemoModal({ productName: product.title, accentColor: product.accent })}
@@ -383,19 +282,17 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               </div>
             </div>
 
-            {/* Right Column: Mockup Image Overflowing with mouse tracking tilt */}
+            {/* Right Column: Mockup Image */}
             <div className="lg:col-span-5 h-[350px] sm:h-[400px] lg:h-[420px] relative overflow-visible mt-8 lg:mt-0 flex justify-center lg:block">
-              {/* Blur backdrop glow */}
               <div 
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] rounded-full blur-3xl opacity-60 pointer-events-none -z-10" 
                 style={{ background: "radial-gradient(circle, var(--accent-global) 0%, transparent 70%)" }}
               />
               
-              {/* Interactive Tilt Card overflowing the top & bottom of the container */}
               <InteractiveTiltCard className="absolute -top-16 -bottom-16 lg:-top-28 lg:-bottom-28 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:-right-8 w-[280px] sm:w-[320px] lg:w-[460px] h-[calc(100%+128px)] lg:h-[calc(100%+224px)] flex items-center justify-center overflow-visible z-20">
                 <img
-                  src="/images/dms_steps.png"
-                  alt="DMS Mobile Interface Mockup"
+                  src={stepsMockup}
+                  alt={`${product.title} Interface Mockup`}
                   className="w-full h-full object-contain drop-shadow-[0_24px_55px_rgba(0,0,0,0.18)]"
                 />
               </InteractiveTiltCard>
@@ -404,19 +301,16 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
         </div>
       </section>
 
-      {/* ── Testimonials Section (Pure Black - Google Styled White Cards) ── */}
+      {/* ── Testimonials Section ── */}
       <section className="py-20 sm:py-24 bg-[#000000] border-t border-white/[0.08] relative overflow-hidden">
-        {/* Subtle background radial glows */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 70% 50%, var(--accent-global) 0%, transparent 110%)", opacity: 0.12 }} />
         
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
-          
-          {/* Testimonials Card (Frosted Glass Container) */}
           <div 
             className="relative bg-white/[0.03] border border-white/[0.08] rounded-[36px] p-8 md:p-14 lg:p-16 grid lg:grid-cols-12 gap-12 items-center"
             style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.05)" }}
           >
-            {/* Left Column: Heading & Metrics */}
+            {/* Left Column */}
             <div className="lg:col-span-6 space-y-8">
               <div>
                 <span
@@ -431,10 +325,9 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                 </span>
                 <h2
                   className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-white mb-4 font-sora"
-                  style={{ fontFamily: "'Sora', sans-serif" }}
                 >
                   Real Stories From Real Users <br />
-                  <span style={{ color: "var(--accent-global)" }}>Discover DMS differences</span>
+                  <span style={{ color: "var(--accent-global)" }}>Discover the difference</span>
                 </h2>
               </div>
 
@@ -442,9 +335,9 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               <div className="flex items-center gap-8 sm:gap-12 pt-4">
                 <div>
                   <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2 font-mono flex items-center gap-1.5">
-                    <Zap className="w-3.5 h-3.5 text-[var(--accent-global)]" /> Documents Processed
+                    <Zap className="w-3.5 h-3.5 text-[var(--accent-global)]" /> Active Pipelines
                   </p>
-                  <h3 className="text-3xl sm:text-4xl font-black text-white font-sora">50M+</h3>
+                  <h3 className="text-3xl sm:text-4xl font-black text-white font-sora">10M+</h3>
                 </div>
 
                 <div className="w-px h-12 bg-white/10" />
@@ -453,25 +346,24 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                   <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2 font-mono flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Satisfaction Rate
                   </p>
-                  <h3 className="text-3xl sm:text-4xl font-black text-white font-sora">98%</h3>
+                  <h3 className="text-3xl sm:text-4xl font-black text-white font-sora">98.5%</h3>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: 3D Stacking Cards */}
+            {/* Right Column */}
             <div className="lg:col-span-6 relative flex justify-center lg:justify-end items-center overflow-visible">
-              {/* Breathing rich blue glow backdrop directly behind/below the stack */}
               <div 
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full blur-3xl opacity-75 pointer-events-none -z-10 animate-pulse" 
                 style={{ 
-                  background: "radial-gradient(circle, rgba(37, 99, 235, 0.8) 0%, rgba(59, 130, 246, 0.4) 50%, transparent 75%)",
+                  background: `radial-gradient(circle, rgba(${rgb}, 0.8) 0%, rgba(${rgb}, 0.4) 50%, transparent 75%)`,
                   animationDuration: "6s"
                 }}
               />
 
               <div className="relative w-full max-w-[480px] h-[340px] md:h-[360px] flex items-center justify-center overflow-visible">
-                {dmsTestimonials.map((t, idx) => {
-                  const offset = (idx - activeTestimonial + dmsTestimonials.length) % dmsTestimonials.length;
+                {testimonials.map((t, idx) => {
+                  const offset = (idx - activeTestimonial + testimonials.length) % testimonials.length;
                   const isTop = offset === 0;
 
                   return (
@@ -480,13 +372,9 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                       style={{
                         zIndex: 30 - offset,
                         transformOrigin: "bottom center",
-                        background: isTop 
-                          ? "#ffffff" 
-                          : "rgba(255, 255, 255, 0.95)",
+                        background: isTop ? "#ffffff" : "rgba(255, 255, 255, 0.95)",
                         borderColor: "rgba(0, 0, 0, 0.08)",
-                        boxShadow: isTop 
-                          ? "0 25px 50px rgba(0,0,0,0.18), 0 4px 18px rgba(0,0,0,0.02)" 
-                          : "0 10px 30px rgba(0,0,0,0.08)",
+                        boxShadow: isTop ? "0 25px 50px rgba(0,0,0,0.18), 0 4px 18px rgba(0,0,0,0.02)" : "0 10px 30px rgba(0,0,0,0.08)",
                       }}
                       animate={{
                         scale: 1 - offset * 0.04,
@@ -502,7 +390,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                       }}
                       className="absolute inset-0 border rounded-[28px] p-6 sm:p-8 flex flex-col justify-between"
                     >
-                      {/* Top: Google stars & G-logo row, then quote */}
                       <div>
                         <div className="flex items-center justify-between gap-4 mb-4">
                           <div className="flex gap-0.5">
@@ -512,7 +399,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                               </svg>
                             ))}
                           </div>
-                          {/* Google Multi-colored G Logo SVG */}
                           <svg className="w-[18px] h-[18px] shrink-0" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -525,7 +411,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                         </p>
                       </div>
 
-                      {/* Bottom: reviewer details & nav controls */}
                       <div className="flex items-center justify-between gap-4 pt-6 border-t border-slate-100">
                         <div className="flex items-center gap-3">
                           <img
@@ -560,23 +445,20 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                     </motion.div>
                   );
                 })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-      {/* ── 6. Premium FAQ Section (dark background) ── */}
+      {/* ── 6. Premium FAQ Section ── */}
       <section className="relative w-full overflow-hidden py-24 sm:py-32 border-y border-white/[0.08] bg-[#050B14]">
-        {/* Center radial glow that fades into the dark background, creating a darker shade of blue at the edges */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 50% 50%, var(--accent-global) 0%, transparent 110%)" }} />
         
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
-
-          {/* Header row */}
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-
-            {/* Left: sticky heading block */}
+            
+            {/* Left */}
             <motion.div
               initial={{ opacity: 0, x: -28 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -598,11 +480,10 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-white mb-6"
                 style={{ fontFamily: "'Sora', sans-serif" }}
               >
-                Everything you want to{" "}
-                <span style={{ color: "#ffffff" }}>know</span>
+                Everything you want to <span style={{ color: "#ffffff" }}>know</span>
               </h2>
               <p className="text-white/90 text-sm sm:text-base leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Can't find the answer you're looking for? Reach out to our engineering team directly.
+                Can&apos;t find the answer you&apos;re looking for? Reach out to our engineering team directly.
               </p>
               <a
                 href="#contact-project-form"
@@ -620,7 +501,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               </a>
             </motion.div>
 
-            {/* Right: accordion list */}
+            {/* Right */}
             <motion.div
               initial={{ opacity: 0, x: 28 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -628,7 +509,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
               className="space-y-3"
             >
-              {dmsFaqs.map((faq, idx) => {
+              {product.faqs.map((faq, idx) => {
                 const isOpen = openFaq === idx;
                 return (
                   <div
@@ -637,9 +518,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                     style={{
                       background: isOpen ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)",
                       borderColor: isOpen ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.15)",
-                      boxShadow: isOpen
-                        ? "0 8px 30px rgba(0,0,0, 0.1)"
-                        : "0 2px 12px rgba(0,0,0,0.05)",
+                      boxShadow: isOpen ? "0 8px 30px rgba(0,0,0, 0.1)" : "0 2px 12px rgba(0,0,0,0.05)",
                     }}
                   >
                     <button
@@ -648,7 +527,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                       className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left cursor-pointer"
                     >
                       <div className="flex items-center gap-4">
-                        {/* Step number badge */}
                         <span
                           className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 transition-all duration-300"
                           style={{
@@ -703,11 +581,12 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                 );
               })}
             </motion.div>
+
           </div>
         </div>
       </section>
 
-      {/* ── 7. Pricing Packages (light background) ── */}
+      {/* ── 7. Pricing Packages ── */}
       <section className="relative w-full overflow-hidden bg-white" id="pricing-packages">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-24 sm:py-32">
@@ -734,18 +613,16 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-slate-900 mb-4"
               style={{ fontFamily: "'Sora', sans-serif" }}
             >
-              Simple,{" "}
-              <span style={{ color: "var(--accent-global)" }}>Transparent</span>{" "}
-              Pricing
+              Simple, <span style={{ color: "var(--accent-global)" }}>Transparent</span> Pricing
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Choose a tier that matches your current product scale. All options transfer 100% IP ownership upon delivery.
+              Choose a tier that matches your current operational scale. All options transfer 100% IP ownership upon delivery.
             </p>
           </motion.div>
 
           {/* 3 Pricing Cards */}
           <div className="grid md:grid-cols-3 gap-6 items-stretch mb-14">
-            {dmsPricing.map((tier, idx) => {
+            {product.pricing.map((tier, idx) => {
               const isPopular = idx === 1;
               return (
                 <motion.div
@@ -845,7 +722,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
             className="rounded-[28px] border border-slate-200 overflow-hidden"
             style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.05)" }}
           >
-            {/* Table header toggle row */}
             <div className="flex items-center gap-3 px-6 py-4 bg-slate-50 border-b border-slate-200">
               <div
                 className="w-10 h-6 rounded-full flex items-center relative cursor-default"
@@ -858,7 +734,6 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               </span>
             </div>
 
-            {/* Column headers */}
             <div
               className="grid border-b border-slate-200"
               style={{ gridTemplateColumns: "1fr repeat(3, minmax(0, 1fr))" }}
@@ -866,7 +741,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               <div className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-slate-400" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Feature
               </div>
-              {dmsPricing.map((tier, i) => (
+              {product.pricing.map((tier, i) => (
                 <div
                   key={i}
                   className={`px-4 py-4 text-center text-[12px] font-extrabold ${i === 1 ? "text-white" : "text-slate-700"}`}
@@ -880,8 +755,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               ))}
             </div>
 
-            {/* Feature rows */}
-            {dmsPricing[0].features.map((_, rowIdx) => (
+            {product.pricing[0].features.map((_, rowIdx) => (
               <div
                 key={rowIdx}
                 className="grid border-b border-slate-100 last:border-0 hover:bg-slate-50/60 transition-colors"
@@ -891,9 +765,9 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                   className="px-6 py-4 text-[13px] font-semibold text-slate-600"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  {dmsPricing[0].features[rowIdx] ?? "—"}
+                  {product.pricing[0].features[rowIdx] ?? "—"}
                 </div>
-                {dmsPricing.map((tier, colIdx) => (
+                {product.pricing.map((tier, colIdx) => (
                   <div key={colIdx} className="px-4 py-4 flex items-center justify-center">
                     {tier.features[rowIdx] ? (
                       <div
@@ -918,16 +792,13 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
       </section>
 
-
-      {/* ── 9. High-Converting Lead Proposal Form ── */}
+      {/* ── 9. Lead Proposal Form ── */}
       <section className="border-t relative overflow-hidden bg-slate-950 border-white/[0.06] pb-0 pt-20" id="contact-project-form">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.12] blur-[120px]" style={{ background: "radial-gradient(circle, var(--accent-global) 0%, transparent 70%)" }} />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.07] blur-[100px]" style={{ background: "radial-gradient(circle, #06B6D4 0%, transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
 
         <div className="max-w-[1400px] mx-auto px-4 pb-20 relative z-10">
-          
-          {/* Header aligned center */}
           <div className="text-center mb-16">
             <span 
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-[var(--accent-global)] bg-[var(--accent-global-dim)] border mb-3" 
@@ -936,7 +807,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               Start Project
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sora text-white leading-tight mb-4">
-              Let&apos;s Build Your <span className="text-[var(--accent-global)]">Web Solution</span>
+              Let&apos;s Build Your <span className="text-[var(--accent-global)]">Custom {product.title}</span>
             </h2>
             <p className="text-slate-400 text-sm max-w-xl mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
               Provide some initial details regarding your requirements and budget range, and our technical architects will get back to you with a comprehensive scope report in 24 hours.
@@ -945,7 +816,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
 
           <div className="grid lg:grid-cols-[1fr_400px] gap-10 items-start">
             
-            {/* Left side: Form card (white, shadow-2xl, no top line) */}
+            {/* Left side: Form card */}
             <div className="bg-white rounded-3xl shadow-2xl shadow-black/40 overflow-hidden">
               <div className="p-8 sm:p-10">
                 {sent ? (
@@ -958,7 +829,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                     </div>
                     <h3 className="text-slate-900 font-bold text-lg mb-2 font-sora">Project Request Sent!</h3>
                     <p className="text-xs text-slate-500 mb-4 leading-relaxed">
-                      Our system registered your lead details. Our Web development engineering leads will review it shortly.
+                      Our system registered your lead details. Our engineering leads will review it shortly.
                     </p>
                     {leadId && (
                       <div className="inline-block px-4 py-2 bg-slate-50 rounded-xl border border-slate-200 mb-6">
@@ -1041,7 +912,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
                       <textarea
                         required rows={4} value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
-                        placeholder="Tell us about your web development project requirements, target goals, and expected delivery timeline..."
+                        placeholder={`Tell us about your custom ${product.title} requirements, expected integrations, and delivery timelines...`}
                         className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none resize-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200 leading-relaxed"
                         style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                       />
@@ -1060,7 +931,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
               </div>
             </div>
 
-            {/* Right side: Info panels matching homepage */}
+            {/* Right side: Info panels */}
             <div className="space-y-5 lg:pt-2">
               {[
                 { icon: Mail,   label: "Email Us",  value: COMPANY.email,    href: `mailto:${COMPANY.email}` },
@@ -1138,7 +1009,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
           />
         </div>
 
-        {/* ── MARQUEE (below map) ── */}
+        {/* ── MARQUEE ── */}
         <div className="relative overflow-hidden bg-slate-950 py-10">
           <style dangerouslySetInnerHTML={{__html: `
             @keyframes contact-marquee {
@@ -1159,24 +1030,8 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
           <div className="contact-marquee-wrap relative z-10 w-full overflow-hidden"
             style={{ maskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)" }}>
             <div className="contact-marquee-track text-[52px] sm:text-[80px] md:text-[100px] font-black tracking-tighter uppercase select-none font-sora">
-              {[...Array(2)].map((_, i) => (
-                <span key={`a${i}`} className="inline-flex items-center gap-6 px-6">
-                  <span className="text-white/90">GET IN</span>
-                  <span style={{ color: "var(--accent-global)" }}>TOUCH</span>
-                  <span className="text-white/20">·</span>
-                  <span className="text-white/90">START YOUR</span>
-                  <span style={{ color: "var(--accent-global)" }}>PROJECT</span>
-                  <span className="text-white/20">·</span>
-                  <span className="text-white/90">BUILD THE</span>
-                  <span style={{ color: "var(--accent-global)" }}>FUTURE</span>
-                  <span className="text-white/20">·</span>
-                  <span className="text-white/90">NEXTGEN</span>
-                  <span style={{ color: "var(--accent-global)" }}>SOLUTIONS</span>
-                  <span className="text-white/20">·</span>
-                </span>
-              ))}
-              {[...Array(2)].map((_, i) => (
-                <span key={`b${i}`} className="inline-flex items-center gap-6 px-6">
+              {[...Array(4)].map((_, i) => (
+                <span key={i} className="inline-flex items-center gap-6 px-6">
                   <span className="text-white/90">GET IN</span>
                   <span style={{ color: "var(--accent-global)" }}>TOUCH</span>
                   <span className="text-white/20">·</span>
@@ -1197,7 +1052,7 @@ export default function DmsProductDetail({ product }: { product: ProductDetail }
 
       </section>
 
-      {/* ── 10. Floating Bottom Conversion Bar with Close/Dismiss Button ── */}
+      {/* ── 10. Floating Bottom Conversion Bar ── */}
       <div 
         className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[90%] max-w-xl transition-all duration-500 ease-out transform ${
           showFloatingCta && !dismissedCta ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
