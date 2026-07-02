@@ -19,7 +19,7 @@ function LogoMark({ size = 52 }: { size?: number }) {
   return (
     <img
       src="/images/logo.png"
-      alt="NextGen Tech Solutions"
+      alt="NextGen Tech Solution"
       style={{
         height: `${size}px`,
         width: "auto",
@@ -314,7 +314,7 @@ export default function Navbar() {
           scrolled ? "h-[72px]" : "h-[104px]"
         )}>
           {/* Logo on Left */}
-          <Link href="/" className="flex items-center shrink-0 group" aria-label="NextGen Tech Solutions — Home">
+          <Link href="/" className="flex items-center shrink-0 group" aria-label="NextGen Tech Solution — Home">
             <LogoMark size={scrolled ? 46 : 56} />
           </Link>
 
@@ -537,7 +537,7 @@ export default function Navbar() {
           "flex lg:hidden items-center justify-between w-full px-4 py-3.5 transition-colors duration-500 ease-in-out",
           scrolled ? "bg-white text-slate-900 border-b border-slate-200" : "bg-transparent text-white"
         )}>
-          <Link href="/" className="flex items-center shrink-0" aria-label="NextGen Tech Solutions — Home">
+          <Link href="/" className="flex items-center shrink-0" aria-label="NextGen Tech Solution — Home">
             <LogoMark size={38} />
           </Link>
           <div className="flex items-center gap-3">

@@ -12,8 +12,8 @@ const CRM_PATHS = ["/dashboard", "/admin", "/telecallers", "/superadmin"];
 
 export const metadata: Metadata = {
   title: {
-    default: "NextGen Tech Solutions — Engineering Tomorrow's Digital Future",
-    template: "%s | NextGen Tech Solutions",
+    default: "NextGen Tech Solution — Engineering Tomorrow's Digital Future",
+    template: "%s | NextGen Tech Solution",
   },
   description:
     "Premium technology company specializing in AI, SaaS, Enterprise Software, Automation, Cloud Infrastructure, and Digital Transformation. 150+ projects delivered to 50+ global clients.",
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://nextgentechsolution.org",
-    siteName: "NextGen Tech Solutions",
-    title: "NextGen Tech Solutions — Engineering Tomorrow's Digital Future",
+    siteName: "NextGen Tech Solution",
+    title: "NextGen Tech Solution — Engineering Tomorrow's Digital Future",
     description:
       "Premium technology company delivering AI, SaaS, Enterprise Software, and Digital Transformation. 150+ projects, 50+ global clients.",
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "NextGen Tech Solutions — Engineering Tomorrow's Digital Future",
+        alt: "NextGen Tech Solution — Engineering Tomorrow's Digital Future",
         type: "image/png",
       },
     ],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@nextgentechsol",
     creator: "@nextgentechsol",
-    title: "NextGen Tech Solutions — Engineering Tomorrow's Digital Future",
+    title: "NextGen Tech Solution — Engineering Tomorrow's Digital Future",
     description:
       "AI, SaaS, and Enterprise Software for the modern world. 150+ projects, 50+ global clients.",
     images: ["/images/og-image.png"],
@@ -157,7 +157,7 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": "https://nextgentechsolution.org/#website",
       url: "https://nextgentechsolution.org",
-      name: "NextGen Tech Solutions",
+      name: "NextGen Tech Solution",
       description: "Engineering Tomorrow's Digital Future",
       publisher: { "@id": "https://nextgentechsolution.org/#organization" },
       potentialAction: {

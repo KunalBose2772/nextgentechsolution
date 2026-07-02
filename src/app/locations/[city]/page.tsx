@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `Best IT & Software Company in ${cityData.name} | NextGen Tech Solutions`,
-    description: `Looking for top-tier software development, AI solutions, and digital marketing in ${cityData.name}, ${cityData.state}? NextGen Tech Solutions delivers enterprise-grade IT services globally.`,
+    title: `Best IT & Software Company in ${cityData.name} | NextGen Tech Solution`,
+    description: `Looking for top-tier software development, AI solutions, and digital marketing in ${cityData.name}, ${cityData.state}? NextGen Tech Solution delivers enterprise-grade IT services globally.`,
     alternates: {
       canonical: `https://nextgentechsolution.org/locations/${cityData.id}`,
     },
@@ -51,7 +51,7 @@ export default async function LocationPage({ params }: Props) {
   const localSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": `NextGen Tech Solutions - ${cityData.name}`,
+    "name": `NextGen Tech Solution - ${cityData.name}`,
     "image": "https://nextgentechsolution.org/images/og-image.png",
     "url": `https://nextgentechsolution.org/locations/${cityData.id}`,
     "telephone": "+91-90318-06381",

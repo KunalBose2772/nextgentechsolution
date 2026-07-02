@@ -189,7 +189,7 @@ export default function PrivacyPage() {
                 For questions regarding this policy or data storage practices, please write to:
               </p>
               <p className="text-xs text-slate-805 font-bold leading-relaxed">
-                Email: compliance@nextgentechsolutions.com<br />
+                Email: compliance@nextgentechsolution.org<br />
                 Office: 509, RR Tower, Ratu Road, Ranchi, Jharkhand
               </p>
             </div>

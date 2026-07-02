@@ -179,7 +179,7 @@ export default function TermsPage() {
                 If you have questions regarding our legal boundaries, please contact:
               </p>
               <p className="text-xs text-slate-805 font-bold leading-relaxed">
-                Email: compliance@nextgentechsolutions.com<br />
+                Email: compliance@nextgentechsolution.org<br />
                 Office Address: 509, RR Tower, Ratu Road, Ranchi, Jharkhand
               </p>
             </div>

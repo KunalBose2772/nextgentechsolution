@@ -1,13 +1,13 @@
-# NextGen Tech Solutions — Sales Playbook & Offerings Guide
+# NextGen Tech Solution — Sales Playbook & Offerings Guide
 
-Welcome to the **NextGen Tech Solutions Sales Playbook**. This document serves as your definitive guide to understanding, positioning, and selling our premium IT services and proprietary product solutions. 
+Welcome to the **NextGen Tech Solution Sales Playbook**. This document serves as your definitive guide to understanding, positioning, and selling our premium IT services and proprietary product solutions. 
 
 Use this guide to match client requirements with our capabilities, handle objections, conduct discovery calls, and position NextGen as the premier technology partner.
 
 ---
 
 ## 1. Company Overview & Core Value Proposition
-NextGen Tech Solutions is a premium digital transformation and custom software engineering firm. We build world-class web applications, mobile apps, SaaS platforms, enterprise systems, and custom AI integrations.
+NextGen Tech Solution is a premium digital transformation and custom software engineering firm. We build world-class web applications, mobile apps, SaaS platforms, enterprise systems, and custom AI integrations.
 
 ### Our Key Differentiators (Why Clients Choose Us):
 *   **Modern Headless Architecture:** We build high-performance storefronts and apps using Next.js, React, Node.js, and Go that load instantly and drive conversion.

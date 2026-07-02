@@ -486,7 +486,7 @@ export default function Hero() {
           <motion.img
             key={currentIndex}
             src={slide.img}
-            alt={`NextGen Tech Solutions expert — ${slide.label}`}
+            alt={`NextGen Tech Solution expert — ${slide.label}`}
             className="relative z-10 select-none w-auto"
             style={{
               height: "100%",

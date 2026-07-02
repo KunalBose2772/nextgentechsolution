@@ -10,7 +10,7 @@ function LogoMark({ size = 32 }: { size?: number }) {
   return (
     <img
       src="/images/logo.png"
-      alt="NextGen Tech Solutions"
+      alt="NextGen Tech Solution"
       style={{ height: `${size}px`, width: "auto", display: "block", objectFit: "contain" }}
       onError={(e) => { e.currentTarget.style.display = "none"; }}
     />

@@ -18,18 +18,18 @@ const Contact = dynamic(() => import("@/components/sections/Contact"));
 const ServicesTicker = dynamic(() => import("@/components/sections/ServicesTicker"));
 
 export const metadata: Metadata = {
-  title: "NextGen Tech Solutions — Premium IT Company | Web, Mobile, AI & SaaS",
+  title: "NextGen Tech Solution — Premium IT Company | Web, Mobile, AI & SaaS",
   description:
     "Build world-class web apps, mobile apps, SaaS platforms, and AI solutions with NextGen Tech Solution. 150+ projects delivered. 50+ global clients. India's premium tech partner.",
   alternates: {
     canonical: "https://nextgentechsolution.org",
   },
   openGraph: {
-    title: "NextGen Tech Solutions — Premium IT Company | Web, Mobile, AI & SaaS",
+    title: "NextGen Tech Solution — Premium IT Company | Web, Mobile, AI & SaaS",
     description:
       "Build world-class web apps, mobile apps, SaaS platforms, and AI solutions. 150+ projects delivered, 50+ global clients.",
     url: "https://nextgentechsolution.org",
-    images: [{ url: "/images/og-image.png", width: 1200, height: 630, alt: "NextGen Tech Solutions" }],
+    images: [{ url: "/images/og-image.png", width: 1200, height: 630, alt: "NextGen Tech Solution" }],
   },
 };
 
