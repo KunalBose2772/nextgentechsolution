@@ -188,16 +188,16 @@ export default function WhatsappServiceDetail({ service }: { service: ServiceDet
 - Project Type: ${projectType.toUpperCase()}
 - Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
 - Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
+- Meta Verification: ${hasMetaVerification ? "Yes" : "No"}
+- AI Bot Integration: ${hasAiBot ? "Yes" : "No"}
 - CRM Sync: ${hasCrmSync ? "Yes" : "No"}
 - Broadcast Scheduler: ${hasBroadcast ? "Yes" : "No"}
 - Multi-Agent Inbox: ${hasMultiAgent ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
+    if (hasMetaVerification) featuresList.push("Meta Verification Support");
+    if (hasAiBot) featuresList.push("AI Chatbot Integration");
     if (hasCrmSync) featuresList.push("CRM Sync");
     if (hasBroadcast) featuresList.push("Broadcast Scheduler");
     if (hasMultiAgent) featuresList.push("Multi-Agent Inbox");
@@ -574,9 +574,8 @@ export default function WhatsappServiceDetail({ service }: { service: ServiceDet
                           }`}
                           style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "" : opt.tagColor}`}
                                 style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
                           >{opt.tag}</span>
                           <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
                           <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>

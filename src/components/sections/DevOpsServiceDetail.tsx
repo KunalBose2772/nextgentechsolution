@@ -188,16 +188,16 @@ export default function DevOpsServiceDetail({ service }: { service: ServiceDetai
 - Project Type: ${projectType.toUpperCase()}
 - Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
 - Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
+- GitHub Actions CI/CD: ${hasGithubActions ? "Yes" : "No"}
+- Kubernetes Orchestration: ${hasK8s ? "Yes" : "No"}
 - Prometheus/Grafana: ${hasPrometheus ? "Yes" : "No"}
 - ELK Logging: ${hasElk ? "Yes" : "No"}
 - Security Scanning: ${hasSecurity ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
+    if (hasGithubActions) featuresList.push("GitHub Actions CI/CD");
+    if (hasK8s) featuresList.push("Kubernetes Orchestration");
     if (hasPrometheus) featuresList.push("Prometheus/Grafana");
     if (hasElk) featuresList.push("ELK Logging Stack");
     if (hasSecurity) featuresList.push("Security Scanning");
@@ -574,9 +574,8 @@ export default function DevOpsServiceDetail({ service }: { service: ServiceDetai
                           }`}
                           style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "" : opt.tagColor}`}
                                 style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
                           >{opt.tag}</span>
                           <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
                           <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>

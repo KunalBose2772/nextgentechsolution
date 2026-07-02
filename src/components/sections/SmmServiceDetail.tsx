@@ -188,16 +188,16 @@ export default function SmmServiceDetail({ service }: { service: ServiceDetail }
 - Project Type: ${projectType.toUpperCase()}
 - Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
 - Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
+- Vertical Video Editing: ${hasVideo ? "Yes" : "No"}
+- Daily Community Mgmt: ${hasCommunity ? "Yes" : "No"}
 - Exec Ghostwriting: ${hasLinkedin ? "Yes" : "No"}
 - Graphic Design: ${hasDesign ? "Yes" : "No"}
 - Influencer Outreach: ${hasInfluencer ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
+    if (hasVideo) featuresList.push("Vertical Video Editing");
+    if (hasCommunity) featuresList.push("Daily Community Mgmt");
     if (hasLinkedin) featuresList.push("Executive Ghostwriting");
     if (hasDesign) featuresList.push("Custom Graphic Design");
     if (hasInfluencer) featuresList.push("Influencer Outreach");
@@ -574,9 +574,8 @@ export default function SmmServiceDetail({ service }: { service: ServiceDetail }
                           }`}
                           style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "" : opt.tagColor}`}
                                 style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
                           >{opt.tag}</span>
                           <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
                           <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>

@@ -188,16 +188,16 @@ export default function GraphicDesignServiceDetail({ service }: { service: Servi
 - Project Type: ${projectType.toUpperCase()}
 - Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
 - Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
+- Custom Social Templates: ${hasSocial ? "Yes" : "No"}
+- Corporate Brochure PDF: ${hasBrochure ? "Yes" : "No"}
 - Paid Ads Banners: ${hasAds ? "Yes" : "No"}
 - Custom Illustrations: ${hasIllustration ? "Yes" : "No"}
 - Print Formatting: ${hasPrint ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
+    if (hasSocial) featuresList.push("Custom Social Templates");
+    if (hasBrochure) featuresList.push("Corporate Brochure PDF");
     if (hasAds) featuresList.push("Paid Ads Banners");
     if (hasIllustration) featuresList.push("Custom Illustrations");
     if (hasPrint) featuresList.push("Print Formatting");
@@ -574,9 +574,8 @@ export default function GraphicDesignServiceDetail({ service }: { service: Servi
                           }`}
                           style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "" : opt.tagColor}`}
                                 style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
                           >{opt.tag}</span>
                           <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
                           <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>

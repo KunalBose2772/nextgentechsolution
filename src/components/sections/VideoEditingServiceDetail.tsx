@@ -188,16 +188,16 @@ export default function VideoEditingServiceDetail({ service }: { service: Servic
 - Project Type: ${projectType.toUpperCase()}
 - Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
 - Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
+- Custom 3D Modeling: ${has3dModel ? "Yes" : "No"}
+- Advanced Motion Graphics: ${hasMotion ? "Yes" : "No"}
 - Professional Voiceover: ${hasVoiceover ? "Yes" : "No"}
 - Cinematic Color Grading: ${hasColorGrade ? "Yes" : "No"}
 - Custom Sound Design: ${hasSoundDesign ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
+    if (has3dModel) featuresList.push("Custom 3D Modeling");
+    if (hasMotion) featuresList.push("Advanced Motion Graphics");
     if (hasVoiceover) featuresList.push("Professional Voiceover");
     if (hasColorGrade) featuresList.push("Cinematic Color Grading");
     if (hasSoundDesign) featuresList.push("Custom Sound Design");
@@ -574,9 +574,8 @@ export default function VideoEditingServiceDetail({ service }: { service: Servic
                           }`}
                           style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "" : opt.tagColor}`}
                                 style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
                           >{opt.tag}</span>
                           <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
                           <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>

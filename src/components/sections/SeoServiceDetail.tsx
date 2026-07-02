@@ -188,16 +188,16 @@ export default function SeoServiceDetail({ service }: { service: ServiceDetail }
 - Project Type: ${projectType.toUpperCase()}
 - Engagement Model: ${billingModel === "fixed" ? "Fixed Price" : "Monthly Retainer"}
 - Pages: ${pageCount}
-- Auth: ${hasAuth ? "Yes" : "No"}
-- Payments: ${hasPayments ? "Yes" : "No"}
+- Deep Technical Audit: ${hasAudit ? "Yes" : "No"}
+- Custom JSON-LD Schema: ${hasSchema ? "Yes" : "No"}
 - Core Web Vitals Fix: ${hasSpeed ? "Yes" : "No"}
 - High-DR Backlinks: ${hasBacklinks ? "Yes" : "No"}
 - Local SEO Citations: ${hasLocal ? "Yes" : "No"}
 - Calculated Cost: ₹${estimatedCost.toLocaleString("en-IN")}`;
     
     const featuresList: string[] = [];
-    if (hasAuth) featuresList.push("User Authentication");
-    if (hasPayments) featuresList.push("Payment Integration");
+    if (hasAudit) featuresList.push("Deep Technical Audit");
+    if (hasSchema) featuresList.push("Custom JSON-LD Schema");
     if (hasSpeed) featuresList.push("Core Web Vitals Fix");
     if (hasBacklinks) featuresList.push("High-DR Backlinks");
     if (hasLocal) featuresList.push("Local SEO Citations");
@@ -574,9 +574,8 @@ export default function SeoServiceDetail({ service }: { service: ServiceDetail }
                           }`}
                           style={sel ? { borderColor: "var(--accent-global)", backgroundColor: "var(--accent-global-dim)" } : {}}
                         >
-                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block`}
+                          <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full border mb-2 inline-block ${sel ? "" : opt.tagColor}`}
                                 style={sel ? { backgroundColor: "var(--accent-global)", color: "#ffffff", border: "none" } : {}}
-                                className={sel ? "" : opt.tagColor}
                           >{opt.tag}</span>
                           <p className={`text-sm font-extrabold ${sel ? "text-slate-950 font-black" : "text-slate-800"}`}>{opt.label}</p>
                           <p className={`text-[11px] mt-1 ${sel ? "text-slate-650 font-medium" : "text-slate-400"}`}>{opt.desc}</p>
