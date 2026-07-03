@@ -136,8 +136,27 @@ export default function GenericProductDetail({ product }: { product: ProductDeta
   } as React.CSSProperties;
 
   // Decide mockups based on product
-  const heroMockup = product.id === "dms" ? "/images/dms_mockup.png" : "/images/saas_dashboard_mockup.png";
-  const stepsMockup = product.id === "dms" ? "/images/dms_steps.png" : "/images/saas_dashboard_mockup.png";
+  const productImages: Record<string, { mockup: string; steps: string }> = {
+    dms: { mockup: "/images/dms_mockup.png", steps: "/images/dms_steps.png" },
+    lms: { mockup: "/images/lms_mockup.png", steps: "/images/lms_steps.png" },
+    hms: { mockup: "/images/hms_mockup.png", steps: "/images/hms_steps.png" },
+    ott: { mockup: "/images/ott_mockup.png", steps: "/images/ott_steps.png" },
+    "school-erp": { mockup: "/images/sms_mockup.png", steps: "/images/sms_steps.png" },
+    marketplace: { mockup: "/images/market_mockup.png", steps: "/images/market_steps.png" },
+    pos: { mockup: "/images/pos_mockup.png", steps: "/images/pos_steps.png" },
+    crm: { mockup: "/images/crm_mockup.png", steps: "/images/crm_steps.png" },
+    logistics: { mockup: "/images/logistic_mockup.png", steps: "/images/logistics_steps.png" },
+    inventory: { mockup: "/images/inventory_mockup.png", steps: "/images/inventory_steps.png" },
+    ecommerce: { mockup: "/images/ecommerce_mockup.png", steps: "/images/ecommerce_steps.png" },
+    hrms: { mockup: "/images/hr_mockup.png", steps: "/images/hr_steps.png" },
+  };
+
+  const images = productImages[product.id] || {
+    mockup: "/images/saas_dashboard_mockup.png",
+    steps: "/images/saas_dashboard_mockup.png"
+  };
+  const heroMockup = images.mockup;
+  const stepsMockup = images.steps;
 
   return (
     <div className="min-h-screen text-[var(--text-secondary)] bg-[var(--bg-primary)] relative" style={customStyles}>
@@ -863,7 +882,7 @@ export default function GenericProductDetail({ product }: { product: ProductDeta
                         <input
                           type="text" required value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          placeholder="Aryan Roy"
+                          placeholder="Enter your full name"
                           className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
                           style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
@@ -873,7 +892,7 @@ export default function GenericProductDetail({ product }: { product: ProductDeta
                         <input
                           type="email" required value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
-                          placeholder="aryan@organization.com"
+                          placeholder="Enter your email address"
                           className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
                           style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
@@ -886,7 +905,7 @@ export default function GenericProductDetail({ product }: { product: ProductDeta
                         <input
                           type="tel" required value={form.phone}
                           onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                          placeholder="+91 9031806381"
+                          placeholder="Enter your phone number"
                           className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
                           style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />

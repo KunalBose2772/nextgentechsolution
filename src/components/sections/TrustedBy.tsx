@@ -1,20 +1,104 @@
 "use client";
 
-/* Trusted-by marquee — styled company name pills with subtle icons */
+import React from "react";
+import { IconType } from "react-icons";
+import { 
+  SiPhonepe, 
+  SiRazorpay, 
+  SiStripe, 
+  SiVercel, 
+  SiSupabase, 
+  SiWhatsapp, 
+  SiTwilio, 
+  SiSendgrid, 
+  SiGithub, 
+  SiFigma, 
+  SiFirebase 
+} from "react-icons/si";
+import { FaAws } from "react-icons/fa6";
 
-const companies = [
-  { name: "Medtronic",  category: "Healthcare" },
-  { name: "UNICEF",     category: "NGO" },
-  { name: "Razorpay",   category: "Fintech" },
-  { name: "Lenskart",   category: "E-Commerce" },
-  { name: "Agoda",      category: "Travel" },
-  { name: "Leafly",     category: "Tech" },
-  { name: "Stripe",     category: "Payments" },
-  { name: "Figma",      category: "Design" },
-  { name: "Notion",     category: "Productivity" },
-  { name: "Cloudflare", category: "Infrastructure" },
-  { name: "Vercel",     category: "Cloud" },
-  { name: "Linear",     category: "SaaS" },
+/* Trusted-by marquee — verified technology & payment integration partners with official logos */
+
+interface Company {
+  name: string;
+  category: string;
+  officialColor: string;
+  logo: IconType;
+}
+
+const companies: Company[] = [
+  {
+    name: "PhonePe",
+    category: "Payment Partner",
+    officialColor: "#5f259f",
+    logo: SiPhonepe,
+  },
+  {
+    name: "Razorpay",
+    category: "Payment Gateway",
+    officialColor: "#0c8af0",
+    logo: SiRazorpay,
+  },
+  {
+    name: "Stripe",
+    category: "Global Payments",
+    officialColor: "#635bff",
+    logo: SiStripe,
+  },
+  {
+    name: "AWS",
+    category: "Cloud Infrastructure",
+    officialColor: "#ff9900",
+    logo: FaAws,
+  },
+  {
+    name: "Vercel",
+    category: "Cloud & Hosting",
+    officialColor: "#000000",
+    logo: SiVercel,
+  },
+  {
+    name: "Supabase",
+    category: "Database & Backend",
+    officialColor: "#3ecf8e",
+    logo: SiSupabase,
+  },
+  {
+    name: "WhatsApp API",
+    category: "Messaging Gateway",
+    officialColor: "#25d366",
+    logo: SiWhatsapp,
+  },
+  {
+    name: "Twilio",
+    category: "SMS & Voice Gateway",
+    officialColor: "#f22f46",
+    logo: SiTwilio,
+  },
+  {
+    name: "SendGrid",
+    category: "Email Infrastructure",
+    officialColor: "#1a82e2",
+    logo: SiSendgrid,
+  },
+  {
+    name: "GitHub",
+    category: "DevOps & Workflows",
+    officialColor: "#24292e",
+    logo: SiGithub,
+  },
+  {
+    name: "Figma",
+    category: "UI/UX Workflow",
+    officialColor: "#f24e1e",
+    logo: SiFigma,
+  },
+  {
+    name: "Firebase",
+    category: "Database & Auth",
+    officialColor: "#ffca28",
+    logo: SiFirebase,
+  },
 ];
 
 // Duplicate for seamless infinite scroll
@@ -23,7 +107,7 @@ const track = [...companies, ...companies];
 export default function TrustedBy() {
   return (
     <section
-      className="relative py-10 overflow-hidden"
+      className="relative pt-10 md:pt-24 pb-10 overflow-hidden"
       style={{
         background: "#ffffff",
         borderBottom: "1px solid #f1f5f9",
@@ -31,7 +115,7 @@ export default function TrustedBy() {
     >
       {/* Label */}
       <p className="text-center text-[10px] font-bold uppercase tracking-[0.20em] text-slate-400 mb-7 select-none px-4">
-        Trusted by innovative companies worldwide
+        SUPPORTING SEAMLESS INTEGRATION WITH LEADING PLATFORMS
       </p>
 
       {/* Marquee track */}
@@ -51,41 +135,45 @@ export default function TrustedBy() {
             willChange: "transform",
           }}
         >
-          {track.map((company, i) => (
-            <div
-              key={`${company.name}-${i}`}
-              className="flex items-center gap-2.5 px-5 py-2.5 rounded-full select-none cursor-default whitespace-nowrap transition-colors duration-200 group"
-              style={{
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--accent-global-dim)";
-                e.currentTarget.style.borderColor = "rgba(124,58,237,0.3)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#f8fafc";
-                e.currentTarget.style.borderColor = "#e2e8f0";
-              }}
-            >
-              {/* Dot */}
+          {track.map((company, i) => {
+            const LogoIcon = company.logo;
+            return (
               <div
-                className="w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ background: "var(--accent-global)" }}
-              />
-              <span
-                className="text-sm font-bold tracking-tight text-slate-600"
-                style={{ fontFamily: "'Sora', sans-serif" }}
+                key={`${company.name}-${i}`}
+                className="flex items-center gap-3 px-5 py-2.5 rounded-full select-none cursor-default whitespace-nowrap transition-all duration-200 group"
+                style={{
+                  background: "#f8fafc",
+                  border: "1px solid #e2e8f0",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "var(--accent-global-dim)";
+                  e.currentTarget.style.borderColor = "rgba(124,58,237,0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#f8fafc";
+                  e.currentTarget.style.borderColor = "#e2e8f0";
+                }}
               >
-                {company.name}
-              </span>
-              <span
-                className="text-[9px] font-bold uppercase tracking-widest text-slate-400 hidden sm:block"
-              >
-                {company.category}
-              </span>
-            </div>
-          ))}
+                {/* Logo icon with official brand color */}
+                <LogoIcon 
+                  className="w-4 h-4 transition-transform duration-300 group-hover:scale-110 shrink-0" 
+                  style={{ color: company.officialColor }}
+                />
+                
+                <span
+                  className="text-sm font-bold tracking-tight text-slate-600 group-hover:text-slate-900 transition-colors"
+                  style={{ fontFamily: "'Sora', sans-serif" }}
+                >
+                  {company.name}
+                </span>
+                <span
+                  className="text-[9px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-500 transition-colors hidden sm:block"
+                >
+                  {company.category}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

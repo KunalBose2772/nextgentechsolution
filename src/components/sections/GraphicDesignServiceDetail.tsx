@@ -1239,7 +1239,7 @@ export default function GraphicDesignServiceDetail({ service }: { service: Servi
                         <input
                           type="text" required value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          placeholder="Aryan Roy"
+                          placeholder="Enter your full name"
                           className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
                           style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
@@ -1249,7 +1249,7 @@ export default function GraphicDesignServiceDetail({ service }: { service: Servi
                         <input
                           type="email" required value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
-                          placeholder="aryan@organization.com"
+                          placeholder="Enter your email address"
                           className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
                           style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
@@ -1262,7 +1262,7 @@ export default function GraphicDesignServiceDetail({ service }: { service: Servi
                         <input
                           type="tel" required value={form.phone}
                           onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                          placeholder="+91 9031806381"
+                          placeholder="Enter your phone number"
                           className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[var(--accent-global)] focus:ring-2 transition-all duration-200"
                           style={{ "--tw-ring-color": "rgba(var(--accent-global-rgb), 0.2)" } as any}
                         />
