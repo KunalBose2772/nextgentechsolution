@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import { productsData } from "@/lib/products-data";
 import ProductDetailClient from "./ProductDetailClient";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -27,11 +25,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  return (
-    <main className="min-h-screen bg-[#F8FAFC]">
-      <Navbar />
-      <ProductDetailClient product={product} />
-      <Footer />
-    </main>
-  );
+  return <ProductDetailClient product={product} />;
 }
+
