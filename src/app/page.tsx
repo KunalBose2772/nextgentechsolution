@@ -5,6 +5,7 @@ import Hero from "@/components/sections/Hero";
 // Dynamic imports to code-split and lazy-load all sections below the fold.
 // This significantly reduces the initial JS bundle size and improves LCP.
 const TrustedBy = dynamic(() => import("@/components/sections/TrustedBy"));
+const InlineLeadCapture = dynamic(() => import("@/components/sections/InlineLeadCapture"));
 const About = dynamic(() => import("@/components/sections/About"));
 const Services = dynamic(() => import("@/components/sections/Services"));
 const WhyChooseUs = dynamic(() => import("@/components/sections/WhyChooseUs"));
@@ -38,6 +39,7 @@ export default function HomePage() {
     <>
       <Hero />
       <TrustedBy />
+      <InlineLeadCapture />
       <About />
       <Services />
       <ServicesTicker />

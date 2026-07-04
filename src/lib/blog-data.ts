@@ -1,11 +1,12 @@
 export interface BlogPost {
   id: string;
+  slug?: string;
   title: string;
   excerpt: string;
   category: string;
   author: string;
   authorRole: string;
-  date: string;
+  date?: string;
   readTime: string;
   tags: string[];
   accent: string;

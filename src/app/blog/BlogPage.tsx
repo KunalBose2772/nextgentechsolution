@@ -1,19 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageHero from "@/components/common/PageHero";
 import { Clock, Tag, ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { posts } from "@/lib/blog-data";
+import { posts as STATIC_POSTS } from "@/lib/blog-data";
 
 const categories = ["All", "Engineering", "AI & ML", "DevOps", "Mobile", "Design"];
 
 export default function BlogPage() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [items, setItems] = useState<any[]>(STATIC_POSTS);
 
-  const filtered = posts.filter((p) => {
+  useEffect(() => {
+    fetch("/api/blogs?status=published")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data && json.data.length > 0) {
+          const mapped = json.data.map((item: any) => ({
+            id: item.slug || item.id,
+            title: item.title,
+            excerpt: item.excerpt,
+            image: item.image,
+            category: item.category,
+            date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recently",
+            readTime: item.readTime,
+            accent: item.accent,
+            author: item.author,
+            tags: item.tags || [],
+          }));
+          setItems(mapped);
+        }
+      })
+      .catch((err) => console.error("Error loading blog posts:", err));
+  }, []);
+
+  const filtered = items.filter((p) => {
     const matchCat = activeCategory === "All" || p.category === activeCategory;
     const matchSearch = !search || p.title.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
@@ -106,7 +130,7 @@ export default function BlogPage() {
                   <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-2">{post.excerpt}</p>
 
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {post.tags.map((tag) => (
+                    {post.tags.map((tag: string) => (
                       <span key={tag} className="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded border border-slate-200 bg-slate-50 text-slate-550 font-medium">
                         <Tag className="w-2.5 h-2.5 text-slate-400" />{tag}
                       </span>

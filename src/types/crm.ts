@@ -2,7 +2,7 @@
    CRM TypeScript types
    ───────────────────────────────────────────────────────────────────── */
 
-export type UserRole = "superadmin" | "admin" | "telecaller" | "field_sales" | "marketing";
+export type UserRole = "superadmin" | "admin" | "telecaller" | "field_sales" | "marketing" | "developer";
 
 export interface CRMUser {
   _id: string;
@@ -71,6 +71,7 @@ export interface Lead {
   createdBy: CRMUser | string;
   followUpDate?: string;
   tags: string[];
+  metadata?: Record<string, any>;
   value?: number;
   probability?: number;
   lostReason?: string;
@@ -200,7 +201,7 @@ export interface Activity {
   _id: string;
   type: ActivityType;
   description: string;
-  entityType: "lead" | "quotation" | "ticket" | "user";
+  entityType: "lead" | "quotation" | "ticket" | "user" | "invoice" | "payment";
   entityId: string;
   entityName?: string;
   performedBy: string;
@@ -211,6 +212,13 @@ export interface Activity {
 
 /* ─── Project ───────────────────────────────────────────────────────── */
 export type ProjectStatus = "planning" | "active" | "on_hold" | "completed" | "cancelled";
+
+export interface ProjectLog {
+  id: string;
+  text: string;
+  createdBy: string;
+  createdAt: string;
+}
 
 export interface Project {
   _id: string;
@@ -225,9 +233,64 @@ export interface Project {
   description?: string;
   assignedTeam: string[];
   tags: string[];
+  progress: number;
+  developerId?: string;
+  developerName?: string;
+  updates?: ProjectLog[];
   createdAt: string;
   updatedAt: string;
 }
+
+/* ─── Invoice ────────────────────────────────────────────────────────── */
+export type InvoiceStatus = "unpaid" | "partially_paid" | "paid" | "void" | "overdue";
+
+export interface Invoice {
+  _id: string;
+  invoiceId: string;
+  lead?: Lead | string;
+  quotation?: Quotation | string;
+  leadName: string;
+  leadEmail: string;
+  leadPhone: string;
+  leadCompany?: string;
+  items: QuotationItem[];
+  subtotal: number;
+  discountAmount: number;
+  taxRate: number;
+  taxAmount: number;
+  total: number;
+  amountPaid: number;
+  dueAmount: number;
+  status: InvoiceStatus;
+  billingDate: string;
+  dueDate: string;
+  terms?: string;
+  bankDetails?: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/* ─── Payment ────────────────────────────────────────────────────────── */
+export type PaymentMethod = "bank_transfer" | "upi" | "card" | "cash" | "cheque" | "other";
+export type PaymentStatus = "pending" | "completed" | "failed" | "refunded";
+
+export interface Payment {
+  _id: string;
+  paymentId: string;
+  invoice?: Invoice | string;
+  lead?: Lead | string;
+  amount: number;
+  paymentMethod: PaymentMethod;
+  referenceNumber?: string;
+  paymentDate: string;
+  status: PaymentStatus;
+  notes?: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 /* ─── Dashboard Stats ───────────────────────────────────────────────── */
 export interface DashboardStats {

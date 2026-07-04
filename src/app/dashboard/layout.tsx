@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <CRMProvider>
-      <div className="min-h-screen flex" style={{ background: "var(--crm-bg)" }}>
+      <div className="min-h-screen flex crm-shell" style={{ background: "var(--crm-bg)" }}>
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
 
         {mobileOpen && (

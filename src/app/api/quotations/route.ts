@@ -21,10 +21,12 @@ export async function GET(req: NextRequest) {
   const page   = Math.max(1, Number(searchParams.get("page")  ?? 1));
   const limit  = Math.min(100, Number(searchParams.get("limit") ?? 20));
   const status = searchParams.get("status");
+  const leadId = searchParams.get("leadId");
 
   let query = supabase.from("quotations").select("*", { count: "exact" });
   if (user.role === "telecaller") query = query.eq("created_by", user.sub as string);
   if (status) query = query.eq("status", status);
+  if (leadId) query = query.eq("lead_id", leadId);
 
   const from = (page - 1) * limit;
   const { data, count, error } = await query
@@ -52,6 +54,33 @@ export async function POST(req: NextRequest) {
 
   const supabase = getServerSupabase()!;
   const body = await req.json();
+
+  // ── Telecaller restriction: lead_id is required and must be assigned to them ──
+  if (user.role === "telecaller") {
+    if (!body.lead) {
+      return NextResponse.json(
+        { error: "Telecallers must select an assigned lead to create a quotation" },
+        { status: 403 }
+      );
+    }
+    // Verify the lead actually belongs to this telecaller
+    const { data: leadRow, error: leadErr } = await supabase
+      .from("leads")
+      .select("id, assigned_to")
+      .eq("id", body.lead)
+      .single();
+
+    if (leadErr || !leadRow) {
+      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+    }
+    if (leadRow.assigned_to !== user.sub) {
+      return NextResponse.json(
+        { error: "You can only create quotations for leads assigned to you" },
+        { status: 403 }
+      );
+    }
+  }
+
   const quotationId = await nextQuotationId(supabase);
 
   const { data, error } = await supabase
@@ -94,6 +123,7 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ data: mapQuotation(data) }, { status: 201 });
 }
+
 
 function mapQuotation(row: Record<string, unknown>) {
   return {

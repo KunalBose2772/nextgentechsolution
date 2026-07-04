@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   Mail, Phone, MapPin, ArrowRight, 
@@ -43,6 +44,7 @@ const footerLinks = {
   ],
   Company: [
     { label: "About Us",     href: "/about" },
+    { label: "Our Team",      href: "/team" },
     { label: "Our Portfolio", href: "/portfolio" },
     { label: "Careers",      href: "/careers" },
     { label: "Blog & Insights", href: "/blog" },
@@ -50,16 +52,48 @@ const footerLinks = {
   ]
 };
 
-const socials = [
-  { icon: FaLinkedinIn, href: COMPANY.social.linkedin,  label: "LinkedIn" },
-  { icon: FaTwitter,    href: COMPANY.social.twitter,   label: "Twitter" },
-  { icon: FaGithub,     href: COMPANY.social.github,    label: "GitHub" },
-  { icon: FaInstagram,  href: COMPANY.social.instagram, label: "Instagram" },
-  { icon: FaFacebookF,  href: COMPANY.social.facebook,  label: "Facebook" },
-  { icon: FaYoutube,    href: COMPANY.social.youtube,   label: "YouTube" },
-];
-
 export default function Footer() {
+  const [settings, setSettings] = useState<any>(COMPANY);
+  const [isScrollActive, setIsScrollActive] = useState(false);
+
+  const socials = [
+    { icon: FaLinkedinIn, href: settings.social.linkedin,  label: "LinkedIn" },
+    { icon: FaTwitter,    href: settings.social.twitter,   label: "Twitter" },
+    { icon: FaGithub,     href: settings.social.github,    label: "GitHub" },
+    { icon: FaInstagram,  href: settings.social.instagram, label: "Instagram" },
+    { icon: FaFacebookF,  href: settings.social.facebook,  label: "Facebook" },
+    { icon: FaYoutube,    href: settings.social.youtube,   label: "YouTube" },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsScrollActive(true);
+      } else {
+        setIsScrollActive(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data) {
+          setSettings({
+            ...COMPANY,
+            phone: json.data.phone || COMPANY.phone,
+            email: json.data.email || COMPANY.email,
+            whatsapp: json.data.whatsapp || COMPANY.whatsapp,
+            location: json.data.address || COMPANY.location,
+          });
+        }
+      })
+      .catch((err) => console.error("Error loading web settings in Footer:", err));
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <footer className="relative overflow-hidden bg-slate-950 border-t border-white/[0.08] text-white">
 
@@ -182,27 +216,27 @@ export default function Footer() {
             
             {/* Contact Details */}
             <div className="space-y-3.5">
-              <a href={`mailto:${COMPANY.email}`}
+              <a href={`mailto:${settings.email}`}
                 className="flex items-center gap-3 text-[13px] text-slate-200 hover:text-[#a78bfa] transition-colors duration-250 group">
                 <div className="w-8 h-8 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover:border-[#7C3AED]/40 group-hover:bg-[#7C3AED]/10 transition-all">
                   <Mail className="w-3.5 h-3.5 text-[#a78bfa]" />
                 </div>
-                <span className="truncate">{COMPANY.email}</span>
+                <span className="truncate">{settings.email}</span>
               </a>
               
-              <a href={`tel:${COMPANY.phone.replace(/\s+/g, "")}`}
+              <a href={`tel:${settings.phone.replace(/\s+/g, "")}`}
                 className="flex items-center gap-3 text-[13px] text-slate-200 hover:text-[#a78bfa] transition-colors duration-250 group">
                 <div className="w-8 h-8 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover:border-[#7C3AED]/40 group-hover:bg-[#7C3AED]/10 transition-all">
                   <Phone className="w-3.5 h-3.5 text-[#a78bfa]" />
                 </div>
-                <span>{COMPANY.phone}</span>
+                <span>{settings.phone}</span>
               </a>
               
               <div className="flex items-start gap-3 text-[13px] text-slate-200">
                 <div className="w-8 h-8 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0">
                   <MapPin className="w-3.5 h-3.5 text-[#a78bfa]" />
                 </div>
-                <span className="leading-relaxed mt-0.5 text-xs">{COMPANY.location}</span>
+                <span className="leading-relaxed mt-0.5 text-xs">{settings.location}</span>
               </div>
             </div>
 
@@ -278,16 +312,19 @@ export default function Footer() {
 
       </div>
 
-      {/* ══ PERSISTENT FLOATING CALL & WHATSAPP CTA WIDGET (Sits above Scroll-to-Top button) ══ */}
-      <div className="fixed bottom-[80px] right-6 z-45 flex flex-col gap-3.5 items-end">
+      {/* ══ PERSISTENT FLOATING CALL & WHATSAPP CTA WIDGET (Sits above Scroll-to-Top button dynamically) ══ */}
+      <div 
+        className="fixed right-6 z-45 flex flex-col gap-3.5 items-end transition-all duration-300 ease-out"
+        style={{ bottom: isScrollActive ? "80px" : "24px" }}
+      >
         {/* Call Button */}
         <a
-          href={`tel:${COMPANY.phone.replace(/\s+/g, "")}`}
-          className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-650 text-white shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
+          href={`tel:${settings.phone.replace(/\s+/g, "")}`}
+          className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-blue-600 text-white shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
           aria-label="Call Tech Architect"
         >
           {/* Pulsing Outer Ring */}
-          <span className="absolute inset-0 rounded-full bg-indigo-500/30 animate-ping opacity-75 pointer-events-none" />
+          <span className="absolute inset-0 rounded-full bg-blue-500/30 animate-ping opacity-75 pointer-events-none" />
           <PhoneCall className="w-5 h-5 relative z-10" />
 
           {/* Tooltip */}
@@ -298,7 +335,7 @@ export default function Footer() {
 
         {/* WhatsApp Button */}
         <a
-          href={`https://wa.me/${COMPANY.whatsapp.replace(/\D/g, "")}`}
+          href={`https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-green-500 to-emerald-600 text-white shadow-xl shadow-green-600/30 hover:shadow-green-600/50 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"

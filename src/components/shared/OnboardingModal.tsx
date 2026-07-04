@@ -192,7 +192,18 @@ export default function OnboardingModal() {
           phone: form.phone,
           budget: form.budget || "startup",
           message: finalMessage.trim(),
-          service: serviceType || "General Tech Proposal"
+          service: serviceType || "General Tech Proposal",
+          metadata: quoteDetails ? {
+            flowType: "quote",
+            cost: quoteDetails.cost,
+            projectType: quoteDetails.projectType,
+            billingModel: quoteDetails.billingModel,
+            pageCount: quoteDetails.pageCount,
+            features: quoteDetails.features
+          } : {
+            flowType: "package",
+            preselectedPackage: preselectedPackage
+          }
         })
       });
 

@@ -6,7 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Users2, FileText, Ticket, BarChart3,
   FolderOpen, Megaphone, UserCog, Settings, LogOut,
-  ChevronLeft, ChevronRight, Zap, MapPin, PhoneCall,
+  ChevronLeft, ChevronRight, Zap, MapPin, PhoneCall, Camera,
+  Receipt, CreditCard
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCRM } from "@/lib/crm-context";
@@ -25,8 +26,10 @@ const NAV: NavItem[] = [
   { label: "Leads",       href: "/dashboard/leads",        icon: Users2,     roles: ["superadmin","admin","telecaller"] },
   { label: "Follow-ups",  href: "/dashboard/followups",    icon: PhoneCall,  roles: ["superadmin","admin","telecaller"] },
   { label: "Quotations",  href: "/dashboard/quotations",   icon: FileText,   roles: ["superadmin","admin","telecaller"] },
+  { label: "Invoices",    href: "/dashboard/invoices",     icon: Receipt,    roles: ["superadmin","admin","telecaller"] },
+  { label: "Payments",    href: "/dashboard/payments",     icon: CreditCard, roles: ["superadmin","admin","telecaller"] },
   { label: "Tickets",     href: "/dashboard/tickets",      icon: Ticket },
-  { label: "Projects",    href: "/dashboard/projects",     icon: FolderOpen, roles: ["superadmin","admin"] },
+  { label: "Projects",    href: "/dashboard/projects",     icon: FolderOpen, roles: ["superadmin","admin","developer"] },
   { label: "Marketing",   href: "/dashboard/marketing",    icon: Megaphone,  roles: ["superadmin","admin","marketing"] },
   { label: "Field Sales", href: "/dashboard/field-sales",  icon: MapPin,     roles: ["superadmin","admin","field_sales"] },
   { label: "Reports",     href: "/dashboard/reports",      icon: BarChart3,  roles: ["superadmin","admin"] },
@@ -34,9 +37,17 @@ const NAV: NavItem[] = [
   { label: "Settings",    href: "/dashboard/settings",     icon: Settings,   roles: ["superadmin","admin"] },
 ];
 
+const WEBSITE_NAV: NavItem[] = [
+  { label: "Blogs",       href: "/dashboard/website/blogs",      icon: FileText,   roles: ["superadmin","admin"] },
+  { label: "Portfolio",   href: "/dashboard/website/portfolio",  icon: FolderOpen, roles: ["superadmin","admin"] },
+  { label: "Team",        href: "/dashboard/website/team",       icon: Users2,     roles: ["superadmin","admin"] },
+  { label: "Gallery",     href: "/dashboard/website/gallery",    icon: Camera,     roles: ["superadmin","admin"] },
+  { label: "Web Settings",href: "/dashboard/website/settings",   icon: Settings,   roles: ["superadmin","admin"] },
+];
+
 const ROLE_LABELS: Record<UserRole, string> = {
   superadmin: "Super Admin", admin: "Admin", telecaller: "Telecaller",
-  field_sales: "Field Sales", marketing: "Marketing",
+  field_sales: "Field Sales", marketing: "Marketing", developer: "Developer",
 };
 
 interface SidebarProps {
@@ -50,8 +61,71 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const role = user?.role ?? "admin";
 
   const visibleNav = NAV.filter((item) => !item.roles || item.roles.includes(role));
+  const visibleWebsiteNav = WEBSITE_NAV.filter((item) => !item.roles || item.roles.includes(role));
   const isActive = (href: string) =>
     href === "/dashboard" ? pathname === href : pathname.startsWith(href);
+
+  const renderNavItems = (items: NavItem[]) => {
+    return items.map((item) => {
+      const active = isActive(item.href);
+      return (
+        <Link key={item.href} href={item.href}>
+          <motion.div
+            className={cn(
+              "relative flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 group",
+              collapsed && "justify-center px-0 w-10 mx-auto"
+            )}
+            style={{
+              background: active ? "rgba(91,91,214,0.08)" : "transparent",
+              color: active ? "var(--crm-primary)" : "var(--crm-text-muted)",
+            }}
+            whileHover={{
+              backgroundColor: active ? "rgba(91,91,214,0.10)" : "var(--crm-surface-hover)",
+              x: collapsed ? 0 : 1,
+            }}
+            transition={{ duration: 0.12 }}
+          >
+            <item.icon className="w-[17px] h-[17px] shrink-0" strokeWidth={active ? 2.2 : 1.8} />
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.span
+                  className="text-[13px] font-medium whitespace-nowrap"
+                  style={active ? { color: "var(--crm-primary)" } : { color: "var(--crm-text)" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {item.label}
+                </motion.span>
+              )}
+            </AnimatePresence>
+            {active && !collapsed && (
+              <motion.div
+                layoutId="sidebar-indicator"
+                className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full"
+                style={{ background: "var(--crm-primary)" }}
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+
+            {/* Tooltip when collapsed */}
+            {collapsed && (
+              <div
+                className="absolute left-full ml-3 px-2.5 py-1.5 rounded-md text-[12px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50"
+                style={{
+                  background: "var(--crm-text-strong)",
+                  color: "#fff",
+                  boxShadow: "var(--crm-shadow-lg)",
+                }}
+              >
+                {item.label}
+              </div>
+            )}
+          </motion.div>
+        </Link>
+      );
+    });
+  };
 
   return (
     <motion.aside
@@ -98,73 +172,32 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2 space-y-0.5">
-        {!collapsed && (
-          <p className="text-[10px] font-semibold tracking-wider uppercase px-3 mb-2 mt-1"
-            style={{ color: "var(--crm-text-faint)" }}>
-            Workspace
-          </p>
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2 space-y-4">
+        <div>
+          {!collapsed && (
+            <p className="text-[10px] font-semibold tracking-wider uppercase px-3 mb-2 mt-1"
+              style={{ color: "var(--crm-text-faint)" }}>
+              Workspace
+            </p>
+          )}
+          <div className="space-y-0.5">
+            {renderNavItems(visibleNav)}
+          </div>
+        </div>
+
+        {visibleWebsiteNav.length > 0 && (
+          <div>
+            {!collapsed && (
+              <p className="text-[10px] font-semibold tracking-wider uppercase px-3 mb-2 mt-1"
+                style={{ color: "var(--crm-text-faint)" }}>
+                Website CMS
+              </p>
+            )}
+            <div className="space-y-0.5">
+              {renderNavItems(visibleWebsiteNav)}
+            </div>
+          </div>
         )}
-
-        {visibleNav.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <Link key={item.href} href={item.href}>
-              <motion.div
-                className={cn(
-                  "relative flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 group",
-                  collapsed && "justify-center px-0 w-10 mx-auto"
-                )}
-                style={{
-                  background: active ? "rgba(91,91,214,0.08)" : "transparent",
-                  color: active ? "var(--crm-primary)" : "var(--crm-text-muted)",
-                }}
-                whileHover={{
-                  backgroundColor: active ? "rgba(91,91,214,0.10)" : "var(--crm-surface-hover)",
-                  x: collapsed ? 0 : 1,
-                }}
-                transition={{ duration: 0.12 }}
-              >
-                <item.icon className="w-[17px] h-[17px] shrink-0" strokeWidth={active ? 2.2 : 1.8} />
-                <AnimatePresence>
-                  {!collapsed && (
-                    <motion.span
-                      className="text-[13px] font-medium whitespace-nowrap"
-                      style={active ? { color: "var(--crm-primary)" } : { color: "var(--crm-text)" }}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      {item.label}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                {active && !collapsed && (
-                  <motion.div
-                    layoutId="sidebar-indicator"
-                    className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full"
-                    style={{ background: "var(--crm-primary)" }}
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-
-                {/* Tooltip when collapsed */}
-                {collapsed && (
-                  <div
-                    className="absolute left-full ml-3 px-2.5 py-1.5 rounded-md text-[12px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50"
-                    style={{
-                      background: "var(--crm-text-strong)",
-                      color: "#fff",
-                      boxShadow: "var(--crm-shadow-lg)",
-                    }}
-                  >
-                    {item.label}
-                  </div>
-                )}
-              </motion.div>
-            </Link>
-          );
-        })}
       </nav>
 
       {/* User card + collapse + logout */}

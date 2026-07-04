@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
   const source   = searchParams.get("source");
   const assigned = searchParams.get("assignedTo");
   const search   = searchParams.get("search");
+  const followUpOnly = searchParams.get("followUpOnly");
 
   let query = supabase.from("leads").select("*", { count: "exact" });
 
@@ -35,6 +36,9 @@ export async function GET(req: NextRequest) {
   if (priority) query = query.eq("priority", priority);
   if (source)   query = query.eq("source", source);
   if (assigned && user.role !== "telecaller") query = query.eq("assigned_to", assigned);
+  if (followUpOnly === "true") {
+    query = query.not("follow_up_date", "is", null);
+  }
   if (search)   query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%,company.ilike.%${search}%,lead_id.ilike.%${search}%`);
 
   const from = (page - 1) * limit;
@@ -90,6 +94,7 @@ export async function POST(req: NextRequest) {
       created_by:    user.sub,
       follow_up_date: body.followUpDate || null,
       tags:          body.tags ?? [],
+      metadata:      body.metadata ?? {},
       value:         body.value ?? 0,
       probability:   body.probability ?? 0,
       notes:         [],
@@ -138,6 +143,7 @@ function mapLead(row: Record<string, unknown>) {
     createdBy:     row.created_by,
     followUpDate:  row.follow_up_date,
     tags:          row.tags,
+    metadata:      row.metadata,
     value:         row.value,
     probability:   row.probability,
     lostReason:    row.lost_reason,

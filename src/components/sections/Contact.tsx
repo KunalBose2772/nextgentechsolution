@@ -36,6 +36,35 @@ function Field({ label, icon: Icon, required, children }: {
 const inputCls = "w-full bg-slate-50 border border-slate-200 focus:border-[var(--accent-global)] focus:bg-white focus:ring-2 focus:ring-[var(--accent-global)]/10 rounded-xl px-4 py-3.5 text-sm outline-none text-slate-800 placeholder-slate-400 transition-all duration-200 font-medium";
 
 export default function Contact() {
+  const [settings, setSettings] = useState<any>(COMPANY);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data) {
+          setSettings({
+            ...COMPANY,
+            phone: json.data.phone || COMPANY.phone,
+            email: json.data.email || COMPANY.email,
+            whatsapp: json.data.whatsapp || COMPANY.whatsapp,
+            location: json.data.address || COMPANY.location,
+            map_embed: json.data.map_embed || "",
+          });
+        }
+      })
+      .catch((err) => console.error("Error loading settings in Contact:", err));
+  }, []);
+
+  const getMapSrc = (src: string) => {
+    if (!src) return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14649.6!2d85.2896!3d23.3641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f4e1035ec9bf83%3A0x6ec8f9f38fe2fc8e!2sRatu%20Rd%2C%20Ranchi%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1718000000000!5m2!1sen!2sin";
+    if (src.includes("src=\"")) {
+      const match = src.match(/src="([^"]+)"/);
+      if (match && match[1]) return match[1];
+    }
+    return src;
+  };
+
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", budget: "", message: "" });
   const [website, setWebsite] = useState("");
   const [sending, setSending] = useState(false);
@@ -183,9 +212,9 @@ export default function Contact() {
           {/* Info Panels */}
           <div className="space-y-5 lg:pt-2">
             {[
-              { icon: Mail,   label: "Email Us",  value: COMPANY.email,    href: `mailto:${COMPANY.email}` },
-              { icon: Phone,  label: "Call Us",   value: COMPANY.phone,    href: `tel:${COMPANY.phone}` },
-              { icon: MapPin, label: "Location",  value: COMPANY.location, href: "#" },
+              { icon: Mail,   label: "Email Us",  value: settings.email,    href: `mailto:${settings.email}` },
+              { icon: Phone,  label: "Call Us",   value: settings.phone,    href: `tel:${settings.phone}` },
+              { icon: MapPin, label: "Location",  value: settings.location, href: "#" },
             ].map(({ icon: Icon, label, value, href }) => (
               <a key={label} href={href} className="flex items-center gap-4 bg-slate-900 border border-white/[0.07] hover:border-[var(--accent-global)]/40 rounded-2xl p-5 transition-all duration-200 group hover:bg-slate-800/80">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[var(--accent-global-dim)] border border-[var(--accent-global)]/30 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-purple-500/20">
@@ -203,9 +232,9 @@ export default function Contact() {
               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Connect With Us</p>
               <div className="flex gap-3">
                 {[
-                  { icon: FaLinkedinIn, href: COMPANY.social.linkedin, label: "LinkedIn" },
-                  { icon: FaTwitter,    href: COMPANY.social.twitter,  label: "Twitter" },
-                  { icon: FaGithub,     href: COMPANY.social.github,   label: "GitHub" },
+                  { icon: FaLinkedinIn, href: settings.social.linkedin, label: "LinkedIn" },
+                  { icon: FaTwitter,    href: settings.social.twitter,  label: "Twitter" },
+                  { icon: FaGithub,     href: settings.social.github,   label: "GitHub" },
                 ].map(({ icon: Icon, href, label }) => (
                   <a key={label} href={href} target="_blank" rel="noopener noreferrer" title={label}
                     className="flex-1 flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-white/[0.06] hover:border-[var(--accent-global)]/40 py-3 rounded-xl text-xs font-semibold transition-all duration-200 text-slate-300 hover:text-white">
@@ -245,10 +274,10 @@ export default function Contact() {
         <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent z-10 pointer-events-none" />
         <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-slate-950/90 backdrop-blur-sm px-5 py-2.5 rounded-full border border-white/[0.14] shadow-xl whitespace-nowrap">
           <MapPin className="w-4 h-4 text-[var(--accent-global)] shrink-0" />
-          <span className="text-xs font-bold text-white tracking-wide">NextGen Tech Solution — RR Tower, Ratu Road, Ranchi</span>
+          <span className="text-xs font-bold text-white tracking-wide">NextGen Tech Solution — {settings.location}</span>
         </div>
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14649.6!2d85.2896!3d23.3641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f4e1035ec9bf83%3A0x6ec8f9f38fe2fc8e!2sRatu%20Rd%2C%20Ranchi%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1718000000000!5m2!1sen!2sin"
+          src={getMapSrc(settings.map_embed)}
           width="100%" height="420"
           style={{ border: 0, display: "block", filter: "invert(92%) hue-rotate(180deg) brightness(0.82) saturate(0.6) contrast(0.88)" }}
           allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"

@@ -5,7 +5,7 @@ const CRM_PROTECTED = ["/dashboard"];
 const CRM_AUTH_PAGES = ["/admin", "/telecallers", "/superadmin"];
 
 const secret = new TextEncoder().encode(
-  process.env.NEXTAUTH_SECRET ?? "fallback-secret"
+  process.env.NEXTAUTH_SECRET ?? "fallback-dev-secret"
 );
 
 export async function middleware(req: NextRequest) {

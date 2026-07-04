@@ -14,6 +14,7 @@ import {
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { COMPANY } from "@/lib/utils";
+import { triggerOnboardingModal } from "@/components/shared/OnboardingModal";
 
 function LogoMark({ size = 52 }: { size?: number }) {
   return (
@@ -169,18 +170,43 @@ function Palette(props: any) {
   );
 }
 
+const aboutMenuLinks = [
+  { label: "About Us", href: "/about", icon: FileText },
+  { label: "Team", href: "/team", icon: Users },
+  { label: "Gallery", href: "/gallery", icon: Layout },
+  { label: "Careers", href: "/careers", icon: Briefcase }
+];
+
 const navLinks = [
   { label: "Home",      href: "/" },
-  { label: "About",     href: "/about" },
+  { label: "About",     href: "/about", hasMenu: true },
   { label: "Services",  href: "/services", hasMenu: true },
   { label: "Products",  href: "/products", hasMenu: true },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Blog",      href: "/blog" },
-  { label: "Careers",   href: "/careers" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [settings, setSettings] = useState<any>(COMPANY);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data) {
+          setSettings({
+            ...COMPANY,
+            phone: json.data.phone || COMPANY.phone,
+            email: json.data.email || COMPANY.email,
+            whatsapp: json.data.whatsapp || COMPANY.whatsapp,
+            location: json.data.address || COMPANY.location,
+          });
+        }
+      })
+      .catch((err) => console.error("Error loading web settings in Navbar:", err));
+  }, []);
+
   // Pages with a dark full-screen hero that needs a transparent navbar on load
   const isHome = pathname === "/" || pathname.startsWith("/products/");
 
@@ -242,23 +268,23 @@ export default function Navbar() {
             <div className="flex items-center justify-between gap-4 w-full px-6 py-1.5 mx-auto max-w-[1400px]">
               {/* Left Side: Circular Badges for Phone, Email & Location */}
               <div className="flex items-center gap-4 xl:gap-6 text-[11px] font-semibold text-white/95">
-                <a href={`tel:${COMPANY.phone}`} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+                <a href={`tel:${settings.phone}`} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
                   <div className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center shrink-0 shadow-sm transition-transform hover:scale-105">
                     <Phone className="w-2.5 h-2.5 fill-current" />
                   </div>
-                  <span>{COMPANY.phone}</span>
+                  <span>{settings.phone}</span>
                 </a>
-                <a href={`mailto:${COMPANY.email}`} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+                <a href={`mailto:${settings.email}`} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
                   <div className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center shrink-0 shadow-sm transition-transform hover:scale-105">
                     <Mail className="w-2.5 h-2.5" />
                   </div>
-                  <span>{COMPANY.email}</span>
+                  <span>{settings.email}</span>
                 </a>
                 <div className="hidden xl:flex items-center gap-2">
                   <div className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center shrink-0 shadow-sm">
                     <MapPin className="w-2.5 h-2.5" />
                   </div>
-                  <span>{COMPANY.city}, {COMPANY.state}</span>
+                  <span className="truncate max-w-[200px]">{settings.location}</span>
                 </div>
               </div>
 
@@ -272,30 +298,30 @@ export default function Navbar() {
                 {/* Premium Social Icons (White Circle with Purple Icons) */}
                 <div className="flex items-center gap-1.5">
                   {/* LinkedIn */}
-                  <a href={COMPANY.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="LinkedIn">
+                  <a href={settings.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="LinkedIn">
                     <FaLinkedinIn className="w-2.5 h-2.5" />
                   </a>
                   {/* Twitter/X */}
-                  <a href={COMPANY.social.twitter} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="Twitter">
+                  <a href={settings.social.twitter} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="Twitter">
                     <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                   </a>
                   {/* Instagram */}
-                  <a href={COMPANY.social.instagram} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="Instagram">
+                  <a href={settings.social.instagram} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="Instagram">
                     <FaInstagram className="w-2.5 h-2.5" />
                   </a>
                   {/* Facebook */}
-                  <a href={COMPANY.social.facebook} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="Facebook">
+                  <a href={settings.social.facebook} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="Facebook">
                     <FaFacebookF className="w-2 h-2" />
                   </a>
                   {/* YouTube */}
-                  <a href={COMPANY.social.youtube} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="YouTube">
+                  <a href={settings.social.youtube} target="_blank" rel="noopener noreferrer" className="w-5.5 h-5.5 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-slate-100 transition-all shadow-sm" aria-label="YouTube">
                     <FaYoutube className="w-2.5 h-2.5" />
                   </a>
                 </div>
 
                 {/* WhatsApp green CTA */}
                 <a
-                  href={`https://wa.me/${COMPANY.whatsapp.replace(/\D/g, "")}`}
+                  href={`https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#25D366] hover:bg-[#20ba5a] text-white px-3 py-1 rounded-full text-[10px] font-extrabold flex items-center gap-1 transition-all shadow-sm"
@@ -326,14 +352,20 @@ export default function Navbar() {
           >
             {navLinks.map((link) => {
               const isActive = link.hasMenu
-                ? pathname.startsWith("/services")
+                ? (link.label === "About"
+                    ? (pathname === "/about" || pathname === "/team" || pathname === "/gallery" || pathname === "/careers")
+                    : (link.label === "Services" ? pathname.startsWith("/services") : pathname.startsWith("/products"))
+                  )
                 : pathname === link.href;
 
               return link.hasMenu ? (
                 /* Wrapper div is now flex container so child is perfectly aligned vertically with other links */
                 <div
                   key={link.label}
-                  className="flex items-stretch h-full group"
+                  className={cn(
+                    "flex items-stretch h-full group",
+                    link.label === "About" && "relative"
+                  )}
                   onMouseEnter={() => onMegaEnter(link.label)}
                   onMouseLeave={onMegaLeave}
                 >
@@ -367,19 +399,50 @@ export default function Navbar() {
                     )}
                   </Link>
 
-                  {/* Mega Menu matching the premium integrations design */}
-                  <div
-                    className={cn(
-                      "absolute top-full left-0 right-0 w-full bg-white border-t border-slate-200/85 border-b border-slate-200 rounded-b-[28px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] text-slate-800 transition-all duration-300 ease-in-out origin-top z-50",
-                      (megaOpen === link.label)
-                        ? "opacity-100 scale-y-100 pointer-events-auto"
-                        : "opacity-0 scale-y-95 pointer-events-none"
-                    )}
-                    onMouseEnter={() => onMegaEnter(link.label)}
-                    onMouseLeave={onMegaLeave}
-                    role="menu"
-                    aria-label={`${link.label} menu`}
-                  >
+                  {/* Mega Menu / Submenu matching the premium design */}
+                  {link.label === "About" ? (
+                    <div
+                      className={cn(
+                        "absolute top-full left-1/2 -translate-x-1/2 w-52 bg-white border border-slate-200/85 rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.08)] py-2 text-slate-800 transition-all duration-200 ease-in-out origin-top z-50",
+                        (megaOpen === "About")
+                          ? "opacity-100 scale-y-100 pointer-events-auto"
+                          : "opacity-0 scale-y-95 pointer-events-none"
+                      )}
+                      onMouseEnter={() => onMegaEnter("About")}
+                      onMouseLeave={onMegaLeave}
+                      role="menu"
+                      aria-label="About menu"
+                    >
+                      {aboutMenuLinks.map((s) => {
+                        const ItemIcon = s.icon;
+                        return (
+                          <Link
+                            key={s.label}
+                            href={s.href}
+                            role="menuitem"
+                            className="flex items-center gap-3 px-4.5 py-3 hover:bg-slate-50 text-slate-700 hover:text-[#7C3AED] transition-colors"
+                          >
+                            <ItemIcon className="w-4 h-4 text-slate-400 shrink-0" />
+                            <span className="text-[12px] font-extrabold uppercase tracking-wider font-sora">
+                              {s.label}
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div
+                      className={cn(
+                        "absolute top-full left-0 right-0 w-full bg-white border-t border-slate-200/85 border-b border-slate-200 rounded-b-[28px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] text-slate-800 transition-all duration-300 ease-in-out origin-top z-50",
+                        (megaOpen === link.label)
+                          ? "opacity-100 scale-y-100 pointer-events-auto"
+                          : "opacity-0 scale-y-95 pointer-events-none"
+                      )}
+                      onMouseEnter={() => onMegaEnter(link.label)}
+                      onMouseLeave={onMegaLeave}
+                      role="menu"
+                      aria-label={`${link.label} menu`}
+                    >
                     {/* Centered content aligning with the header container */}
                     <div className="max-w-[1400px] mx-auto px-6 py-10 grid grid-cols-[1fr_450px] gap-10">
                       
@@ -476,9 +539,9 @@ export default function Navbar() {
                           </div>
                         </div>
                       </div>
-
                     </div>
                   </div>
+                )}
                 </div>
               ) : (
                 <Link
@@ -507,7 +570,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2.5 xl:gap-3.5">
             {/* Phone outlined button - slide & fade transition */}
             <a
-              href={`tel:${COMPANY.phone}`}
+              href={`tel:${settings.phone}`}
               className={cn(
                 "border rounded-full text-xs font-extrabold flex items-center gap-2 transition-all duration-500 ease-in-out shadow-sm overflow-hidden",
                 scrolled
@@ -516,19 +579,19 @@ export default function Navbar() {
               )}
             >
               <Phone className="w-3.5 h-3.5 fill-current" />
-              <span>{COMPANY.phone}</span>
+              <span>{settings.phone}</span>
             </a>
 
             {/* Solid CTA Button */}
-            <Link
-              href="/contact"
+            <button
+              onClick={() => triggerOnboardingModal({ type: "general" })}
               className={cn(
-                "text-white px-5.5 py-3 rounded-full text-xs font-extrabold flex items-center gap-2 shadow-md hover:shadow-lg transition-all duration-500 ease-in-out hover:-translate-y-0.5 shrink-0",
+                "text-white px-5.5 py-3 rounded-full text-xs font-extrabold flex items-center gap-2 shadow-md hover:shadow-lg transition-all duration-500 ease-in-out hover:-translate-y-0.5 shrink-0 cursor-pointer",
                 scrolled ? "bg-[#7C3AED] hover:bg-[#6D28D9]" : "bg-[#7C3AED]/95 hover:bg-[#7C3AED] backdrop-blur-sm"
               )}
             >
               Get A Quote <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -541,12 +604,12 @@ export default function Navbar() {
             <LogoMark size={38} />
           </Link>
           <div className="flex items-center gap-3">
-            <Link
-              href="/contact"
-              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-4 py-2 rounded-full text-xs font-extrabold shadow-md transition-all shrink-0"
+            <button
+              onClick={() => triggerOnboardingModal({ type: "general" })}
+              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-4 py-2 rounded-full text-xs font-extrabold shadow-md transition-all shrink-0 cursor-pointer"
             >
               Get A Quote
-            </Link>
+            </button>
             <button
               className={cn(
                 "w-9.5 h-9.5 rounded-lg flex items-center justify-center transition-colors border",
@@ -590,43 +653,75 @@ export default function Navbar() {
 
             <nav aria-label="Mobile navigation links">
               <div className="space-y-1">
-                {[...navLinks, { label: "Contact", href: "/contact" }].map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className={cn(
-                      "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition-all",
-                      pathname === link.href ? "text-[#7C3AED] bg-violet-500/10" : "text-slate-400 hover:text-white hover:bg-slate-800"
-                    )}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {link.label}
-                    <ArrowRight className="w-4 h-4 opacity-30" />
-                  </Link>
-                ))}
+                {[...navLinks, { label: "Contact", href: "/contact" }].map((link) => {
+                  if (link.label === "About") {
+                    const isSubActive = pathname === "/about" || pathname === "/team" || pathname === "/gallery" || pathname === "/careers";
+                    return (
+                      <div key={link.label} className="space-y-1">
+                        <div className={cn(
+                          "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold text-slate-450",
+                          isSubActive && "text-[#7C3AED] bg-violet-500/5"
+                        )}>
+                          <span>About</span>
+                        </div>
+                        <div className="pl-4 space-y-1 border-l border-slate-800/60 ml-4">
+                          {aboutMenuLinks.map((sub) => (
+                            <Link
+                              key={sub.label}
+                              href={sub.href}
+                              className={cn(
+                                "flex items-center justify-between px-4 py-2.5 rounded-lg text-xs font-bold transition-all",
+                                pathname === sub.href ? "text-[#7C3AED] bg-violet-500/10" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                              )}
+                              onClick={() => setMobileOpen(false)}
+                            >
+                              {sub.label}
+                              <ArrowRight className="w-3.5 h-3.5 opacity-30" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className={cn(
+                        "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition-all",
+                        pathname === link.href ? "text-[#7C3AED] bg-violet-500/10" : "text-slate-400 hover:text-white hover:bg-slate-800"
+                      )}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {link.label}
+                      <ArrowRight className="w-4 h-4 opacity-30" />
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Mobile Contact Info */}
               <div className="pt-6 mt-6 border-t border-slate-800 space-y-4">
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4">Contact Info</p>
                 <div className="space-y-3 px-4">
-                  <a href={`tel:${COMPANY.phone}`} className="flex items-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
+                  <a href={`tel:${settings.phone}`} className="flex items-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
                     <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-rose-400">
                       <Phone className="w-3.5 h-3.5 fill-current" />
                     </div>
-                    {COMPANY.phone}
+                    {settings.phone}
                   </a>
-                  <a href={`mailto:${COMPANY.email}`} className="flex items-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
+                  <a href={`mailto:${settings.email}`} className="flex items-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
                     <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-violet-400">
                       <Mail className="w-3.5 h-3.5" />
                     </div>
-                    {COMPANY.email}
+                    {settings.email}
                   </a>
-                  <div className="flex items-center gap-3 text-xs text-slate-300">
-                    <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-cyan-400">
+                  <div className="flex items-start gap-3 text-xs text-slate-300">
+                    <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-cyan-400 shrink-0">
                       <MapPin className="w-3.5 h-3.5" />
                     </div>
-                    <span>{COMPANY.city}, {COMPANY.state}</span>
+                    <span>{settings.location}</span>
                   </div>
                 </div>
               </div>
@@ -635,33 +730,32 @@ export default function Navbar() {
               <div className="pt-6 mt-6 border-t border-slate-800">
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 mb-3">Follow Us</p>
                 <div className="flex items-center gap-2.5 px-4">
-                  <a href={COMPANY.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
+                  <a href={settings.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <FaLinkedinIn className="w-4 h-4" />
                   </a>
-                  <a href={COMPANY.social.twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
+                  <a href={settings.social.twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                   </a>
-                  <a href={COMPANY.social.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
+                  <a href={settings.social.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <FaInstagram className="w-4 h-4" />
                   </a>
-                  <a href={COMPANY.social.facebook} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
+                  <a href={settings.social.facebook} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <FaFacebookF className="w-3.5 h-3.5" />
                   </a>
-                  <a href={COMPANY.social.youtube} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow font-bold">
+                  <a href={settings.social.youtube} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow font-bold">
                     <FaYoutube className="w-4 h-4" />
                   </a>
                 </div>
               </div>
 
               <div className="pt-6 mt-6 border-t border-slate-800">
-                <Link
-                  href="/contact"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg text-sm font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-colors"
+                <button
+                  onClick={() => { setMobileOpen(false); triggerOnboardingModal({ type: "general" }); }}
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg text-sm font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-colors cursor-pointer"
                 >
                   Get A Quote
                   <ArrowRight className="w-4 h-4" />
-                </Link>
+                </button>
               </div>
             </nav>
           </aside>

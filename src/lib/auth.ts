@@ -48,6 +48,24 @@ export function getStaticUsers(): Omit<CRMUser, "createdAt" | "updatedAt">[] {
       department: "Telecalling",
       isActive: true,
     },
+    {
+      _id: "dev_001",
+      name: "Aarav Mehta",
+      email: "developer1@nextgentech.com",
+      role: "developer",
+      phone: "+91 9000000005",
+      department: "Development",
+      isActive: true,
+    },
+    {
+      _id: "dev_002",
+      name: "Neha Gupta",
+      email: "developer2@nextgentech.com",
+      role: "developer",
+      phone: "+91 9000000006",
+      department: "Development",
+      isActive: true,
+    },
   ];
 }
 
@@ -64,6 +82,8 @@ export function validateCredentials(
       process.env.TELECALLER1_PASSWORD ?? "Tele@123",
     [process.env.TELECALLER2_EMAIL ?? "telecaller2@nextgentech.com"]:
       process.env.TELECALLER2_PASSWORD ?? "Tele@456",
+    ["developer1@nextgentech.com"]: "Dev@123",
+    ["developer2@nextgentech.com"]: "Dev@456",
   };
 
   if (pairs[email.toLowerCase()] !== password) return null;

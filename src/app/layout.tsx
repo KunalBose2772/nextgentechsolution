@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import OnboardingModal from "@/components/shared/OnboardingModal";
 import BookDemoModal from "@/components/shared/BookDemoModal";
+import SupportChatbot from "@/components/shared/SupportChatbot";
 import { Toaster } from "react-hot-toast";
 
 const CRM_PATHS = ["/dashboard", "/admin", "/telecallers", "/superadmin"];
@@ -231,6 +232,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <ScrollToTop />
             <OnboardingModal />
             <BookDemoModal />
+            <SupportChatbot />
           </>
         )}
       </body>

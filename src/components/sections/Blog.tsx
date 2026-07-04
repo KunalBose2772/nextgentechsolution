@@ -1,14 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ArrowRight, Clock, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { posts } from "@/lib/blog-data";
+import { posts as STATIC_POSTS } from "@/lib/blog-data";
 
 export default function Blog() {
-  // We use the first 3 posts
-  const featuredPosts = posts.slice(0, 4);
+  const [items, setItems] = useState<any[]>(STATIC_POSTS.slice(0, 4));
+
+  useEffect(() => {
+    fetch("/api/blogs?status=published")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data && json.data.length > 0) {
+          // Map backend values to what the frontend card expects
+          const mapped = json.data.map((item: any) => ({
+            id: item.slug || item.id, // Support slug navigation
+            title: item.title,
+            excerpt: item.excerpt,
+            image: item.image,
+            category: item.category,
+            date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recently",
+            readTime: item.readTime,
+            accent: item.accent,
+          }));
+          setItems(mapped.slice(0, 4));
+        }
+      })
+      .catch((err) => console.error("Error loading blog posts:", err));
+  }, []);
+
+  const featuredPosts = items;
 
   return (
     <section className="py-16 bg-slate-50 text-slate-800 border-t border-slate-200/50" id="blog">

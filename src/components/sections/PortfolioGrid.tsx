@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 
@@ -99,10 +99,22 @@ const projects = [
 
 export default function PortfolioGrid() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [items, setItems] = useState<any[]>(projects);
+
+  useEffect(() => {
+    fetch("/api/portfolio")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data && json.data.length > 0) {
+          setItems(json.data);
+        }
+      })
+      .catch((err) => console.error("Error loading portfolio items:", err));
+  }, []);
 
   const filteredProjects = activeCategory === "All"
-    ? projects
-    : projects.filter(p => p.category === activeCategory || p.tags.includes(activeCategory));
+    ? items
+    : items.filter(p => p.category === activeCategory || p.tags.includes(activeCategory));
 
   return (
     <section className="py-24 relative overflow-hidden bg-gradient-to-b from-[#fafbfc] to-slate-50 border-b border-slate-200/50">
@@ -208,7 +220,7 @@ export default function PortfolioGrid() {
 
                   {/* Outcomes Row / Metric highlights */}
                   <div className="grid grid-cols-3 gap-2 py-3 border-t border-slate-100 mb-4">
-                    {project.outcomes.map((outcome, idx) => {
+                    {project.outcomes.map((outcome: string, idx: number) => {
                       const words = outcome.split(' ');
                       const metricValue = words[0];
                       const metricLabel = words.slice(1).join(' ');

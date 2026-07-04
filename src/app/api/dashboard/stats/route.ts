@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase, isSupabaseConfigured } from "@/lib/supabase";
-import { verifyToken, TOKEN_KEY } from "@/lib/auth";
+import { verifyToken, TOKEN_KEY, getStaticUsers } from "@/lib/auth";
 
 async function getUser(req: NextRequest) {
   const token = req.cookies.get(TOKEN_KEY)?.value;
@@ -8,66 +8,32 @@ async function getUser(req: NextRequest) {
   return verifyToken(token);
 }
 
-/* Mock stats shown when Supabase is not yet configured */
-function mockStats() {
-  return {
-    totalLeads: 342,
-    newLeads: 28,
-    convertedLeads: 89,
-    lostLeads: 41,
-    totalQuotations: 156,
-    pendingApprovals: 7,
-    openTickets: 14,
-    totalRevenue: 4850000,
-    conversionRate: 26.0,
-    activeProjects: 23,
-    leadsByStatus: [
-      { status: "new", count: 28 },
-      { status: "assigned", count: 45 },
-      { status: "follow_up", count: 67 },
-      { status: "interested", count: 38 },
-      { status: "quotation_sent", count: 29 },
-      { status: "negotiation", count: 15 },
-      { status: "converted", count: 89 },
-      { status: "lost", count: 41 },
-    ],
-    leadsBySource: [
-      { source: "website",     count: 112 },
-      { source: "referral",    count: 78  },
-      { source: "google_ads",  count: 64  },
-      { source: "linkedin",    count: 45  },
-      { source: "cold_call",   count: 43  },
-    ],
-    monthlyLeads: [
-      { month: "Dec", leads: 22, converted: 5  },
-      { month: "Jan", leads: 28, converted: 7  },
-      { month: "Feb", leads: 35, converted: 9  },
-      { month: "Mar", leads: 42, converted: 11 },
-      { month: "Apr", leads: 38, converted: 10 },
-      { month: "May", leads: 51, converted: 14 },
-    ],
-    telecallerPerformance: [
-      { name: "Rahul Sharma", leads: 78, converted: 22 },
-      { name: "Priya Verma",  leads: 64, converted: 18 },
-    ],
-    recentActivities: [],
-  };
-}
-
 export async function GET(req: NextRequest) {
   const user = await getUser(req);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  if (!isSupabaseConfigured()) return NextResponse.json(mockStats());
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json({
+      totalLeads: 0, newLeads: 0, convertedLeads: 0, lostLeads: 0,
+      totalQuotations: 0, pendingApprovals: 0, openTickets: 0,
+      totalRevenue: 0, conversionRate: 0, activeProjects: 0,
+      leadsByStatus: [], leadsBySource: [], monthlyLeads: [],
+      telecallerPerformance: [], recentActivities: [],
+      _note: "Connect Supabase to see live data",
+    });
+  }
 
   const supabase = getServerSupabase()!;
-  const leadFilter = user.role === "telecaller" ? { assigned_to: user.sub as string } : null;
+  const staticUsers = getStaticUsers();
+  const isTC = user.role === "telecaller";
+  const tcId = user.sub as string;
 
-  const baseLeadQuery = () => {
+  const baseQ = () => {
     const q = supabase.from("leads").select("*", { count: "exact", head: true });
-    return leadFilter ? q.eq("assigned_to", leadFilter.assigned_to) : q;
+    return isTC ? q.eq("assigned_to", tcId) : q;
   };
 
+  // ── Parallel count queries ──────────────────────────────────────
   const [
     { count: totalLeads },
     { count: newLeads },
@@ -76,67 +42,105 @@ export async function GET(req: NextRequest) {
     { count: totalQuotations },
     { count: pendingApprovals },
     { count: openTickets },
-    { data: byStatusRaw },
-    { data: bySourceRaw },
+    { count: activeProjects },
+    { data: statusRows },
+    { data: sourceRows },
+    { data: revenueRows },
+    { data: monthlyRows },
+    { data: perfRows },
     { data: recentActivities },
   ] = await Promise.all([
-    baseLeadQuery(),
-    baseLeadQuery().eq("status", "new"),
-    baseLeadQuery().eq("status", "converted"),
-    baseLeadQuery().eq("status", "lost"),
-    user.role === "telecaller"
-      ? supabase.from("quotations").select("*", { count: "exact", head: true }).eq("created_by", user.sub as string)
+    baseQ(),
+    baseQ().eq("status", "new"),
+    baseQ().eq("status", "converted"),
+    baseQ().eq("status", "lost"),
+    isTC
+      ? supabase.from("quotations").select("*", { count: "exact", head: true }).eq("created_by", tcId)
       : supabase.from("quotations").select("*", { count: "exact", head: true }),
     supabase.from("quotations").select("*", { count: "exact", head: true }).eq("status", "pending_approval"),
     supabase.from("tickets").select("*", { count: "exact", head: true }).in("status", ["open", "in_progress"]),
-    leadFilter
-      ? supabase.from("leads").select("status").eq("assigned_to", leadFilter.assigned_to)
+    supabase.from("projects").select("*", { count: "exact", head: true }).eq("status", "active"),
+    isTC
+      ? supabase.from("leads").select("status").eq("assigned_to", tcId)
       : supabase.from("leads").select("status"),
-    leadFilter
-      ? supabase.from("leads").select("source").eq("assigned_to", leadFilter.assigned_to)
+    isTC
+      ? supabase.from("leads").select("source").eq("assigned_to", tcId)
       : supabase.from("leads").select("source"),
+    supabase.from("leads").select("value").eq("status", "converted"),
+    supabase.from("leads").select("created_at, status").gte(
+      "created_at",
+      new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString()
+    ),
+    supabase.from("leads").select("assigned_to, status, value"),
     supabase.from("activities").select("*").order("created_at", { ascending: false }).limit(10),
   ]);
 
-  // Aggregate status counts
+  // ── Aggregate status distribution ──────────────────────────────
   const statusMap = new Map<string, number>();
-  (byStatusRaw ?? []).forEach((r) => statusMap.set(r.status, (statusMap.get(r.status) ?? 0) + 1));
+  (statusRows ?? []).forEach((r) => statusMap.set(r.status, (statusMap.get(r.status) ?? 0) + 1));
   const leadsByStatus = Array.from(statusMap.entries()).map(([status, count]) => ({ status, count }));
 
-  // Aggregate source counts
+  // ── Aggregate source distribution ──────────────────────────────
   const sourceMap = new Map<string, number>();
-  (bySourceRaw ?? []).forEach((r) => sourceMap.set(r.source, (sourceMap.get(r.source) ?? 0) + 1));
+  (sourceRows ?? []).forEach((r) => sourceMap.set(r.source, (sourceMap.get(r.source) ?? 0) + 1));
   const leadsBySource = Array.from(sourceMap.entries()).map(([source, count]) => ({ source, count }));
 
-  const convRate = (totalLeads ?? 0) > 0
+  // ── Total revenue from converted leads ─────────────────────────
+  const totalRevenue = (revenueRows ?? []).reduce((acc, l) => acc + (Number(l.value) || 0), 0);
+
+  // ── Conversion rate ─────────────────────────────────────────────
+  const conversionRate = (totalLeads ?? 0) > 0
     ? Number((((convertedLeads ?? 0) / (totalLeads ?? 1)) * 100).toFixed(1))
     : 0;
 
+  // ── Monthly leads (last 6 months) ──────────────────────────────
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const monthlyMap: Record<string, { month: string; leads: number; converted: number }> = {};
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(); d.setMonth(d.getMonth() - i);
+    const key = MONTHS[d.getMonth()];
+    monthlyMap[key] = { month: key, leads: 0, converted: 0 };
+  }
+  (monthlyRows ?? []).forEach((l) => {
+    const key = MONTHS[new Date(l.created_at as string).getMonth()];
+    if (monthlyMap[key]) {
+      monthlyMap[key].leads += 1;
+      if (l.status === "converted") monthlyMap[key].converted += 1;
+    }
+  });
+  const monthlyLeads = Object.values(monthlyMap);
+
+  // ── Telecaller performance ──────────────────────────────────────
+  const perfMap: Record<string, { name: string; leads: number; converted: number; revenue: number }> = {};
+  (perfRows ?? []).forEach((l) => {
+    const tcUserId = l.assigned_to as string | null;
+    if (!tcUserId) return;
+    const tcUser = staticUsers.find((u) => u._id === tcUserId);
+    const name = tcUser?.name ?? "Unassigned";
+    if (!perfMap[name]) perfMap[name] = { name, leads: 0, converted: 0, revenue: 0 };
+    perfMap[name].leads += 1;
+    if (l.status === "converted") {
+      perfMap[name].converted += 1;
+      perfMap[name].revenue += Number(l.value) || 0;
+    }
+  });
+  const telecallerPerformance = Object.values(perfMap).sort((a, b) => b.leads - a.leads);
+
   return NextResponse.json({
-    totalLeads:        totalLeads        ?? 0,
-    newLeads:          newLeads          ?? 0,
-    convertedLeads:    convertedLeads    ?? 0,
-    lostLeads:         lostLeads         ?? 0,
-    totalQuotations:   totalQuotations   ?? 0,
-    pendingApprovals:  pendingApprovals  ?? 0,
-    openTickets:       openTickets       ?? 0,
-    totalRevenue:      4850000,
-    conversionRate:    convRate,
-    activeProjects:    23,
+    totalLeads:           totalLeads        ?? 0,
+    newLeads:             newLeads          ?? 0,
+    convertedLeads:       convertedLeads    ?? 0,
+    lostLeads:            lostLeads         ?? 0,
+    totalQuotations:      totalQuotations   ?? 0,
+    pendingApprovals:     pendingApprovals  ?? 0,
+    openTickets:          openTickets       ?? 0,
+    totalRevenue,
+    conversionRate,
+    activeProjects:       activeProjects    ?? 0,
     leadsByStatus,
     leadsBySource,
-    monthlyLeads: [
-      { month: "Dec", leads: 22, converted: 5  },
-      { month: "Jan", leads: 28, converted: 7  },
-      { month: "Feb", leads: 35, converted: 9  },
-      { month: "Mar", leads: 42, converted: 11 },
-      { month: "Apr", leads: 38, converted: 10 },
-      { month: "May", leads: 51, converted: 14 },
-    ],
-    telecallerPerformance: [
-      { name: "Rahul Sharma", leads: 78, converted: 22 },
-      { name: "Priya Verma",  leads: 64, converted: 18 },
-    ],
-    recentActivities: recentActivities ?? [],
+    monthlyLeads,
+    telecallerPerformance,
+    recentActivities:     recentActivities  ?? [],
   });
 }

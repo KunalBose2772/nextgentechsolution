@@ -158,7 +158,11 @@ export default function BookDemoModal() {
           phone: form.phone,
           company: form.company,
           message: finalMessage,
-          service: `Demo: ${selectedProduct}`
+          service: `Demo: ${selectedProduct}`,
+          metadata: {
+            flowType: "demo",
+            selectedProduct: selectedProduct
+          }
         })
       });
 

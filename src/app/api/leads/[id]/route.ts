@@ -52,6 +52,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (body.budget      !== undefined) update.budget      = body.budget;
   if (body.requirement !== undefined) update.requirement = body.requirement;
   if (body.assignedTo  !== undefined) update.assigned_to = body.assignedTo;
+  if (body.followUpDate !== undefined) update.follow_up_date = body.followUpDate;
+  if (body.metadata     !== undefined) update.metadata     = body.metadata;
   if (body.value       !== undefined) update.value       = body.value;
   if (body.probability !== undefined) update.probability = body.probability;
   if (body.tags        !== undefined) update.tags        = body.tags;

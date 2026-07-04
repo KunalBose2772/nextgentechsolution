@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { UserPlus, Shield, Crown, MapPin, Phone, Megaphone } from "lucide-react";
+import { UserPlus, Shield, Crown, MapPin, Phone, Megaphone, Code } from "lucide-react";
 import PageHeader from "@/components/crm/shared/PageHeader";
 import type { CRMUser, UserRole } from "@/types/crm";
 
@@ -14,17 +14,17 @@ const SURFACE_STYLE = {
 
 const ROLE_ICONS: Record<UserRole, React.ElementType> = {
   superadmin: Crown, admin: Shield, telecaller: Phone,
-  field_sales: MapPin, marketing: Megaphone,
+  field_sales: MapPin, marketing: Megaphone, developer: Code,
 };
 
 const ROLE_COLORS: Record<UserRole, string> = {
   superadmin: "#7c3aed", admin: "#5b5bd6", telecaller: "#0891b2",
-  field_sales: "#ea580c", marketing: "#ec4899",
+  field_sales: "#ea580c", marketing: "#ec4899", developer: "#10b981",
 };
 
 const ROLE_LABELS: Record<UserRole, string> = {
   superadmin: "Super Admin", admin: "Admin", telecaller: "Telecaller",
-  field_sales: "Field Sales", marketing: "Marketing",
+  field_sales: "Field Sales", marketing: "Marketing", developer: "Developer",
 };
 
 export default function UsersPage() {

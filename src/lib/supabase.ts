@@ -49,6 +49,18 @@ export async function nextTicketId(supabase: SupabaseClient): Promise<string> {
   return `NGT${String((count ?? 0) + 1).padStart(5, "0")}`;
 }
 
+export async function nextInvoiceId(supabase: SupabaseClient): Promise<string> {
+  const { count } = await supabase.from("invoices").select("*", { count: "exact", head: true });
+  const year = new Date().getFullYear().toString().slice(2);
+  return `NGI${year}${String((count ?? 0) + 1).padStart(4, "0")}`;
+}
+
+export async function nextPaymentId(supabase: SupabaseClient): Promise<string> {
+  const { count } = await supabase.from("payments").select("*", { count: "exact", head: true });
+  const year = new Date().getFullYear().toString().slice(2);
+  return `NGP${year}${String((count ?? 0) + 1).padStart(4, "0")}`;
+}
+
 /* ── Auto-assignment ─────────────────────────────────────────────────
    Pick the active telecaller with the fewest currently-open leads.
    Fallback: round-robin by created_at if Supabase unavailable.
@@ -85,7 +97,7 @@ export async function pickNextTelecaller(supabase: SupabaseClient | null): Promi
 export async function logActivity(data: {
   type: string;
   description: string;
-  entityType: "lead" | "quotation" | "ticket" | "user";
+  entityType: "lead" | "quotation" | "ticket" | "user" | "invoice" | "payment";
   entityId: string;
   entityName?: string;
   performedBy: string;

@@ -14,7 +14,7 @@ import { COMPANY } from "@/lib/utils";
 
 /* ─── Data ─────────────────────────────────────────────────────────── */
 
-const teamMembers = [
+const STATIC_TEAM_MEMBERS = [
   {
     name: "Dr. Rahul Sharma",
     role: "Managing Director",
@@ -131,17 +131,30 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 
 /* ─── Main page ─────────────────────────────────────────────────────── */
 export default function AboutPage() {
+  const [teamMembers, setTeamMembers] = useState<any[]>(STATIC_TEAM_MEMBERS);
+
+  useEffect(() => {
+    fetch("/api/team")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data && json.data.length > 0) {
+          setTeamMembers(json.data);
+        }
+      })
+      .catch((err) => console.error("Error loading team members:", err));
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#fafbfc]">
 
-      {/* CSS injection for infinite running marquee */}
+       {/* CSS injection for infinite running marquee */}
       <style>{`
         @keyframes team-marquee {
           0% {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(calc(-300px * 6 - 1.5rem * 6));
+            transform: translateX(calc(-300px * ${teamMembers.length} - 1.5rem * ${teamMembers.length}));
           }
         }
         .team-marquee-track {

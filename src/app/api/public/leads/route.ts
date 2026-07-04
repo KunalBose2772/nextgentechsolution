@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
   const service = String(body.service ?? "").trim();
   const budget  = String(body.budget  ?? "").trim();
   const message = String(body.message ?? "").trim();
+  const metadata = body.metadata && typeof body.metadata === "object" ? body.metadata : {};
 
   // Honeypot — bots usually fill all fields including hidden ones
   if (typeof body.website === "string" && body.website.length > 0) {
@@ -108,6 +109,7 @@ export async function POST(req: NextRequest) {
         notes:       [],
         calls:       [],
         tags:        ["website-form"],
+        metadata,
       })
       .select()
       .single();

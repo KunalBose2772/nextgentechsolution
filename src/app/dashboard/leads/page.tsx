@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus, Search, Download, ChevronLeft, ChevronRight,
   Phone, Mail, Building2, Trash2, Edit, LayoutGrid, List,
-  AlertCircle, X, CheckCircle,
+  AlertCircle, X, CheckCircle, Sparkles,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import StatusBadge from "@/components/crm/shared/StatusBadge";
@@ -269,6 +269,42 @@ export default function LeadsPage() {
     if (res.ok) { toast.success("Call logged"); setCallForm({ outcome: "", duration: "", notes: "" }); fetchLeads(); }
   };
 
+  const exportLeadsCSV = () => {
+    if (leads.length === 0) {
+      toast.error("No leads available to export");
+      return;
+    }
+    try {
+      const headers = ["Lead ID", "Name", "Email", "Phone", "Company", "Status", "Priority", "Source", "Value", "Created At"];
+      const rows = leads.map(l => [
+        l.leadId,
+        l.name,
+        l.email,
+        l.phone,
+        l.company || "",
+        l.status,
+        l.priority,
+        l.source,
+        l.value || 0,
+        l.createdAt ? new Date(l.createdAt).toLocaleDateString() : ""
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + [headers.join(","), ...rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))].join("\n");
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `leads_export_${new Date().toISOString().split("T")[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Leads CSV exported!");
+    } catch {
+      toast.error("Failed to export CSV");
+    }
+  };
+
   const totalPages = Math.ceil(total / limit);
 
   return (
@@ -289,6 +325,7 @@ export default function LeadsPage() {
               {view === "table" ? <LayoutGrid className="w-4 h-4" /> : <List className="w-4 h-4" />}
             </button>
             <button
+              onClick={exportLeadsCSV}
               className="p-2 rounded-lg transition-colors"
               style={{ background: "var(--crm-surface)", border: "1px solid var(--crm-border)", color: "var(--crm-text-muted)" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = "var(--crm-surface-hover)"; }}
@@ -710,6 +747,74 @@ export default function LeadsPage() {
                 </div>
               ))}
             </div>
+
+            {/* Lead Metadata Blueprint Card */}
+            {detailLead.metadata && typeof detailLead.metadata === "object" && Object.keys(detailLead.metadata).length > 0 && (
+              <div className="p-4 rounded-xl space-y-3" style={{ background: "rgba(124,58,237,0.05)", border: "1px solid rgba(124,58,237,0.12)" }}>
+                <div className="flex items-center gap-2 text-purple-650">
+                  <Sparkles className="w-4 h-4" />
+                  <p className="text-[13px] font-bold uppercase tracking-wider">Solution Blueprint Configuration</p>
+                </div>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-[12px]">
+                  {(detailLead.metadata as any).flowType && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Flow Source</p>
+                      <p className="font-bold capitalize" style={{ color: "var(--crm-text)" }}>{String((detailLead.metadata as any).flowType)}</p>
+                    </div>
+                  )}
+                  {(detailLead.metadata as any).projectType && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Project Type</p>
+                      <p className="font-bold capitalize" style={{ color: "var(--crm-text)" }}>{String((detailLead.metadata as any).projectType)}</p>
+                    </div>
+                  )}
+                  {(detailLead.metadata as any).billingModel && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Engagement Model</p>
+                      <p className="font-bold capitalize" style={{ color: "var(--crm-text)" }}>{(detailLead.metadata as any).billingModel === "fixed" ? "Fixed Price" : "Retainer"}</p>
+                    </div>
+                  )}
+                  {(detailLead.metadata as any).pageCount !== undefined && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Pages / Screens</p>
+                      <p className="font-bold" style={{ color: "var(--crm-text)" }}>{String((detailLead.metadata as any).pageCount)}</p>
+                    </div>
+                  )}
+                  {(detailLead.metadata as any).cost !== undefined && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Calculated Cost</p>
+                      <p className="font-bold font-mono text-purple-700">₹{Number((detailLead.metadata as any).cost).toLocaleString("en-IN")}</p>
+                    </div>
+                  )}
+                  {(detailLead.metadata as any).preselectedPackage && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Selected Package</p>
+                      <p className="font-bold text-purple-700">{String((detailLead.metadata as any).preselectedPackage)}</p>
+                    </div>
+                  )}
+                  {(detailLead.metadata as any).selectedProduct && (
+                    <div>
+                      <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold">Requested Product Demo</p>
+                      <p className="font-bold text-cyan-600">{String((detailLead.metadata as any).selectedProduct)}</p>
+                    </div>
+                  )}
+                </div>
+
+                {Array.isArray((detailLead.metadata as any).features) && (detailLead.metadata as any).features.length > 0 && (
+                  <div className="pt-2 border-t border-purple-100">
+                    <p style={{ color: "var(--crm-text-faint)" }} className="text-[10px] uppercase font-semibold mb-1">Selected Features</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(detailLead.metadata as any).features.map((f: string) => (
+                        <span key={f} className="px-2 py-0.5 rounded bg-purple-100/60 text-purple-750 text-[10px] font-medium border border-purple-200/50">
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="flex flex-wrap gap-2">
               <StatusBadge type="lead" status={detailLead.status} size="md" />
