@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase, isSupabaseConfigured, logActivity } from "@/lib/supabase";
 import { verifyToken, TOKEN_KEY } from "@/lib/auth";
+import { sendEmail, ticketCommentClientNotificationTemplate, ticketStatusClientTemplate } from "@/lib/email";
 
 async function getUser(req: NextRequest) {
   const token = req.cookies.get(TOKEN_KEY)?.value;
@@ -60,6 +61,25 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       .select()
       .single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    // Send email to client if it's a public comment and client email can be resolved
+    if (process.env.MAIL_USER && process.env.MAIL_PASS && !newComment.isInternal && ticket.lead_id) {
+      supabase
+        .from("leads")
+        .select("name, email")
+        .eq("id", ticket.lead_id)
+        .maybeSingle()
+        .then(({ data: lead }) => {
+          if (lead && lead.email) {
+            sendEmail({
+              to: lead.email,
+              subject: `New Update on Ticket ${ticket.ticket_id} - ${ticket.title}`,
+              html: ticketCommentClientNotificationTemplate(ticket.ticket_id, ticket.title, String(user.name), body.content),
+            }).catch((err) => console.error("[tickets] Client comment email failed:", err));
+          }
+        });
+    }
+
     return NextResponse.json({ data });
   }
 
@@ -92,6 +112,24 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     performedByName: String(user.name),
     metadata: body,
   });
+
+  // Notify client if ticket status is changed to resolved or closed
+  if (process.env.MAIL_USER && process.env.MAIL_PASS && (body.status === "resolved" || body.status === "closed") && data.lead_id) {
+    supabase
+      .from("leads")
+      .select("name, email")
+      .eq("id", data.lead_id)
+      .maybeSingle()
+      .then(({ data: lead }) => {
+        if (lead && lead.email) {
+          sendEmail({
+            to: lead.email,
+            subject: `Ticket ${data.ticket_id} Status Update: ${body.status}`,
+            html: ticketStatusClientTemplate(data.ticket_id, data.title, body.status),
+          }).catch((err) => console.error("[tickets] Client status update email failed:", err));
+        }
+      });
+  }
 
   return NextResponse.json({ data });
 }

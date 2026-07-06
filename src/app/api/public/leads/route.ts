@@ -6,7 +6,7 @@ import {
   pickNextTelecaller,
   logActivity,
 } from "@/lib/supabase";
-import { sendEmail, leadThankYouTemplate } from "@/lib/email";
+import { sendEmail, leadThankYouTemplate, leadAdminNotificationTemplate } from "@/lib/email";
 
 /* ── Anti-spam: lightweight in-memory rate limit ───────────────────
    Keeps the API safe in demo mode (per-IP, 5 submissions / 10 min)
@@ -155,13 +155,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  /* ── Fire-and-forget thank-you email ─────────────────────────── */
+  /* ── Fire-and-forget emails ────────────────────────────────────── */
   if (process.env.MAIL_USER && process.env.MAIL_PASS) {
+    // Send customer thank-you
     sendEmail({
       to: email,
       subject: `Thanks for reaching out — ${process.env.PDF_COMPANY_NAME ?? "NextGen Tech Solution"}`,
       html: leadThankYouTemplate(name, services.length ? services : ["Custom IT Solution"]),
     }).catch((err) => console.error("[public/leads] thank-you mail failed:", err));
+
+    // Send admin notification
+    sendEmail({
+      to: process.env.PDF_COMPANY_EMAIL || process.env.MAIL_USER,
+      subject: `[ALERT] New Lead Received: ${name} (${company || "No Company"})`,
+      html: leadAdminNotificationTemplate(name, email, phone, company, services.length ? services : ["Custom IT Solution"], budget, message),
+    }).catch((err) => console.error("[public/leads] Admin lead mail failed:", err));
   }
 
   return NextResponse.json({

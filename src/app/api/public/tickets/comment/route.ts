@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase, isSupabaseConfigured, logActivity } from "@/lib/supabase";
+import { sendEmail, ticketCommentAdminNotificationTemplate } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -62,6 +63,15 @@ export async function POST(req: NextRequest) {
       performedBy: "client",
       performedByName: "Client (Chatbot)",
     });
+
+    // 4. Send Email Notification to Admin
+    if (process.env.MAIL_USER && process.env.MAIL_PASS) {
+      sendEmail({
+        to: process.env.PDF_COMPANY_EMAIL || process.env.MAIL_USER,
+        subject: `[ALERT] New Client Comment on Ticket ${ticketId}`,
+        html: ticketCommentAdminNotificationTemplate(ticketId, ticket.title, content),
+      }).catch((err) => console.error("[tickets/comment] Admin comment notification failed:", err));
+    }
 
     return NextResponse.json({
       success: true,

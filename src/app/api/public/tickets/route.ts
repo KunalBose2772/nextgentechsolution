@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase, isSupabaseConfigured, nextTicketId, logActivity } from "@/lib/supabase";
+import { sendEmail, ticketClientConfirmationTemplate, ticketAdminNotificationTemplate } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -66,9 +67,10 @@ export async function POST(req: NextRequest) {
     // 1. Resolve lead_id from Project ID, Lead ID, or email
     let leadId: string | null = null;
     let clientName = "Client (Chatbot)";
+    let clientEmail = "";
 
     // Try finding lead directly by lead_id or email
-    let leadQuery = supabase.from("leads").select("id, name");
+    let leadQuery = supabase.from("leads").select("id, name, email");
     if (trackingId.includes("@")) {
       leadQuery = leadQuery.eq("email", trackingId.trim().toLowerCase());
     } else if (trackingId.startsWith("NGL")) {
@@ -79,6 +81,7 @@ export async function POST(req: NextRequest) {
     if (lead) {
       leadId = lead.id;
       clientName = lead.name;
+      clientEmail = lead.email || "";
     } else {
       // Try finding project by project_id
       const { data: project } = await supabase
@@ -89,6 +92,17 @@ export async function POST(req: NextRequest) {
       if (project) {
         leadId = project.lead_id;
         clientName = project.client;
+
+        if (project.lead_id) {
+          const { data: l } = await supabase
+            .from("leads")
+            .select("email")
+            .eq("id", project.lead_id)
+            .maybeSingle();
+          if (l) {
+            clientEmail = l.email || "";
+          }
+        }
       }
     }
 
@@ -130,6 +144,25 @@ export async function POST(req: NextRequest) {
       performedBy: "chatbot",
       performedByName: clientName,
     });
+
+    // 5. Send Email Notifications
+    if (process.env.MAIL_USER && process.env.MAIL_PASS) {
+      // Send confirmation to client
+      if (clientEmail) {
+        sendEmail({
+          to: clientEmail,
+          subject: `Support Ticket Created: ${ticketId} - ${title}`,
+          html: ticketClientConfirmationTemplate(clientName, ticketId, title, description, category || "general"),
+        }).catch((err) => console.error("[tickets] Client confirmation email failed:", err));
+      }
+
+      // Send alert to admin
+      sendEmail({
+        to: process.env.PDF_COMPANY_EMAIL || process.env.MAIL_USER,
+        subject: `[ALERT] New Support Ticket Raised: ${ticketId}`,
+        html: ticketAdminNotificationTemplate(clientName, clientEmail || trackingId, ticketId, title, description, category || "general"),
+      }).catch((err) => console.error("[tickets] Admin ticket alert email failed:", err));
+    }
 
     return NextResponse.json({
       success: true,
