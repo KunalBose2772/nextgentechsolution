@@ -467,7 +467,7 @@ export default function SupportChatbot() {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Satya Prakash"
+                        placeholder="Enter Your Name"
                         value={callRequestForm.name}
                         onChange={(e) => setCallRequestForm({ ...callRequestForm, name: e.target.value })}
                         className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
@@ -773,11 +773,10 @@ export default function SupportChatbot() {
                             <div key={comment.id || index} className={`flex flex-col ${isClient ? "items-end" : "items-start"}`}>
                               <span className="text-[8px] text-slate-400 mb-0.5">{comment.createdByName}</span>
                               <div
-                                className={`text-[11px] p-2.5 rounded-xl max-w-[85%] leading-normal ${
-                                  isClient
-                                    ? "bg-purple-600 text-white rounded-tr-none"
-                                    : "bg-white text-slate-700 rounded-tl-none border border-slate-200 shadow-xs"
-                                }`}
+                                className={`text-[11px] p-2.5 rounded-xl max-w-[85%] leading-normal ${isClient
+                                  ? "bg-purple-600 text-white rounded-tr-none"
+                                  : "bg-white text-slate-700 rounded-tl-none border border-slate-200 shadow-xs"
+                                  }`}
                               >
                                 {comment.content}
                               </div>
