@@ -2,11 +2,38 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Send, ArrowLeft, Ticket, CheckCircle2, ChevronRight, Activity, Code, Calendar } from "lucide-react";
+import {
+  MessageSquare,
+  X,
+  Send,
+  ArrowLeft,
+  Ticket,
+  CheckCircle2,
+  ChevronRight,
+  Activity,
+  Code,
+  Calendar,
+  PhoneCall,
+  HelpCircle,
+  MessageCircle,
+  ThumbsUp,
+  ThumbsDown,
+  Info
+} from "lucide-react";
 import toast from "react-hot-toast";
 
 // ── Types ──
-type Slide = "welcome" | "project_lookup" | "project_details" | "ticket_menu" | "ticket_lookup" | "ticket_details" | "ticket_create";
+type Slide =
+  | "welcome"
+  | "project_lookup"
+  | "project_details"
+  | "ticket_menu"
+  | "ticket_lookup"
+  | "ticket_details"
+  | "ticket_create"
+  | "faqs"
+  | "call_request"
+  | "call_request_success";
 
 interface ProjectUpdateLog {
   id: string;
@@ -46,15 +73,44 @@ interface TicketData {
   comments: TicketComment[];
 }
 
+const FAQS = [
+  {
+    q: "How do I track my project delivery updates?",
+    a: "Select 'Track Project Progress' on the main menu, enter your unique Project ID (e.g., PRJ-001) or registration email, and click search. You will see a live technical delivery timeline updated directly by your developers."
+  },
+  {
+    q: "How can I raise a technical bug/ticket?",
+    a: "Go to 'Support Ticketing Desk' and click 'Raise Technical Ticket'. Provide your Project/Lead ID, a descriptive subject, select the category, and submit. You will get a unique Ticket ID (e.g. NGT00001) to track status."
+  },
+  {
+    q: "What is your average response time for critical issues?",
+    a: "For critical bug fixes or system outages on active support SLA packages, our average response time is under 15 minutes, with resolution times typically within 2-4 hours."
+  },
+  {
+    q: "Can I directly speak to the developer on my ticket?",
+    a: "Yes! Once you look up your Ticket ID in 'Check Ticket Status', you will see a live comment thread. Typing a reply there sends an instant notification to the assigned developers, allowing you to collaborate directly."
+  }
+];
+
 export default function SupportChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [slide, setSlide] = useState<Slide>("welcome");
   const [loading, setLoading] = useState(false);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [ratingFeedback, setRatingFeedback] = useState(false);
 
   // Inputs
   const [lookupId, setLookupId] = useState("");
   const [ticketLookupId, setTicketLookupId] = useState("");
   const [newCommentText, setNewCommentText] = useState("");
+
+  // Callback Form
+  const [callRequestForm, setCallRequestForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    reason: "technical"
+  });
 
   // Create Ticket Form
   const [createTicketForm, setCreateTicketForm] = useState({
@@ -83,6 +139,7 @@ export default function SupportChatbot() {
     if (!lookupId.trim()) return;
 
     setLoading(true);
+    setRatingFeedback(false);
     try {
       const res = await fetch(`/api/public/project-updates?id=${encodeURIComponent(lookupId.trim())}`);
       const json = await res.json();
@@ -104,6 +161,7 @@ export default function SupportChatbot() {
     if (!ticketLookupId.trim()) return;
 
     setLoading(true);
+    setRatingFeedback(false);
     try {
       const res = await fetch(`/api/public/tickets?id=${encodeURIComponent(ticketLookupId.trim())}`);
       const json = await res.json();
@@ -184,18 +242,56 @@ export default function SupportChatbot() {
     }
   };
 
+  const handleCallRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!callRequestForm.name || !callRequestForm.phone || !callRequestForm.email) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/public/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: callRequestForm.name,
+          email: callRequestForm.email.trim().toLowerCase(),
+          phone: callRequestForm.phone,
+          company: "Callback Inquiry",
+          service: "Callback",
+          budget: "Not Specified",
+          message: `Callback requested via Support Chatbot. Topic: ${callRequestForm.reason}.`,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        toast.error(json.error || "Failed to log callback request");
+        return;
+      }
+      setSlide("call_request_success");
+      setCallRequestForm({ name: "", email: "", phone: "", reason: "technical" });
+    } catch {
+      toast.error("Failed to log request. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const resetLookupFlows = () => {
     setProject(null);
     setTicket(null);
     setCreatedTicketId(null);
     setLookupId("");
     setTicketLookupId("");
+    setActiveFaq(null);
+    setRatingFeedback(false);
   };
 
   return (
     <>
       {/* Floating Trigger Button */}
-      <div className="fixed bottom-6 left-6 z-40">
+      <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40">
         <motion.button
           onClick={() => {
             setIsOpen(!isOpen);
@@ -226,7 +322,7 @@ export default function SupportChatbot() {
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.9 }}
-            className="fixed bottom-24 left-6 w-96 h-[500px] z-50 rounded-2xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col bg-white"
+            className="fixed bottom-20 sm:bottom-24 left-4 sm:left-6 w-[calc(100vw-32px)] sm:w-96 h-[550px] max-h-[calc(100vh-100px)] z-50 rounded-2xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col bg-white"
           >
             {/* Header */}
             <div className="px-5 py-4 bg-purple-600 border-b border-purple-700 flex items-center justify-between">
@@ -234,7 +330,9 @@ export default function SupportChatbot() {
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 <div>
                   <h4 className="text-[13px] font-bold text-white tracking-wide Outfit">NextGen Support Desk</h4>
-                  <p className="text-[10px] text-purple-100">Project & Delivery Center</p>
+                  <p className="text-[10px] text-purple-100 flex items-center gap-1.5">
+                    Project & Delivery Center <span className="text-[8px] bg-purple-700 px-1.5 py-0.2 rounded text-emerald-300 font-bold uppercase tracking-wider">Live</span>
+                  </p>
                 </div>
               </div>
               <button
@@ -248,17 +346,17 @@ export default function SupportChatbot() {
             {/* Slide Container */}
             <div className="flex-1 overflow-y-auto p-5 text-slate-700 bg-slate-50/50">
               {slide === "welcome" && (
-                <div className="space-y-5 h-full flex flex-col justify-center">
+                <div className="space-y-4 h-full flex flex-col justify-center py-2">
                   <div className="text-center">
                     <span className="text-3xl">👋</span>
-                    <h5 className="text-base font-bold text-slate-800 mt-2">Welcome to Support</h5>
-                    <p className="text-[11px] text-slate-500 mt-1">Track project logs or chat with technical support.</p>
+                    <h5 className="text-base font-bold text-slate-800 mt-2">How can we help you?</h5>
+                    <p className="text-[11px] text-slate-500 mt-1">Track project logs, chat with devs, or get instant support callback.</p>
                   </div>
 
-                  <div className="space-y-2.5 pt-2">
+                  <div className="space-y-2 pt-2">
                     <button
                       onClick={() => setSlide("project_lookup")}
-                      className="w-full flex items-center justify-between p-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-purple-600/30 group cursor-pointer"
+                      className="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-purple-600/30 group cursor-pointer shadow-sm"
                     >
                       <span className="flex items-center gap-2.5">
                         <Activity className="w-4 h-4 text-purple-600" />
@@ -269,7 +367,7 @@ export default function SupportChatbot() {
 
                     <button
                       onClick={() => setSlide("ticket_menu")}
-                      className="w-full flex items-center justify-between p-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-purple-600/30 group cursor-pointer"
+                      className="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-purple-600/30 group cursor-pointer shadow-sm"
                     >
                       <span className="flex items-center gap-2.5">
                         <Ticket className="w-4 h-4 text-purple-600" />
@@ -277,7 +375,165 @@ export default function SupportChatbot() {
                       </span>
                       <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-600 transition-colors" />
                     </button>
+
+                    <button
+                      onClick={() => setSlide("faqs")}
+                      className="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-purple-600/30 group cursor-pointer shadow-sm"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <HelpCircle className="w-4 h-4 text-purple-600" />
+                        Technical FAQs
+                      </span>
+                      <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-600 transition-colors" />
+                    </button>
+
+                    <button
+                      onClick={() => setSlide("call_request")}
+                      className="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-purple-600/30 group cursor-pointer shadow-sm"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <PhoneCall className="w-4 h-4 text-purple-600" />
+                        Request Call Back
+                      </span>
+                      <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-600 transition-colors" />
+                    </button>
+
+                    <a
+                      href="https://wa.me/919031806381?text=Hello%20NextGen%20Support,%20I%20need%20assistance%20regarding%20my%20project."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition-all text-left text-xs font-semibold text-slate-700 hover:border-emerald-600/30 group cursor-pointer shadow-sm no-underline"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <MessageCircle className="w-4 h-4 text-emerald-600" />
+                        Instant WhatsApp Chat
+                      </span>
+                      <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                    </a>
                   </div>
+                </div>
+              )}
+
+              {slide === "faqs" && (
+                <div className="space-y-4">
+                  <button
+                    onClick={() => setSlide("welcome")}
+                    className="flex items-center gap-1 text-[11px] text-purple-600 hover:text-purple-700 font-semibold cursor-pointer mb-2 border-none bg-transparent"
+                  >
+                    <ArrowLeft className="w-3 h-3" /> Back to Main
+                  </button>
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-1">Frequently Asked Questions</h5>
+                    <p className="text-[10px] text-slate-500 leading-relaxed">Immediate answers to common support inquires.</p>
+                  </div>
+
+                  <div className="space-y-2 max-h-[350px] overflow-y-auto pr-1">
+                    {FAQS.map((faq, index) => (
+                      <div key={index} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                        <button
+                          onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                          className="w-full flex items-center justify-between p-3 text-left text-xs font-semibold text-slate-700 hover:bg-slate-50 border-none bg-transparent cursor-pointer transition-colors"
+                        >
+                          <span>{faq.q}</span>
+                          <ChevronRight className={`w-3.5 h-3.5 text-slate-400 transition-transform ${activeFaq === index ? "rotate-90 text-purple-600" : ""}`} />
+                        </button>
+                        {activeFaq === index && (
+                          <div className="px-3 pb-3 pt-1 text-[10px] text-slate-500 border-t border-slate-100 bg-slate-50/50 leading-relaxed">
+                            {faq.a}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {slide === "call_request" && (
+                <div className="space-y-4">
+                  <button
+                    onClick={() => setSlide("welcome")}
+                    className="flex items-center gap-1 text-[11px] text-purple-600 hover:text-purple-700 font-semibold cursor-pointer mb-2 border-none bg-transparent"
+                  >
+                    <ArrowLeft className="w-3 h-3" /> Back
+                  </button>
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-1">Request a Callback</h5>
+                    <p className="text-[10px] text-slate-500">Provide details and our technical team will call you.</p>
+                  </div>
+
+                  <form onSubmit={handleCallRequest} className="space-y-3 pt-1">
+                    <div>
+                      <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Your Name *</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Satya Prakash"
+                        value={callRequestForm.name}
+                        onChange={(e) => setCallRequestForm({ ...callRequestForm, name: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Email Address *</label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="e.g. client@example.com"
+                        value={callRequestForm.email}
+                        onChange={(e) => setCallRequestForm({ ...callRequestForm, email: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Phone Number *</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="e.g. +91 9031806381"
+                        value={callRequestForm.phone}
+                        onChange={(e) => setCallRequestForm({ ...callRequestForm, phone: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Inquiry Topic</label>
+                      <select
+                        value={callRequestForm.reason}
+                        onChange={(e) => setCallRequestForm({ ...callRequestForm, reason: e.target.value })}
+                        className="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                      >
+                        <option value="technical">Technical Support</option>
+                        <option value="billing">Billing & Invoices</option>
+                        <option value="project">Project Progress</option>
+                        <option value="sales">New Project Consultation</option>
+                      </select>
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-semibold border-none transition-all disabled:opacity-50 cursor-pointer shadow-sm"
+                    >
+                      {loading ? "Submitting..." : "Schedule Call"}
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {slide === "call_request_success" && (
+                <div className="text-center py-10 space-y-4 h-full flex flex-col justify-center">
+                  <CheckCircle2 className="w-14 h-14 text-emerald-500 mx-auto" />
+                  <div>
+                    <h6 className="text-sm font-bold text-slate-800">Callback Scheduled!</h6>
+                    <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed px-4">
+                      Thank you. We have logged your request. A support team engineer will call you shortly on your provided number.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setSlide("welcome")}
+                    className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-semibold border-none transition-all cursor-pointer shadow-sm mx-auto"
+                  >
+                    Return to Main Menu
+                  </button>
                 </div>
               )}
 
@@ -379,6 +635,40 @@ export default function SupportChatbot() {
                       <p className="text-[10px] text-slate-400 p-4 text-center border border-dashed border-slate-200 rounded-xl bg-white">No delivery logs posted yet.</p>
                     )}
                   </div>
+
+                  {/* Rating Feedback */}
+                  <div className="border-t border-slate-100 pt-3">
+                    {ratingFeedback ? (
+                      <div className="text-center py-1 text-[10px] text-emerald-600 font-semibold flex items-center justify-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Thank you for your rating!
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between text-[10px]">
+                        <span className="text-slate-400 flex items-center gap-1"><Info className="w-3 h-3" /> Is this timeline helpful?</span>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              setRatingFeedback(true);
+                              toast.success("Feedback recorded, thank you!");
+                            }}
+                            className="p-1 rounded hover:bg-slate-200 text-slate-500 hover:text-purple-600 transition-colors border-none bg-transparent cursor-pointer"
+                          >
+                            <ThumbsUp className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setRatingFeedback(true);
+                              toast.success("Feedback recorded. We will improve.");
+                            }}
+                            className="p-1 rounded hover:bg-slate-200 text-slate-500 hover:text-red-500 transition-colors border-none bg-transparent cursor-pointer"
+                          >
+                            <ThumbsDown className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -474,8 +764,8 @@ export default function SupportChatbot() {
                   {/* Support Chat Box comments */}
                   <div className="flex-1 flex flex-col justify-between pt-1">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2.5">Chat History</div>
-                    
-                    <div className="flex-1 overflow-y-auto max-h-[150px] space-y-3 pr-1 pl-1 mb-2 bg-slate-50 rounded-xl p-3 border border-slate-200 shadow-inner">
+
+                    <div className="flex-1 overflow-y-auto max-h-[140px] space-y-3 pr-1 pl-1 mb-2 bg-slate-50 rounded-xl p-3 border border-slate-200 shadow-inner">
                       {ticket.comments && ticket.comments.length > 0 ? (
                         ticket.comments.map((comment, index) => {
                           const isClient = comment.createdByName === "Client (Chatbot)";
@@ -629,6 +919,13 @@ export default function SupportChatbot() {
                   </AnimatePresence>
                 </div>
               )}
+            </div>
+            {/* System Status operational banner */}
+            <div className="px-5 py-2.5 bg-slate-100 border-t border-slate-200/80 flex items-center justify-between text-[9px] text-slate-500 font-semibold tracking-wide">
+              <span>NextGen System Core</span>
+              <span className="flex items-center gap-1 text-emerald-600 uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Operational
+              </span>
             </div>
           </motion.div>
         )}
