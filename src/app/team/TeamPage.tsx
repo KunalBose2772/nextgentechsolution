@@ -149,6 +149,16 @@ const STATIC_TEAM_MEMBERS = [
     linkedin: "",
     twitter: "",
     github: ""
+  },
+  {
+    id: "static-15",
+    name: "Vikash Mahto",
+    role: "Senior SEO Executive & Developer",
+    expertise: "Search Engine Optimization & Frontend Web Development",
+    image: "/images/team/vikash.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
   }
 ];
 
