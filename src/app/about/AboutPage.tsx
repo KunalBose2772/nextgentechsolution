@@ -91,7 +91,7 @@ const STATIC_TEAM_MEMBERS = [
     name: "Shovam Kumar",
     role: "Senior Full Stack Developer",
     expertise: "Full Stack Architecture & Scalable Cloud Apps",
-    image: "/images/team/shovam.png",
+    image: "/images/team/shovam_v2.png",
     linkedin: "",
     twitter: "",
     github: ""
