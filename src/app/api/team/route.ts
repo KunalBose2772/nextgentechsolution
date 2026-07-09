@@ -174,6 +174,28 @@ const MOCK_TEAM = [
     github: "",
     sortOrder: 15,
   },
+  {
+    id: "16",
+    name: "Roshni Kumar Singh",
+    role: "Graphic Designer",
+    expertise: "UI/UX & Graphic Design",
+    image: "/images/team/roshni.png",
+    linkedin: "",
+    twitter: "",
+    github: "",
+    sortOrder: 16,
+  },
+  {
+    id: "17",
+    name: "Anurag",
+    role: "Cinematographer",
+    expertise: "Cinematography & Media Production",
+    image: "/images/team/anurag.png",
+    linkedin: "",
+    twitter: "",
+    github: "",
+    sortOrder: 17,
+  },
 ];
 
 // ── GET /api/team ──

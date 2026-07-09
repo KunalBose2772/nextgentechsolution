@@ -159,6 +159,26 @@ const STATIC_TEAM_MEMBERS = [
     linkedin: "",
     twitter: "",
     github: ""
+  },
+  {
+    id: "static-16",
+    name: "Roshni Kumar Singh",
+    role: "Graphic Designer",
+    expertise: "UI/UX & Graphic Design",
+    image: "/images/team/roshni.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-17",
+    name: "Anurag",
+    role: "Cinematographer",
+    expertise: "Cinematography & Media Production",
+    image: "/images/team/anurag.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
   }
 ];
 
