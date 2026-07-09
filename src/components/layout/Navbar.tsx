@@ -631,20 +631,20 @@ export default function Navbar() {
       {mobileOpen && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-slate-950/30 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm lg:hidden"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
           <aside
             id="mobile-menu"
-            className="fixed top-0 right-0 bottom-0 z-50 w-72 bg-white/95 backdrop-blur-md border-l border-slate-100 p-6 lg:hidden overflow-y-auto shadow-2xl transition-all"
+            className="fixed top-0 right-0 bottom-0 z-50 w-72 bg-slate-900 border-l border-slate-800 p-6 lg:hidden overflow-y-auto"
             aria-label="Mobile navigation"
           >
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
               <LogoMark size={36} />
               <button
                 onClick={() => setMobileOpen(false)}
-                className="w-9.5 h-9.5 rounded-lg flex items-center justify-center bg-slate-50 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors border-none cursor-pointer"
+                className="w-9.5 h-9.5 rounded-lg flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-colors"
                 aria-label="Close navigation menu"
               >
                 <X className="w-4 h-4" />
@@ -659,24 +659,24 @@ export default function Navbar() {
                     return (
                       <div key={link.label} className="space-y-1">
                         <div className={cn(
-                          "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold text-slate-400 uppercase tracking-wider",
-                          isSubActive && "text-[#7C3AED] bg-purple-50/50"
+                          "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold text-slate-450",
+                          isSubActive && "text-[#7C3AED] bg-violet-500/5"
                         )}>
                           <span>About</span>
                         </div>
-                        <div className="pl-4 space-y-1 border-l border-slate-100 ml-4">
+                        <div className="pl-4 space-y-1 border-l border-slate-800/60 ml-4">
                           {aboutMenuLinks.map((sub) => (
                             <Link
                               key={sub.label}
                               href={sub.href}
                               className={cn(
                                 "flex items-center justify-between px-4 py-2.5 rounded-lg text-xs font-bold transition-all",
-                                pathname === sub.href ? "text-[#7C3AED] bg-purple-50" : "text-slate-600 hover:text-[#7C3AED] hover:bg-slate-50"
+                                pathname === sub.href ? "text-[#7C3AED] bg-violet-500/10" : "text-slate-400 hover:text-white hover:bg-slate-800"
                               )}
                               onClick={() => setMobileOpen(false)}
                             >
                               {sub.label}
-                              <ArrowRight className="w-3.5 h-3.5 opacity-40" />
+                              <ArrowRight className="w-3.5 h-3.5 opacity-30" />
                             </Link>
                           ))}
                         </div>
@@ -690,35 +690,35 @@ export default function Navbar() {
                       href={link.href}
                       className={cn(
                         "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition-all",
-                        pathname === link.href ? "text-[#7C3AED] bg-purple-50" : "text-slate-600 hover:text-[#7C3AED] hover:bg-slate-50"
+                        pathname === link.href ? "text-[#7C3AED] bg-violet-500/10" : "text-slate-400 hover:text-white hover:bg-slate-800"
                       )}
                       onClick={() => setMobileOpen(false)}
                     >
                       {link.label}
-                      <ArrowRight className="w-4 h-4 opacity-40" />
+                      <ArrowRight className="w-4 h-4 opacity-30" />
                     </Link>
                   );
                 })}
               </div>
 
               {/* Mobile Contact Info */}
-              <div className="pt-6 mt-6 border-t border-slate-100 space-y-4">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">Contact Info</p>
+              <div className="pt-6 mt-6 border-t border-slate-800 space-y-4">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4">Contact Info</p>
                 <div className="space-y-3 px-4">
-                  <a href={`tel:${settings.phone}`} className="flex items-center gap-3 text-xs text-slate-650 hover:text-[#7C3AED] transition-colors">
-                    <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-rose-500">
+                  <a href={`tel:${settings.phone}`} className="flex items-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
+                    <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-rose-400">
                       <Phone className="w-3.5 h-3.5 fill-current" />
                     </div>
                     {settings.phone}
                   </a>
-                  <a href={`mailto:${settings.email}`} className="flex items-center gap-3 text-xs text-slate-650 hover:text-[#7C3AED] transition-colors">
-                    <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-violet-500">
+                  <a href={`mailto:${settings.email}`} className="flex items-center gap-3 text-xs text-slate-300 hover:text-white transition-colors">
+                    <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-violet-400">
                       <Mail className="w-3.5 h-3.5" />
                     </div>
                     {settings.email}
                   </a>
-                  <div className="flex items-start gap-3 text-xs text-slate-650">
-                    <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-cyan-500 shrink-0">
+                  <div className="flex items-start gap-3 text-xs text-slate-300">
+                    <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-cyan-400 shrink-0">
                       <MapPin className="w-3.5 h-3.5" />
                     </div>
                     <span>{settings.location}</span>
@@ -727,31 +727,31 @@ export default function Navbar() {
               </div>
 
               {/* Mobile Socials */}
-              <div className="pt-6 mt-6 border-t border-slate-100">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4 mb-3">Follow Us</p>
+              <div className="pt-6 mt-6 border-t border-slate-800">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 mb-3">Follow Us</p>
                 <div className="flex items-center gap-2.5 px-4">
-                  <a href={settings.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-50 text-[#7C3AED] flex items-center justify-center hover:bg-purple-50 transition-colors shadow-sm">
+                  <a href={settings.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <FaLinkedinIn className="w-4 h-4" />
                   </a>
-                  <a href={settings.social.twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-50 text-[#7C3AED] flex items-center justify-center hover:bg-purple-50 transition-colors shadow-sm">
+                  <a href={settings.social.twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                   </a>
-                  <a href={settings.social.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-50 text-[#7C3AED] flex items-center justify-center hover:bg-purple-50 transition-colors shadow-sm">
+                  <a href={settings.social.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <FaInstagram className="w-4 h-4" />
                   </a>
-                  <a href={settings.social.facebook} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-50 text-[#7C3AED] flex items-center justify-center hover:bg-purple-50 transition-colors shadow-sm">
+                  <a href={settings.social.facebook} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow">
                     <FaFacebookF className="w-3.5 h-3.5" />
                   </a>
-                  <a href={settings.social.youtube} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-50 text-[#7C3AED] flex items-center justify-center hover:bg-purple-50 transition-colors shadow-sm font-bold">
+                  <a href={settings.social.youtube} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white text-[#7C3AED] flex items-center justify-center hover:bg-slate-100 transition-colors shadow font-bold">
                     <FaYoutube className="w-4 h-4" />
                   </a>
                 </div>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-slate-100">
+              <div className="pt-6 mt-6 border-t border-slate-800">
                 <button
                   onClick={() => { setMobileOpen(false); triggerOnboardingModal({ type: "general" }); }}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-colors cursor-pointer border-none shadow-md shadow-purple-500/10"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg text-sm font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-colors cursor-pointer"
                 >
                   Get A Quote
                   <ArrowRight className="w-4 h-4" />

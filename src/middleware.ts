@@ -10,9 +10,26 @@ const secret = new TextEncoder().encode(
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const res = NextResponse.next();
 
-  // Pass pathname as header for layout detection
+  // Pass pathname as request header for layout detection
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      }
+    });
+  }
+
+  const res = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    }
+  });
+
+  // Also set on response headers for legacy cases
   res.headers.set("x-pathname", pathname);
 
   // Protect dashboard routes

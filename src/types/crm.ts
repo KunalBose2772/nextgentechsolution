@@ -2,7 +2,7 @@
    CRM TypeScript types
    ───────────────────────────────────────────────────────────────────── */
 
-export type UserRole = "superadmin" | "admin" | "telecaller" | "field_sales" | "marketing" | "developer";
+export type UserRole = "superadmin" | "admin" | "telecaller" | "field_sales" | "marketing" | "developer" | "designer" | "cloud_engineer" | "seo_expert" | "marketer";
 
 export interface CRMUser {
   _id: string;
@@ -71,7 +71,7 @@ export interface Lead {
   createdBy: CRMUser | string;
   followUpDate?: string;
   tags: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   value?: number;
   probability?: number;
   lostReason?: string;

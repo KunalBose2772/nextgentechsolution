@@ -25,6 +25,15 @@ const STATIC_TEAM_MEMBERS = [
     github: "#"
   },
   {
+    name: "Satya Prakash Yadav",
+    role: "Director",
+    expertise: "Strategic Growth & Enterprise Partnerships",
+    image: "/images/team/satya.jpg",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
     name: "Priya Malhotra",
     role: "Creative Director",
     expertise: "Brand Strategy & Human-Centric UX",
@@ -68,6 +77,69 @@ const STATIC_TEAM_MEMBERS = [
     linkedin: "#",
     twitter: "#",
     github: "#"
+  },
+  {
+    name: "Harsh Kumar",
+    role: "IT Administrator",
+    expertise: "Enterprise Infrastructure & Security Operations",
+    image: "/images/team/harsh.jpg",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    name: "Shovam Kumar",
+    role: "Senior Full Stack Developer",
+    expertise: "Full Stack Architecture & Scalable Cloud Apps",
+    image: "/images/team/shovam.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    name: "Badal Kumar Singh",
+    role: "Senior Full Stack Developer",
+    expertise: "Full Stack Development & Scalable Backend Solutions",
+    image: "/images/team/badal.jpg",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    name: "Kunal Bose",
+    role: "Senior Full Stack Developer",
+    expertise: "Full Stack Engineering & Modern Web Architectures",
+    image: "/images/team/kunal.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    name: "Anuj Kumar",
+    role: "Full Stack Developer",
+    expertise: "Full Stack Web & Database Engineering",
+    image: "/images/team/anuj.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    name: "Ravi Kumar",
+    role: "Senior Performance Marketing",
+    expertise: "Performance Marketing & Digital Growth Strategy",
+    image: "/images/team/ravi.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    name: "Saovik Biswas",
+    role: "Senior App Developer",
+    expertise: "Mobile Application Design & Cross-Platform Systems",
+    image: "/images/team/saovik.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
   }
 ];
 
@@ -370,11 +442,11 @@ export default function AboutPage() {
                 {teamMembers.map((member, i) => (
                   <div
                     key={`${setIdx}-${i}`}
-                    className="w-[300px] shrink-0 bg-slate-50 border border-slate-200/80 rounded-3xl p-5 hover:shadow-xl hover:bg-white hover:border-[#7c3aed]/25 transition-all duration-300 flex flex-col justify-between"
+                    className="w-[300px] shrink-0 bg-slate-50 border border-slate-200/80 rounded-3xl hover:shadow-xl hover:bg-white hover:border-[#7c3aed]/25 transition-all duration-300 flex flex-col justify-between overflow-hidden"
                   >
                     <div>
                       {/* Avatar Image Frame */}
-                      <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-5 border border-slate-200/60 bg-slate-100">
+                      <div className="relative w-full aspect-square bg-slate-100 overflow-hidden">
                         <Image
                           src={member.image}
                           alt={member.name}
@@ -384,32 +456,40 @@ export default function AboutPage() {
                         />
                       </div>
 
-                      <h3 className="font-extrabold text-slate-900 text-sm mb-1 font-sora">
-                        {member.name}
-                      </h3>
-                      <p className="text-[11px] font-bold text-[#7c3aed] uppercase tracking-wider mb-2.5">
-                        {member.role}
-                      </p>
-                      <p className="text-xs text-slate-500 leading-normal mb-5 min-h-[36px]">
-                        {member.expertise}
-                      </p>
+                      <div className="p-5 pb-0">
+                        <h3 className="font-extrabold text-slate-900 text-sm mb-1 font-sora">
+                          {member.name}
+                        </h3>
+                        <p className="text-[11px] font-bold text-[#7c3aed] uppercase tracking-wider mb-2.5">
+                          {member.role}
+                        </p>
+                        <p className="text-xs text-slate-500 leading-normal mb-5 min-h-[36px]">
+                          {member.expertise}
+                        </p>
+                      </div>
                     </div>
 
                     {/* Social links */}
-                    <div className="flex items-center justify-between pt-3.5 border-t border-slate-200/50">
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                        Director
+                    <div className="flex items-center justify-between p-5 pt-3.5 border-t border-slate-200/50">
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        NextGen Partner
                       </span>
                       <div className="flex gap-2">
-                        <a href={member.linkedin} className="w-7 h-7 rounded-full bg-slate-200/60 text-slate-500 hover:bg-[#7c3aed] hover:text-white flex items-center justify-center transition-all duration-200" aria-label="LinkedIn">
-                          <FaLinkedinIn className="w-3.5 h-3.5" />
-                        </a>
-                        <a href={member.twitter} className="w-7 h-7 rounded-full bg-slate-200/60 text-slate-500 hover:bg-[#7c3aed] hover:text-white flex items-center justify-center transition-all duration-200" aria-label="Twitter">
-                          <FaTwitter className="w-3.5 h-3.5" />
-                        </a>
-                        <a href={member.github} className="w-7 h-7 rounded-full bg-slate-200/60 text-slate-500 hover:bg-[#7c3aed] hover:text-white flex items-center justify-center transition-all duration-200" aria-label="GitHub">
-                          <FaGithub className="w-3.5 h-3.5" />
-                        </a>
+                        {member.linkedin && member.linkedin !== "#" && member.linkedin.trim() !== "" && (
+                          <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-purple-50 text-[#7C3AED] hover:bg-[#7C3AED] hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm" aria-label="LinkedIn">
+                            <FaLinkedinIn className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                        {member.twitter && member.twitter !== "#" && member.twitter.trim() !== "" && (
+                          <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-purple-50 text-[#7C3AED] hover:bg-[#7C3AED] hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm" aria-label="Twitter">
+                            <FaTwitter className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                        {member.github && member.github !== "#" && member.github.trim() !== "" && (
+                          <a href={member.github} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-purple-50 text-[#7C3AED] hover:bg-[#7C3AED] hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm" aria-label="GitHub">
+                            <FaGithub className="w-3.5 h-3.5" />
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>

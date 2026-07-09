@@ -29,7 +29,7 @@ const NAV: NavItem[] = [
   { label: "Invoices",    href: "/dashboard/invoices",     icon: Receipt,    roles: ["superadmin","admin","telecaller"] },
   { label: "Payments",    href: "/dashboard/payments",     icon: CreditCard, roles: ["superadmin","admin","telecaller"] },
   { label: "Tickets",     href: "/dashboard/tickets",      icon: Ticket },
-  { label: "Projects",    href: "/dashboard/projects",     icon: FolderOpen, roles: ["superadmin","admin","developer"] },
+  { label: "Projects",    href: "/dashboard/projects",     icon: FolderOpen, roles: ["superadmin","admin","developer","designer","cloud_engineer","seo_expert","marketer"] },
   { label: "Marketing",   href: "/dashboard/marketing",    icon: Megaphone,  roles: ["superadmin","admin","marketing"] },
   { label: "Field Sales", href: "/dashboard/field-sales",  icon: MapPin,     roles: ["superadmin","admin","field_sales"] },
   { label: "Reports",     href: "/dashboard/reports",      icon: BarChart3,  roles: ["superadmin","admin"] },
@@ -48,6 +48,7 @@ const WEBSITE_NAV: NavItem[] = [
 const ROLE_LABELS: Record<UserRole, string> = {
   superadmin: "Super Admin", admin: "Admin", telecaller: "Telecaller",
   field_sales: "Field Sales", marketing: "Marketing", developer: "Developer",
+  designer: "Designer", cloud_engineer: "Cloud Engineer", seo_expert: "SEO Expert", marketer: "Marketer"
 };
 
 interface SidebarProps {

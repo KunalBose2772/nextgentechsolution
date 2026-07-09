@@ -21,6 +21,16 @@ const STATIC_TEAM_MEMBERS = [
     github: "#"
   },
   {
+    id: "static-7",
+    name: "Satya Prakash Yadav",
+    role: "Director",
+    expertise: "Strategic Growth & Enterprise Partnerships",
+    image: "/images/team/satya.jpg",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
     id: "static-2",
     name: "Priya Malhotra",
     role: "Creative Director",
@@ -69,6 +79,76 @@ const STATIC_TEAM_MEMBERS = [
     linkedin: "#",
     twitter: "#",
     github: "#"
+  },
+  {
+    id: "static-8",
+    name: "Harsh Kumar",
+    role: "IT Administrator",
+    expertise: "Enterprise Infrastructure & Security Operations",
+    image: "/images/team/harsh.jpg",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-9",
+    name: "Shovam Kumar",
+    role: "Senior Full Stack Developer",
+    expertise: "Full Stack Architecture & Scalable Cloud Apps",
+    image: "/images/team/shovam.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-10",
+    name: "Badal Kumar Singh",
+    role: "Senior Full Stack Developer",
+    expertise: "Full Stack Development & Scalable Backend Solutions",
+    image: "/images/team/badal.jpg",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-11",
+    name: "Kunal Bose",
+    role: "Senior Full Stack Developer",
+    expertise: "Full Stack Engineering & Modern Web Architectures",
+    image: "/images/team/kunal.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-12",
+    name: "Anuj Kumar",
+    role: "Full Stack Developer",
+    expertise: "Full Stack Web & Database Engineering",
+    image: "/images/team/anuj.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-13",
+    name: "Ravi Kumar",
+    role: "Senior Performance Marketing",
+    expertise: "Performance Marketing & Digital Growth Strategy",
+    image: "/images/team/ravi.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
+  },
+  {
+    id: "static-14",
+    name: "Saovik Biswas",
+    role: "Senior App Developer",
+    expertise: "Mobile Application Design & Cross-Platform Systems",
+    image: "/images/team/saovik.png",
+    linkedin: "",
+    twitter: "",
+    github: ""
   }
 ];
 
@@ -135,30 +215,28 @@ export default function TeamPage() {
 
                 <div>
                   {/* Image Container */}
-                  <div className="p-6 pb-0">
-                    <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-100 shadow-inner group-hover:scale-[1.01] transition-transform duration-300">
-                      {member.image ? (
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          fill
-                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-700">
-                          <User className="w-12 h-12" />
-                        </div>
-                      )}
+                  <div className="relative aspect-[4/3] w-full bg-slate-950 overflow-hidden shadow-inner group-hover:scale-[1.01] transition-transform duration-300">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-700">
+                        <User className="w-12 h-12" />
+                      </div>
+                    )}
 
-                      {/* Small floating sparkles on directors */}
-                      {(member.role.toLowerCase().includes("director") || member.role.toLowerCase().includes("md")) && (
-                        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm border border-slate-100 py-1 px-2.5 rounded-full flex items-center gap-1.5 shadow-md">
-                          <Sparkles className="w-3 h-3 text-[var(--accent-global)]" />
-                          <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest">Leadership</span>
-                        </div>
-                      )}
-                    </div>
+                    {/* Small floating sparkles on directors */}
+                    {(member.role.toLowerCase().includes("director") || member.role.toLowerCase().includes("md")) && (
+                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm border border-slate-100 py-1 px-2.5 rounded-full flex items-center gap-1.5 shadow-md">
+                        <Sparkles className="w-3 h-3 text-[var(--accent-global)]" />
+                        <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest">Leadership</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Body Content */}
@@ -176,36 +254,36 @@ export default function TeamPage() {
                 </div>
 
                 {/* Footer Socials */}
-                <div className="p-6 pt-0 border-t border-slate-100 flex items-center justify-between">
+                <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex gap-2">
-                    {member.linkedin && member.linkedin !== "#" && (
+                    {member.linkedin && member.linkedin !== "#" && member.linkedin.trim() !== "" && (
                       <a
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-150 flex items-center justify-center text-slate-500 hover:text-[var(--accent-global)] hover:bg-[var(--accent-global-dim)] hover:border-[var(--accent-global)]/30 transition-all duration-200"
+                        className="w-8 h-8 rounded-full bg-purple-50 text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-[#7C3AED] hover:text-white transition-all duration-250 shadow-sm"
                         title="LinkedIn Profile"
                       >
                         <FaLinkedinIn className="w-3.5 h-3.5" />
                       </a>
                     )}
-                    {member.twitter && member.twitter !== "#" && (
+                    {member.twitter && member.twitter !== "#" && member.twitter.trim() !== "" && (
                       <a
                         href={member.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-150 flex items-center justify-center text-slate-500 hover:text-[var(--accent-global)] hover:bg-[var(--accent-global-dim)] hover:border-[var(--accent-global)]/30 transition-all duration-200"
+                        className="w-8 h-8 rounded-full bg-purple-50 text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-[#7C3AED] hover:text-white transition-all duration-250 shadow-sm"
                         title="Twitter Profile"
                       >
                         <FaTwitter className="w-3.5 h-3.5" />
                       </a>
                     )}
-                    {member.github && member.github !== "#" && (
+                    {member.github && member.github !== "#" && member.github.trim() !== "" && (
                       <a
                         href={member.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-150 flex items-center justify-center text-slate-500 hover:text-[var(--accent-global)] hover:bg-[var(--accent-global-dim)] hover:border-[var(--accent-global)]/30 transition-all duration-200"
+                        className="w-8 h-8 rounded-full bg-purple-50 text-[#7C3AED] flex items-center justify-center hover:scale-110 hover:bg-[#7C3AED] hover:text-white transition-all duration-250 shadow-sm"
                         title="GitHub Profile"
                       >
                         <FaGithub className="w-3.5 h-3.5" />
@@ -216,6 +294,7 @@ export default function TeamPage() {
                     NextGen Partner
                   </span>
                 </div>
+
               </motion.div>
             ))}
           </div>

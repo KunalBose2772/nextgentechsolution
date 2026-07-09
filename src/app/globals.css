@@ -462,7 +462,18 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* â”€â”€â”€ Text selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-::selection { background: rgba(var(--accent-primary-rgb), 0.2); color: #ffffff; }
+::selection {
+  background: rgba(var(--accent-primary-rgb), 0.35);
+  color: #ffffff;
+}
+
+.light-section ::selection,
+.crm-shell ::selection,
+.crm-shell *::selection {
+  background: var(--crm-primary, #5b5bd6);
+  color: #ffffff;
+}
+
 
 /* â”€â”€â”€ Scrollbar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -483,6 +494,18 @@ h1, h2, h3, h4, h5, h6 {
 .crm-shell {
   background: var(--crm-bg);
   color: var(--crm-text);
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.crm-shell::-webkit-scrollbar {
+  display: none !important;
+}
+.crm-shell * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.crm-shell *::-webkit-scrollbar {
+  display: none !important;
 }
 .crm-shell input,
 .crm-shell select,

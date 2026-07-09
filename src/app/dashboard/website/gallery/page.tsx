@@ -252,12 +252,12 @@ export default function GalleryCMSPage() {
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Photo Title*</label>
                     <input type="text" required value={form.title} onChange={e => setForm({...form, title: e.target.value})}
-                      placeholder="e.g. Modern Collaboration Hub" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
+                      placeholder="e.g. Modern Collaboration Hub" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Category*</label>
                     <select value={form.category} onChange={e => setForm({...form, category: e.target.value})}
-                      className="w-full bg-slate-900 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500 cursor-pointer" style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}>
+                      className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500 cursor-pointer" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}>
                       {CATEGORIES.map(cat => (
                         <option key={cat} value={cat}>{cat}</option>
                       ))}
@@ -268,26 +268,26 @@ export default function GalleryCMSPage() {
                 <div>
                   <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Description*</label>
                   <textarea required value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3}
-                    placeholder="Provide context about what this photo represents..." className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
+                    placeholder="Provide context about what this photo represents..." className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="md:col-span-2">
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Image Path*</label>
                     <input type="text" required value={form.image} onChange={e => setForm({...form, image: e.target.value})}
-                      placeholder="e.g. /images/about_office1.png" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
+                      placeholder="e.g. /images/about_office1.png" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Sort Order</label>
                     <input type="number" value={form.sortOrder} onChange={e => setForm({...form, sortOrder: Number(e.target.value)})}
-                      className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
+                      className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                 </div>
 
                 <div>
                   <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Date Tag*</label>
                   <input type="text" required value={form.date} onChange={e => setForm({...form, date: e.target.value})}
-                    placeholder="e.g. June 2026" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
+                    placeholder="e.g. June 2026" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                 </div>
 
                 <div className="pt-4 border-t flex justify-end gap-3" style={{ borderColor: "var(--crm-border-faint)" }}>

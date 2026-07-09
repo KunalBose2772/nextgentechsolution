@@ -67,7 +67,6 @@ export default function OnboardingModal() {
   });
 
   const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
   const [leadId, setLeadId] = useState("");
   const [error, setError] = useState("");
 
@@ -122,7 +121,6 @@ export default function OnboardingModal() {
       setIsOpen(true);
       setStep(0);
       setError("");
-      setSent(false);
       setLeadId("");
     };
 
@@ -215,7 +213,6 @@ export default function OnboardingModal() {
       }
 
       setLeadId(data.leadId ?? "");
-      setSent(true);
       setStep(4); 
     } catch {
       setError("A connection error occurred. Please try again.");
@@ -257,11 +254,11 @@ export default function OnboardingModal() {
             exit={{ opacity: 0, scale: 0.96, y: 15 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
             style={accentColor ? {
-              ["--accent-global" as any]: accentColor,
-              ["--accent-global-hover" as any]: `${accentColor}dd`,
-              ["--accent-global-dim" as any]: `rgba(${hexToRgb(accentColor)}, 0.08)`,
-              ["--accent-global-rgb" as any]: hexToRgb(accentColor),
-            } : undefined}
+              "--accent-global": accentColor,
+              "--accent-global-hover": `${accentColor}dd`,
+              "--accent-global-dim": `rgba(${hexToRgb(accentColor)}, 0.08)`,
+              "--accent-global-rgb": hexToRgb(accentColor),
+            } as React.CSSProperties : undefined}
             className="bg-white text-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl relative z-10 overflow-hidden min-h-[500px] flex flex-col md:flex-row border border-slate-100"
           >
             

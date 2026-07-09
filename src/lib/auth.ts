@@ -66,6 +66,42 @@ export function getStaticUsers(): Omit<CRMUser, "createdAt" | "updatedAt">[] {
       department: "Development",
       isActive: true,
     },
+    {
+      _id: "dsg_001",
+      name: "Karan Malhotra",
+      email: "designer@nextgentech.com",
+      role: "designer",
+      phone: "+91 9000000007",
+      department: "UI/UX & Brand Design",
+      isActive: true,
+    },
+    {
+      _id: "cld_001",
+      name: "Aditya Sen",
+      email: "cloud@nextgentech.com",
+      role: "cloud_engineer",
+      phone: "+91 9000000008",
+      department: "Cloud & AI Infrastructure",
+      isActive: true,
+    },
+    {
+      _id: "seo_001",
+      name: "Rohan Das",
+      email: "seo@nextgentech.com",
+      role: "seo_expert",
+      phone: "+91 9000000009",
+      department: "Search Optimization",
+      isActive: true,
+    },
+    {
+      _id: "mkt_001",
+      name: "Shreya Sen",
+      email: "marketing@nextgentech.com",
+      role: "marketer",
+      phone: "+91 9000000010",
+      department: "Growth Campaigns",
+      isActive: true,
+    },
   ];
 }
 
@@ -84,6 +120,10 @@ export function validateCredentials(
       process.env.TELECALLER2_PASSWORD ?? "Tele@456",
     ["developer1@nextgentech.com"]: "Dev@123",
     ["developer2@nextgentech.com"]: "Dev@456",
+    ["designer@nextgentech.com"]: "Design@123",
+    ["cloud@nextgentech.com"]: "Cloud@123",
+    ["seo@nextgentech.com"]: "Seo@123",
+    ["marketing@nextgentech.com"]: "Marketing@123",
   };
 
   if (pairs[email.toLowerCase()] !== password) return null;

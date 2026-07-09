@@ -78,6 +78,7 @@ export default function ProjectsPage() {
   });
 
   const [saving, setSaving] = useState(false);
+  const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
     fetchProjects();
@@ -85,6 +86,13 @@ export default function ProjectsPage() {
       .then(res => res.json())
       .then(json => {
         if (json.user) setCurrentUser(json.user);
+      })
+      .catch(() => {});
+
+    fetch("/api/users")
+      .then(res => res.json())
+      .then(json => {
+        if (json.data) setUsers(json.data);
       })
       .catch(() => {});
   }, []);
@@ -315,21 +323,23 @@ export default function ProjectsPage() {
                     <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: "var(--crm-border-faint)" }}>
                       <div className="flex flex-wrap gap-1 max-w-[70%]">
                         {project.tags.slice(0, 2).map(t => (
-                          <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-md"
+                          <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-md font-medium"
                             style={{ background: "var(--crm-surface-muted)", color: "var(--crm-text-muted)", border: "1px solid var(--crm-border-faint)" }}>{t}</span>
                         ))}
-                        {project.tags.length > 2 && <span className="text-[9px] text-slate-400">+{project.tags.length - 2}</span>}
+                        {project.tags.length > 2 && <span className="text-[9px]" style={{ color: "var(--crm-text-subtle)" }}>+{project.tags.length - 2}</span>}
                       </div>
 
                       <div className="flex items-center gap-1.5">
                         <button 
                           onClick={(e) => handleOpenEdit(project, e)}
-                          className="p-1.5 rounded hover:bg-slate-500/10 text-slate-400 hover:text-slate-200 transition-colors">
+                          className="p-1.5 rounded hover:bg-slate-500/10 transition-colors"
+                          style={{ color: "var(--crm-text-muted)" }}>
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button 
                           onClick={(e) => handleDelete(project.id, e)}
-                          className="p-1.5 rounded hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors">
+                          className="p-1.5 rounded hover:bg-red-500/10 transition-colors"
+                          style={{ color: "var(--crm-danger)" }}>
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -371,27 +381,27 @@ export default function ProjectsPage() {
                 <div className="space-y-6">
                   <div>
                     <h4 className="text-xl font-bold" style={{ color: "var(--crm-text-strong)" }}>{selectedProject.title}</h4>
-                    <p className="text-sm text-slate-400 mt-1">Client: <span className="font-semibold text-slate-200">{selectedProject.client}</span></p>
+                    <p className="text-sm mt-1" style={{ color: "var(--crm-text-muted)" }}>Client: <span className="font-semibold" style={{ color: "var(--crm-text-strong)" }}>{selectedProject.client}</span></p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-3.5 rounded-lg border" style={{ borderColor: "var(--crm-border-faint)", background: "var(--crm-surface-muted)" }}>
-                      <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-1">Status</p>
+                      <p className="text-[10px] uppercase font-bold tracking-widest mb-1" style={{ color: "var(--crm-text-subtle)" }}>Status</p>
                       <span className="text-sm font-semibold uppercase" style={{ color: STATUS_STYLE[selectedProject.status]?.color }}>
                         {STATUS_STYLE[selectedProject.status]?.label ?? selectedProject.status}
                       </span>
                     </div>
 
                     <div className="p-3.5 rounded-lg border" style={{ borderColor: "var(--crm-border-faint)", background: "var(--crm-surface-muted)" }}>
-                      <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-1">Budget / Value</p>
-                      <span className="text-sm font-bold text-green-400">
+                      <p className="text-[10px] uppercase font-bold tracking-widest mb-1" style={{ color: "var(--crm-text-subtle)" }}>Budget / Value</p>
+                      <span className="text-sm font-bold" style={{ color: "var(--crm-success)" }}>
                         ₹{selectedProject.value.toLocaleString("en-IN")}
                       </span>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Delivery Progress ({selectedProject.progress}%)</p>
+                    <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "var(--crm-text-subtle)" }}>Delivery Progress ({selectedProject.progress}%)</p>
                     <div className="h-2 w-full rounded-full overflow-hidden mb-3" style={{ background: "var(--crm-surface-muted)" }}>
                       <div className="h-full rounded-full" 
                         style={{ 
@@ -401,8 +411,8 @@ export default function ProjectsPage() {
                       />
                     </div>
                     {/* Live Progress Slider for Developer / Admin */}
-                    {(currentUser?.role === "admin" || currentUser?.role === "superadmin" || (currentUser?.role === "developer" && selectedProject.developerId === currentUser?._id)) && (
-                      <div className="flex items-center gap-3 bg-slate-500/5 p-3 rounded-lg border border-white/5">
+                    {(currentUser?.role === "admin" || currentUser?.role === "superadmin" || selectedProject.developerId === currentUser?._id) && (
+                      <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: "var(--crm-surface-muted)", borderColor: "var(--crm-border-faint)" }}>
                         <input 
                           type="range" 
                           min="0" 
@@ -418,25 +428,25 @@ export default function ProjectsPage() {
                             });
                             fetchProjects();
                           }} 
-                          className="flex-1 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500" 
+                          className="flex-1 h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-purple-500" 
                         />
-                        <span className="text-xs font-bold text-white">{selectedProject.progress}%</span>
+                        <span className="text-xs font-bold" style={{ color: "var(--crm-text-strong)" }}>{selectedProject.progress}%</span>
                       </div>
                     )}
                   </div>
 
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Lead Developer</p>
-                    <p className="text-sm font-semibold text-slate-200">
+                    <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "var(--crm-text-subtle)" }}>Project Lead Assignee</p>
+                    <p className="text-sm font-semibold" style={{ color: "var(--crm-text-strong)" }}>
                       {selectedProject.developerName || "Not assigned"}
                     </p>
                   </div>
 
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Technical Logs & Updates</p>
+                    <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "var(--crm-text-subtle)" }}>Technical Logs & Updates</p>
                     
                     {/* Log Entry Box */}
-                    {(currentUser?.role === "admin" || currentUser?.role === "superadmin" || (currentUser?.role === "developer" && selectedProject.developerId === currentUser?._id)) && (
+                    {(currentUser?.role === "admin" || currentUser?.role === "superadmin" || selectedProject.developerId === currentUser?._id) && (
                       <form 
                         onSubmit={async (e) => {
                           e.preventDefault();
@@ -464,7 +474,8 @@ export default function ProjectsPage() {
                           placeholder="Log project status update..." 
                           value={newLogText} 
                           onChange={e => setNewLogText(e.target.value)}
-                          className="flex-1 bg-slate-500/5 border border-white/10 rounded-lg px-3 py-2 text-xs outline-none focus:border-purple-500 text-white" 
+                          className="flex-1 border rounded-lg px-3 py-2 text-xs outline-none focus:border-purple-500" 
+                          style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
                         />
                         <button type="submit" className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-semibold cursor-pointer">
                           Add Log
@@ -473,50 +484,52 @@ export default function ProjectsPage() {
                     )}
 
                     {/* Timeline List */}
-                    <div className="space-y-3.5 max-h-[200px] overflow-y-auto pr-1 border-l border-white/10 pl-3 ml-1.5 py-1">
+                    <div className="space-y-3.5 max-h-[200px] overflow-y-auto pr-1 border-l pl-3 ml-1.5 py-1" style={{ borderColor: "var(--crm-border)" }}>
                       {selectedProject.updates && selectedProject.updates.length > 0 ? (
                         [...selectedProject.updates].reverse().map((log) => (
                           <div key={log.id} className="relative text-xs">
-                            <span className="absolute -left-[17px] top-1.5 w-2 h-2 rounded-full bg-purple-500 border border-slate-900" />
-                            <div className="flex items-center justify-between text-[10px] text-slate-500 mb-0.5">
-                              <span className="font-semibold text-purple-400">{log.createdBy}</span>
+                            <span className="absolute -left-[17px] top-1.5 w-2 h-2 rounded-full bg-purple-500 border" style={{ borderColor: "var(--crm-surface)" }} />
+                            <div className="flex items-center justify-between text-[10px] mb-0.5" style={{ color: "var(--crm-text-subtle)" }}>
+                              <span className="font-semibold text-purple-500">{log.createdBy}</span>
                               <span>{new Date(log.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
                             </div>
-                            <p className="text-slate-300 leading-relaxed bg-white/5 p-2 rounded-lg border border-white/5">{log.text}</p>
+                            <p className="leading-relaxed p-2 rounded-lg border text-[11px]" style={{ color: "var(--crm-text)", backgroundColor: "var(--crm-surface-muted)", borderColor: "var(--crm-border-faint)" }}>{log.text}</p>
                           </div>
                         ))
                       ) : (
-                        <p className="text-xs text-slate-500 italic py-2">No technical logs logged for this project.</p>
+                        <p className="text-xs italic py-2" style={{ color: "var(--crm-text-subtle)" }}>No technical logs logged for this project.</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Assigned Engineers & Team</p>
+                    <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "var(--crm-text-subtle)" }}>Assigned Engineers & Team</p>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.assignedTeam?.length > 0 ? (
                         selectedProject.assignedTeam.map(member => (
-                          <span key={member} className="text-xs px-2.5 py-1 rounded-full border border-slate-500/20 bg-slate-500/10 text-slate-300">
+                          <span key={member} className="text-xs px-2.5 py-1 rounded-full border"
+                            style={{ color: "var(--crm-text)", borderColor: "var(--crm-border)", backgroundColor: "var(--crm-surface-muted)" }}>
                             {member}
                           </span>
                         ))
                       ) : (
-                        <p className="text-xs text-slate-500">No members assigned.</p>
+                        <p className="text-xs" style={{ color: "var(--crm-text-subtle)" }}>No members assigned.</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Service Tags</p>
+                    <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "var(--crm-text-subtle)" }}>Service Tags</p>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.tags?.length > 0 ? (
                         selectedProject.tags.map(t => (
-                          <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300">
+                          <span key={t} className="text-xs px-2.5 py-1 rounded-full border"
+                            style={{ color: "var(--crm-primary)", borderColor: "rgba(91,91,214,0.25)", backgroundColor: "rgba(91,91,214,0.06)" }}>
                             {t}
                           </span>
                         ))
                       ) : (
-                        <p className="text-xs text-slate-500">No tags.</p>
+                        <p className="text-xs" style={{ color: "var(--crm-text-subtle)" }}>No tags.</p>
                       )}
                     </div>
                   </div>
@@ -532,7 +545,8 @@ export default function ProjectsPage() {
                 </button>
                 <button 
                   onClick={(e) => handleDelete(selectedProject.id, e)}
-                  className="py-2.5 px-4 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/30 text-sm font-semibold transition-colors">
+                  className="py-2.5 px-4 rounded-lg bg-red-500/10 hover:bg-red-500 hover:text-white border border-red-500/20 text-sm font-semibold transition-colors"
+                  style={{ color: "var(--crm-danger)" }}>
                   Remove
                 </button>
               </div>
@@ -568,12 +582,12 @@ export default function ProjectsPage() {
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Project Title*</label>
                     <input type="text" required value={form.title} onChange={e => setForm({...form, title: e.target.value})}
-                      placeholder="e.g. AI SaaS Platform" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }} />
+                      placeholder="e.g. AI SaaS Platform" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Client Name*</label>
                     <input type="text" required value={form.client} onChange={e => setForm({...form, client: e.target.value})}
-                      placeholder="e.g. Acme Corp" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }} />
+                      placeholder="e.g. Acme Corp" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                 </div>
 
@@ -581,7 +595,7 @@ export default function ProjectsPage() {
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Status</label>
                     <select value={form.status} onChange={e => setForm({...form, status: e.target.value as any})}
-                      className="w-full bg-slate-900 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }}>
+                      className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}>
                       <option value="planning">Planning</option>
                       <option value="active">Active</option>
                       <option value="on_hold">On Hold</option>
@@ -592,12 +606,12 @@ export default function ProjectsPage() {
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Value (₹)*</label>
                     <input type="number" required value={form.value} onChange={e => setForm({...form, value: Number(e.target.value)})}
-                      placeholder="e.g. 500000" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }} />
+                      placeholder="e.g. 500000" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Progress (%)</label>
                     <input type="number" min="0" max="100" value={form.progress} onChange={e => setForm({...form, progress: Number(e.target.value)})}
-                      placeholder="65" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }} />
+                      placeholder="65" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                 </div>
 
@@ -605,48 +619,55 @@ export default function ProjectsPage() {
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Start Date</label>
                     <input type="date" value={form.startDate} onChange={e => setForm({...form, startDate: e.target.value})}
-                      className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", colorScheme: "dark" }} />
+                      className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">End Date</label>
                     <input type="date" value={form.endDate} onChange={e => setForm({...form, endDate: e.target.value})}
-                      className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)", colorScheme: "dark" }} />
+                      className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                   </div>
                 </div>
 
                 <div>
                   <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tech / Service Tags (comma separated)</label>
                   <input type="text" value={form.tagsInput} onChange={e => setForm({...form, tagsInput: e.target.value})}
-                    placeholder="Next.js, Tailwind, Supabase" className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }} />
+                    placeholder="Next.js, Tailwind, Supabase" className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Lead Developer</label>
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Project Lead Assignee</label>
                   <select 
                     value={form.developerId} 
                     onChange={e => {
-                      const selectedName = e.target.value === "dev_001" ? "Aarav Mehta" : e.target.value === "dev_002" ? "Neha Gupta" : "";
-                      setForm({...form, developerId: e.target.value, developerName: selectedName});
+                      const uId = e.target.value;
+                      const selectedUser = users.find(u => u._id === uId);
+                      setForm({...form, developerId: uId, developerName: selectedUser ? selectedUser.name : ""});
                     }}
-                    className="w-full bg-slate-900 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" 
-                    style={{ borderColor: "var(--crm-border)" }}
+                    className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" 
+                    style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
                   >
-                    <option value="">No developer assigned</option>
-                    <option value="dev_001">Aarav Mehta (Lead Developer)</option>
-                    <option value="dev_002">Neha Gupta (Lead Developer)</option>
+                    <option value="">No assignee assigned</option>
+                    {users
+                      .filter(u => !["superadmin", "telecaller", "field_sales"].includes(u.role))
+                      .map(u => (
+                        <option key={u._id} value={u._id}>
+                          {u.name} ({u.role})
+                        </option>
+                      ))
+                    }
                   </select>
                 </div>
 
                 <div>
                   <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Assigned Team Members (comma separated)</label>
                   <input type="text" value={form.teamInput} onChange={e => setForm({...form, teamInput: e.target.value})}
-                    placeholder="Vijay K., Ramesh S." className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ borderColor: "var(--crm-border)" }} />
+                    placeholder="Vijay K., Ramesh S." className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                 </div>
 
                 <div>
                   <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Project Description</label>
                   <textarea rows={3} value={form.description} onChange={e => setForm({...form, description: e.target.value})}
-                    placeholder="Outline high-level deliverable parameters..." className="w-full bg-slate-500/5 border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500 resize-none" style={{ borderColor: "var(--crm-border)" }} />
+                    placeholder="Outline high-level deliverable parameters..." className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500 resize-none" style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }} />
                 </div>
 
                 <div className="pt-4 border-t flex justify-end gap-3" style={{ borderColor: "var(--crm-border-faint)" }}>

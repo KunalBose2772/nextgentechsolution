@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   X, User, Mail, Phone, Building, Check, Loader2, 
-  ArrowRight, AlertCircle, MessageSquare, Sparkles, Clock
+  AlertCircle, MessageSquare, Sparkles, Clock
 } from "lucide-react";
 import { COMPANY } from "@/lib/utils";
 
@@ -63,7 +63,6 @@ export default function BookDemoModal() {
   });
 
   const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
   const [leadId, setLeadId] = useState("");
   const [error, setError] = useState("");
 
@@ -94,7 +93,6 @@ export default function BookDemoModal() {
       setIsOpen(true);
       setStep(1);
       setError("");
-      setSent(false);
       setLeadId("");
     };
 
@@ -174,7 +172,6 @@ export default function BookDemoModal() {
       }
 
       setLeadId(data.leadId ?? "");
-      setSent(true);
       setStep(2); 
     } catch {
       setError("A connection error occurred. Please try again.");

@@ -98,7 +98,15 @@ export default function ProductHero({
 }: ProductHeroProps) {
   const [mounted, setMounted] = useState(false);
   const { displayed, done } = useTypewriter(titleHighlight, 110);
-  const tilt = useMockupTilt();
+  const {
+    ref: tiltRef,
+    rotateX,
+    rotateY,
+    translateX,
+    translateY,
+    onMouseMove: handleMouseMove,
+    onMouseLeave: handleMouseLeave
+  } = useMockupTilt();
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -223,9 +231,9 @@ export default function ProductHero({
 
           {/* ── RIGHT — full-width mockup, NO overlapping card ────── */}
           <div className="hidden lg:block relative"
-            ref={tilt.ref}
-            onMouseMove={tilt.onMouseMove}
-            onMouseLeave={tilt.onMouseLeave}
+            ref={tiltRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
             style={{ perspective: "1200px" }}>
 
             {/* Glow blob */}
@@ -234,7 +242,7 @@ export default function ProductHero({
 
             {/* Tiltable image */}
             <motion.div
-              style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, translateX: tilt.translateX, translateY: tilt.translateY, transformStyle: "preserve-3d" }}
+              style={{ rotateX, rotateY, translateX, translateY, transformStyle: "preserve-3d" }}
               initial={{ opacity: 0, x: 50, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
@@ -258,7 +266,7 @@ export default function ProductHero({
                 <FileText className="w-3.5 h-3.5" style={{ color: accent }} />
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: accent }}>Today's Uploads</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: accent }}>Today&apos;s Uploads</p>
                 <p className="text-white font-black text-[16px] leading-tight" style={{ fontFamily: "Sora, sans-serif" }}>+1,245</p>
               </div>
             </motion.div>

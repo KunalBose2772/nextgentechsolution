@@ -37,9 +37,9 @@ export default function TeamCMSPage() {
     role: "",
     expertise: "",
     image: "",
-    linkedin: "#",
-    twitter: "#",
-    github: "#",
+    linkedin: "",
+    twitter: "",
+    github: "",
     sortOrder: 0,
   });
 
@@ -70,9 +70,9 @@ export default function TeamCMSPage() {
       role: "",
       expertise: "",
       image: "",
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
+      linkedin: "",
+      twitter: "",
+      github: "",
       sortOrder: team.length + 1,
     });
     setIsModalOpen(true);

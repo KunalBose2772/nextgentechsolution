@@ -60,7 +60,8 @@ export default function LoginPage({
 
       const userRole: UserRole = data.user.role;
       const allowed: UserRole[] = role === "telecaller" ? ["telecaller"]
-        : role === "admin" ? ["admin"] : ["superadmin"];
+        : role === "admin" ? ["admin", "developer", "designer", "cloud_engineer", "seo_expert", "marketer", "marketing"]
+        : ["superadmin"];
 
       if (!allowed.includes(userRole)) {
         setError("You don't have access to this portal");
