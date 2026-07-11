@@ -259,12 +259,20 @@ export default function OnboardingModal() {
               "--accent-global-dim": `rgba(${hexToRgb(accentColor)}, 0.08)`,
               "--accent-global-rgb": hexToRgb(accentColor),
             } as React.CSSProperties : undefined}
-            className="bg-white text-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl relative z-10 overflow-hidden min-h-[500px] flex flex-col md:flex-row border border-slate-100"
+            className="bg-white text-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl relative z-10 overflow-hidden min-h-fit md:min-h-[500px] flex flex-col md:flex-row border border-slate-100"
           >
             
             {/* ══ STEP 0: Welcome Panel ══ */}
             {step === 0 && (
-              <div className="w-full flex flex-col md:flex-row">
+              <div className="w-full flex flex-col md:flex-row relative">
+                {/* Mobile close button (hidden on desktop) */}
+                <button 
+                  onClick={handleClose}
+                  className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 transition-all cursor-pointer shadow-md border border-slate-200 md:hidden"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+
                 {/* Left info column */}
                 <div className="flex-1 p-8 sm:p-12 flex flex-col justify-between" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <div className="space-y-5">
@@ -365,7 +373,7 @@ export default function OnboardingModal() {
                   </div>
 
                   {/* Trust Footer - Clean Large SVG Icons without borders/backgrounds */}
-                  <div className="grid grid-cols-3 gap-4 pt-8 border-t border-slate-150 mt-8">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-8 border-t border-slate-150 mt-8">
                     {/* Google Trust Box */}
                     <div className="text-left flex items-center gap-2.5">
                       <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 24">
@@ -405,7 +413,7 @@ export default function OnboardingModal() {
                 </div>
 
                 {/* Right Architect Headshot Panel (Clean image only, NO names, NO overlays!) */}
-                <div className="w-full md:w-[380px] bg-gradient-to-tr from-purple-100/50 via-slate-50 to-indigo-50/30 relative min-h-[350px] md:min-h-full overflow-hidden shrink-0 border-l border-slate-100/60">
+                <div className="hidden md:block w-full md:w-[380px] bg-gradient-to-tr from-purple-100/50 via-slate-50 to-indigo-50/30 relative min-h-[350px] md:min-h-full overflow-hidden shrink-0 border-l border-slate-100/60">
                   <Image
                     src="/images/architect_portrait.png"
                     alt="Technical Supervisor"
